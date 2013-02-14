@@ -1,0 +1,123 @@
+[B]Version 1.1.9[/B]
+
+-Fixed script error at start
+
+[B]Version 1.1.8[/B]
+
+-Fixed A-Z script error
+-Added additional HD movies source (Oneclickmovies)
+-Added additional HD tv source (Rlsmix) duquesa 
+-Added additional HD movies source (Starplay) tajade
+-Fixed "non link" links showing up when real debrid is enabled 
+-Added search function for (http://newmyvideolinks.com/)
+-Added content for UFC section from movie25
+-Added content for UFC section from (http://newmyvideolinks.com/)
+-Added Adventure section
+-Added Discovery channel for adventure section.
+-Updated GA
+-Added a thank you page 
+
+[B]Version 1.1.7[/B]
+
+-Modified 3D HD TVHD section to work in different platforms(wasn't working on xbmcbuntu)
+-Added additional HD movies source (dailyfix)
+-Added Sports section
+-For now ESPN, UFC, and Outdoor Channnel
+-Added resolver settings
+-Added a Message for the Users
+
+
+[B]Version 1.1.6[/B]
+
+-Fixed 3D HD HDTV section (http://newmyvideolinks.com/) changed pattern
+-Fixed movie25 where it errored on movies with no year on its title
+
+[B]Version 1.1.5[/B]
+
+-Fixed movie1k in tv section was not showing video links
+-update GA
+
+[B]Version 1.1.4[/B]
+
+-Added Tv(True HD) source (http://newmyvideolinks.com/) under tv section
+-Hopefully fixed script error accessing movies from http://newmyvideolinks.com/ only on xbmcbuntu
+
+[B]Version 1.1.3[/B]
+
+-Fixed problem with Google Analytics
+
+[B]Version 1.1.2[/B]
+
+-Added Google Analytics code for tracking usage(Mikey1234)
+
+[B]Version 1.1.1[/B]
+
+-Added International Movie section: source Dramacrazy and Einthusan
+	-Contains subtitled Indian, Japenese, Chinese and Korean movies
+	-(Used AJ's Dramacrazy code to resolve dramacrazy video)
+-Cleaned up some code
+-Changed some notifications
+
+[B]Version 1.1.0[/B]
+
+-Fixed script error due to http://newmyvideolinks.com/ in 3D section
+
+[B]Version 1.0.9[/B]
+
+-Fixed script error due to non-ASCII characters embedded in movie titles
+
+[B]Version 1.0.8[/B]
+
+-Added 3D Movie section source http://newmyvideolinks.com/ (thanks to tcz009)
+-Added additional HD source(True HD) http://newmyvideolinks.com/ 
+-Cleaned up some code
+-Added more notifications
+-Fixed error where movie replays after pressing stop
+
+[B]Version 1.0.7[/B]
+
+-Fixed Script error when metadata is disabled.
+
+[B]Version 1.0.6[/B]
+
+-Added TV section from sources iwatchonline, oneclickwatch and movie1k
+-Added HD latest movie section from source oneclickwatch
+
+[B]Version 1.0.5[/B]
+
+-Changed metadata code to metahandler(quicker)
+-Metadata is now stored in cache(pages open instantly)
+-Added Trailers for movies in context menu
+-Fixed script error in search and year directory
+-Added auto view for main menu in settings.xml
+
+[B]Version 1.0.4[/B]
+
+-Removed extranous code
+-Passed movie info to player
+-Added favorites directory (code from voinage)
+-Added artwork 
+-Added detailed notifications
+
+[B]Version 1.0.3[/B]
+
+-Added movie quality 
+-Added A-Z and year directory
+-Added 6 more hosts
+
+[B]Version 1.0.2[/B]
+
+-Fixed metadata error
+-Added poster grabber on/off in setting.xml
+
+[B]Version 1.0.1[/B]
+
+-Added metadata, despcription, mpaa, genre and year for movies.
+-Added autoview for Confluence and Xperience 1080 skins
+-Added settings.xml file to control metadata and autoview
+-Added flashx host
+
+[B]Version 1.0.0[/B]
+
+-Intial release
+-Working hosts (putlocker,180upload,filenuke,vidbux)

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addons>
+<addon id="plugin.video.discovery"
+       name="Discovery Channel"
+       version="1.0.0"
+       provider-name="Mash2k3">
+    <requires>
+        <import addon="xbmc.python" version="1.0"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource"
+               library="default.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+    <summary lang="en">Browse Discovery Channel Video Content</summary>
+    <description lang="en">Browse and play a wide selection of video clips from Discovery Channel website.</description>
+    <platform>all</platform>
+  </extension>
+</addon>
+
+<addon id="plugin.video.movie25"
+       name="Movie25"
+       version="1.1.9"
+       provider-name="Mash2k3">
+    <requires>
+        <import addon="xbmc.python" version="1.0"/>
+		<import addon="script.module.urlresolver" version="0.0.1"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource"
+               library="default.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+    <summary lang="en">Browse Movie25</summary>
+    <description lang="en">Browse and play a wide selection of movies from the site Movie25.com</description>
+    <platform>all</platform>
+  </extension>
+</addon>
+
+<addon id="plugin.video.ravens"
+       name="Baltimore Ravens"
+       version="1.0.1"
+       provider-name="Mash2k3">
+    <requires>
+        <import addon="xbmc.python" version="1.0"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource"
+               library="default.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <platform>all</platform>
+        <summary>Stream Baltimore Ravens Content</summary>
+
+    </extension>
+</addon>
+
+<addon id="plugin.video.watchfreeseries"
+       name="Watch-Freeseries"
+       version="1.0.6"
+       provider-name="Mash2k3">
+    <requires>
+        <import addon="xbmc.python" version="1.0"/>
+		<import addon="script.module.urlresolver" version="0.0.1"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource"
+               library="default.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+    <summary lang="en">Browse watchfreeseries</summary>
+    <description lang="en">Browse and play a wide selection of Tv Shows from the site watchfreeseries</description>
+    <platform>all</platform>
+  </extension>
+</addon>
+
+<addon id="repository.mash2k3" name="All Addons by Mash2k3" version="1.1" provider-name="Mash2k3">
+	<extension point="xbmc.addon.repository" name="Addons from Mash2k3">
+		<info compressed="false">http://dl.dropbox.com/u/35068738/mash2k3/addons.xml</info>
+		<checksum>http://dl.dropbox.com/u/35068738/mash2k3/addons.xml.md5</checksum>
+		<datadir zip="true">http://dl.dropbox.com/u/35068738/mash2k3/zips</datadir>
+	</extension>
+	<extension point="xbmc.addon.metadata">
+		<summary>Repo for Movie25</summary>
+		<description>Download and install addons from Mash2k3.......For OFFICIAL !! Support Visit XBMCHUB.COM</description>
+		<platform>all</platform>
+	</extension>
+</addon>
+</addons>

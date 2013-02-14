@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="repository.mash2k3" name="All Addons by Mash2k3" version="1.1" provider-name="Mash2k3">
+	<extension point="xbmc.addon.repository" name="Addons from Mash2k3">
+		<info compressed="false">http://dl.dropbox.com/u/35068738/mash2k3/addons.xml</info>
+		<checksum>http://dl.dropbox.com/u/35068738/mash2k3/addons.xml.md5</checksum>
+		<datadir zip="true">http://dl.dropbox.com/u/35068738/mash2k3/zips</datadir>
+	</extension>
+	<extension point="xbmc.addon.metadata">
+		<summary>Repo for Movie25</summary>
+		<description>Download and install addons from Mash2k3.......For OFFICIAL !! Support Visit XBMCHUB.COM</description>
+		<platform>all</platform>
+	</extension>
+</addon>
+

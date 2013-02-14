@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+   <category label="General">
+    <setting id="auto-view" type="bool" label="[B]Auto View[/B]" default="true"/>
+		<setting id="home-view"	type="enum" label="Main Menu View" values="List|Thumbnail" default="1" enable="!eq(-1,false)"/>
+		<setting id="choose-skin" type="bool"  label="[B]Xperience 1080 OFF  | Confluence ON[/B]" default="true"enable="!eq(-2,false)"/>
+      	<setting id="con-view"	type="enum" label="Confluence View" values="List|Big List|Thumbnail|Media Info 2|Media Info 3" default="4" enable="!eq(-1,false)+!eq(-3,false)"/>
+		<setting id="xpr-view"	type="enum" label="Xperience 1080 View" values="List||Thumbnail|Landscape|Banner" default="3" enable="!eq(-2,true)+!eq(-4,false)"/>
+
+   </category>
+</settings>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+   <category label="General">
+   <setting id="meta-view" type="bool" label="[B]Metadata[/B]" default="true"/>
+    <setting id="auto-view" type="bool" label="[B]Auto View[/B]" default="true"/>
+	<setting id="home-view"	type="enum" label="Main Menu View" values="List|Thumbnail" default="1" enable="!eq(-1,false)"/>
+
+	<setting id="seasons-view" type="number" label="Season View" default="504" enable="!eq(-2,false)"/>	
+	<setting id="episodes-view" type="number" label="Episode View" default="504" enable="!eq(-3,false)"/>
+
+   </category>
+</settings>
