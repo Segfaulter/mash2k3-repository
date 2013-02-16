@@ -136,6 +136,8 @@ def HD():
 def INT():
         addDir('Latest Indian Subtitled Movies (einthusan)','http://www.einthusan.com',37,"%s/art/intl.png"%selfAddon.getAddonInfo("path"))
         addDir('Latest Asian Subtitled Movies (dramacrazy)','http://www.dramacrazy.net',39,"%s/art/intl.png"%selfAddon.getAddonInfo("path"))
+        addDir('Latest Spanish Dubbed & Subtitled(ESP) Movies (cinevip)','http://www.cinevip.org/',66,"%s/art/intl.png"%selfAddon.getAddonInfo("path"))
+        addDir('Latest Russian Dubbed Movies (Kino-live)','http://kino-live.org/hq/',68,"%s/art/intl.png"%selfAddon.getAddonInfo("path"))
         GA("None","INT")
 
 def SPORTS():
@@ -586,6 +588,57 @@ def LISTINT2(name,url):
         del dialogWait
         GA("INT","Dramacrazy")
 
+        
+def LISTINT3(url):
+        urllist=['http://www.cinevip.org/','http://www.cinevip.org/page/2','http://www.cinevip.org/page/3','http://www.cinevip.org/page/4','http://www.cinevip.org/page/5','http://www.cinevip.org/page/6','http://www.cinevip.org/page/7','http://www.cinevip.org/page/8','http://www.cinevip.org/page/9','http://www.cinevip.org/page/10']
+        dialogWait = xbmcgui.DialogProgress()
+        ret = dialogWait.create('Please wait until Movie list is cached.')
+        totalLinks = len(urllist)
+        loadedLinks = 0
+        remaining_display = 'Pages loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
+        dialogWait.update(0,'[B]Loading....[/B]',remaining_display)
+        for murl in urllist:
+                link=OPENURL(murl)
+                match=re.compile('<a class="entry-thumbnails-link" href="(.+?)"><img width=".+?" height=".+?" src="(.+?)" class=".+?" alt=".+? Genero:(.+?) Titulo:.+? Info:(.+?) Sinopsis:(.+?)" title="(.+?)" />').findall(link)
+                for url,thumb,genre,lang,desc,name in match:
+                        lang ='[COLOR red]'+lang+'[/COLOR]'
+                        lang = lang.replace('Audio','').replace('Español','').replace('Subtitulos','[COLOR blue]Sub(ESP)[/COLOR]').replace('DVDRip','')
+                        name=name.replace(') Online','').replace('Ver ','')
+                        name=name+')'
+                        addSport(name+' '+lang,url,67,thumb,desc,'',genre)
+                loadedLinks = loadedLinks + 1
+                percent = (loadedLinks * 100)/totalLinks
+                remaining_display = 'Pages loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
+                dialogWait.update(percent,'[B]Loading....[/B]',remaining_display)
+                if (dialogWait.iscanceled()):
+                        return False   
+        dialogWait.close()
+        del dialogWait
+        GA("INT","Cinevip")
+
+def LISTINT4(url):
+        urllist=['http://kino-live.org/hq/','http://kino-live.org/hq/page/2/','http://kino-live.org/hq/page/3/','http://kino-live.org/hq/page/4/','http://kino-live.org/hq/page/5/','http://kino-live.org/hq/page/6/','http://kino-live.org/hq/page/7/']
+        dialogWait = xbmcgui.DialogProgress()
+        ret = dialogWait.create('Please wait until Movie list is cached.')
+        totalLinks = len(urllist)
+        loadedLinks = 0
+        remaining_display = 'Pages loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
+        dialogWait.update(0,'[B]Loading....[/B]',remaining_display)
+        for murl in urllist:
+                link=OPENURL(murl)
+                match=re.compile("""<a href="(.+?)">(.+?)</a>&nbsp;</div>\n<div class="ah3"> HQ,(.+?)</div><br>\n<div class=".+?"><div id=".+?" style=".+?">.+?<img src="(.+?)" style=".+?" alt=\'.+?' title=\'.+?'  /></a><!--TEnd-->(.+?)<br />""").findall(link)
+                for url,name,genre,thumb,desc in match:
+                        thumb='http://kino-live.org/'+thumb
+                        addSport(name,url,69,thumb,desc,'',genre)
+                loadedLinks = loadedLinks + 1
+                percent = (loadedLinks * 100)/totalLinks
+                remaining_display = 'Pages loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
+                dialogWait.update(percent,'[B]Loading....[/B]',remaining_display)
+                if (dialogWait.iscanceled()):
+                        return False   
+        dialogWait.close()
+        del dialogWait
+        GA("INT","Kino-live")
 
 def ESPNList(murl):
         link=OPENURL(murl)
@@ -599,7 +652,7 @@ def ESPNList(murl):
         for dur,name,thumb,desc, url, in match:
                 print "1st "+name
                 url=url+'xovc'+desc+'xovc'+thumb+'xovc'
-                addSport(name,url,46,thumb,desc,dur)
+                addSport(name,url,46,thumb,desc,dur,'')
                 loadedLinks = loadedLinks + 1
                 percent = (loadedLinks * 100)/totalLinks
                 remaining_display = 'Videos loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
@@ -614,7 +667,7 @@ def UFCList(murl):
         link=OPENURL(murl)
         match=re.compile("http\://www.youtube.com/watch\?v\=([^\&]+)\&.+?<media\:descriptio[^>]+>([^<]+)</media\:description>.+?<media\:thumbnail url='([^']+)'.+?<media:title type='plain'>(.+?)/media:title>").findall(link)
         for url,desc,thumb,name in match:
-                addSport(name,url,48,thumb,desc,'')
+                addSport(name,url,48,thumb,desc,'','')
         GA("UFC","UFC-List")
 
 
@@ -661,7 +714,7 @@ def OCList(murl):
         link=OPENURL(murl)
         match=re.compile('<item><titl[^>]+>([^<]+)</title><description>(.+?)</description>.+?<plrelease:url>(.+?)</plrelease:url></plfile:release></media:content><pubDate>.+?</pubDate><plmedia:defaultThumbnailUrl>(.+?)</plmedia:defaultThumbnailUrl>').findall(link)
         for name,desc,url,thumb in match:
-                addSport(name,url,52,thumb,desc,'')
+                addSport(name,url,52,thumb,desc,'','')
         GA("Sports","OC-List")
 
 def LISTDISC(mname,murl):
@@ -1218,6 +1271,56 @@ def LINKINT2(name,murl):
                                         partName = streamTypeName + ' - PART: '+str(i)
                                         addPlayableLink(partName,'http://www.dramacrazy.net/' + partLink,42,selfAddon.getAddonInfo("path")+'/art/'+imagename+'.png')
 
+def LINKINT3(name,murl):
+        sources = []
+        GA("Cinevip","Watched")
+        link=OPENURL(murl)
+        match=re.compile('<span class=".+?">(.+?)</span></td>\n<td>(.+?)</td>\n<td>.+?</td>\n<td>.+?href=http://adf.ly/.+?/(.+?)>').findall(link)
+        if len(match) == 0:
+                match=re.compile('<span class=".+?">(.+?)</span></td>\n<td>(.+?)</td>\n<td>.+?</td>\n<td>.+?href="http://adf.ly/.+?/(.+?)"').findall(link)
+        for host, lang, url in match:
+                print url
+                hosted_media = urlresolver.HostedMediaFile(url=url, title=host+' [COLOR red]'+lang+'[/COLOR]')
+                sources.append(hosted_media)
+        if (len(sources)==0):
+                xbmc.executebuiltin("XBMC.Notification(Sorry!,Show doesn't have playable links,5000)")
+      
+        else:
+                source = urlresolver.choose_source(sources)
+                if source:
+                        xbmc.executebuiltin("XBMC.Notification(Please Wait!,Resolving Link,3000)")
+                        stream_url = source.resolve()
+                        if source.resolve()==False:
+                                xbmc.executebuiltin("XBMC.Notification(Sorry!,Link Cannot Be Resolved,5000)")
+                                return
+                else:
+                        stream_url = False
+                        return
+                listitem = xbmcgui.ListItem(name, iconImage="DefaultVideo.png")
+                listitem.setInfo('video', {'Title': name, 'Year': ''} )         
+                xbmc.Player().play(stream_url, listitem)
+                        
+                addDir('','','','')
+
+def LINKINT4(mname,url):
+        GA("Kino-live","Watched")
+        link=OPENURL(url)
+        match=re.compile('puid.+?=.+?file=.+? or (.+?)" />').findall(link)
+        thumb=re.compile('onclick=".+?" ><img src="(.+?)"').findall(link)
+        print thumb
+        playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+        playlist.clear()
+        try:
+            thumb2='http://kino-live.org'+str(thumb[0])
+        except:
+            thumb2 =''
+        for stream_url in match:
+                listitem = xbmcgui.ListItem(mname,thumbnailImage= thumb2)
+                playlist.add(stream_url,listitem)
+        xbmcPlayer = xbmc.Player()
+        xbmcPlayer.play(playlist)
+        
+        addDir('','','','')
 
 def ESPNLink(mname,murl):
         GA("ESPN-List","Watched")
@@ -2224,11 +2327,11 @@ def APP_LAUNCH():
             from hashlib import sha1
             import platform
             VISITOR = selfAddon.getSetting('ga_visitor')
-            if re.search('12.',xbmc.getInfoLabel( "System.BuildVersion"),re.IGNORECASE): 
+            if re.search('12.0',xbmc.getInfoLabel( "System.BuildVersion"),re.IGNORECASE): 
                 build="Frodo" 
-            if re.search('11.',xbmc.getInfoLabel( "System.BuildVersion"),re.IGNORECASE): 
+            if re.search('11.0',xbmc.getInfoLabel( "System.BuildVersion"),re.IGNORECASE): 
                 build="Eden" 
-            if re.search('13.',xbmc.getInfoLabel( "System.BuildVersion"),re.IGNORECASE): 
+            if re.search('13.0',xbmc.getInfoLabel( "System.BuildVersion"),re.IGNORECASE): 
                 build="Gotham" 
             try: 
                 PLATFORM=platform.system()+' '+platform.release()+" "+platform.machine()
@@ -2315,11 +2418,11 @@ def addDir(name,url,mode,iconimage):
         return ok
 
 
-def addSport(name,url,mode,iconimage,desc,dur):
+def addSport(name,url,mode,iconimage,desc,dur,gen):
         u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
         ok=True
         liz=xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=iconimage)
-        liz.setInfo( type="Video", infoLabels={ "Title": name, "Plot": desc, "Duration": dur } )
+        liz.setInfo( type="Video", infoLabels={ "Title": name, "Plot": desc, "Duration": dur ,"Genre": gen} )
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
         return ok
 
@@ -2645,6 +2748,28 @@ elif mode==64:
 elif mode==65:
         print ""+url
         LINKDISC(name,url)
+
+elif mode==66:
+        print ""+url
+        LISTINT3(url)
+
+elif mode==67:
+        print ""+url
+        LINKINT3(name,url)
+
+elif mode==68:
+        print ""+url
+        LISTINT4(url)
+
+elif mode==69:
+        print ""+url
+        LINKINT4(name,url)
+
+
+
+
+
+
 
         
 elif mode==99:
