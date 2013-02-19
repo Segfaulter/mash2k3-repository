@@ -239,7 +239,20 @@ def NGDir(murl):
         addDir('Shows','http://video.nationalgeographic.com/video/national-geographic-channel/shows/',72,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
         addDir('Specials','http://video.nationalgeographic.com/video/national-geographic-channel/specials-1/',72,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
         addDir('Extras','http://video.nationalgeographic.com/video/national-geographic-channel/extras/',72,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
-        
+    elif murl  =='ngw':
+        addDir('Full Episodes','http://video.nationalgeographic.com/video/nat-geo-wild/full-episodes-1/',72,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
+        addDir('Shows','http://video.nationalgeographic.com/video/nat-geo-wild/shows-1/',72,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
+        addDir('Specials','http://video.nationalgeographic.com/video/nat-geo-wild/specials-2/',72,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
+        addDir('Extras','http://video.nationalgeographic.com/video/nat-geo-wild/extras-1/',72,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
+    elif murl  =='nga':
+        addDir('Amphibians','http://video.nationalgeographic.com/video/animals/amphibians-animals/',72,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
+        addDir('Birds','http://video.nationalgeographic.com/video/animals/birds-animals/',72,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
+        addDir('Bugs','http://video.nationalgeographic.com/video/animals/bugs-animals/',72,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
+        addDir('Crittercam','http://video.nationalgeographic.com/video/animals/crittercam-animals/',72,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
+        addDir('Fish','http://video.nationalgeographic.com/video/animals/fish-animals/',72,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
+        addDir('Invertebrates','http://video.nationalgeographic.com/video/animals/invertebrates-animals/',72,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
+        addDir('Mammals','http://video.nationalgeographic.com/video/animals/mammals-animals/',72,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
+        addDir('Reptiles','http://video.nationalgeographic.com/video/animals/reptiles-animals/',72,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
         
 def GETMETA(mname,genre,year,thumb): 
         if selfAddon.getSetting("meta-view") == "true":
@@ -1434,17 +1447,19 @@ def LINKDISC(name,url):
         for i in range(len(match)):
                 match1=re.compile('3500k').findall(qualitylist[i])
                 match2=re.compile('1500k').findall(qualitylist[i])
-                if selfAddon.getSetting("device-type") == "0" or selfAddon.getSetting("device-type") == "1":
+                if selfAddon.getSetting("bit-disc") == "0":
                     if (len(match1)>0):
                             final= 'http://discidevflash-f.akamaihd.net/digmed/hdnet/'+idlist1[i]+'/'+idlist2[i]+'/'+idlist3[i]+'-3500k.mp4?seek=5'
                     elif (len(match1)==0) and (len(match2)>0):
                             final= 'http://discidevflash-f.akamaihd.net/digmed/hdnet/'+idlist1[i]+'/'+idlist2[i]+'/'+idlist3[i]+'-1500k.mp4?seek=5'
                     else:
                             final= 'http://discidevflash-f.akamaihd.net/digmed/hdnet/'+idlist1[i]+'/'+idlist2[i]+'/'+idlist3[i]+'-600k.mp4?seek=5'    
-                else:
+                elif selfAddon.getSetting("bit-disc") == "1":
                     if (len(match2)>0):
                             final= 'http://discidevflash-f.akamaihd.net/digmed/hdnet/'+idlist1[i]+'/'+idlist2[i]+'/'+idlist3[i]+'-1500k.mp4?seek=5'
                     else:
+                            final= 'http://discidevflash-f.akamaihd.net/digmed/hdnet/'+idlist1[i]+'/'+idlist2[i]+'/'+idlist3[i]+'-600k.mp4?seek=5'
+                else:
                             final= 'http://discidevflash-f.akamaihd.net/digmed/hdnet/'+idlist1[i]+'/'+idlist2[i]+'/'+idlist3[i]+'-600k.mp4?seek=5'
                 match2=re.compile('1500k').findall(quality)
                 listitem = xbmcgui.ListItem('',thumbnailImage=thumbList[i])
@@ -1468,8 +1483,44 @@ def LINKDISC(name,url):
                 xbmc.executebuiltin("XBMC.Notification([B]Attention![/B],Related clips loaded to playlist,10000)")
         addStop('','','','')
 
-def LINKNG(name,murl):
+def LINKNG(mname,murl):
         link=OPENURL(murl)
+        match=re.compile('property=".+?" content="(.+?)" />\n    <meta property=".+?" content=".+?" />\n    <meta property=".+?" content=".+?" />\n    <meta property=".+?" content=".+?" />\n\n\n    \n    <meta property=".+?" content=".+?" />\n\n    \n    <meta property=".+?" content="(.+?)" />\n\n    \n\n    <meta property=".+?" content="(.+?)" ').findall(link)
+        for thumb, desc, vid in match:
+                video=vid
+        match2=re.compile('<source src="(.+?)" type="video/mp4" />').findall(link)
+        for vidurl in match2:
+                link2=OPENURL(vidurl)
+                match3=re.compile('<video src="(.+?)1800.mp4"').findall(link2)
+                for hd in match3:
+                    hdlink=hd        
+        match4=re.compile('shows').findall(murl)
+        match5=re.compile('specials').findall(murl)
+        match6=re.compile('extras').findall(murl)
+        match7=re.compile('nat-geo-wild').findall(murl)
+        if selfAddon.getSetting("bit-natgeo") == "0":
+                stream_url = hdlink + '1800.mp4'
+        elif selfAddon.getSetting("bit-natgeo") == "1":
+                if (len(match4)>0)or(len(match5)>0)or(len(match6)>0)or(len(match7)>0):
+                        stream_url = hdlink + '660.mp4'
+                else:
+                        stream_url = hdlink + '800.mp4'
+        elif selfAddon.getSetting("bit-natgeo") == "2":
+                if (len(match4)>0)or(len(match5)>0)or(len(match6)>0)or(len(match7)>0):
+                        stream_url = hdlink + '220.mp4'
+                else:
+                        stream_url = hdlink + '300.mp4'
+        elif selfAddon.getSetting("bit-natgeo") == "3":
+                stream_url = video
+        print stream_url
+        playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+        playlist.clear()
+        listitem = xbmcgui.ListItem(mname,thumbnailImage=thumb)
+        listitem.setInfo("Video", infoLabels={ "Title": mname, "Plot": desc})
+        playlist.add(stream_url,listitem)
+        xbmcPlayer = xbmc.Player()
+        xbmcPlayer.play(playlist)
+        addStop('','','','')
     
         
 def LOAD_AND_PLAY_VIDEO(url,name):
