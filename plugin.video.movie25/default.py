@@ -179,6 +179,7 @@ def UFC():
 
 def ADVENTURE():
         addDir('Discovery Channel','discovery',631,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
+        addDir('National Geographic','ng',70,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
         GA("None","Adventure")
 def DISC():
         dialog = xbmcgui.Dialog()
@@ -225,7 +226,20 @@ def DISC():
         GA("Adventure","Discovery")
         VIEWSB()
 
+def NG():
+    addDir('National Geographic Channel','ngc',71,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
+    addDir('Nat Geo Wild','ngw',71,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
+    addDir('Nat Geo Animals','nga',71,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
+    GA("Adventure","NationalGeo")
+    VIEWSB()
 
+def NGDir(murl):
+    if murl  =='ngc':
+        addDir('Full Episodes','http://video.nationalgeographic.com/video/national-geographic-channel/full-episodes/',72,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
+        addDir('Shows','http://video.nationalgeographic.com/video/national-geographic-channel/shows/',72,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
+        addDir('Specials','http://video.nationalgeographic.com/video/national-geographic-channel/specials-1/',72,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
+        addDir('Extras','http://video.nationalgeographic.com/video/national-geographic-channel/extras/',72,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
+        
         
 def GETMETA(mname,genre,year,thumb): 
         if selfAddon.getSetting("meta-view") == "true":
@@ -735,6 +749,21 @@ def LISTDISC(mname,murl):
                 addDir(name+'  [COLOR blue]'+view+'[/COLOR]',url,65,thumbList[i])
                 i=i+1
         GA("Discovery",mname+"-list")
+
+def LISTNG(murl):
+    MainUrl='http://video.nationalgeographic.com'
+    link=OPENURL(murl)
+    match=re.compile('<a href="(.+?)">More \xc2\xbb</a></p><h3>(.+?)\n        \n    </h3><ul class=".+?"><li><a class=".+?" href=".+?" title=".+?"><img src=".+?url=(.+?)">').findall(link)
+    for url, name, thumb in match:
+        addDir(name,MainUrl+url,73,thumb)
+        
+def LISTNG2(murl):
+    MainUrl='http://video.nationalgeographic.com'
+    link=OPENURL(murl)
+    match=re.compile('<a href="(.+?)" title="(.+?)"><img src=".+?url=(.+?)">').findall(link)
+    for url, name, thumb in match:
+        addDir(name,MainUrl+url,74,thumb)
+    
 
 def SEARCH():
         keyb = xbmc.Keyboard('', 'Search Movies')
@@ -1439,7 +1468,9 @@ def LINKDISC(name,url):
                 xbmc.executebuiltin("XBMC.Notification([B]Attention![/B],Related clips loaded to playlist,10000)")
         addStop('','','','')
 
-        
+def LINKNG(name,murl):
+        link=OPENURL(murl)
+    
         
 def LOAD_AND_PLAY_VIDEO(url,name):
         GA("Dramacrazy","Watched")
@@ -2764,6 +2795,28 @@ elif mode==68:
 elif mode==69:
         print ""+url
         LINKINT4(name,url)
+
+elif mode==70:
+        print ""+url
+        NG()
+
+elif mode==71:
+        print ""+url
+        NGDir(url)
+
+elif mode==72:
+        print ""+url
+        LISTNG(url)
+
+elif mode==73:
+        print ""+url
+        LISTNG2(url)
+
+elif mode==74:
+        print ""+url
+        LINKNG(name,url)
+
+
 
 
 
