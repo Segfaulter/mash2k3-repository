@@ -1493,25 +1493,41 @@ def LINKNG(mname,murl):
                 link2=OPENURL(vidurl)
                 match3=re.compile('<video src="(.+?)1800.mp4"').findall(link2)
                 for hd in match3:
-                    hdlink=hd        
+                        hdlink=hd
+                match8=re.compile('<video src="(.+?)1800(.+?).mp4"').findall(link2)
+                for hd,hd1 in match8:
+                        hdlink=hd
+                        print hdlink
         match4=re.compile('shows').findall(murl)
         match5=re.compile('specials').findall(murl)
         match6=re.compile('extras').findall(murl)
         match7=re.compile('nat-geo-wild').findall(murl)
         if selfAddon.getSetting("bit-natgeo") == "0":
-                stream_url = hdlink + '1800.mp4'
+                try:
+                        stream_url = hdlink + '1800.mp4'
+                except:
+                        stream_url = hdlink + '1800'+hd1+'.mp4'
         elif selfAddon.getSetting("bit-natgeo") == "1":
                 if (len(match4)>0)or(len(match5)>0)or(len(match6)>0)or(len(match7)>0):
                         stream_url = hdlink + '660.mp4'
                 else:
-                        stream_url = hdlink + '800.mp4'
+                        try:
+                            stream_url = hdlink + '800.mp4'
+                        except:
+                            stream_url = hdlink + '800'+hd1+'.mp4'
         elif selfAddon.getSetting("bit-natgeo") == "2":
                 if (len(match4)>0)or(len(match5)>0)or(len(match6)>0)or(len(match7)>0):
                         stream_url = hdlink + '220.mp4'
                 else:
-                        stream_url = hdlink + '300.mp4'
+                        try:
+                            stream_url = hdlink + '300.mp4'
+                        except:
+                            stream_url = hdlink + '300'+hd1+'.mp4'
         elif selfAddon.getSetting("bit-natgeo") == "3":
-                stream_url = video
+                try:
+                        stream_url = video
+                except:
+                        stream_url = hdlink + '300.mp4'
         print stream_url
         playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
         playlist.clear()
