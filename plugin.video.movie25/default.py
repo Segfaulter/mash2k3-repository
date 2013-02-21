@@ -15,11 +15,11 @@ grab = metahandlers.MetaData(preparezip = False)
 addon = Addon('plugin.video.movie25', sys.argv)
 
 #datapath = os.path.join(xbmc.translatePath('special://profile/addon_data/' + addon_id), '')
-if selfAddon.getSetting('ga_visitor')=='':
+if selfAddon.getSetting('visitor_ga')=='':
     from random import randint
-    selfAddon.setSetting('ga_visitor',str(randint(0, 0x7fffffff)))
+    selfAddon.setSetting('visitor_ga',str(randint(0, 0x7fffffff)))
 
-VERSION = "4.2i"
+VERSION = "1.2.0"
 PATH = "Movie25-"            
 UATRACK="UA-38312513-1" 
 
@@ -76,8 +76,9 @@ def MAIN():
         addDir('TV Section','http://www.movie25.com/',27,"%s/art/tv2.png"%selfAddon.getAddonInfo("path"))
         addDir('Sports','http://www.movie25.com/',43,"%s/art/sportsec2.png"%selfAddon.getAddonInfo("path"))
         addDir('Adventure','http://www.movie25.com/',63,"%s/art/adv2.png"%selfAddon.getAddonInfo("path"))
+        addDir('Kids Zone','http://www.movie25.com/',76,"%s/art/kidz.png"%selfAddon.getAddonInfo("path"))
         addDir('Resolver Settings','http://www.movie25.com/',99,"%s/art/resset.png"%selfAddon.getAddonInfo("path"))
-        addDir('Select Me','http://www.movie25.com/',100,"%s/art/thanks.png"%selfAddon.getAddonInfo("path"))
+        addDir('Select Me','http://www.movie25.com/',100,"%s/art/mash.png"%selfAddon.getAddonInfo("path"))
         VIEWSB()
         
 def GENRE(url):
@@ -179,11 +180,9 @@ def UFC():
 
 def ADVENTURE():
         addDir('Discovery Channel','discovery',631,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
-        addDir('National Geographic','ng',70,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
+        addDir('National Geographic','ng',70,"%s/art/natgeo.png"%selfAddon.getAddonInfo("path"))
         GA("None","Adventure")
 def DISC():
-        dialog = xbmcgui.Dialog()
-        ok=dialog.ok('[B]Devices[/B]', 'Make sure you go to settings and set your device type.', 'Videos in this plugin can go up to 3500k in quality.','Will not work well on older or phone/tablet devices.')
         addDir('AFRICA','http://dsc.discovery.com/services/taxonomy/Africa%20the%20Series/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/africa-show-carousel-badge-130x97.jpg')
         addDir('ALASKA: THE LAST FRONTIER','http://dsc.discovery.com/services/taxonomy/ALASKA:%20THE%20LAST%20FRONTIER/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/alaska_badge_130x97.jpg')
         addDir('AMERICAN CHOPPER','http://dsc.discovery.com/services/taxonomy/AMERICAN%20CHOPPER/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/american-chopper-badge.jpg')
@@ -226,33 +225,54 @@ def DISC():
         GA("Adventure","Discovery")
         VIEWSB()
 
+def KIDZone(murl):
+    addDir('National Geographic Kids','ngk',71,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+    
 def NG():
-    addDir('National Geographic Channel','ngc',71,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
-    addDir('Nat Geo Wild','ngw',71,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
-    addDir('Nat Geo Animals','nga',71,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
+    addDir('National Geographic Channel','ngc','',"%s/art/ngccm.png"%selfAddon.getAddonInfo("path"))
+    addDir('Nat Geo Wild','ngw','',"%s/art/ngwcm.png"%selfAddon.getAddonInfo("path"))
+    addDir('Nat Geo Animals','nga',71,"%s/art/nga2.png"%selfAddon.getAddonInfo("path"))
     GA("Adventure","NationalGeo")
     VIEWSB()
 
 def NGDir(murl):
     if murl  =='ngc':
-        addDir('Full Episodes','http://video.nationalgeographic.com/video/national-geographic-channel/full-episodes/',72,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
-        addDir('Shows','http://video.nationalgeographic.com/video/national-geographic-channel/shows/',72,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
-        addDir('Specials','http://video.nationalgeographic.com/video/national-geographic-channel/specials-1/',72,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
-        addDir('Extras','http://video.nationalgeographic.com/video/national-geographic-channel/extras/',72,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
+        addDir('Full Episodes','http://video.nationalgeographic.com/video/national-geographic-channel/full-episodes/',72,"%s/art/ngc.png"%selfAddon.getAddonInfo("path"))
+        addDir('Shows','http://video.nationalgeographic.com/video/national-geographic-channel/shows/',72,"%s/art/ngc.png"%selfAddon.getAddonInfo("path"))
+        addDir('Specials','http://video.nationalgeographic.com/video/national-geographic-channel/specials-1/',72,"%s/art/ngc.png"%selfAddon.getAddonInfo("path"))
+        addDir('Extras','http://video.nationalgeographic.com/video/national-geographic-channel/extras/',72,"%s/art/ngc.png"%selfAddon.getAddonInfo("path"))
+        GA("NationalGeo","NGC")
     elif murl  =='ngw':
-        addDir('Full Episodes','http://video.nationalgeographic.com/video/nat-geo-wild/full-episodes-1/',72,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
-        addDir('Shows','http://video.nationalgeographic.com/video/nat-geo-wild/shows-1/',72,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
-        addDir('Specials','http://video.nationalgeographic.com/video/nat-geo-wild/specials-2/',72,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
-        addDir('Extras','http://video.nationalgeographic.com/video/nat-geo-wild/extras-1/',72,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
+        addDir('Full Episodes','http://video.nationalgeographic.com/video/nat-geo-wild/full-episodes-1/',72,"%s/art/ngw.png"%selfAddon.getAddonInfo("path"))
+        addDir('Shows','http://video.nationalgeographic.com/video/nat-geo-wild/shows-1/',72,"%s/art/ngw.png"%selfAddon.getAddonInfo("path"))
+        addDir('Specials','http://video.nationalgeographic.com/video/nat-geo-wild/specials-2/',72,"%s/art/ngw.png"%selfAddon.getAddonInfo("path"))
+        addDir('Extras','http://video.nationalgeographic.com/video/nat-geo-wild/extras-1/',72,"%s/art/ngw.png"%selfAddon.getAddonInfo("path"))
+        GA("NationalGeo","NGW")
     elif murl  =='nga':
-        addDir('Amphibians','http://video.nationalgeographic.com/video/animals/amphibians-animals/',72,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
-        addDir('Birds','http://video.nationalgeographic.com/video/animals/birds-animals/',72,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
-        addDir('Bugs','http://video.nationalgeographic.com/video/animals/bugs-animals/',72,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
-        addDir('Crittercam','http://video.nationalgeographic.com/video/animals/crittercam-animals/',72,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
-        addDir('Fish','http://video.nationalgeographic.com/video/animals/fish-animals/',72,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
-        addDir('Invertebrates','http://video.nationalgeographic.com/video/animals/invertebrates-animals/',72,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
-        addDir('Mammals','http://video.nationalgeographic.com/video/animals/mammals-animals/',72,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
-        addDir('Reptiles','http://video.nationalgeographic.com/video/animals/reptiles-animals/',72,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
+        addDir('Amphibians','http://video.nationalgeographic.com/video/animals/amphibians-animals/',72,"%s/art/nga2.png"%selfAddon.getAddonInfo("path"))
+        addDir('Birds','http://video.nationalgeographic.com/video/animals/birds-animals/',72,"%s/art/nga2.png"%selfAddon.getAddonInfo("path"))
+        addDir('Bugs','http://video.nationalgeographic.com/video/animals/bugs-animals/',72,"%s/art/nga2.png"%selfAddon.getAddonInfo("path"))
+        addDir('Crittercam','http://video.nationalgeographic.com/video/animals/crittercam-animals/',72,"%s/art/nga2.png"%selfAddon.getAddonInfo("path"))
+        addDir('Fish','http://video.nationalgeographic.com/video/animals/fish-animals/',72,"%s/art/nga2.png"%selfAddon.getAddonInfo("path"))
+        addDir('Invertebrates','http://video.nationalgeographic.com/video/animals/invertebrates-animals/',72,"%s/art/nga2.png"%selfAddon.getAddonInfo("path"))
+        addDir('Mammals','http://video.nationalgeographic.com/video/animals/mammals-animals/',72,"%s/art/nga2.png"%selfAddon.getAddonInfo("path"))
+        addDir('Reptiles','http://video.nationalgeographic.com/video/animals/reptiles-animals/',72,"%s/art/nga2.png"%selfAddon.getAddonInfo("path"))
+        GA("NationalGeo","NGA")
+    elif murl  =='ngk':
+        addDir('Animals & Pets','http://video.nationalgeographic.com/video/kids/animals-pets-kids/',72,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+        addDir('Cartoons & Shows','http://video.nationalgeographic.com/video/kids/cartoons-tv-movies-kids/',72,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+        #addDir('En Espanol','http://video.nationalgeographic.com/video/kids/en-espanol-kids/',73,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+        addDir('Explorers','http://video.nationalgeographic.com/video/kids/explorers-kids/',73,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+        addDir('Forces of Nature','http://video.nationalgeographic.com/video/kids/forces-of-nature-kids/',73,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+        addDir('Green','http://video.nationalgeographic.com/video/kids/green-kids/',73,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+        addDir('History','http://video.nationalgeographic.com/video/kids/history-kids/',73,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+        #addDir('Mandarin','http://video.nationalgeographic.com/video/kids/mandarin-kids/',73,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+        addDir('Movies & Books','http://video.nationalgeographic.com/video/kids/movies-books-kids/',73,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+        addDir('My Shot Minute','http://video.nationalgeographic.com/video/kids/my-shot-minute-kids/',73,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+        addDir('People & Places','http://video.nationalgeographic.com/video/kids/people-places-kids/',73,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+        addDir('Science & Space','http://video.nationalgeographic.com/video/kids/science-space-kids/',73,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+        addDir('Weird & Wacky','http://video.nationalgeographic.com/video/kids/weird-wacky-kids/',72,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+        GA("NationalGeo","NGK")
         
 def GETMETA(mname,genre,year,thumb): 
         if selfAddon.getSetting("meta-view") == "true":
@@ -766,16 +786,22 @@ def LISTDISC(mname,murl):
 def LISTNG(murl):
     MainUrl='http://video.nationalgeographic.com'
     link=OPENURL(murl)
-    match=re.compile('<a href="(.+?)">More \xc2\xbb</a></p><h3>(.+?)\n        \n    </h3><ul class=".+?"><li><a class=".+?" href=".+?" title=".+?"><img src=".+?url=(.+?)">').findall(link)
+    match=re.compile('<a href="(.+?)">More \xc2\xbb</a></p><h3>(.+?)\n        \n    </h3><ul class=".+?"><li><a class=".+?" href=".+?" title=".+?"><img src="(.+?)">').findall(link)
     for url, name, thumb in match:
-        addDir(name,MainUrl+url,73,thumb)
+            addDir(name,MainUrl+url,73,MainUrl+thumb)
         
 def LISTNG2(murl):
     MainUrl='http://video.nationalgeographic.com'
     link=OPENURL(murl)
-    match=re.compile('<a href="(.+?)" title="(.+?)"><img src=".+?url=(.+?)">').findall(link)
+    match2=re.compile('http://video.nationalgeographic.com/video/animals').findall(murl)
+    match3=re.compile('http://video.nationalgeographic.com/video/kids').findall(murl)
+    match=re.compile('<a href="(.+?)" title="(.+?)"><img src="(.+?)">').findall(link)
     for url, name, thumb in match:
-        addDir(name,MainUrl+url,74,thumb)
+        name=name.replace('&#39;',"'").replace('&lt;i&gt;','').replace('&lt;/i&gt;','').replace('&quot;','"').replace('&amp;quot;','"')
+        if (len(match2)==0)and(len(match3)==0):
+            addDir(name,MainUrl+url,74,MainUrl+thumb)
+        else:
+            addDir(name,MainUrl+url,75,MainUrl+thumb)
     
 
 def SEARCH():
@@ -1426,6 +1452,7 @@ def LINKDISC(name,url):
         link=OPENURL(url)
         Title=re.compile('"name": "(.+?)",').findall(link)
         for title in Title:
+            title=title.replace('3E','').replace('\u0027',"").replace('\u0026#8212\u003B',' ').replace('\u002D',' ')
             mtitle = title
         Thumb=re.compile('"thumbnailURL": "(.+?)",').findall(link)
         for thumb in Thumb:
@@ -1435,6 +1462,7 @@ def LINKDISC(name,url):
             plotList.append(plot)
         ETitle=re.compile('"episodeTitle": "(.+?)",').findall(link)
         for etitle in ETitle:
+            etitle=etitle.replace('3E','').replace('\u0027',"").replace('\u0026#8212\u003B',' ').replace('\u002D',' ')
             ETitleList.append(etitle)
         match=re.compile('"m3u8": "http://discidevflash-f.akamaihd.net/i/digmed/hdnet/(.+?)/(.+?)/(.+?)-(.+?).mp4').findall(link)
         for id1, id2, id3, quality in match:
@@ -1464,7 +1492,7 @@ def LINKDISC(name,url):
                 match2=re.compile('1500k').findall(quality)
                 listitem = xbmcgui.ListItem('',thumbnailImage=thumbList[i])
                 tot = i + 1
-                listitem.setInfo('video', {'Title':mtitle+'  [COLOR blue]'+ETitleList[i]+'[/COLOR]','Plot': plotList[i],'Genre': '[B]Clip '+str(tot)+'/'+str(len(match))+' on playlist[/B]'} )
+                listitem.setInfo('video', {'Title':'[COLOR blue]'+ETitleList[i]+'[/COLOR]','Plot': plotList[i],'Genre': '[B]Clip '+str(tot)+'/'+str(len(match))+' on playlist[/B]        '+mtitle} )
                 #ListItem.Tagline
                 print "llll "+ ETitleList[i]
                 playlist.add(final,listitem)
@@ -1484,6 +1512,7 @@ def LINKDISC(name,url):
         addStop('','','','')
 
 def LINKNG(mname,murl):
+        GA(mname,"Watched")
         link=OPENURL(murl)
         match=re.compile('property=".+?" content="(.+?)" />\n    <meta property=".+?" content=".+?" />\n    <meta property=".+?" content=".+?" />\n    <meta property=".+?" content=".+?" />\n\n\n    \n    <meta property=".+?" content=".+?" />\n\n    \n    <meta property=".+?" content="(.+?)" />\n\n    \n\n    <meta property=".+?" content="(.+?)" ').findall(link)
         for thumb, desc, vid in match:
@@ -1537,7 +1566,47 @@ def LINKNG(mname,murl):
         xbmcPlayer = xbmc.Player()
         xbmcPlayer.play(playlist)
         addStop('','','','')
-    
+        
+def LINKNG2(mname,murl):
+        GA(mname,"Watched")
+        playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+        playlist.clear()
+        MainUrl='http://video.nationalgeographic.com'
+        link=OPENURL(murl)
+        descm=re.compile("caption : .+?3E([^<]+)\u003C.+?\u003E',").findall(link)
+        for desc in descm:
+            desc=desc.replace('3E','').replace('\u0027',"").replace('\u0026#8212\u003B',' ').replace('\u002D',' ')
+        thumbm=re.compile('poster : "http://".+?"([^<]+)",').findall(link)
+        for thumb in thumbm:
+            thumb=MainUrl+thumb
+        vlink=re.compile("HTML5src:'(.+?)'").findall(link)
+        for vidlink in vlink:
+            flink=MainUrl+vidlink
+            link2=OPENURL(flink)
+            match=re.compile('http://(.+?)\n').findall(link2)
+            for vlink2 in match:
+                vlink2='http://'+vlink2
+            if (len(match)==0):
+                xbmc.executebuiltin("XBMC.Notification([B]Sorry![/B],No video link available,3000)")
+            else:
+                bitmatch1=re.compile('1800').findall(vlink2)
+                if (len(bitmatch1)>0):
+                    stream_url = vlink2
+                else:
+                    stream_url = vlink2
+                bitmatch2=re.compile('660').findall(vlink2)
+                if (len(bitmatch1)==0)and(len(bitmatch2)>0):
+                    stream_url = vlink2
+                else:
+                    stream_url = vlink2
+            
+                listitem = xbmcgui.ListItem(mname,thumbnailImage=thumb)
+                listitem.setInfo("Video", infoLabels={ "Title": mname, "Plot": desc})
+                playlist.add(stream_url,listitem)
+                xbmcPlayer = xbmc.Player()
+                xbmcPlayer.play(playlist)
+            addStop('','','','')
+
         
 def LOAD_AND_PLAY_VIDEO(url,name):
         GA("Dramacrazy","Watched")
@@ -2366,7 +2435,7 @@ def GA(group,name):
             from urllib import unquote, quote
             from os import environ
             from hashlib import sha1
-            VISITOR = selfAddon.getSetting('ga_visitor')
+            VISITOR = selfAddon.getSetting('visitor_ga')
             utm_gif_location = "http://www.google-analytics.com/__utm.gif"
             if not group=="None":
                     utm_track = utm_gif_location + "?" + \
@@ -2414,33 +2483,53 @@ def GA(group,name):
             
 def APP_LAUNCH():
         try:
-            try:
-                from hashlib import md5
-            except:
-                from md5 import md5
-            from random import randint
-            import time
-            from urllib import unquote, quote
-            from os import environ
-            from hashlib import sha1
-            import platform
-            VISITOR = selfAddon.getSetting('ga_visitor')
-            if re.search('12.0',xbmc.getInfoLabel( "System.BuildVersion"),re.IGNORECASE): 
+            if xbmc.getCondVisibility('system.platform.osx'):
+                if xbmc.getCondVisibility('system.platform.atv2'):
+                    log_path = '/var/mobile/Library/Preferences'
+                else:
+                    log_path = os.path.join(os.path.expanduser('~'), 'Library/Logs')
+            elif xbmc.getCondVisibility('system.platform.ios'):
+                log_path = '/var/mobile/Library/Preferences'
+            elif xbmc.getCondVisibility('system.platform.windows'):
+                log_path = xbmc.translatePath('special://home')
+                log = os.path.join(log_path, 'xbmc.log')
+                logfile = open(log, 'r').read()
+            elif xbmc.getCondVisibility('system.platform.linux'):
+                log_path = xbmc.translatePath('special://home/temp')
+            else:
+                log_path = xbmc.translatePath('special://logpath')
+            log = os.path.join(log_path, 'xbmc.log')
+            logfile = open(log, 'r').read()
+        except:
+            logfile='Starting XBMC (Unknown Git:.+?Platform: Unknown. Built.+?'
+        print '==========================   '+PATH+' '+VERSION+'   =========================='
+        try:
+            from hashlib import md5
+        except:
+            from md5 import md5
+        from random import randint
+        import time
+        from urllib import unquote, quote
+        from os import environ
+        from hashlib import sha1
+        import platform
+        VISITOR = selfAddon.getSetting('visitor_ga')
+        match=re.compile('Starting XBMC \((.+?) Git:.+?Platform: (.+?)\. Built.+?').findall(logfile)
+        for build, PLATFORM in match:
+            if re.search('12.0',build,re.IGNORECASE): 
                 build="Frodo" 
-            if re.search('11.0',xbmc.getInfoLabel( "System.BuildVersion"),re.IGNORECASE): 
+            if re.search('11.0',build,re.IGNORECASE): 
                 build="Eden" 
-            if re.search('13.0',xbmc.getInfoLabel( "System.BuildVersion"),re.IGNORECASE): 
+            if re.search('13.0',build,re.IGNORECASE): 
                 build="Gotham" 
-            try: 
-                PLATFORM=platform.system()+' '+platform.release()+" "+platform.machine()
-            except: 
-                PLATFORM='Unknown'
+            print build
+            print PLATFORM
             utm_gif_location = "http://www.google-analytics.com/__utm.gif"
             utm_track = utm_gif_location + "?" + \
                     "utmwv=" + VERSION + \
                     "&utmn=" + str(randint(0, 0x7fffffff)) + \
                     "&utmt=" + "event" + \
-                    "&utme="+ quote("5("+PATH+"*LAUNCH-"+build+"-"+VERSION+"*"+PLATFORM+"-"+VERSION+")")+\
+                    "&utme="+ quote("5(APP LAUNCH*"+build+"*"+PLATFORM+")")+\
                     "&utmp=" + quote(PATH) + \
                     "&utmac=" + UATRACK + \
                     "&utmcc=__utma=%s" % ".".join(["1", VISITOR, VISITOR, VISITOR,VISITOR,"2"])
@@ -2449,9 +2538,6 @@ def APP_LAUNCH():
                 send_request_to_google_analytics(utm_track)
             except:
                 print "============================  CANNOT POST APP LAUNCH TRACK EVENT ============================" 
-            
-        except:
-            print "================  CANNOT POST TO ANALYTICS  ================" 
 checkGA()
 
 
@@ -2460,8 +2546,8 @@ checkGA()
 def MESSAGE():
         class MessClass(xbmcgui.Window):
             def __init__(self):
-                xbmc.Player().play("%s/resources/message/music2.mp3"%selfAddon.getAddonInfo("path"), xbmcgui.ListItem('Message'))
-                self.addControl(xbmcgui.ControlImage(0,0,1280,720,"%s/resources/message/thanks.png"%selfAddon.getAddonInfo("path")))
+                xbmc.Player().play("%s/resources/message/music.mp3"%selfAddon.getAddonInfo("path"), xbmcgui.ListItem('Message'))
+                self.addControl(xbmcgui.ControlImage(0,0,1280,720,"%s/resources/message/messg.png"%selfAddon.getAddonInfo("path")))
             def onAction(self, action):
                 if action == 92 or action == 10:
                         xbmc.Player().stop()
@@ -2883,12 +2969,13 @@ elif mode==74:
         print ""+url
         LINKNG(name,url)
 
+elif mode==75:
+        print ""+url
+        LINKNG2(name,url)
 
-
-
-
-
-
+elif mode==76:
+        print ""+url
+        KIDZone(url)
 
 
         

@@ -9,11 +9,7 @@
       	<setting id="con-view"	type="enum" label="Confluence View" values="List|Big List|Thumbnail|Posters Wrap|Fanart|Media Info 1|Media Info 2|Media Info 3" default="3" enable="!eq(-1,false)+!eq(-3,false)"/>
 		<setting id="xpr-view"	type="enum" label="Xperience 1080 View" values="List|Info List|Thumbnail|Posters|Landscape|Banner|Panel" default="3" enable="!eq(-2,true)+!eq(-4,false)"/>
 		<setting id="ga_time" type="text" label="GA Called" default="2000-01-01 00:00:00" visible="false"/>
-		<setting id="ga_visitor" type="text" label="GA visitor" default="" visible="false"/>
-   </category>
-   <category label="Bit-rates">
+		<setting id="visitor_ga" type="text" label="GA visitor" default="" visible="false"/>
 		<setting id="bit-disc"	type="enum" label="[B]Discovery Bitrate[/B]" values="3500k|1500k|600k" default="0"/>
-		<setting id="bit-natgeo"	type="enum" label="[B]National Geo Bitrate[/B]" values="1800k|800k|300k|flv" default="0"/>
-
-  </category>
+   </category>
 </settings>
