@@ -227,6 +227,9 @@ def DISC():
 
 def KIDZone(murl):
     addDir('National Geographic Kids','ngk',71,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+    addDir('WB Kids','ngk',77,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+    GA("None","KidZone")
+    VIEWSB()
     
 def NG():
     addDir('National Geographic Channel','ngc','',"%s/art/ngccm.png"%selfAddon.getAddonInfo("path"))
@@ -272,7 +275,20 @@ def NGDir(murl):
         addDir('People & Places','http://video.nationalgeographic.com/video/kids/people-places-kids/',73,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
         addDir('Science & Space','http://video.nationalgeographic.com/video/kids/science-space-kids/',73,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
         addDir('Weird & Wacky','http://video.nationalgeographic.com/video/kids/weird-wacky-kids/',72,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
-        GA("NationalGeo","NGK")
+        GA("KidZone","NGK")
+
+def WB():
+        addDir('Looney Tunes','Looney Tunes',78,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/LooneyTunes_video.jpg')
+        addDir('Ozzy and Drix','Ozzy & Drix',78,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/OzzieDrix_video.jpg')
+        addDir('Shaggy and Scoobydoo Get A Clue','Shaggy & Scooby-Doo Get A Clue!',78,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/ShaggyScoobyGetAClue_video.jpg')
+        addDir('The Smurfs','Smurfs',78,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/smurf_video.jpg')
+        addDir('The Flintstones','The Flintstones',78,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/Flintstones_video.jpg')
+        addDir('The Jetsons','The Jetsons',78,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/Jetsons_video.jpg')
+        addDir('The New Scoobydoo Mysteries','The New Scooby-Doo Mysteries',78,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/ScoobyDooMysteries_video.jpg')
+        addDir('Thundercats','ThunderCats',78,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/Thundercats.jpg')
+        addDir('Tom and Jerry Tales','Tom And Jerry Tales',78,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/TomJerryTales_video.jpg')
+        addDir('Xiaolin Showdown','Xiaolin Showdown',78,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/XiaolinShowdown_video.jpg')
+        GA("KidZone","WBK")
         
 def GETMETA(mname,genre,year,thumb): 
         if selfAddon.getSetting("meta-view") == "true":
@@ -795,15 +811,30 @@ def LISTNG2(murl):
     link=OPENURL(murl)
     match2=re.compile('http://video.nationalgeographic.com/video/animals').findall(murl)
     match3=re.compile('http://video.nationalgeographic.com/video/kids').findall(murl)
-    match=re.compile('<a href="(.+?)" title="(.+?)"><img src="(.+?)">').findall(link)
-    for url, name, thumb in match:
-        name=name.replace('&#39;',"'").replace('&lt;i&gt;','').replace('&lt;/i&gt;','').replace('&quot;','"').replace('&amp;quot;','"')
+    match=re.compile('<a href="(.+?)" title="(.+?)"><img src="(.+?)"></a>\n            \n            \n            \n            <span class="vidtimestamp">(.+?)</span>\n').findall(link)
+    for url, name, thumb,dur in match:
+        name=name.replace("&#39;","'").replace('&lt;i&gt;','').replace('&lt;/i&gt;','').replace('&quot;','"').replace('&amp;quot;','"').replace('&amp;','&')
         if (len(match2)==0)and(len(match3)==0):
-            addDir(name,MainUrl+url,74,MainUrl+thumb)
+            #addDir(name,MainUrl+url,74,MainUrl+thumb)
+            addSport(name,MainUrl+url,74,MainUrl+thumb,'',dur,'')
         else:
-            addDir(name,MainUrl+url,75,MainUrl+thumb)
-    
+            #addDir(name,MainUrl+url,75,MainUrl+thumb)
+            addSport(name,MainUrl+url,75,MainUrl+thumb,'',dur,'')
+    paginate=re.compile("""\n            if ((.+?) === (.+?)) .+?\n                .+?<li><a href="(.+?)">Next &raquo;</a></li>""").findall(link)
+    if (len(paginate)>0):
+        for pges, pg, pgtot,purl in paginate:
+            pg=pg.replace('(','')
+            pgtot=pgtot.replace(')','')
+            if pgtot!=pg:
+                addDir('Page '+str(int(pg)+1),MainUrl+purl+pg+'/',73,"%s/art/next2.png"%selfAddon.getAddonInfo("path"))
 
+def LISTWB(murl):
+    furl='http://staticswf.kidswb.com/kidswb/xml/videofeedlight.xml'
+    link=OPENURL(furl)
+    link=link.replace('&quot;','').replace('&#039;','').replace('&#215;','').replace('&#038;','').replace('&#8216;','').replace('&#8211;','').replace('&#8220;','').replace('&#8221;','').replace('&#8212;','').replace('&amp;','&').replace("`",'')
+    match = re.compile('<item><media:title>([^<]+)</media:title><media:description>([^<]+)</media:description><guid isPermaLink="false">([^<]+)</guid><av:show season="1">'+murl+'</av:show><media:thumbnail url="([^<]+)"/></item>').findall(link)
+    for name,desc,url,thumb in match:
+        addSport(name,url,79,thumb,desc,'','')
 def SEARCH():
         keyb = xbmc.Keyboard('', 'Search Movies')
         keyb.doModal()
@@ -2607,7 +2638,7 @@ def addSport(name,url,mode,iconimage,desc,dur,gen):
         ok=True
         liz=xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=iconimage)
         liz.setInfo( type="Video", infoLabels={ "Title": name, "Plot": desc, "Duration": dur ,"Genre": gen} )
-        ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
+        ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz)
         return ok
 
 def addDirb(name,url,mode,iconimage,fan):
@@ -2976,8 +3007,18 @@ elif mode==75:
 elif mode==76:
         print ""+url
         KIDZone(url)
+        
+elif mode==77:
+        print ""+url
+        WB()
+        
+elif mode==78:
+        print ""+url
+        LISTWB(url)
 
-
+elif mode==79:
+        print ""+url
+        LINKWB(name,url)
         
 elif mode==99:
         urlresolver.display_settings()
