@@ -1,3 +1,7 @@
+[B]Version 1.2.1[/B]
+
+-Quick fix, National geo anil and kids not showing all video
+
 [B]Version 1.2.0[/B]
 
 -Cleaned up discovery listitems for player

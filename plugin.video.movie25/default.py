@@ -816,15 +816,15 @@ def LISTNG2(murl):
     link=OPENURL(murl)
     match2=re.compile('http://video.nationalgeographic.com/video/animals').findall(murl)
     match3=re.compile('http://video.nationalgeographic.com/video/kids').findall(murl)
-    match=re.compile('<a href="(.+?)" title="(.+?)"><img src="(.+?)"></a>\n            \n            \n            \n            <span class="vidtimestamp">(.+?)</span>\n').findall(link)
-    for url, name, thumb,dur in match:
+    match=re.compile('<a href="(.+?)" title="(.+?)"><img src="(.+?)"></a>').findall(link)
+    for url, name, thumb in match:
         name=name.replace("&#39;","'").replace('&lt;i&gt;','').replace('&lt;/i&gt;','').replace('&quot;','"').replace('&amp;quot;','"').replace('&amp;','&')
         if (len(match2)==0)and(len(match3)==0):
             #addDir(name,MainUrl+url,74,MainUrl+thumb)
-            addSport(name,MainUrl+url,74,MainUrl+thumb,'',dur,'')
+            addSport(name,MainUrl+url,74,MainUrl+thumb,'','','')
         else:
             #addDir(name,MainUrl+url,75,MainUrl+thumb)
-            addSport(name,MainUrl+url,75,MainUrl+thumb,'',dur,'')
+            addSport(name,MainUrl+url,75,MainUrl+thumb,'','','')
     paginate=re.compile("""\n            if ((.+?) === (.+?)) .+?\n                .+?<li><a href="(.+?)">Next &raquo;</a></li>""").findall(link)
     if (len(paginate)>0):
         for pges, pg, pgtot,purl in paginate:
