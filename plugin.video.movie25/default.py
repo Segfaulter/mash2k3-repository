@@ -3,6 +3,7 @@ import urllib,urllib2,re,cookielib,string
 import xbmc, xbmcgui, xbmcaddon, xbmcplugin
 import urlresolver
 from t0mm0.common.addon import Addon
+from t0mm0.common.net import Net as net
 from metahandler import metahandlers
 import datetime
 import time
@@ -227,7 +228,7 @@ def DISC():
 
 def KIDZone(murl):
     addDir('National Geographic Kids','ngk',71,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
-    addDir('WB Kids','ngk',77,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+    addDir('WB Kids','wbk',77,"%s/art/wb.png"%selfAddon.getAddonInfo("path"))
     GA("None","KidZone")
     VIEWSB()
     
@@ -413,6 +414,7 @@ def LISTSP(murl):
                                 year = mname[nam:namelen-1]
                                 year2='('+year+')'
                                 name= mname[0:namelen-6]
+                        year=year.replace('(2 )','').replace(') ak','')
                         match=re.compile('720p BRRip').findall(sitename)
                         if (len(match) > 0):
                                 year2 = '('+year+')'+'[COLOR red] 720p BRRip[/COLOR]'
@@ -688,6 +690,7 @@ def LISTINT4(url):
         remaining_display = 'Pages loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
         dialogWait.update(0,'[B]Loading....[/B]',remaining_display)
         for murl in urllist:
+                #html = net().http_GET(murl).content
                 link=OPENURL(murl)
                 match=re.compile("""<a href="(.+?)">(.+?)</a>&nbsp;</div>\n<div class="ah3"> HQ,(.+?)</div><br>\n<div class=".+?"><div id=".+?" style=".+?">.+?<img src="(.+?)" style=".+?" alt=\'.+?' title=\'.+?'  /></a><!--TEnd-->(.+?)<br />""").findall(link)
                 for url,name,genre,thumb,desc in match:
@@ -702,7 +705,8 @@ def LISTINT4(url):
         dialogWait.close()
         del dialogWait
         GA("INT","Kino-live")
-
+        VIEWSB()
+        
 def ESPNList(murl):
         link=OPENURL(murl)
         match=re.compile('"videoDuration":"(.+?)",.+?"video":.+?{"headline":"(.+?)",.+?,"includePlatforms":.+?,"imageUrl":"(.+?)","mobileSubHead":"(.+?)","internalUrl720p":"(.+?)",').findall(link)
@@ -805,6 +809,7 @@ def LISTNG(murl):
     match=re.compile('<a href="(.+?)">More \xc2\xbb</a></p><h3>(.+?)\n        \n    </h3><ul class=".+?"><li><a class=".+?" href=".+?" title=".+?"><img src="(.+?)">').findall(link)
     for url, name, thumb in match:
             addDir(name,MainUrl+url,73,MainUrl+thumb)
+    GA("NationalGeo","NG-Show")
         
 def LISTNG2(murl):
     MainUrl='http://video.nationalgeographic.com'
@@ -827,7 +832,7 @@ def LISTNG2(murl):
             pgtot=pgtot.replace(')','')
             if pgtot!=pg:
                 addDir('Page '+str(int(pg)+1),MainUrl+purl+pg+'/',73,"%s/art/next2.png"%selfAddon.getAddonInfo("path"))
-
+    GA("NG-Show","List")
 def LISTWB(murl):
     furl='http://staticswf.kidswb.com/kidswb/xml/videofeedlight.xml'
     link=OPENURL(furl)
@@ -835,6 +840,7 @@ def LISTWB(murl):
     match = re.compile('<item><media:title>([^<]+)</media:title><media:description>([^<]+)</media:description><guid isPermaLink="false">([^<]+)</guid><av:show season="1">'+murl+'</av:show><media:thumbnail url="([^<]+)"/></item>').findall(link)
     for name,desc,url,thumb in match:
         addSport(name,url,79,thumb,desc,'','')
+    GA("WB","List")
 def SEARCH():
         keyb = xbmc.Keyboard('', 'Search Movies')
         keyb.doModal()
@@ -1638,7 +1644,27 @@ def LINKNG2(mname,murl):
                 xbmcPlayer.play(playlist)
             addStop('','','','')
 
-        
+def LINKWB(mname,murl):
+        GA("WB","Watched")
+        url='http://metaframe.digitalsmiths.tv/v2/WBtv/assets/'+murl+'/partner/11?format=json'
+        link=OPENURL(url)
+        playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+        playlist.clear()
+        bit700=re.compile('"bitrate": "700", "uri": "(.+?)"').findall(link)
+        bit500=re.compile('"bitrate": "500", "uri": "(.+?)"').findall(link)
+        if (len(bit700)>0):
+                stream_url=bit700[0]
+        else:
+                stream_url=bit500[0]
+        desc=re.compile('"description": "(.+?)", "rating"').findall(link)
+        desc=desc[0].replace('\\','')
+        thumb=re.compile('"images": .+?".+?": .+?"width": .+?, "uri": "(.+?)"').findall(link)
+        listitem = xbmcgui.ListItem(mname,thumbnailImage=thumb[0])
+        listitem.setInfo("Video", infoLabels={ "Title": mname, "Plot": desc})
+        playlist.add(stream_url,listitem)
+        xbmcPlayer = xbmc.Player()
+        xbmcPlayer.play(playlist)
+        addStop('','','','')
 def LOAD_AND_PLAY_VIDEO(url,name):
         GA("Dramacrazy","Watched")
         xbmc.executebuiltin("XBMC.Notification(PLease Wait!, Resolving Link,5000)")

@@ -1,3 +1,17 @@
+[B]Version 1.2.0[/B]
+
+-Cleaned up discovery listitems for player
+-Changed device selection to bitrate selction for discovery
+-Added Spanish dubbed & subbed movie source (duquesa)
+-Added Russian dubbed movie source (Saab7778)
+-Added Kids section
+-Added National geograghic animal for adventure section.
+-Added National geograghic kids for kidss section.
+-Added WB kids for kidss section.
+-Updated GA
+-Fixed Videodorm icon for xbmcbuntu
+-Added fanart by (bobpeace)
+
 [B]Version 1.1.9[/B]
 
 -Fixed script error at start
