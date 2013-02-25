@@ -5,8 +5,8 @@ import urlresolver
 from t0mm0.common.addon import Addon
 from t0mm0.common.net import Net as net
 from metahandler import metahandlers
-import datetime
-import time
+import datetime,time
+import wfs
 #Movie25.com - by Mash2k3 2012.
 
 Mainurl ='http://www.movie25.com/movies/'
@@ -81,6 +81,8 @@ def MAIN():
         addDir('Documentaries','http://www.movie25.com/',85,"%s/art/kidz.png"%selfAddon.getAddonInfo("path"))
         addDir('Resolver Settings','http://www.movie25.com/',99,"%s/art/resset.png"%selfAddon.getAddonInfo("path"))
         addDir('Select Me','http://www.movie25.com/',100,"%s/art/mash.png"%selfAddon.getAddonInfo("path"))
+        addDir('test','http://www.movie25.com/',wfs.MAIN(),"%s/art/mash.png"%selfAddon.getAddonInfo("path"))
+
         VIEWSB()
         
 def GENRE(url):
@@ -1799,8 +1801,7 @@ def LINKDISC(name,url):
                 print "llll "+ ETitleList[i]
                 playlist.add(final,listitem)
                 i=i+1
-                
-        
+      
         xbmcPlayer = xbmc.Player()
         xbmcPlayer.play(playlist)
         if idlist3[0][0:7]==idlist3[1][0:7]:
