@@ -78,6 +78,7 @@ def MAIN():
         addDir('Sports','http://www.movie25.com/',43,"%s/art/sportsec2.png"%selfAddon.getAddonInfo("path"))
         addDir('Adventure','http://www.movie25.com/',63,"%s/art/adv2.png"%selfAddon.getAddonInfo("path"))
         addDir('Kids Zone','http://www.movie25.com/',76,"%s/art/kidz.png"%selfAddon.getAddonInfo("path"))
+        addDir('Documentaries','http://www.movie25.com/',85,"%s/art/kidz.png"%selfAddon.getAddonInfo("path"))
         addDir('Resolver Settings','http://www.movie25.com/',99,"%s/art/resset.png"%selfAddon.getAddonInfo("path"))
         addDir('Select Me','http://www.movie25.com/',100,"%s/art/mash.png"%selfAddon.getAddonInfo("path"))
         VIEWSB()
@@ -144,7 +145,7 @@ def INT():
 
 def SPORTS():
         addDir('ESPN','http:/espn.com',44,"%s/art/espn.png"%selfAddon.getAddonInfo("path"))
-        addDir('UFC','http://gdata.youtube.com/feeds/api/users/ufc/uploads?start-index=1&max-results=50',59,"%s/art/ufc.png"%selfAddon.getAddonInfo("path"))
+        addDir('UFC','ufc',59,"%s/art/ufc.png"%selfAddon.getAddonInfo("path"))
         addDir('Outdoor Channel','http://outdoorchannel.com/',50,"%s/art/OC.png"%selfAddon.getAddonInfo("path"))
         GA("None","Sports")
 
@@ -174,7 +175,7 @@ def OC():
 
 
 def UFC():
-        addDir('UFC.com','http://gdata.youtube.com/feeds/api/users/ufc/uploads?start-index=1&max-results=50',47,"%s/art/ufc.png"%selfAddon.getAddonInfo("path"))
+        addDir('UFC.com','ufc',47,"%s/art/ufc.png"%selfAddon.getAddonInfo("path"))
         addDir('UFC(Movie25)','ufc',60,"%s/art/ufc.png"%selfAddon.getAddonInfo("path"))
         addDir('UFC(Newmyvideolinks)','ufc',101,"%s/art/ufc.png"%selfAddon.getAddonInfo("path"))
         GA("None","UFC")
@@ -182,7 +183,12 @@ def UFC():
 def ADVENTURE():
         addDir('Discovery Channel','discovery',631,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
         addDir('National Geographic','ng',70,"%s/art/natgeo.png"%selfAddon.getAddonInfo("path"))
+        addDir('Military Channel','discovery',80,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
+        addDir('Science Channel','discovery',81,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
+        addDir('Velocity Channel','discovery',82,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
+        addDir('Animal Planet','discovery',83,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
         GA("None","Adventure")
+        
 def DISC():
         addDir('AFRICA','http://dsc.discovery.com/services/taxonomy/Africa%20the%20Series/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/africa-show-carousel-badge-130x97.jpg')
         addDir('ALASKA: THE LAST FRONTIER','http://dsc.discovery.com/services/taxonomy/ALASKA:%20THE%20LAST%20FRONTIER/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/alaska_badge_130x97.jpg')
@@ -226,10 +232,152 @@ def DISC():
         GA("Adventure","Discovery")
         VIEWSB()
 
+def ANIP():
+        addDir("AMERICA'S CUTEST PET","http://animal.discovery.com/services/taxonomy/AMERICA'S%20CUTEST%20PET/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video",64,'http://static.ddmcdn.com/gif/americascutestpet-130x97.jpg')
+        addDir('AMERICAN STUFFERS','http://animal.discovery.com/services/taxonomy/AMERICAN%20STUFFERS/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/americanstuffers-130x97.jpg')
+        addDir('ANIMAL COPS','http://animal.discovery.com/services/taxonomy/ANIMAL%20COPS/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/animalcops-130x97.jpg')
+        addDir('BAD DOG','http://animal.discovery.com/services/taxonomy/BAD%20DOG!/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/baddog-130x97.jpg')
+        addDir('BATTLEGROUND: RHINO WARS','http://animal.discovery.com/services/taxonomy/BATTLEGROUND:%20RHINO%20WARS/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/rhino-wars-130x97.jpg')
+        addDir('CALL OF THE WILDMAN','http://animal.discovery.com/services/taxonomy/CALL%20OF%20THE%20WILDMAN/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/call-of-the-wildman-130x97.jpg')
+        addDir('CATS 101','http://animal.discovery.com/services/taxonomy/CATS%20101/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/cats101-130x97.jpg')
+        addDir('CONFESSIONS: ANIMAL HOARDING','http://animal.discovery.com/services/taxonomy/CONFESSIONS:%20ANIMAL%20HOARDING/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/confessionsanimalhoarding-130x97.jpg')
+        addDir('DOGS 101','http://animal.discovery.com/services/taxonomy/DOGS%20101/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/dogs101-130x97.jpg')
+        addDir('EATING GIANTS','http://animal.discovery.com/services/taxonomy/WILD%20ANIMAL%20VIDEOS/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/eating-giants.jpg')
+        addDir('FATAL ATTRACTIONS','http://animal.discovery.com/services/taxonomy/FATAL%20ATTRACTIONS/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/fatalattractions-130x97.jpg')
+        addDir('FINDING BIGFOOT','http://animal.discovery.com/services/taxonomy/FINDING%20BIGFOOT/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/findingbigfoot-130x97.jpg')
+        addDir('GATOR BOYS','http://animal.discovery.com/services/taxonomy/GATOR%20BOYS/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/gatorboys-130x97.jpg')
+        addDir('GLORY HOUNDS',"http://animal.discovery.com/services/taxonomy/GLORY%20HOUNDS/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video",64,'http://static.ddmcdn.com/gif/glory-hounds-130x97.jpg')
+        addDir('THE HAUNTED','http://animal.discovery.com/services/taxonomy/THE%20HAUNTED/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/thehaunted-130x97.jpg')
+        addDir('HILLBILLY HANDFISHIN',"http://animal.discovery.com/services/taxonomy/HILLBILLY%20HANDFISHIN'/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video",64,'http://static.ddmcdn.com/gif/hillbillyhandfishin-130x97.jpg')
+        addDir("I SHOULDN'T BE ALIVE VIDEOS","http://animal.discovery.com/services/taxonomy/I%20SHOULDN'T%20BE%20ALIVE%20VIDEOS/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video",64,'http://static.ddmcdn.com/gif/ishouldntbealive130x97.jpg')
+        addDir('INFESTED!','http://animal.discovery.com/services/taxonomy/INFESTED/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/infested-130x97.jpg')
+        addDir("IT'S ME OR THE DOG","http://animal.discovery.com/services/taxonomy/IT'S%20ME%20OR%20THE%20DOG/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video",64,'http://static.ddmcdn.com/gif/itsmeorthedog-130x97.jpg')
+        addDir('LAW ON THE BORDER','http://animal.discovery.com/services/taxonomy/LAW%20ON%20THE%20BORDER/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/law-on-the-border-130x97.jpg')
+        addDir('LOST TAPES','http://animal.discovery.com/services/taxonomy/LOST%20TAPES/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/lost-tapes-130x97.jpg')
+        addDir('LOUSIANA LOCKDOWN','http://dsc.discovery.com/services/taxonomy/Mayan%20Doomsday%20Prophecy%20Videos/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/louisiana-lockdown-130x97.jpg')
+        addDir('MERMAIDS','http://animal.discovery.com/services/taxonomy/MERMAIDS/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/mermaids-130x97.jpg')
+        addDir('MONSTERS INSIDE ME','http://animal.discovery.com/services/taxonomy/MONSTERS%20INSIDE%20ME/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/monstersinsideme-130x97.jpg')
+        addDir('MUST LOVE CATS','http://animal.discovery.com/services/taxonomy/MUST%20LOVE%20CATS/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/mustlovecats-130x97.jpg')
+        addDir('MY CAT FROM HELL','http://animal.discovery.com/services/taxonomy/MY%20CAT%20FROM%20HELL/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/mycatfromhell-130x97.jpg')
+        addDir('MY EXTREME ANIMAL PHOBIA','http://animal.discovery.com/services/taxonomy/MY%20EXTREME%20ANIMAL%20PHOBIA/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/myextremeanimalphobia-130x97.jpg')
+        addDir('NORTH WOODS LAW','http://animal.discovery.com/services/taxonomy/NORTH%20WOODS%20LAW/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/north-woods-law-130x97.jpg')
+        addDir('OFF THE HOOK','http://animal.discovery.com/services/taxonomy/OFF%20THE%20HOOK/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/off-the-hook-badge.jpg')
+        addDir('PIT BOSS','http://animal.discovery.com/services/taxonomy/PIT%20BOSS/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/pitboss-130x97.jpg')
+        addDir('PIT BULLS AND PAROLEES','http://animal.discovery.com/services/taxonomy/PIT%20BULLS%20AND%20PAROLEES/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/pitbulls-and-parolees-130x97.jpg')
+        addDir('PUPPY BOWL','http://animal.discovery.com/services/taxonomy/PUPPY%20BOWL/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/puppy-bowl9-130x97.jpg')
+        addDir('RAISED WILD','http://animal.discovery.com/services/taxonomy/RAISED%20WILD/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/raised-wild-130x97.jpg')
+        addDir('RATTLESNAKE REPUBLIC','http://animal.discovery.com/services/taxonomy/RATTLESNAKE%20REPUBLIC/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/rattlesnakerepublic-130x97.jpg')
+        addDir('RIVER MONSTERS','http://animal.discovery.com/services/taxonomy/RIVER%20MONSTERS/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/river-monsters-130x97.jpg')
+        addDir('SWAMP WARS','http://animal.discovery.com/services/taxonomy/SWAMP%20WARS/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/swampwars-130x97.jpg')
+        addDir('TANKED','http://animal.discovery.com/services/taxonomy/TANKED/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/tanked-130x97.jpg')
+        addDir('TOO CUTE','http://animal.discovery.com/services/taxonomy/TOO%20CUTE/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/toocute-130x97.jpg')
+        addDir('UNTAMED & UNCUT','http://animal.discovery.com/services/taxonomy/UNTAMED%20AND%20UNCUT/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/untamedanduncut-130x97.jpg')
+        addDir('WEIRD, TRUE AND FREAKY','http://dsc.discovery.com/services/taxonomy/YUKON%20MEN/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/weirdtrueandfreaky-130x97.jpg')
+        addDir('WHALE WARS','http://animal.discovery.com/services/taxonomy/WHALE%20WARS/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/whalewars-130x97.jpg')
+        addDir('WHALE WARS VIKING SHORES','http://animal.discovery.com/services/taxonomy/WHALE%20WARS%20VIKING%20SHORES/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/whale-wars-viking-shores-130x97.jpg')
+        GA("Adventure","AnimalPlanet")
+        VIEWSB()
+        
+def MILIT():
+        addDir('AN OFFICER AND A MOVIE','http://military.discovery.com/services/taxonomy/AN%20OFFICER%20AND%20A%20MOVIE/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/oam.jpg')
+        addDir('BLACK OPS','http://military.discovery.com/services/taxonomy/BLACK%20OPS/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/black_ops.jpg')
+        addDir('COMBAT COUNTDOWN','http://military.discovery.com/services/taxonomy/COMBAT%20COUNTDOWN/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/combat-countdown.jpg')
+        addDir('COMBAT TECH','http://military.discovery.com/services/taxonomy/COMBAT%20TECH/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/combat-tech-130.jpg')
+        addDir('COMMANDER IN CHIEF','http://military.discovery.com/services/taxonomy/COMMANDER%20IN%20CHIEF/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/commanderinchief.jpg')
+        addDir('GREAT PLANES','http://military.discovery.com/services/taxonomy/GREAT%20PLANES/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/great-planes.jpg')
+        addDir('GREATEST TANK BATTLES','http://military.discovery.com/services/taxonomy/GREATEST%20TANK%20BATTLES/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/greatest-tank-battles.jpg')
+        addDir('RETURN SALUTE','http://military.discovery.com/services/taxonomy/RETURN%20SALUTE/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/returnsalute.jpg')
+        addDir('SECRETS OF','http://military.discovery.com/services/taxonomy/SECRETS%20OF/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/secrets-of.jpg')
+        addDir('TOP SECRET WEAPONS REVEALED','http://military.discovery.com/services/taxonomy/TOP%20SECRET%20WEAPONS%20REVEALED/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/top-secret-weapons-revealed.jpg')
+        addDir('TRIGGERS','http://military.discovery.com/services/taxonomy/TRIGGERS/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/triggers.jpg')
+        addDir('ULTIMATE WARFARE','http://military.discovery.com/services/taxonomy/ULTIMATE%20WARFARE/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/ultimate-warfare.jpg')
+        addDir('ULTIMATE WEAPONS','http://military.discovery.com/services/taxonomy/ULTIMATE%20WEAPONS/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/ultimate-weapons.jpg')
+        addDir('WARPLANE','http://military.discovery.com/services/taxonomy/WARPLANE/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/mc-show-thumb-warplane-130x97.jpg')
+        addDir('WORLD WAR II IN COLOR','http://military.discovery.com/services/taxonomy/WORLD%20WAR%20II%20IN%20COLOR/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/mc-show-thumb-ww2-color-130x97.jpg')        
+        GA("Adventure","Military")
+        VIEWSB()
+
+def SCI():
+        addDir('AN IDIOT ABROAD','http://science.discovery.com/services/taxonomy/AN%20IDIOT%20ABROAD%20VIDEOS/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/anidiotabroad_badge_130x97_v2.jpg')
+        addDir('ARE WE ALONE','http://science.discovery.com/services/taxonomy/ARE%20WE%20ALONE/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/sc-showbadge_are-we-alone.jpg')
+        addDir('BIG BIGGER BIGGEST','http://science.discovery.com/services/taxonomy/BIG%20BIGGER%20BIGGEST/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/bigbiggerbiggest-130x97.jpg')
+        addDir('BUILD IT BIGGER','http://science.discovery.com/services/taxonomy/BUILD%20IT%20BIGGER/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/builditbigger-130x97.jpg')
+        addDir('DARK MATTERS: TWISTED BUT TRUE','http://science.discovery.com/services/taxonomy/DARK%20MATTERS:%20TWISTED%20BUT%20TRUE/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/sc-showbadge_dark-matters.jpg')
+        addDir('FIREFLY','http://science.discovery.com/services/taxonomy/FIREFLY/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/sc-showbadge_firefly.jpg')
+        addDir('FRINGE','http://science.discovery.com/services/taxonomy/FRINGE/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/fringe-130x97.jpg')
+        addDir('HEAD RUSH','http://science.discovery.com/services/taxonomy/HEAD%20RUSH/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/headrush.jpg')
+        addDir('HOW DO THEY DO IT','http://science.discovery.com/services/taxonomy/HOW%20DO%20THEY%20DO%20IT/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/how-do-they-do-it-130x97.jpg')
+        addDir('HOW THE UNIVERSE WORKS','http://science.discovery.com/services/taxonomy/HOW%20THE%20UNIVERSE%20WORKS/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/htuw-fixed-130x97.jpg')
+        addDir("HOW IT'S MADE","http://science.discovery.com/services/taxonomy/HOW%20IT'S%20MADE/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video",64,'http://static.ddmcdn.com/gif/howitsmade.jpg')
+        addDir('KILLER ROBOTS','http://science.discovery.com/services/taxonomy/KILLER%20ROBOTS/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/killer_robots-130x97.jpg')
+        addDir('LDRS','http://science.discovery.com/services/taxonomy/LDRS/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/ldrs-130x97.jpg')
+        addDir('MONSTER BUG WARS','http://science.discovery.com/services/taxonomy/MONSTER%20BUG%20WARS/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/2monsterbugwars-130x97.jpg')
+        addDir('MUTANT PLANET','http://science.discovery.com/services/taxonomy/MUTANT%20PLANET/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/sc-showbadge_mutant-planet.jpg')        
+        addDir('ODDITIES','http://science.discovery.com/services/taxonomy/ODDITIES/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/sc-showbadge_oddities.jpg')
+        addDir('ODDITIES SAN FRANCISCO','http://science.discovery.com/services/taxonomy/ODDITIES%20SAN%20FRANCISCO/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/sc-showbadge_odditiessf.jpg')
+        addDir('PROPHETS OF SCIENCE FICTION','http://science.discovery.com/services/taxonomy/PROPHETS%20OF%20SCIENCE%20FICTION/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/sc-showbadge_prophets-of-scifi.jpg')
+        addDir('PUNKIN CHUNKIN','http://science.discovery.com/services/taxonomy/PUNKIN%20CHUNKIN/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/punkin-chunkin-show-carousel-badge.jpg')
+        addDir('SCI FI SCIENCE','http://science.discovery.com/services/taxonomy/SCI%20FI%20SCIENCE/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/sci-fi-sci-130x97.jpg')
+        addDir("STEPHEN HAWKING'S SCI FI MASTERS","http://science.discovery.com/services/taxonomy/STEPHEN%20HAWKING'S%20SCI%20FI%20MASTERS/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video",64,'http://static.ddmcdn.com/gif/sc-showbadge_scifi-masters.jpg')
+        addDir('STRIP THE CITY','http://science.discovery.com/services/taxonomy/STRIP%20THE%20CITY/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/strip-the-city-130x97.jpg')
+        addDir('STUCK WITH HACKETT','http://science.discovery.com/services/taxonomy/STUCK%20WITH%20HACKETT/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/stuckwithhacket-130x97.jpg')
+        addDir('STUFF YOU SHOULD KNOW','http://science.discovery.com/services/taxonomy/STUFF%20YOU%20SHOULD%20KNOW%20VIDEOS/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/sysk-badge-130x97.jpg')
+        addDir('THROUGH THE WORMHOLE','http://science.discovery.com/services/taxonomy/THROUGH%20THE%20WORMHOLE/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/sc-showbadge_wormhole.jpg')
+        addDir('TREK NATION','http://science.discovery.com/services/taxonomy/TREK%20NATION/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/trek-nation-130x97.jpg')
+        addDir('WONDERS WITH BRIAN COX','http://science.discovery.com/services/taxonomy/WONDERS%20WITH%20BRIAN%20COX/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/wonders-brian-cox-130.jpg')        
+        GA("Adventure","Science")
+        VIEWSB()
+
+def VELO():
+        addDir('ALL GIRLS GARAGE','http://velocity.discovery.com/services/taxonomy/ALL%20GIRLS%20GARAGE/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/badge-all-girls-garage.jpg')
+        addDir('CAR FIX','http://velocity.discovery.com/services/taxonomy/CAR%20FIX/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/badge-carfix.jpg')
+        addDir('CAFE RACER','http://velocity.discovery.com/services/taxonomy/CAFE%20RACER/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/badge-cafe-racer.jpg')
+        addDir('CHASING CLASSIC CARS','http://velocity.discovery.com/services/taxonomy/CHASING%20CLASSIC%20CARS/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/badge-chasing-classic-cars.jpg')
+        addDir('EXTREME FISHING','http://velocity.discovery.com/services/taxonomy/EXTREME%20FISHING/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/extreme-fishing-130x97.jpg')
+        addDir('FIFTH GEAR','http://velocity.discovery.com/services/taxonomy/FIFTH%20GEAR/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/fifth-gear-130x97.jpg')
+        addDir('INSIDE WEST COAST CUSTOMS','http://velocity.discovery.com/services/taxonomy/INSIDE%20WEST%20COAST%20CUSTOMS/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/badge-iwcc.jpg')
+        addDir('MECUM AUTO AUCTIONS','http://velocity.discovery.com/services/taxonomy/MECUM%20AUTO%20AUCTIONS/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/badge-mecum-auctions.jpg')
+        addDir('ONE OF A KIND','http://velocity.discovery.com/services/taxonomy/ONE%20OF%20A%20KIND/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/badge-one-of-a-kind.jpg')
+        addDir("OVERHAULIN'","http://velocity.discovery.com/services/taxonomy/OVERHAULIN'/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video",64,'http://static.ddmcdn.com/gif/badge-overhaulin.jpg')
+        addDir("WHAT'S MY CAR WORTH?",'http://velocity.discovery.com/services/taxonomy/WHATS%20MY%20CAR%20WORTH/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/badge-whats-my-car-worth.jpg')
+        addDir('WHEELER DEALERS','http://velocity.discovery.com/services/taxonomy/WHEELER%20DEALERS/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/badge-wheeler-dealers.jpg')
+        GA("Adventure","Velocity")
+        VIEWSB()
+
 def KIDZone(murl):
     addDir('National Geographic Kids','ngk',71,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
     addDir('WB Kids','wbk',77,"%s/art/wb.png"%selfAddon.getAddonInfo("path"))
+    addDir('Youtube Kids','wbk',84,"%s/art/wb.png"%selfAddon.getAddonInfo("path"))
     GA("None","KidZone")
+    VIEWSB()
+    
+def YOUKIDS():
+    addDir('Sesame Street','sesamestreet',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+    addDir('Yo Gabba Gabba!','yogabbagabba',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+    addDir('Houston Zoo','houstonzoo',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+    addDir('Simple Kids Crafts','simplekidscrafts',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+    addDir('Cartoon Network','cartoonnetwork',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+    addDir('Muppets Studio','MuppetsStudio',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+    addDir('Word World PBS','WordWorldPBS',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+    addDir('Big Red Hat Kids','bigredhatkids',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+    addDir('Baby Einstein','TerrapinStation5',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+    addDir('Activity Village','activityv',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+    addDir('Hoopla Kids','hooplakidz',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+    addDir('4KidsTV','4KidsTV',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+    addDir('School House Rock Kids','MrRiggyRiggs',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+    addDir('Arthur','MsArthurTV',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+    addDir('POCOYO','pocoyotv',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+    addDir('Disney jr','disneyjunior',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+    addDir('Mickey Mouse','MickeyMouseCartoon',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+    addDir('Tom and Jerry','TheTomEJerryShow',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+    addDir('Dora','TheDoraTheExplorerHD',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+    addDir('SpongeBob','Spongebob4Children',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+    addDir('Curious George','ngk',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+    addDir('Kids Camp','kidscamp',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+    addDir('Timon and Pumbaa','timonandpumbaa1',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+    addDir('Dragon Tales','DejectedDragon',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+    addDir('Aladdin','aladdinvids',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+    GA("KidZone","YoutubeKids")
     VIEWSB()
     
 def NG():
@@ -290,6 +438,15 @@ def WB():
         addDir('Tom and Jerry Tales','Tom And Jerry Tales',78,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/TomJerryTales_video.jpg')
         addDir('Xiaolin Showdown','Xiaolin Showdown',78,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/XiaolinShowdown_video.jpg')
         GA("KidZone","WBK")
+
+def DOCS():
+        addDir('Documentary Heaven','doc1',86,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/LooneyTunes_video.jpg')
+        addDir('Top Documentary Films','doc2',86,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/LooneyTunes_video.jpg')
+        addDir('Shaggy and Scoobydoo Get A Clue','Shaggy & Scooby-Doo Get A Clue!',78,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/ShaggyScoobyGetAClue_video.jpg')
+        addDir('The Smurfs','Smurfs',78,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/smurf_video.jpg')
+        addDir('The Flintstones','The Flintstones',78,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/Flintstones_video.jpg')
+        GA("None","Documentary")
+
         
 def GETMETA(mname,genre,year,thumb): 
         if selfAddon.getSetting("meta-view") == "true":
@@ -730,12 +887,14 @@ def ESPNList(murl):
         del dialogWait
         GA("ESPN","ESPN-List")
 
-def UFCList(murl):
+def YOUList(mname,durl):
+        murl='http://gdata.youtube.com/feeds/api/users/'+durl+'/uploads?start-index=1&max-results=50'
         link=OPENURL(murl)
         match=re.compile("http\://www.youtube.com/watch\?v\=([^\&]+)\&.+?<media\:descriptio[^>]+>([^<]+)</media\:description>.+?<media\:thumbnail url='([^']+)'.+?<media:title type='plain'>(.+?)/media:title>").findall(link)
         for url,desc,thumb,name in match:
+                name=name.replace('<','')
                 addSport(name,url,48,thumb,desc,'','')
-        GA("UFC","UFC-List")
+        GA(mname,"Youtube-List")
 
 
 def UFCMOVIE25():
@@ -833,6 +992,7 @@ def LISTNG2(murl):
             if pgtot!=pg:
                 addDir('Page '+str(int(pg)+1),MainUrl+purl+pg+'/',73,"%s/art/next2.png"%selfAddon.getAddonInfo("path"))
     GA("NG-Show","List")
+    
 def LISTWB(murl):
     furl='http://staticswf.kidswb.com/kidswb/xml/videofeedlight.xml'
     link=OPENURL(furl)
@@ -841,6 +1001,96 @@ def LISTWB(murl):
     for name,desc,url,thumb in match:
         addSport(name,url,79,thumb,desc,'','')
     GA("WB","List")
+
+def LISTDOC(murl):
+    if murl=='doc1':
+        addDir('[COLOR red]Search[/COLOR]','search',89,'')
+        addDir('[COLOR red]Popular[/COLOR]','http://documentaryheaven.com/popular/',89,'')
+        addDir('[COLOR red]Recent[/COLOR]','http://documentaryheaven.com/all/',87,'')
+        url='http://documentaryheaven.com/'
+        link=OPENURL(url)
+        match=re.compile('<li class=".+?"><a href="(.+?)" title=".+?">(.+?)</a> </li>').findall(link)
+        for url, name in match:
+            addDir(name,url,87,'')
+    elif murl=='doc2':
+        addDir('[COLOR red]Recent[/COLOR]','http://topdocumentaryfilms.com/all/',87,'')
+        addDir('[COLOR red]Recommended[/COLOR]','rec',89,'')
+        url='http://topdocumentaryfilms.com/'
+        link=OPENURL(url)
+        match=re.compile('href="(.+?)" title=".+?">(.+?)</a>.+?</li>').findall(link)
+        for url, name in match:
+            addDir(name,url,87,'')
+    
+
+def LISTDOC2(murl):
+    match=re.compile('documentaryheaven').findall(murl)
+    if (len(match)>0):
+        link=OPENURL(murl)
+        match=re.compile('<a href="(.+?)" title="" rel=".+?"><img class=".+?" src="(.+?)" alt="(.+?)".+?</a>\n                            </div>     \n                            <div id="postDis">\n                            \t(.+?)[...]').findall(link)
+        if (len(match)==0):
+            match=re.compile('href="(.+?)" title="" rel=".+?"><img class=".+?" src="(.+?)" alt="(.+?)".+?</a>\n                            </div>     \n                            <div id="postDis">\n                            \t(.+?)[...]').findall(link)
+        for url,thumb,name,desc in match:
+            #addDir(name,url,88,thumb)
+            addSport(name,url,88,thumb,desc,'','')
+        paginate=re.compile("class='page current'>1</span></li><li><a href='http://documentaryheaven.com/.+?/page/2/'").findall(link)
+        if (len(paginate)>0):
+            addDir('[COLOR blue]Page 2[/COLOR]',murl+'page/2/',87,"%s/art/next2.png"%selfAddon.getAddonInfo("path"))
+        else:
+                paginate=re.compile('http://documentaryheaven.com/(.+?)/page/(.+?)/').findall(murl)
+                for section, page in paginate:
+                        pg= int(page) +1
+                        xurl = 'http://documentaryheaven.com/' + str(section) + '/page/'+ str (pg) + '/'
+                addDir('[COLOR blue]Page '+ str(pg)+'[/COLOR]',xurl,87,"%s/art/next2.png"%selfAddon.getAddonInfo("path"))
+
+    match2=re.compile('topdocumentaryfilms').findall(murl)
+    if (len(match2)>0):
+        i=0
+        link=OPENURL(murl)
+        link=link.replace('\n','')
+        url=re.compile('href="([^<]+)">Watch now').findall(link)
+        match=re.compile('href=".+?".+?src="(.+?)".+?alt="(.+?)"').findall(link)
+        desc=re.compile('>([^<]+)</p><p><strong>').findall(link)
+        for thumb,name in match:
+            #addDir(name,url,88,thumb)
+            addSport(name,url[i],88,thumb,desc[i],'','')
+            i=i+1
+        paginate=re.compile('</a>.+?href="([^<]+)">Next</a></div>').findall(link)
+        if (len(paginate)>0):
+            for purl in paginate:
+                addDir('[COLOR blue]Next[/COLOR]',purl,87,"%s/art/next2.png"%selfAddon.getAddonInfo("path"))
+
+            
+def LISTDOCPOP(murl):
+    if murl=='search':
+        keyb = xbmc.Keyboard('', 'Search Documentaries')
+        keyb.doModal()
+        if (keyb.isConfirmed()):
+                search = keyb.getText()
+                encode=urllib.quote(search)
+                surl='http://documentaryheaven.com/?s='+encode
+                link=OPENURL(surl)
+        match=re.compile('<a href="(.+?)" title="" rel=".+?"><img class=".+?" src="(.+?)" alt="(.+?)".+?</a>\n                            </div>     \n                            <div id="postDis">\n                            \t(.+?)[...]').findall(link)
+        if (len(match)==0):
+            match=re.compile('href="(.+?)" title="" rel=".+?"><img class=".+?" src="(.+?)" alt="(.+?)".+?</a>\n                            </div>     \n                            <div id="postDis">\n                            \t(.+?)[...]').findall(link)
+        for url,thumb,name,desc in match:
+            addSport(name,url,88,thumb,desc,'','')
+
+        paginate=re.compile("<span class=\'page current\'>1</span></li><li><a href=\'http://documentaryheaven.com/page/2/.?s=.+?\'").findall(link)
+        if (len(paginate)>0):
+            addDir('[COLOR blue]Page 2[/COLOR]','http://documentaryheaven.com/page/2/?s='+encode,9,"%s/art/next2.png"%selfAddon.getAddonInfo("path"))
+    elif murl=='rec':
+        rurl='http://topdocumentaryfilms.com/'
+        link=OPENURL(rurl)
+        match=re.compile('href="([^<]+)">([^<]+)</a></li><li><a').findall(link)
+        for url,name in match:
+            addDir(name,url,88,'')
+    else:
+        link=OPENURL(murl)
+        match=re.compile("<li><a href='(.+?)'>(.+?)</a></li>").findall(link)
+        for url,name in match:
+            addDir(name,url,88,'')
+
+
 def SEARCH():
         keyb = xbmc.Keyboard('', 'Search Movies')
         keyb.doModal()
@@ -927,6 +1177,21 @@ def YEARB(murl):
         GA("Year","Year-list")
         
 def NEXTPAGE(murl):
+    match=re.compile('documentaryheaven').findall(murl)
+    if (len(match)>0):
+        link=OPENURL(murl)
+        match=re.compile('<a href="(.+?)" title="" rel=".+?"><img class=".+?" src="(.+?)" alt="(.+?)".+?</a>\n                            </div>     \n                            <div id="postDis">\n                            \t(.+?)[...]').findall(link)
+        if (len(match)==0):
+            match=re.compile('href="(.+?)" title="" rel=".+?"><img class=".+?" src="(.+?)" alt="(.+?)".+?</a>\n                            </div>     \n                            <div id="postDis">\n                            \t(.+?)[...]').findall(link)
+        for url,thumb,name,desc in match:
+            addSport(name,url,88,thumb,desc,'','')
+        paginate=re.compile('http://documentaryheaven.com/page/(.+?)/.?s=(.+?)').findall(murl)
+        for page, search in paginate:
+            pgs = int(page)+1
+            jurl='http://documentaryheaven.com/page/'+str(pgs)+'/?s='+str(search)
+        addDir('[COLOR blue]Page '+str(pgs)+'[/COLOR]',jurl,9,"%s/art/next2.png"%selfAddon.getAddonInfo("path"))
+
+    else:
         link=OPENURL(murl)
         match=re.compile('<div class="movie_pic"><a href="(.+?)" target="_blank">\n                            <img src="(.+?)" width=".+?" height=".+?" />\n                            </a></div>\n            <div class="movie_about">\n              <div class="movie_about_text">\n                <h1><a href=".+?" target="_blank">\n                  (.+?)                </a></h1>\n                <div class="c">Genre:\n                  <a href=".+?" target=\'.+?\'>(.+?)</a>').findall(link)
         dialogWait = xbmcgui.DialogProgress()
@@ -1443,9 +1708,9 @@ def ESPNLink(mname,murl):
         addStop('','','','')
 
 
-def UFCLink(mname,url):
+def YOULink(mname,url):
         print url
-        GA("UFC-List","Watched")
+        GA("Youtube-List","Watched")
         url = "plugin://plugin.video.youtube/?path=/root/video&action=play_video&videoid="+url+"&hd=1"
         playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
         playlist.clear()
@@ -1665,6 +1930,115 @@ def LINKWB(mname,murl):
         xbmcPlayer = xbmc.Player()
         xbmcPlayer.play(playlist)
         addStop('','','','')
+
+def LINKDOC(mname,murl):
+    match=re.compile('documentaryheaven').findall(murl)
+    if (len(match)>0):
+        GA("DocumentaryHeaven","Watched")
+        playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+        playlist.clear()
+        link=OPENURL(murl)
+        match=re.compile('<div id="command"><a class="lightSwitcher" href="#">.+?</a></div>                      \n                     <div class=\'video\'><iframe.+?src="(.+?)"').findall(link)
+        for url in match:
+            match4=re.compile('vimeo').findall(url)
+            if (len(match4)>0):
+                url=url.replace('?title=0&amp;byline=0&amp;portrait=0','')
+                url=url.replace('http://player.vimeo.com/video','http://vimeo.com')
+            match5=re.compile('dailymotion').findall(url)
+            if (len(match5)>0):
+                url=url.replace('http://www.dailymotion.com/embed/video','http://www.dailymotion.com/video')
+        if (len(match)==0):
+            match=re.compile('<iframe\r\nwidth=".+?" height=".+?" src="(.+?)"').findall(link)
+            print match[0]
+            link2=OPENURL(match[0])
+            match2=re.compile('href="/watch.?v=(.+?)"').findall(link2)
+            url='http://www.youtube.com/watch?v='+match2[0]
+        
+        print "vlink " +url
+        media = urlresolver.HostedMediaFile(str(url))
+        source = media
+        listitem = xbmcgui.ListItem(mname)
+        if source:
+                xbmc.executebuiltin("XBMC.Notification(Please Wait!,Resolving Link,3000)")
+                stream_url = source.resolve()
+                if source.resolve()==False:
+                        xbmc.executebuiltin("XBMC.Notification(Sorry!,Link Cannot Be Resolved,5000)")
+                        return
+        else:
+              stream_url = False  
+        playlist.add(stream_url,listitem)
+        xbmcPlayer = xbmc.Player()
+        xbmcPlayer.play(playlist)
+        addDir('','','','')
+
+    match=re.compile('topdocumentaryfilms').findall(murl)
+    if (len(match)>0):
+        sources=[]
+        GA("TopDocumentaryFilms","Watched")
+        playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+        playlist.clear()
+        link=OPENURL(murl)
+        link=link.replace('src="http://cdn.tdfimg.com/wp-content/uploads','')
+        match=re.compile('src="(.+?)"').findall(link)
+        for url in match:
+            match4=re.compile('vimeo').findall(url)
+            if (len(match4)>0):
+                url=url.replace('?title=0&amp;byline=0&amp;portrait=0','')
+                url=url.replace('http://player.vimeo.com/video','http://vimeo.com')
+            match5=re.compile('dailymotion').findall(url)
+            if (len(match5)>0):
+                url=url.replace('http://www.dailymotion.com/embed/video','http://www.dailymotion.com/video')
+            match7=re.compile('google').findall(url)
+            if (len(match7)>0):
+                xbmc.executebuiltin("XBMC.Notification(Sorry!,link down,3000)")
+                return
+            match6=re.compile('youtube').findall(url)
+            if (len(match6)>0):
+                match=re.compile('http://www.youtube.com/embed/n_(.+?).?rel=0&amp;iv_load_policy=3').findall(url)
+                if (len(match)>0):
+                    url='http://www.youtube.com/watch?feature=player_embedded&v=n_'+match[0]
+                else:
+                    match=re.compile('http://www.youtube.com/embed/(.+?).?rel=0&amp;iv_load_policy=3').findall(url)
+                    if (len(match)>0):
+                        url='http://www.youtube.com/watch?feature=player_embedded&v='+match[0]
+                    match2=re.compile('videoseries').findall(url)
+                    if (len(match2)>0):
+                        link2=OPENURL(url)
+                        match2=re.compile('href="/watch.?v=(.+?)"').findall(link2)
+                        match3=re.compile("http://www.youtube.com/embed/videoseries.?list=(.+?)&amp;iv_load_policy=3").findall(url)
+                        print match3
+                        url='http://www.youtube.com/watch?v='+match2[0]
+                               
+                    else:
+                        url=url.replace('?rel=0','')
+        """hosted_media = urlresolver.HostedMediaFile(url=url, title=host+' [COLOR red]'+lang+'[/COLOR]')
+                sources.append(hosted_media)
+        if (len(sources)==0):
+                xbmc.executebuiltin("XBMC.Notification(Sorry!,Show doesn't have playable links,5000)")
+      
+        else:
+                source = urlresolver.choose_source(sources)"""
+        
+        print "vlink " +str(url)
+        media = urlresolver.HostedMediaFile(str(url))
+        source = media
+        listitem = xbmcgui.ListItem(mname)
+        if source:
+                xbmc.executebuiltin("XBMC.Notification(Please Wait!,Resolving Link,3000)")
+                stream_url = source.resolve()
+                if source.resolve()==False:
+                        xbmc.executebuiltin("XBMC.Notification(Sorry!,Link Cannot Be Resolved,5000)")
+                        return
+        else:
+              stream_url = False
+        
+        playlist.add(stream_url,listitem)
+        xbmcPlayer = xbmc.Player()
+        xbmcPlayer.play(playlist)
+        addDir('','','','')
+        
+
+        
 def LOAD_AND_PLAY_VIDEO(url,name):
         GA("Dramacrazy","Watched")
         xbmc.executebuiltin("XBMC.Notification(PLease Wait!, Resolving Link,5000)")
@@ -2916,11 +3290,11 @@ elif mode==46:
 
 elif mode==47:
         print ""+url
-        UFCList(url)
+        YOUList(name,url)
         
 elif mode==48:
         print ""+url
-        UFCLink(name,url)
+        YOULink(name,url)
 
 elif mode==50:
         print ""+url
@@ -3045,6 +3419,49 @@ elif mode==78:
 elif mode==79:
         print ""+url
         LINKWB(name,url)
+
+elif mode==80:
+        print ""+url
+        MILIT()
+        
+elif mode==81:
+        print ""+url
+        SCI()
+
+elif mode==82:
+        print ""+url
+        VELO()
+
+elif mode==83:
+        print ""+url
+        ANIP()
+
+elif mode==84:
+        print ""+url
+        YOUKIDS()
+
+elif mode==85:
+        print ""+url
+        DOCS()        
+
+elif mode==86:
+        print ""+url
+        LISTDOC(url)
+        
+elif mode==87:
+        print ""+url
+        LISTDOC2(url)
+
+elif mode==88:
+        print ""+url
+        LINKDOC(name,url)
+        
+elif mode==89:
+        print ""+url
+        LISTDOCPOP(url)
+
+
+
         
 elif mode==99:
         urlresolver.display_settings()
