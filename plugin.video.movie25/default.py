@@ -133,7 +133,7 @@ def TV():
         
 def TVAll():
         addDir('Watch-Free Series','TV',501,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
-        addDir('Latest Episodes (Rlsmix)[COLOR red](Real Debrid Only)[/COLOR] True HD','TV',61,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
+        addDir('Series Gate','TV',601,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
         GA("None","TV-All")
 
 def HD():
@@ -1751,6 +1751,68 @@ def VIDEOLINKSWFS(name,url):
                 xbmc.Player().play(stream_url, listitem)
                 addDir('','','','')
 ############################################################################################ WFS ENDS ##############################################################################
+############################################################################################ SERIES GATE BEGIN ##############################################################################
+def MAINSG():
+        addDir('Search','http://watch-freeseries.mu/',504,"%s/art/wfs/search.png"%selfAddon.getAddonInfo("path"))
+        addDir('A-Z','',610,"%s/art/wfs/az.png"%selfAddon.getAddonInfo("path"))
+        addDir('Latest Episodes','http://seriesgate.tv/latestepisodes/',602,"%s/art/wfs/latest.png"%selfAddon.getAddonInfo("path"))
+        HOMESG()
+        #addDir('TV Series','http://watch-freeseries.mu/tvseries',506,"%s/art/wfs/series.png"%selfAddon.getAddonInfo("path"))
+        #addDir('Year','http://watch-freeseries.mu/',505,"%s/art/wfs/year.png"%selfAddon.getAddonInfo("path"))
+        #addDir('Genre','http://watch-freeseries.mu/',502,"%s/art/wfs/genre.png"%selfAddon.getAddonInfo("path"))
+def HOMESG():
+        url='http://seriesgate.tv/'
+        link=OPENURL(url)
+        addLink('[COLOR red]Updated Shows[/COLOR]','','')
+        match=re.compile('<a href = "(.+?)" style=".+?"><img src="(.+?)"  height=".+?" width=".+?" alt="Watch (.+?)"').findall(link)
+        for url,thumb,name in match[0:5]:
+            addDir(name,'','',thumb)
+        addLink('[COLOR red]Knee Slapping Comedies[/COLOR]','','')
+        match=re.compile('<a href = "(.+?)" style=".+?"><img src="(.+?)"  height=".+?" width=".+?" alt="Watch (.+?)"').findall(link)
+        for url,thumb,name in match[5:10]:
+            addDir(name,'','',thumb)
+        addLink('[COLOR red]Turmoil and Tears: Drama[/COLOR]','','')
+        match=re.compile('<a href = "(.+?)" style=".+?"><img src="(.+?)"  height=".+?" width=".+?" alt="Watch (.+?)"').findall(link)
+        for url,thumb,name in match[10:15]:
+            addDir(name,'','',thumb)
+        addLink('[COLOR red]Rumbling and Tumbling Action[/COLOR]','','')
+        match=re.compile('<a href = "(.+?)" style=".+?"><img src="(.+?)"  height=".+?" width=".+?" alt="Watch (.+?)"').findall(link)
+        for url,thumb,name in match[15:20]:
+            addDir(name,'','',thumb)
+        addLink("[COLOR red]Editor's Flicks[/COLOR]",'','')
+        match=re.compile('<a href = "(.+?)" style=".+?"><img src="(.+?)"  height=".+?" width=".+?" alt="Watch (.+?)"').findall(link)
+        for url,thumb,name in match[20:25]:
+            addDir(name,'','',thumb)
+        addLink('[COLOR red]New to SeriesGate[/COLOR]','','')
+        match=re.compile('<a href = "(.+?)" style=".+?"><img src="(.+?)"  height=".+?" width=".+?" alt="Watch (.+?)"').findall(link)
+        for url,thumb,name in match[25:30]:
+            addDir(name,'','',thumb)
+            
+def AtoZSG():
+        addDir('0-9','0-9',611,"%s/art/wfs/09.png"%selfAddon.getAddonInfo("path"))
+        for i in string.ascii_uppercase:
+                addDir(i,i,611,"%s/art/wfs/%s.png"%(selfAddon.getAddonInfo("path"),i))
+        GA("None","A-Z")
+        VIEWSB()
+        
+def AllShows(murl):
+        gurl='http://seriesgate.tv/'
+        link=OPENURL(gurl)
+        match=re.compile('{"n":"(.+?)","u":"(.+?)","i":"(.+?)"}').findall(link)
+        for name,surl,imdb, in match:
+                name2 =name
+                if name[0:3]=='The':
+                    name2=name.replace('The ','')
+                if name2[0:1] == murl:
+                    addDir(name,surl,'','')
+
+def LISTEpiSG(murl):
+    link=OPENURL(murl)
+    match=re.compile('<a href="(.+?)"><div  class=".+?"><img  class=".+?" src=""  data-original ="(.+?)" width=".+?" height=".+?"  alt=".+?" title = "(.+?)" /><div class=".+?"><span style=".+?">(.+?)</span><div class=".+?"></div><span>(.+?)</span><div class=".+?">').findall(link)
+    for url,thumb,epiname, showname, seep in match:\
+        addDir(showname+' [COLOR red]'+seep+'[/COLOR]'+" "+'"'+epiname+'"','','',thumb)
+    
+############################################################################################ SERIES GATE END ##############################################################################
 
 def VIDEOLINKS(name,url):
         link=OPENURL(url)
@@ -4015,4 +4077,50 @@ elif mode==510:
 elif mode==527:
         print ""+url
         GetMetAll()
+
+elif mode==601:
+        MAINSG()
+        
+elif mode==602:
+        print ""+url
+        LISTEpiSG(url)
+
+elif mode==603:
+        print ""+url
+        LISTShowsSG(url)
+
+elif mode==604:
+        print ""+url
+        LISTSeasonSG(name,url)
+
+elif mode==605:
+        print ""+url
+        LISTEpilistSG(name,url)
+
+elif mode==606:
+        print ""+url
+        LISTPopSG(url)
+
+elif mode==607:
+        print ""+url
+        GENRESG(url)
+
+elif mode==608:
+        print ""+url
+        SEARCHSG()
+
+elif mode==609:
+        print ""+url
+        VIDEOLINKSSG(name,url)
+        
+        
+elif mode==610:
+        print ""+url
+        AtoZSG()
+        
+elif mode==611:
+        print ""+url
+        AllShows(url)
+
+        
 xbmcplugin.endOfDirectory(int(sys.argv[1]))
