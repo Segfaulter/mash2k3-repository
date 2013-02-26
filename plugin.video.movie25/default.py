@@ -6,7 +6,7 @@ from t0mm0.common.addon import Addon
 from t0mm0.common.net import Net as net
 from metahandler import metahandlers
 import datetime,time
-import wfs
+
 #Movie25.com - by Mash2k3 2012.
 
 Mainurl ='http://www.movie25.com/movies/'
@@ -74,15 +74,14 @@ def MAIN():
         addDir('HD Movies','http://oneclickwatch.org/category/movies/',33,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
         addDir('3D Movies','3D',34,"%s/art/3d.png"%selfAddon.getAddonInfo("path"))
         addDir('International','http://www.movie25.com/',36,"%s/art/intl.png"%selfAddon.getAddonInfo("path"))
-        addDir('TV Section','http://www.movie25.com/',27,"%s/art/tv2.png"%selfAddon.getAddonInfo("path"))
+        addDir('TV Latest','http://www.movie25.com/',27,"%s/art/tv2.png"%selfAddon.getAddonInfo("path"))
+        addDir('TV All','http://www.movie25.com/',500,"%s/art/tv2.png"%selfAddon.getAddonInfo("path"))
         addDir('Sports','http://www.movie25.com/',43,"%s/art/sportsec2.png"%selfAddon.getAddonInfo("path"))
         addDir('Adventure','http://www.movie25.com/',63,"%s/art/adv2.png"%selfAddon.getAddonInfo("path"))
         addDir('Kids Zone','http://www.movie25.com/',76,"%s/art/kidz.png"%selfAddon.getAddonInfo("path"))
         addDir('Documentaries','http://www.movie25.com/',85,"%s/art/kidz.png"%selfAddon.getAddonInfo("path"))
         addDir('Resolver Settings','http://www.movie25.com/',99,"%s/art/resset.png"%selfAddon.getAddonInfo("path"))
         addDir('Select Me','http://www.movie25.com/',100,"%s/art/mash.png"%selfAddon.getAddonInfo("path"))
-        addDir('test','http://www.movie25.com/',wfs.MAIN(),"%s/art/mash.png"%selfAddon.getAddonInfo("path"))
-
         VIEWSB()
         
 def GENRE(url):
@@ -130,7 +129,13 @@ def TV():
         addDir('Latest Episodes (iWatchonline)','http://www.iwatchonline.org/tv-show/latest-epsiodes?limit=18',28,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
         addDir('Latest Episodes (Movie1k)','http://www.movie1k.org',30,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
         addDir('Latest Episodes (Oneclickwatch)','http://oneclickwatch.org',32,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
-        GA("None","TV")
+        GA("None","TV-Latest")
+        
+def TVAll():
+        addDir('Watch-Free Series','TV',501,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
+        addDir('Latest Episodes (Rlsmix)[COLOR red](Real Debrid Only)[/COLOR] True HD','TV',61,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
+        GA("None","TV-All")
+
 def HD():
         addDir('Latest HD Movies (Newmyvideolinks) True HD','http://newmyvideolinks.com/category/movies/bluray/',34,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
         addDir('Latest HD Movies (Dailyfix) True HD','HD',53,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
@@ -444,9 +449,8 @@ def WB():
 def DOCS():
         addDir('Documentary Heaven','doc1',86,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/LooneyTunes_video.jpg')
         addDir('Top Documentary Films','doc2',86,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/LooneyTunes_video.jpg')
-        addDir('Shaggy and Scoobydoo Get A Clue','Shaggy & Scooby-Doo Get A Clue!',78,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/ShaggyScoobyGetAClue_video.jpg')
-        addDir('The Smurfs','Smurfs',78,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/smurf_video.jpg')
-        addDir('The Flintstones','The Flintstones',78,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/Flintstones_video.jpg')
+        addDir('Documentary Log','doc3',86,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/ShaggyScoobyGetAClue_video.jpg')
+        addDir('Documentaries (Movie25)','http://www.movie25.com/movies/documentary/',1,"%s/art/doc.png"%selfAddon.getAddonInfo("path"))
         GA("None","Documentary")
 
         
@@ -493,7 +497,7 @@ def GETMETAB(name,genre,year,thumb):
                 infoLabels = {'genre': genre,'title': name,'cover_url': thumb,'year': year,'backdrop_url': ''}
         return infoLabels
         
-
+   
                 
 def LISTMOVIES(murl):
         link=OPENURL(murl)
@@ -1022,7 +1026,14 @@ def LISTDOC(murl):
         match=re.compile('href="(.+?)" title=".+?">(.+?)</a>.+?</li>').findall(link)
         for url, name in match:
             addDir(name,url,87,'')
-    
+    elif murl=='doc3':
+        addDir('[COLOR red]Latest[/COLOR]','http://www.documentary-log.com/',87,'')
+        addDir("[COLOR red]Editor's Picks[/COLOR]",'http://www.documentary-log.com/category/editors-picks/',87,'')
+        url='http://www.documentary-log.com/'
+        link=OPENURL(url)
+        match=re.compile('<li class="cat-item cat-item-.+?"><a href="(.+?)" title="(.+?)">(.+?)</a> ([^<]+)').findall(link)
+        for url, desc, name, leng in match:
+            addDir2(name+'  '+leng,url,87,'',desc)
 
 def LISTDOC2(murl):
     match=re.compile('documentaryheaven').findall(murl)
@@ -1061,7 +1072,22 @@ def LISTDOC2(murl):
             for purl in paginate:
                 addDir('[COLOR blue]Next[/COLOR]',purl,87,"%s/art/next2.png"%selfAddon.getAddonInfo("path"))
 
-            
+    match3=re.compile('documentary-log').findall(murl)
+    if (len(match3)>0):
+        i=0
+        link=OPENURL(murl)
+        match=re.compile('<img src="(.+?)" alt="(.+?)" class=".+?" />\n').findall(link)
+        url=re.compile('<h2 class="title-1">\n      <a href="([^<]+)" title=').findall(link)
+        desc=re.compile('<p>([^<]+)<').findall(link)
+        for thumb,name in match:
+            addDir2(name,url[i],88,thumb,desc[i])
+            i=i+1
+        paginate=re.compile("<a href='([^<]+)' class='nextpostslink'>").findall(link)
+        if (len(paginate)>0):
+            for purl in paginate:
+                addDir('[COLOR blue]Next[/COLOR]',purl,87,"%s/art/next2.png"%selfAddon.getAddonInfo("path"))
+
+                  
 def LISTDOCPOP(murl):
     if murl=='search':
         keyb = xbmc.Keyboard('', 'Search Documentaries')
@@ -1346,7 +1372,385 @@ def LISTTV4(murl):
                         return False   
         dialogWait.close()
         del dialogWait
-        GA("TV","Rlsmix")   
+        GA("TV","Rlsmix")
+        
+############################################################################################ WFS BEGINS ##############################################################################
+def GETMETAShow(mname,thumb): 
+        if selfAddon.getSetting("meta-view") == "true":
+                name=mname.replace(' [COLOR red]Recently Updated[/COLOR]','').replace('.','').replace('M.D.','').replace('<span class="updated">Updated!</span>','')    
+                year=''
+                namelen=len(name)
+                if name[-1:namelen] == ' ':
+                       name= name[0:namelen-1]
+                namelen=len(name)
+                if name[-1:namelen] == '  ':
+                       name= name[0:namelen-1]
+                namelen=len(name)
+                if name[-1:namelen] == '  ':
+                       name= name[0:namelen-1]
+                if name == 'Chase':
+                        name = 'Chase (2010)'
+                elif name == 'Castle':
+                        name = 'Castle (2009)'
+                name= name.replace('-','').replace('-2012','').replace('acute;','').replace('Vampire Diaries','The Vampire Diaries').replace('Comedy Central Roast','Comedy Central Roasts')
+                name= name.replace('Doctor Who  2005','Doctor Who').replace(' (US)','(US)').replace(' (UK)','(UK)').replace(' (AU)','(AU)').replace('%','')
+                meta = grab.get_meta('tvshow',name,None,None,year,overlay=6)# first is Type/movie or tvshow, name of show,tvdb id,imdb id,string of year,unwatched = 6/watched  = 7
+                print "Tv Mode: %s"%name
+                infoLabels = {'rating': meta['rating'],'duration': meta['duration'],'genre': meta['genre'],'mpaa':"rated %s"%meta['mpaa'],
+                  'plot': meta['plot'],'title': mname,'cover_url': meta['cover_url'],
+                  'cast': meta['cast'],'studio': meta['studio'],'banner_url': meta['banner_url'],
+                      'backdrop_url': meta['backdrop_url'],'status': meta['status']}
+                if infoLabels['cover_url']=='':
+                        infoLabels['cover_url']=thumb
+        else:
+                infoLabels = {'title': mname,'cover_url': thumb,'backdrop_url': ''}
+        return infoLabels
+
+def GETMETAEpi(mname,data):
+        if selfAddon.getSetting("meta-view") == "true":
+                match=re.compile('(.+?)xoxc(.+?)xoxc(.+?)xoxc(.+?)xoxc').findall(data)
+                for showname, sea, epi, epiname in match:
+                        showname= showname.replace('-','').replace('-2012','').replace('acute;','').replace('Comedy Central Roast','Comedy Central Roasts')
+                        showname= showname.replace('Doctor Who  2005','Doctor Who').replace(' (US)','(US)').replace(' (UK)','(UK)').replace(' (AU)','(AU)').replace('%','').replace(' [COLOR red]Recently Updated[/COLOR]','').replace('.','').replace('M.D.','').replace('<span class="updated">Updated!</span>','')
+                        print showname+' '+sea+' '+epi+' '+epiname
+                meta = grab.get_episode_meta(str(showname),None, int(sea), int(epi),episode_title=str(epiname), overlay='6')
+                print "Episode Mode: Name %s Season %s - Episode %s"%(str(epiname),str(sea),str(epi))
+                infoLabels = {'rating': meta['rating'],'duration': meta['duration'],'genre': meta['genre'],'mpaa':"rated %s"%meta['mpaa'],
+                      'plot': meta['plot'],'title': meta['title'],'cover_url': meta['cover_url'],
+                      'poster': meta['poster'],'season': meta['season'],'episode': meta['episode'],'backdrop_url': meta['backdrop_url']}
+        else:
+                infoLabels = {'title': mname,'cover_url': '','backdrop_url': ''}       
+        
+        return infoLabels
+
+def MAINWFS():
+        addDir('Search','http://watch-freeseries.mu/',504,"%s/art/wfs/search.png"%selfAddon.getAddonInfo("path"))
+        addDir('A-Z','http://watch-freeseries.mu/tvseries',510,"%s/art/wfs/az.png"%selfAddon.getAddonInfo("path"))
+        addDir('This Week Episodes','http://watch-freeseries.mu/this-week-episodes/',528,"%s/art/wfs/latest.png"%selfAddon.getAddonInfo("path"))
+        addDir('Popular TV Series','http://watch-freeseries.mu/',511,"%s/art/wfs/popu.png"%selfAddon.getAddonInfo("path"))
+        addDir('TV Series','http://watch-freeseries.mu/tvseries',506,"%s/art/wfs/series.png"%selfAddon.getAddonInfo("path"))
+        addDir('Year','http://watch-freeseries.mu/',505,"%s/art/wfs/year.png"%selfAddon.getAddonInfo("path"))
+        addDir('Genre','http://watch-freeseries.mu/',502,"%s/art/wfs/genre.png"%selfAddon.getAddonInfo("path"))
+        addDir('Download All Meta','http://watch-freeseries.mu/',527,"%s/art/wfs/metaall.png"%selfAddon.getAddonInfo("path"))
+        VIEWSB()
+    
+
+def GetMetAll():
+        dialog = xbmcgui.Dialog()
+        ret = dialog.yesno('Download All Meta.', 'Download all meta information for videos at once.','Its better to get it out the way.', 'Would you like to download it? It takes around 20 minutes.','No', 'Yes')
+        if ret==True:
+                urllist=[]
+                loadedparts = 1
+                urllist.append('http://watch-freeseries.mu/index.php?action=episodes_searchShow&letter=1')
+                for i in string.ascii_uppercase:
+                        url='http://watch-freeseries.mu/index.php?action=episodes_searchShow&letter='+i  
+                        urllist.append(url)
+                for murl in urllist:
+                        print murl
+                        link=OPENURL(murl)
+                        match=re.compile('<div class=".+?">\n                    <a href="(.+?)">\n                        <span class=".+?">(.+?)</span>\n                        <span class=".+?t">(.+?)</span>\n').findall(link)
+                        dialogWait = xbmcgui.DialogProgress()
+                        ret = dialogWait.create('[B]Please wait until TV Shows Meta is cached.[/B]')
+                        totalLinks = len(match)
+                        loadedLinks = 0
+                        parts= len(urllist)
+                        remaining_display = 'Parts loaded:: [B]'+str(loadedparts)+' / '+str(parts)+'[/B].''       TV Shows loaded:: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
+                        dialogWait.update(0, 'Process loads in 27 parts Numbers, A thru Z',remaining_display)
+                        for url,name,year in match:
+                                GETMETA(name,'')
+                                loadedLinks = loadedLinks + 1
+                                percent = (loadedLinks * 100)/totalLinks
+                                remaining_display ='Parts loaded:: [B]'+str(loadedparts)+' / '+str(parts)+'[/B].''       TV Shows loaded:: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
+                                dialogWait.update(percent,'Process loads in 27 parts Numbers, A thru Z',remaining_display)
+                                if (dialogWait.iscanceled()):
+                                        return False
+                        loadedparts = loadedparts + 1
+                xbmc.executebuiltin("XBMC.Notification(Nice!,Metacontainer DB Installation Success,5000)")
+
+        MAIN()
+def AtoZWFS():
+        addDir('0-9','http://watch-freeseries.mu/index.php?action=episodes_searchShow&letter=1',506,"%s/art/wfs/09.png"%selfAddon.getAddonInfo("path"))
+        for i in string.ascii_uppercase:
+                addDir(i,'http://watch-freeseries.mu/index.php?action=episodes_searchShow&letter='+i,506,"%s/art/wfs/%s.png"%(selfAddon.getAddonInfo("path"),i))
+        GA("None","A-Z")
+        VIEWSB()        
+def GENREWFS(url):
+        addDir('Action','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=2',506,"%s/art/wfs/act.png"%selfAddon.getAddonInfo("path"))
+        addDir('Adventure','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=5',506,"%s/art/wfs/adv.png"%selfAddon.getAddonInfo("path"))
+        addDir('Animation','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=6',506,"%s/art/wfs/ani.png"%selfAddon.getAddonInfo("path"))
+        addDir('Awards','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=32',506,"%s/art/wfs/awa.png"%selfAddon.getAddonInfo("path"))
+        addDir('Biography','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=8',506,"%s/art/wfs/bio.png"%selfAddon.getAddonInfo("path"))
+        addDir('Cartoons','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=30',506,"%s/art/wfs/car.png"%selfAddon.getAddonInfo("path"))
+        addDir('Comedy','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=9',506,"%s/art/wfs/com.png"%selfAddon.getAddonInfo("path"))
+        addDir('Cooking','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=38',506,"%s/art/wfs/coo.png"%selfAddon.getAddonInfo("path"))
+        addDir('Crime','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=10',506,"%s/art/wfs/cri.png"%selfAddon.getAddonInfo("path"))
+        addDir('Documentary','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=11',506,"%s/art/wfs/doc.png"%selfAddon.getAddonInfo("path"))
+        addDir('Drama','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=3',506,"%s/art/wfs/dra.png"%selfAddon.getAddonInfo("path"))
+        addDir('Family','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=12',506,"%s/art/wfs/fam.png"%selfAddon.getAddonInfo("path"))
+        addDir('Fantasy','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=1',506,"%s/art/wfs/fan.png"%selfAddon.getAddonInfo("path"))
+        addDir('Fashion','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=35',506,"%s/art/wfs/fas.png"%selfAddon.getAddonInfo("path"))
+        addDir('Food','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=31',506,"%s/art/wfs/foo.png"%selfAddon.getAddonInfo("path"))
+        addDir('Game Show','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=33',506,"%s/art/wfs/gam.png"%selfAddon.getAddonInfo("path"))
+        addDir('History','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=14',506,"%s/art/wfs/his.png"%selfAddon.getAddonInfo("path"))
+        addDir('Horror','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=4',506,"%s/art/wfs/hor.png"%selfAddon.getAddonInfo("path"))
+        addDir('Late Night','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=37',506,"%s/art/wfs/lat.png"%selfAddon.getAddonInfo("path"))
+        addDir('Motorsports','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=29',506,"%s/art/wfs/mot.png"%selfAddon.getAddonInfo("path"))
+        addDir('Music','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=17',506,"%s/art/wfs/mus.png"%selfAddon.getAddonInfo("path"))
+        addDir('Musical','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=18',506,"%s/art/wfs/musi.png"%selfAddon.getAddonInfo("path"))
+        addDir('Mystery','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=16',506,"%s/art/wfs/mys.png"%selfAddon.getAddonInfo("path"))
+        addDir('Reality Tv','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=19',506,"%s/art/wfs/rea.png"%selfAddon.getAddonInfo("path"))
+        addDir('Romance','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=20',506,"%s/art/wfs/rom.png"%selfAddon.getAddonInfo("path"))
+        addDir('Sci-Fi','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=21',506,"%s/art/wfs/sci.png"%selfAddon.getAddonInfo("path"))
+        addDir('Short','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=22',506,"%s/art/wfs/sho.png"%selfAddon.getAddonInfo("path"))
+        addDir('Sport','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=23',506,"%s/art/wfs/spo.png"%selfAddon.getAddonInfo("path"))
+        addDir('Talk','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=27',506,"%s/art/wfs/tal.png"%selfAddon.getAddonInfo("path"))
+        addDir('Talk Show','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=39',506,"%s/art/wfs/tals.png"%selfAddon.getAddonInfo("path"))
+        addDir('Teen','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=34',506,"%s/art/wfs/tee.png"%selfAddon.getAddonInfo("path"))
+        addDir('Thriller','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=24',506,"%s/art/wfs/thr.png"%selfAddon.getAddonInfo("path"))
+        addDir('War','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=25',506,"%s/art/wfs/war.png"%selfAddon.getAddonInfo("path"))
+        addDir('Western','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=26',506,"%s/art/wfs/wes.png"%selfAddon.getAddonInfo("path"))
+        VIEWSB()
+def YEARWFS():
+        addDir('2013','http://watch-freeseries.mu/index.php?action=episodes_searchShow&year=2013',506,"%s/art/wfs/2013.png"%selfAddon.getAddonInfo("path"))
+        addDir('2012','http://watch-freeseries.mu/index.php?action=episodes_searchShow&year=2012',506,"%s/art/wfs/2012.png"%selfAddon.getAddonInfo("path"))
+        addDir('2011','http://watch-freeseries.mu/index.php?action=episodes_searchShow&year=2011',506,"%s/art/wfs/2011.png"%selfAddon.getAddonInfo("path"))
+        addDir('2010','http://watch-freeseries.mu/index.php?action=episodes_searchShow&year=2010',506,"%s/art/wfs/2010.png"%selfAddon.getAddonInfo("path"))
+        addDir('2009','http://watch-freeseries.mu/index.php?action=episodes_searchShow&year=2009',506,"%s/art/wfs/2009.png"%selfAddon.getAddonInfo("path"))
+        addDir('2008','http://watch-freeseries.mu/index.php?action=episodes_searchShow&year=2008',506,"%s/art/wfs/2008.png"%selfAddon.getAddonInfo("path"))
+        addDir('2007','http://watch-freeseries.mu/index.php?action=episodes_searchShow&year=2007',506,"%s/art/wfs/2007.png"%selfAddon.getAddonInfo("path"))
+        addDir('2006','http://watch-freeseries.mu/index.php?action=episodes_searchShow&year=2006',506,"%s/art/wfs/2006.png"%selfAddon.getAddonInfo("path"))
+        addDir('2005','http://watch-freeseries.mu/index.php?action=episodes_searchShow&year=2005',506,"%s/art/wfs/2005.png"%selfAddon.getAddonInfo("path"))
+        addDir('2004','http://watch-freeseries.mu/index.php?action=episodes_searchShow&year=2004',506,"%s/art/wfs/2004.png"%selfAddon.getAddonInfo("path"))
+        addDir('2003','http://watch-freeseries.mu/index.php?action=episodes_searchShow&year=2003',506,"%s/art/wfs/2003.png"%selfAddon.getAddonInfo("path"))
+        GA("None","Year")
+        VIEWSB()
+def LISTEpi(murl):
+        link=OPENURL(murl)
+        dialogWait = xbmcgui.DialogProgress()
+        ret = dialogWait.create('Please wait until Latest Episodes are cached.')
+        match=re.compile('<a href="(.+?)">\n                                                                        <img src="(.+?)"/>\n                                                                    </a>\n                            </div>\n                                <div class=".+?">\n                                <a class=".+?" style=".+?" href=".+?">(.+?)<br>(.+?)</a>(.+?)<br/>(.+?)\n                            </div>\n').findall(link)
+        totalLinks = len(match)
+        print totalLinks
+        loadedLinks = 0
+        remaining_display = 'Episodes loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
+        dialogWait.update(0, '[B]Will load instantly from now on[/B]',remaining_display)
+        for url,thumb,name,epname,eps,epnum in match:
+                loadedLinks = loadedLinks + 1
+                percent = (loadedLinks * 100)/totalLinks
+                remaining_display = 'Episodes loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
+                dialogWait.update(percent,'[B]Will load instantly from now on[/B]',remaining_display)
+                if (dialogWait.iscanceled()):
+                        return False
+                addDir(name+'   "'+epname+'"',url,503,thumb)
+        GA("None","LatestEPI-list")
+        xbmcplugin.setContent(int(sys.argv[1]), 'Movies')
+        
+def LISTShows(murl):
+        link=OPENURL(murl)
+        dialogWait = xbmcgui.DialogProgress()
+        ret = dialogWait.create('Please wait until Tv Shows are cached.')
+        match=re.compile('<div class=".+?">\n                    <a href="(.+?)">\n                        <span class=".+?">(.+?)</span>\n                        <span class=".+?t">(.+?)</span>\n').findall(link)
+        totalLinks = len(match)
+        loadedLinks = 0
+        remaining_display = 'Shows loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
+        dialogWait.update(0, '[B]Will load instantly from now on[/B]',remaining_display)
+        for url,name,year in match:
+                
+                match=re.compile('<span class="updated">Updated!</span>').findall(name)
+                if (len(match)>0):
+                        name=name.replace(' <span class="updated">Updated!</span>','')
+                        name= name+'  [COLOR red]Recently Updated[/COLOR]'
+                loadedLinks = loadedLinks + 1
+                percent = (loadedLinks * 100)/totalLinks
+                remaining_display = 'Shows loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
+                dialogWait.update(percent,'[B]Will load instantly from now on[/B]',remaining_display)
+                if (dialogWait.iscanceled()):
+                        return False
+                addInfo2(name,url,507,'','')
+        GA("None","Shows-list")
+        xbmcplugin.setContent(int(sys.argv[1]), 'Movies')
+
+
+        
+def LISTPop(murl):
+        link=OPENURL(murl)
+        dialogWait = xbmcgui.DialogProgress()
+        ret = dialogWait.create('Please wait until Tv Shows are cached.')
+        match=re.compile('<a href="(.+?)" title="(.+?)"><span class="new_rank">.+?</span>').findall(link)
+        totalLinks = len(match)
+        loadedLinks = 0
+        remaining_display = 'Shows loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
+        dialogWait.update(0, '[B]Will load instantly from now on[/B]',remaining_display)
+        for url,name in match:
+                loadedLinks = loadedLinks + 1
+                percent = (loadedLinks * 100)/totalLinks
+                remaining_display = 'Shows loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
+                dialogWait.update(percent,'[B]Will load instantly from now on[/B]',remaining_display)
+                if (dialogWait.iscanceled()):
+                        return False
+                addInfo2(name,url,507,'','')
+        GA("None","MostPOP-list")
+        xbmcplugin.setContent(int(sys.argv[1]), 'tvshows')
+
+        
+                
+def LISTSeason(mname,murl):
+        link=OPENURL(murl)
+        mname=mname.replace('Vampire Diaries','The Vampire Diaries')
+
+        match=re.compile('<h4><a href="#(.+?)">(.+?)</a></h4>\n').findall(link)
+        for num,name in match:
+                mname=mname.replace(' [COLOR red]Recently Updated[/COLOR]','').replace('.','').replace('M.D.','').replace('<span class="updated">Updated!</span>','')
+                mname= mname.replace('-','').replace('-2012','').replace('acute;','').replace('Vampire Diaries','The Vampire Diaries').replace('Comedy Central Roast','Comedy Central Roasts')
+                mname= mname.replace('Doctor Who  2005','Doctor Who').replace(' (US)','(US)').replace(' (UK)','(UK)').replace(' (AU)','(AU)').replace('%','')
+                if selfAddon.getSetting("meta-view") == "true":
+                        cover = grab.get_seasons(mname, None, num, overlay=6)
+                        covers= re.compile("cover_url.+?'(.+?)'").findall(str(cover))
+                        for thumb in covers:
+                                print thumb
+                else:
+                        thumb=''
+                addDir(name,murl+'xoxc'+mname+'xoxc'+num+'xoxc',508,str(thumb))
+        xbmcplugin.setContent(int(sys.argv[1]), 'tvshows')
+        if selfAddon.getSetting('auto-view') == 'true':
+                xbmc.executebuiltin("Container.SetViewMode(%s)" % selfAddon.getSetting('seasons-view'))          
+
+def LISTEpilist(name,murl):
+        match=re.compile('http://watch-freeseries.mu/tv/.+?/.+?xoxc(.+?)xoxc(.+?)xoxc').findall(murl)
+        for showname, sea in match:
+                season=sea
+                murl=murl.replace('xoxc'+sea+'xoxc','').replace(str(showname),'').replace('xoxc','')
+        link=OPENURL(murl)
+        match2=re.compile(r'\d+').findall(name)
+        for num in match2:
+                x=str(num)
+        match=re.compile('class="link-name" href="(.+?)/season/'+x+'/(.+?)">(.+?)</a></td>\n').findall(link)
+        for url,url2,name in match:
+                url=url+'/season/'+x+'/'+url2
+                name =name +'xoxc'
+                match=re.compile('Episode (.+?) - (.+?)xoxc').findall(name)
+                for epinum, epiname in match:
+                        print epinum
+
+                data=str(showname)+'xoxc'+str(season)+'xoxc'+str(epinum)+'xoxc'+str(epiname)+'xoxc'
+                name=name.replace('xoxc','')
+                addEpi(name,url,503,'',data)
+        xbmcplugin.setContent(int(sys.argv[1]), 'episodes')
+        if selfAddon.getSetting('auto-view') == 'true':
+                xbmc.executebuiltin("Container.SetViewMode(%s)" % selfAddon.getSetting('episodes-view'))        
+        
+def SEARCHWFS():
+        keyb = xbmc.Keyboard('', 'Search For Shows or Episodes')
+        keyb.doModal()
+        if (keyb.isConfirmed()):
+                search = keyb.getText()
+                encode=urllib.quote(search)
+                surl='http://watch-freeseries.mu/index.php?action=episodes_ajaxQuickSearchSuggest&limit=10&keywords='+encode
+                req = urllib2.Request(surl)
+                req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+                response = urllib2.urlopen(req)
+                link=response.read()
+                response.close()
+                match=re.compile('{"id":.+?,"label":".+?","value":"(.+?)","modrwName":"(.+?)"}').findall(link)
+                for name,url in match:
+                        url=url.replace('\/','/')
+                        match=re.compile('season').findall(url)
+                        if (len(match)>0):
+                            addDir(name,url,503,'')
+                        else:
+                            addInfo2(name,url,507,'','')
+        GA("None","Search")
+
+def GETLINKWFS(url):
+        link=OPENURL(url)
+        match=re.compile('<br>\n        <a href="(.+?)" title="" class=".+?"').findall(link)
+        for url in match:
+                return url   
+
+def VIDEOLINKSWFS(name,url):
+        GA("WSF","Watched")
+        sources = []
+        link=OPENURL(url)
+        xbmc.executebuiltin("XBMC.Notification(Please Wait!,Collecting hosts,3000)")
+        match=re.compile('<td width=".+?"><p><a href="(.+?)" target="_blank">putlocker.com</a></p></td>').findall(link)
+        for url in match:
+                url=GETLINKWFS(url)
+                host='Putlocker'
+                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
+                sources.append(hosted_media)
+        match=re.compile('<td width=".+?"><p><a href="(.+?)" target="_blank">sockshare.com</a></p></td>').findall(link)
+        for url in match:
+                url=GETLINKWFS(url)
+                host='Sockshare'
+                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
+                sources.append(hosted_media)
+        match=re.compile('<td width=".+?"><p><a href="(.+?)" target="_blank">flashx.tv</a></p></td>').findall(link)
+        for url in match:
+                url=GETLINKWFS(url)
+                host='Flashx'
+                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
+                sources.append(hosted_media)
+        match=re.compile('<td width=".+?"><p><a href="(.+?)" target="_blank">180upload.com</a></p></td>').findall(link)
+        for url in match:
+                url=GETLINKWFS(url)
+                host='180upload'
+                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
+                sources.append(hosted_media)
+        match=re.compile('<td width=".+?"><p><a href="(.+?)" target="_blank">nowvideo.eu</a></p></td>').findall(link)
+        for url in match:
+                url=GETLINKWFS(url)
+                host='Nowvideo'
+                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
+                sources.append(hosted_media)
+        match=re.compile('<td width=".+?"><p><a href="(.+?)" target="_blank">filenuke.com</a></p></td>').findall(link)
+        for url in match:
+                url=GETLINKWFS(url)
+                host='Filenuke'
+                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
+                sources.append(hosted_media)
+        match=re.compile('<td width=".+?"><p><a href="(.+?)" target="_blank">videoweed.es</a></p></td>').findall(link)
+        for url in match:
+                url=GETLINKWFS(url)
+                host='Videoweed'
+                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
+                sources.append(hosted_media)
+        match=re.compile('<td width=".+?"><p><a href="(.+?)" target="_blank">novamov.com</a></p></td>').findall(link)
+        for url in match:
+                url=GETLINKWFS(url)
+                host='Novamov'
+                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
+                sources.append(hosted_media)
+        """match=re.compile('<td width=".+?"><p><a href="(.+?)" target="_blank">vidbux.com</a></p></td>').findall(link)
+        for url in match:
+                url=GETLINKWFS(url)
+                host='Vidbux'
+                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
+                sources.append(hosted_media)
+        match=re.compile('<td width=".+?"><p><a href="(.+?)" target="_blank">vidxden.com</a></p></td>').findall(link)
+        for url in match:
+                url=GETLINKWFS(url)
+                host= 'Vidxden'
+                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
+                sources.append(hosted_media)"""
+                
+        if (len(sources)==0):
+                xbmc.executebuiltin("XBMC.Notification(Sorry!,Show doesn't have playable links,5000)")
+      
+        else:
+                source = urlresolver.choose_source(sources)
+                if source:
+                        stream_url = source.resolve()
+                        if source.resolve()==False:
+                                xbmc.executebuiltin("XBMC.Notification(Sorry!,Link Cannot Be Resolved,5000)")
+                                return
+                else:
+                      stream_url = False
+                      return
+                listitem = xbmcgui.ListItem(name, iconImage="DefaultVideo.png")
+                listitem.setInfo('video', {'Title': name, 'Year': ''} )       
+                xbmc.Player().play(stream_url, listitem)
+                addDir('','','','')
+############################################################################################ WFS ENDS ##############################################################################
 
 def VIDEOLINKS(name,url):
         link=OPENURL(url)
@@ -1972,8 +2376,8 @@ def LINKDOC(mname,murl):
         xbmcPlayer.play(playlist)
         addDir('','','','')
 
-    match=re.compile('topdocumentaryfilms').findall(murl)
-    if (len(match)>0):
+    match2=re.compile('topdocumentaryfilms').findall(murl)
+    if (len(match2)>0):
         sources=[]
         GA("TopDocumentaryFilms","Watched")
         playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
@@ -2037,7 +2441,68 @@ def LINKDOC(mname,murl):
         xbmcPlayer = xbmc.Player()
         xbmcPlayer.play(playlist)
         addDir('','','','')
+
+    match3=re.compile('documentary-log.com').findall(murl)
+    if (len(match3)>0):        
+
+        GA("Documentary-Log","Watched")
+        playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+        playlist.clear()
+        link=OPENURL(murl)
+        link=link.replace('src="http://cdn.tdfimg.com/wp-content/uploads','')
+        match=re.compile('src="(.+?)" .+?></iframe>').findall(link)
+        if (len(match)==0):
+            link=link.replace('src="http://www.documentary-log.com/wp-cont','')
+            match=re.compile('src="(.+?)" .+?/>').findall(link)
+        for url in match:
+            match4=re.compile('vimeo').findall(url)
+            if (len(match4)>0):
+                url=url.replace('?title=0&amp;byline=0&amp;portrait=0','')
+                url=url.replace('http://player.vimeo.com/video','http://vimeo.com')
+            match5=re.compile('dailymotion').findall(url)
+            if (len(match5)>0):
+                url=url.replace('http://www.dailymotion.com/embed/video','http://www.dailymotion.com/video')
+            match7=re.compile('google').findall(url)
+            if (len(match7)>0):
+                xbmc.executebuiltin("XBMC.Notification(Sorry!,link down,3000)")
+                return
+            match6=re.compile('youtube').findall(url)
+            if (len(match6)>0):
+                match=re.compile('http://www.youtube.com/embed/n_(.+?).?rel=0&amp;iv_load_policy=3').findall(url)
+                if (len(match)>0):
+                    url='http://www.youtube.com/watch?feature=player_embedded&v=n_'+match[0]
+                else:
+                    match=re.compile('http://www.youtube.com/embed/(.+?).?rel=0&amp;iv_load_policy=3').findall(url)
+                    if (len(match)>0):
+                        url='http://www.youtube.com/watch?feature=player_embedded&v='+match[0]
+                    match2=re.compile('videoseries').findall(url)
+                    if (len(match2)>0):
+                        link2=OPENURL(url)
+                        match2=re.compile('href="/watch.?v=(.+?)"').findall(link2)
+                        match3=re.compile("http://www.youtube.com/embed/videoseries.?list=(.+?)&amp;iv_load_policy=3").findall(url)
+                        print match3
+                        url='http://www.youtube.com/watch?v='+match2[0]
+                               
+                    else:
+                        url=url.replace('?rel=0','')
         
+        print "vlink " +str(url)
+        media = urlresolver.HostedMediaFile(str(url))
+        source = media
+        listitem = xbmcgui.ListItem(mname)
+        if source:
+                xbmc.executebuiltin("XBMC.Notification(Please Wait!,Resolving Link,3000)")
+                stream_url = source.resolve()
+                if source.resolve()==False:
+                        xbmc.executebuiltin("XBMC.Notification(Sorry!,Link Cannot Be Resolved,5000)")
+                        return
+        else:
+              stream_url = False
+        
+        playlist.add(stream_url,listitem)
+        xbmcPlayer = xbmc.Player()
+        xbmcPlayer.play(playlist)
+        addDir('','','','')
 
         
 def LOAD_AND_PLAY_VIDEO(url,name):
@@ -3032,7 +3497,14 @@ def addDir(name,url,mode,iconimage):
         liz.setInfo( type="Video", infoLabels={ "Title": name } )
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
         return ok
-
+    
+def addDir2(name,url,mode,iconimage,desc):
+        u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
+        ok=True
+        liz=xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=iconimage)
+        liz.setInfo( type="Video", infoLabels={ "Title": name, "Plot": desc } )
+        ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
+        return ok
 
 def addSport(name,url,mode,iconimage,desc,dur,gen):
         u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
@@ -3069,6 +3541,26 @@ def addInfo(name,url,mode,iconimage,gen,year):
         liz=xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=infoLabels['cover_url'])
         liz.addContextMenuItems( Commands )
         liz.setInfo( type="Video", infoLabels = infoLabels)
+        liz.setProperty('fanart_image', infoLabels['backdrop_url'])
+        ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
+        return ok
+
+def addInfo2(name,url,mode,iconimage,plot):
+        ok=True
+        u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
+        infoLabels = GETMETAShow(name,iconimage)
+        liz=xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=infoLabels['cover_url'])
+        liz.setInfo( type="Video", infoLabels=infoLabels)
+        liz.setProperty('fanart_image', infoLabels['backdrop_url'])
+        ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
+        return ok
+    
+def addEpi(name,url,mode,iconimage,data):
+        ok=True
+        u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
+        infoLabels = GETMETAEpi(name,data)
+        liz=xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=infoLabels['cover_url'])
+        liz.setInfo( type="Video", infoLabels=infoLabels)
         liz.setProperty('fanart_image', infoLabels['backdrop_url'])
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
         return ok
@@ -3472,5 +3964,55 @@ elif mode==100:
         
 elif mode==101:
         SEARCHNEW(url)
+
+elif mode==500:
+        TVAll()        
+
+elif mode==501:
+        MAINWFS()
         
+elif mode==528:
+        print ""+url
+        LISTEpi(url)
+
+elif mode==506:
+        print ""+url
+        LISTShows(url)
+
+elif mode==507:
+        print ""+url
+        LISTSeason(name,url)
+
+elif mode==508:
+        print ""+url
+        LISTEpilist(name,url)
+
+elif mode==511:
+        print ""+url
+        LISTPop(url)
+
+elif mode==502:
+        print ""+url
+        GENREWFS(url)
+
+elif mode==504:
+        print ""+url
+        SEARCHWFS()
+
+elif mode==503:
+        print ""+url
+        VIDEOLINKSWFS(name,url)
+
+elif mode==505:
+        print ""+url
+        YEARWFS()
+        
+        
+elif mode==510:
+        print ""+url
+        AtoZWFS()
+        
+elif mode==527:
+        print ""+url
+        GetMetAll()
 xbmcplugin.endOfDirectory(int(sys.argv[1]))
