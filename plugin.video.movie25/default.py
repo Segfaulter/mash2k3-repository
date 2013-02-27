@@ -13,8 +13,8 @@ Mainurl ='http://www.movie25.com/movies/'
 addon_id = 'plugin.video.movie25'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 grab = metahandlers.MetaData(preparezip = False)
-addon = Addon('plugin.video.movie25', sys.argv)
-
+addon = Addon(addon_id)
+datapath = addon.get_profile()
 #datapath = os.path.join(xbmc.translatePath('special://profile/addon_data/' + addon_id), '')
 if selfAddon.getSetting('visitor_ga')=='':
     from random import randint
@@ -35,8 +35,11 @@ def OPENURL(url):
         return link
 
 def FAVS():
-        if os.path.exists("%s/resources/Favs"%selfAddon.getAddonInfo('path')):
-                Favs=re.compile('url="(.+?)",name="(.+?)"').findall(open('%s/resources/Favs'%selfAddon.getAddonInfo('path'),'r').read())
+        favpath=os.path.join(datapath,'Favourites')
+        moviefav=os.path.join(favpath,'Movies')
+        FavFile=os.path.join(moviefav,'Fav')
+        if os.path.exists(FavFile):
+                Favs=re.compile('url="(.+?)",name="(.+?)"').findall(open(FavFile,'r').read())
                 for url,mname in Favs:
                         namelen=len(mname)
                         nam= namelen- 5
@@ -596,6 +599,8 @@ def LISTMOVIES(murl):
                         return False   
         dialogWait.close()
         del dialogWait
+        
+        GA("None","Movie25-list")
         paginate=re.compile('http://www.movie25.com/movies/.+?/index-(.+?).html').findall(murl)
        
         if (len(paginate) == 0):
@@ -608,10 +613,9 @@ def LISTMOVIES(murl):
                         xurl = Mainurl + str(section) + '/' + 'index-'+ str (pg) + '.html'
                 addDir('[COLOR red]Home[/COLOR]','',0,"%s/art/home.png"%selfAddon.getAddonInfo("path"))
                 addDir('[COLOR blue]Page '+ str(pg)+'[/COLOR]',xurl,1,"%s/art/next2.png"%selfAddon.getAddonInfo("path"))
+        
         xbmcplugin.setContent(int(sys.argv[1]), 'Movies')
         VIEWS()
-        GA("None","Movie25-list")
-        
 def LISTSP(murl): 
         urllist=['http://oneclickwatch.org/category/movies/','http://oneclickwatch.org/category/movies/page/2/','http://oneclickwatch.org/category/movies/page/3/','http://oneclickwatch.org/category/movies/page/4/','http://oneclickwatch.org/category/movies/page/5/','http://oneclickwatch.org/category/movies/page/6/','http://oneclickwatch.org/category/movies/page/7/','http://oneclickwatch.org/category/movies/page/8/','http://oneclickwatch.org/category/movies/page/9/','http://oneclickwatch.org/category/movies/page/10/','http://oneclickwatch.org/category/movies/page/11/','http://oneclickwatch.org/category/movies/page/12/']
         dialogWait = xbmcgui.DialogProgress()
@@ -1445,7 +1449,7 @@ def LISTTV4(murl):
         GA("TV","Rlsmix")
         
 ############################################################################################ WFS BEGINS ##############################################################################
-def GETMETAShow(mname,thumb): 
+def GETMETAShow(mname): 
         if selfAddon.getSetting("meta-view") == "true":
                 name=mname.replace(' [COLOR red]Recently Updated[/COLOR]','').replace('.','').replace('M.D.','').replace('<span class="updated">Updated!</span>','')    
                 year=''
@@ -1473,7 +1477,7 @@ def GETMETAShow(mname,thumb):
                 if infoLabels['cover_url']=='':
                         infoLabels['cover_url']=thumb
         else:
-                infoLabels = {'title': mname,'cover_url': thumb,'backdrop_url': ''}
+                infoLabels = {'title': mname,'cover_url': "%s/art/folder.png"%selfAddon.getAddonInfo("path"),'backdrop_url': ''}
         return infoLabels
 
 def GETMETAEpi(mname,data):
@@ -1667,6 +1671,7 @@ def LISTPop(murl):
         
                 
 def LISTSeason(mname,murl):
+        GA("WFS","Sea-list")
         link=OPENURL(murl)
         mname=mname.replace('Vampire Diaries','The Vampire Diaries')
 
@@ -1686,8 +1691,9 @@ def LISTSeason(mname,murl):
         xbmcplugin.setContent(int(sys.argv[1]), 'tvshows')
         if selfAddon.getSetting('auto-view') == 'true':
                 xbmc.executebuiltin("Container.SetViewMode(%s)" % selfAddon.getSetting('seasons-view'))          
-        GA("WFS","Sea-list")
+        
 def LISTEpilist(name,murl):
+        GA("WFS","Epi-list")
         match=re.compile('http://watch-freeseries.mu/tv/.+?/.+?xoxc(.+?)xoxc(.+?)xoxc').findall(murl)
         for showname, sea in match:
                 season=sea
@@ -1710,7 +1716,7 @@ def LISTEpilist(name,murl):
         xbmcplugin.setContent(int(sys.argv[1]), 'episodes')
         if selfAddon.getSetting('auto-view') == 'true':
                 xbmc.executebuiltin("Container.SetViewMode(%s)" % selfAddon.getSetting('episodes-view'))        
-        GA("WFS","Epi-list")
+        
 def SEARCHWFS():
         keyb = xbmc.Keyboard('', 'Search For Shows or Episodes')
         keyb.doModal()
@@ -3781,7 +3787,7 @@ def addDir(name,url,mode,iconimage):
         ok=True
         liz=xbmcgui.ListItem(name, iconImage="%s/art/vidicon.png"%selfAddon.getAddonInfo("path"), thumbnailImage=iconimage)
         liz.setInfo( type="Video", infoLabels={ "Title": name } )
-        ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
+        ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=mode!=2)
         return ok
     
 def addDir2(name,url,mode,iconimage,desc):
@@ -3834,7 +3840,7 @@ def addInfo(name,url,mode,iconimage,gen,year):
 def addInfo2(name,url,mode,iconimage,plot):
         ok=True
         u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
-        infoLabels = GETMETAShow(name,iconimage)
+        infoLabels = GETMETAShow(name)
         liz=xbmcgui.ListItem(name, iconImage="%s/art/vidicon.png"%selfAddon.getAddonInfo("path"), thumbnailImage=infoLabels['cover_url'])
         liz.setInfo( type="Video", infoLabels=infoLabels)
         liz.setProperty('fanart_image', infoLabels['backdrop_url'])

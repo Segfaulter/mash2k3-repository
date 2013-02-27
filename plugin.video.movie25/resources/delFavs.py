@@ -1,23 +1,31 @@
 import urllib,urllib2,re,cookielib,xbmcplugin,xbmcgui,xbmcaddon,time,socket,string,os,shutil
+from t0mm0.common.addon import Addon
 
 #SET DIRECTORIES
-selfAddon=xbmcaddon.Addon(id='plugin.video.movie25')
+addon_id = 'plugin.video.movie25'
+selfAddon = xbmcaddon.Addon(id=addon_id)
+addon = Addon(addon_id)
+datapath = addon.get_profile()
+
+favpath=os.path.join(datapath,'Favourites')
+moviefav=os.path.join(favpath,'Movies')
+FavFile=os.path.join(moviefav,'Fav') 
 
 def delFAVS(url,title):
-    Favs=re.compile('url="(.+?)",name="(.+?)"').findall(open('%s/resources/Favs'%selfAddon.getAddonInfo('path'),'r').read())
+    Favs=re.compile('url="(.+?)",name="(.+?)"').findall(open(FavFile,'r').read())
     if not str(Favs).find(title):
         xbmc.executebuiltin("XBMC.Notification([B][COLOR green]Movie25[/COLOR][/B],[B][COLOR orange]"+title+"[/COLOR]not in Favourites.[/B],1000,"")")
     if len(Favs)<=1 and str(Favs).find(title):
-        os.remove("%s/resources/Favs"%selfAddon.getAddonInfo('path'))
+        os.remove(FavFile)
         xbmc.executebuiltin("Container.Refresh")
-    if os.path.exists("%s/resources/Favs"%selfAddon.getAddonInfo('path')):
+    if os.path.exists(FavFile):
         for url,name in reversed(Favs):
             if title == name:
                 Favs.remove((url,name))
-                os.remove("%s/resources/Favs"%selfAddon.getAddonInfo('path'))
+                os.remove(FavFile)
                 for url,name in Favs:
                     try:
-                        open("%s/resources/Favs"%selfAddon.getAddonInfo('path'),'a').write('url="%s",name="%s"'%(url,name))
+                        open(FavFile,'a').write('url="%s",name="%s"'%(url,name))
                         xbmc.executebuiltin("Container.Refresh")
                         xbmc.executebuiltin("XBMC.Notification([B][COLOR orange]"+title+"[/COLOR][/B],[B]Removed from Favourites[/B],1000,"")")
                     except: pass
