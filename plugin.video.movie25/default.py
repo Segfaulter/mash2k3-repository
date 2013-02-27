@@ -55,6 +55,55 @@ def FAVS():
                 VIEWS()
         else: xbmc.executebuiltin("XBMC.Notification([B][COLOR green]Movies25[/COLOR][/B],[B]You Have No Saved Favourites[/B],5000,"")")
         GA("None","Fav")
+
+def VIEWS():
+        if selfAddon.getSetting("auto-view") == "true":
+                if selfAddon.getSetting("choose-skin") == "true":
+                        if selfAddon.getSetting("con-view") == "0":
+                                xbmc.executebuiltin("Container.SetViewMode(50)")
+                        elif selfAddon.getSetting("con-view") == "1":
+                                xbmc.executebuiltin("Container.SetViewMode(51)")
+                        elif selfAddon.getSetting("con-view") == "2":
+                                xbmc.executebuiltin("Container.SetViewMode(500)")
+                        elif selfAddon.getSetting("con-view") == "3":
+                                xbmc.executebuiltin("Container.SetViewMode(501)")
+                        elif selfAddon.getSetting("con-view") == "4":
+                                xbmc.executebuiltin("Container.SetViewMode(508)")
+                        elif selfAddon.getSetting("con-view") == "5":
+                                xbmc.executebuiltin("Container.SetViewMode(504)")
+                        elif selfAddon.getSetting("con-view") == "6":
+                                xbmc.executebuiltin("Container.SetViewMode(503)")
+                        elif selfAddon.getSetting("con-view") == "7":
+                                xbmc.executebuiltin("Container.SetViewMode(515)")
+                        return
+                elif selfAddon.getSetting("choose-skin") == "false":
+                        if selfAddon.getSetting("xpr-view") == "0":
+                                xbmc.executebuiltin("Container.SetViewMode(50)")
+                        elif selfAddon.getSetting("xpr-view") == "1":
+                                xbmc.executebuiltin("Container.SetViewMode(52)")
+                        elif selfAddon.getSetting("xpr-view") == "2":
+                                xbmc.executebuiltin("Container.SetViewMode(501)")
+                        elif selfAddon.getSetting("xpr-view") == "3":
+                                xbmc.executebuiltin("Container.SetViewMode(55)")
+                        elif selfAddon.getSetting("xpr-view") == "4":
+                                xbmc.executebuiltin("Container.SetViewMode(54)")
+                        elif selfAddon.getSetting("xpr-view") == "5":
+                                xbmc.executebuiltin("Container.SetViewMode(60)")
+                        elif selfAddon.getSetting("xpr-view") == "6":
+                                xbmc.executebuiltin("Container.SetViewMode(53)")
+                        return
+        else:
+                return
+
+def VIEWSB():
+        if selfAddon.getSetting("auto-view") == "true":
+                        if selfAddon.getSetting("home-view") == "0":
+                                xbmc.executebuiltin("Container.SetViewMode(50)")
+                        elif selfAddon.getSetting("home-view") == "1":
+                                xbmc.executebuiltin("Container.SetViewMode(500)")
+
+                        return
+        
 def AtoZ():
         addDir('0-9','http://www.movie25.com/movies/0-9/',1,"%s/art/09.png"%selfAddon.getAddonInfo("path"))
         for i in string.ascii_uppercase:
@@ -75,11 +124,11 @@ def MAIN():
         addDir('3D Movies','3D',34,"%s/art/3d.png"%selfAddon.getAddonInfo("path"))
         addDir('International','http://www.movie25.com/',36,"%s/art/intl.png"%selfAddon.getAddonInfo("path"))
         addDir('TV Latest','http://www.movie25.com/',27,"%s/art/tv2.png"%selfAddon.getAddonInfo("path"))
-        addDir('TV All','http://www.movie25.com/',500,"%s/art/tv2.png"%selfAddon.getAddonInfo("path"))
+        addDir('Built in Plugins','http://www.movie25.com/',500,"%s/art/plugins.png"%selfAddon.getAddonInfo("path"))
         addDir('Sports','http://www.movie25.com/',43,"%s/art/sportsec2.png"%selfAddon.getAddonInfo("path"))
         addDir('Adventure','http://www.movie25.com/',63,"%s/art/adv2.png"%selfAddon.getAddonInfo("path"))
-        addDir('Kids Zone','http://www.movie25.com/',76,"%s/art/kidz.png"%selfAddon.getAddonInfo("path"))
-        addDir('Documentaries','http://www.movie25.com/',85,"%s/art/kidz.png"%selfAddon.getAddonInfo("path"))
+        addDir('Kids Zone','http://www.movie25.com/',76,"%s/art/kidzone2.png"%selfAddon.getAddonInfo("path"))
+        addDir('Documentaries','http://www.movie25.com/',85,"%s/art/docsec2.png"%selfAddon.getAddonInfo("path"))
         addDir('Resolver Settings','http://www.movie25.com/',99,"%s/art/resset.png"%selfAddon.getAddonInfo("path"))
         addDir('Select Me','http://www.movie25.com/',100,"%s/art/mash.png"%selfAddon.getAddonInfo("path"))
         VIEWSB()
@@ -121,8 +170,23 @@ def YEAR():
         addDir('2005','http://www.movie25.com/search.php?year=2005/',8,"%s/art/2005.png"%selfAddon.getAddonInfo("path"))
         addDir('2004','http://www.movie25.com/search.php?year=2004/',8,"%s/art/2004.png"%selfAddon.getAddonInfo("path"))
         addDir('2003','http://www.movie25.com/search.php?year=2003/',8,"%s/art/2003.png"%selfAddon.getAddonInfo("path"))
+        addDir('Enter Year','http://www.movie25.com',23,"%s/art/enteryear.png"%selfAddon.getAddonInfo("path"))
         GA("None","Year")
         VIEWSB()
+
+def ENTYEAR():
+        keyb = xbmc.Keyboard('', 'Search Movies')
+        keyb.doModal()
+        if (keyb.isConfirmed()):
+                search = keyb.getText()
+                encode=urllib.quote(search)
+                if encode < '2014' and encode > '1900':
+                     surl='http://www.movie25.com/search.php?year='+encode+'/'
+                     YEARB(surl)
+                else:
+                    dialog = xbmcgui.Dialog()
+                    ret = dialog.ok('Wrong Entry', 'Must enter year in four digit format like 1999','Enrty must be between 1900 and 2014')
+    
 def TV():
         addDir('Latest Episodes (Newmyvideolinks) True HD','TV',34,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
         addDir('Latest Episodes (Rlsmix)[COLOR red](Real Debrid Only)[/COLOR] True HD','TV',61,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
@@ -132,9 +196,9 @@ def TV():
         GA("None","TV-Latest")
         
 def TVAll():
-        addDir('Watch-Free Series','TV',501,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
-        addDir('Series Gate','TV',601,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
-        GA("None","TV-All")
+        addDir('Watch-Free Series','TV',501,"%s/art/wfs/wsf.png"%selfAddon.getAddonInfo("path"))
+        addDir('Series Gate','TV',601,"%s/art/wfs/sg.png"%selfAddon.getAddonInfo("path"))
+        GA("None","Plugin")
 
 def HD():
         addDir('Latest HD Movies (Newmyvideolinks) True HD','http://newmyvideolinks.com/category/movies/bluray/',34,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
@@ -190,10 +254,10 @@ def UFC():
 def ADVENTURE():
         addDir('Discovery Channel','discovery',631,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
         addDir('National Geographic','ng',70,"%s/art/natgeo.png"%selfAddon.getAddonInfo("path"))
-        addDir('Military Channel','discovery',80,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
-        addDir('Science Channel','discovery',81,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
-        addDir('Velocity Channel','discovery',82,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
-        addDir('Animal Planet','discovery',83,"%s/art/disco.png"%selfAddon.getAddonInfo("path"))
+        addDir('Military Channel','discovery',80,"%s/art/milcha.png"%selfAddon.getAddonInfo("path"))
+        addDir('Science Channel','discovery',81,"%s/art/scicha.png"%selfAddon.getAddonInfo("path"))
+        addDir('Velocity Channel','discovery',82,"%s/art/velo.png"%selfAddon.getAddonInfo("path"))
+        addDir('Animal Planet','discovery',83,"%s/art/anip.png"%selfAddon.getAddonInfo("path"))
         GA("None","Adventure")
         
 def DISC():
@@ -354,36 +418,36 @@ def VELO():
 def KIDZone(murl):
     addDir('National Geographic Kids','ngk',71,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
     addDir('WB Kids','wbk',77,"%s/art/wb.png"%selfAddon.getAddonInfo("path"))
-    addDir('Youtube Kids','wbk',84,"%s/art/wb.png"%selfAddon.getAddonInfo("path"))
+    addDir('Youtube Kids','wbk',84,"%s/art/youkids.png"%selfAddon.getAddonInfo("path"))
     GA("None","KidZone")
     VIEWSB()
     
 def YOUKIDS():
-    addDir('Sesame Street','sesamestreet',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
-    addDir('Yo Gabba Gabba!','yogabbagabba',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
-    addDir('Houston Zoo','houstonzoo',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
-    addDir('Simple Kids Crafts','simplekidscrafts',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
-    addDir('Cartoon Network','cartoonnetwork',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
-    addDir('Muppets Studio','MuppetsStudio',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
-    addDir('Word World PBS','WordWorldPBS',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
-    addDir('Big Red Hat Kids','bigredhatkids',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
-    addDir('Baby Einstein','TerrapinStation5',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
-    addDir('Activity Village','activityv',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
-    addDir('Hoopla Kids','hooplakidz',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
-    addDir('4KidsTV','4KidsTV',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
-    addDir('School House Rock Kids','MrRiggyRiggs',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
-    addDir('Arthur','MsArthurTV',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
-    addDir('POCOYO','pocoyotv',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
-    addDir('Disney jr','disneyjunior',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
-    addDir('Mickey Mouse','MickeyMouseCartoon',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
-    addDir('Tom and Jerry','TheTomEJerryShow',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
-    addDir('Dora','TheDoraTheExplorerHD',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
-    addDir('SpongeBob','Spongebob4Children',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
-    addDir('Curious George','ngk',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
-    addDir('Kids Camp','kidscamp',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
-    addDir('Timon and Pumbaa','timonandpumbaa1',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
-    addDir('Dragon Tales','DejectedDragon',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
-    addDir('Aladdin','aladdinvids',47,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
+    addDir('Sesame Street','sesamestreet',47,"%s/art/youkids.png"%selfAddon.getAddonInfo("path"))
+    addDir('Yo Gabba Gabba!','yogabbagabba',47,"%s/art/youkids.png"%selfAddon.getAddonInfo("path"))
+    addDir('Houston Zoo','houstonzoo',47,"%s/art/youkids.png"%selfAddon.getAddonInfo("path"))
+    addDir('Simple Kids Crafts','simplekidscrafts',47,"%s/art/youkids.png"%selfAddon.getAddonInfo("path"))
+    addDir('Cartoon Network','cartoonnetwork',47,"%s/art/youkids.png"%selfAddon.getAddonInfo("path"))
+    addDir('Muppets Studio','MuppetsStudio',47,"%s/art/youkids.png"%selfAddon.getAddonInfo("path"))
+    addDir('Word World PBS','WordWorldPBS',47,"%s/art/youkids.png"%selfAddon.getAddonInfo("path"))
+    addDir('Big Red Hat Kids','bigredhatkids',47,"%s/art/youkids.png"%selfAddon.getAddonInfo("path"))
+    addDir('Baby Einstein','TerrapinStation5',47,"%s/art/youkids.png"%selfAddon.getAddonInfo("path"))
+    addDir('Activity Village','activityv',47,"%s/art/youkids.png"%selfAddon.getAddonInfo("path"))
+    addDir('Hoopla Kids','hooplakidz',47,"%s/art/youkids.png"%selfAddon.getAddonInfo("path"))
+    addDir('4KidsTV','4KidsTV',47,"%s/art/youkids.png"%selfAddon.getAddonInfo("path"))
+    addDir('School House Rock Kids','MrRiggyRiggs',47,"%s/art/youkids.png"%selfAddon.getAddonInfo("path"))
+    addDir('Arthur','MsArthurTV',47,"%s/art/youkids.png"%selfAddon.getAddonInfo("path"))
+    addDir('POCOYO','pocoyotv',47,"%s/art/youkids.png"%selfAddon.getAddonInfo("path"))
+    addDir('Disney jr','disneyjunior',47,"%s/art/youkids.png"%selfAddon.getAddonInfo("path"))
+    addDir('Mickey Mouse','MickeyMouseCartoon',47,"%s/art/youkids.png"%selfAddon.getAddonInfo("path"))
+    addDir('Tom and Jerry','TheTomEJerryShow',47,"%s/art/youkids.png"%selfAddon.getAddonInfo("path"))
+    addDir('Dora','TheDoraTheExplorerHD',47,"%s/art/youkids.png"%selfAddon.getAddonInfo("path"))
+    addDir('SpongeBob','Spongebob4Children',47,"%s/art/youkids.png"%selfAddon.getAddonInfo("path"))
+    addDir('Curious George','ngk',47,"%s/art/youkids.png"%selfAddon.getAddonInfo("path"))
+    addDir('Kids Camp','kidscamp',47,"%s/art/youkids.png"%selfAddon.getAddonInfo("path"))
+    addDir('Timon and Pumbaa','timonandpumbaa1',47,"%s/art/youkids.png"%selfAddon.getAddonInfo("path"))
+    addDir('Dragon Tales','DejectedDragon',47,"%s/art/youkids.png"%selfAddon.getAddonInfo("path"))
+    addDir('Aladdin','aladdinvids',47,"%s/art/youkids.png"%selfAddon.getAddonInfo("path"))
     GA("KidZone","YoutubeKids")
     VIEWSB()
     
@@ -447,9 +511,9 @@ def WB():
         GA("KidZone","WBK")
 
 def DOCS():
-        addDir('Documentary Heaven','doc1',86,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/LooneyTunes_video.jpg')
-        addDir('Top Documentary Films','doc2',86,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/LooneyTunes_video.jpg')
-        addDir('Documentary Log','doc3',86,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/ShaggyScoobyGetAClue_video.jpg')
+        addDir('Documentary Heaven','doc1',86,"%s/art/dh.png"%selfAddon.getAddonInfo("path"))
+        addDir('Top Documentary Films','doc2',86,"%s/art/topdoc.png"%selfAddon.getAddonInfo("path"))
+        addDir('Documentary Log','doc3',86,"%s/art/doclog.png"%selfAddon.getAddonInfo("path"))
         addDir('Documentaries (Movie25)','http://www.movie25.com/movies/documentary/',1,"%s/art/doc.png"%selfAddon.getAddonInfo("path"))
         GA("None","Documentary")
 
@@ -1010,6 +1074,7 @@ def LISTWB(murl):
 
 def LISTDOC(murl):
     if murl=='doc1':
+        GA("Documantary","DhHome")
         addDir('[COLOR red]Search[/COLOR]','search',89,'')
         addDir('[COLOR red]Popular[/COLOR]','http://documentaryheaven.com/popular/',89,'')
         addDir('[COLOR red]Recent[/COLOR]','http://documentaryheaven.com/all/',87,'')
@@ -1019,6 +1084,7 @@ def LISTDOC(murl):
         for url, name in match:
             addDir(name,url,87,'')
     elif murl=='doc2':
+        GA("Documantary","TDFHome")
         addDir('[COLOR red]Recent[/COLOR]','http://topdocumentaryfilms.com/all/',87,'')
         addDir('[COLOR red]Recommended[/COLOR]','rec',89,'')
         url='http://topdocumentaryfilms.com/'
@@ -1027,6 +1093,7 @@ def LISTDOC(murl):
         for url, name in match:
             addDir(name,url,87,'')
     elif murl=='doc3':
+        GA("Documantary","DLHome")
         addDir('[COLOR red]Latest[/COLOR]','http://www.documentary-log.com/',87,'')
         addDir("[COLOR red]Editor's Picks[/COLOR]",'http://www.documentary-log.com/category/editors-picks/',87,'')
         url='http://www.documentary-log.com/'
@@ -1038,6 +1105,7 @@ def LISTDOC(murl):
 def LISTDOC2(murl):
     match=re.compile('documentaryheaven').findall(murl)
     if (len(match)>0):
+        GA("DhHome","Dh-List")
         link=OPENURL(murl)
         match=re.compile('<a href="(.+?)" title="" rel=".+?"><img class=".+?" src="(.+?)" alt="(.+?)".+?</a>\n                            </div>     \n                            <div id="postDis">\n                            \t(.+?)[...]').findall(link)
         if (len(match)==0):
@@ -1058,6 +1126,7 @@ def LISTDOC2(murl):
     match2=re.compile('topdocumentaryfilms').findall(murl)
     if (len(match2)>0):
         i=0
+        GA("TDFHome","TDF-List")
         link=OPENURL(murl)
         link=link.replace('\n','')
         url=re.compile('href="([^<]+)">Watch now').findall(link)
@@ -1074,6 +1143,7 @@ def LISTDOC2(murl):
 
     match3=re.compile('documentary-log').findall(murl)
     if (len(match3)>0):
+        GA("DLHome","DL-List")
         i=0
         link=OPENURL(murl)
         match=re.compile('<img src="(.+?)" alt="(.+?)" class=".+?" />\n').findall(link)
@@ -1432,6 +1502,7 @@ def MAINWFS():
         addDir('Year','http://watch-freeseries.mu/',505,"%s/art/wfs/year.png"%selfAddon.getAddonInfo("path"))
         addDir('Genre','http://watch-freeseries.mu/',502,"%s/art/wfs/genre.png"%selfAddon.getAddonInfo("path"))
         addDir('Download All Meta','http://watch-freeseries.mu/',527,"%s/art/wfs/metaall.png"%selfAddon.getAddonInfo("path"))
+        GA("Plugin","WFS")
         VIEWSB()
     
 
@@ -1467,12 +1538,12 @@ def GetMetAll():
                         loadedparts = loadedparts + 1
                 xbmc.executebuiltin("XBMC.Notification(Nice!,Metacontainer DB Installation Success,5000)")
 
-        MAIN()
+        MAINWFS()
 def AtoZWFS():
         addDir('0-9','http://watch-freeseries.mu/index.php?action=episodes_searchShow&letter=1',506,"%s/art/wfs/09.png"%selfAddon.getAddonInfo("path"))
         for i in string.ascii_uppercase:
                 addDir(i,'http://watch-freeseries.mu/index.php?action=episodes_searchShow&letter='+i,506,"%s/art/wfs/%s.png"%(selfAddon.getAddonInfo("path"),i))
-        GA("None","A-Z")
+        GA("WFS","A-Z")
         VIEWSB()        
 def GENREWFS(url):
         addDir('Action','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=2',506,"%s/art/wfs/act.png"%selfAddon.getAddonInfo("path"))
@@ -1509,6 +1580,7 @@ def GENREWFS(url):
         addDir('Thriller','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=24',506,"%s/art/wfs/thr.png"%selfAddon.getAddonInfo("path"))
         addDir('War','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=25',506,"%s/art/wfs/war.png"%selfAddon.getAddonInfo("path"))
         addDir('Western','http://watch-freeseries.mu/index.php?action=episodes_searchShow&genre=26',506,"%s/art/wfs/wes.png"%selfAddon.getAddonInfo("path"))
+        GA("WFS","Genre")
         VIEWSB()
 def YEARWFS():
         addDir('2013','http://watch-freeseries.mu/index.php?action=episodes_searchShow&year=2013',506,"%s/art/wfs/2013.png"%selfAddon.getAddonInfo("path"))
@@ -1522,7 +1594,7 @@ def YEARWFS():
         addDir('2005','http://watch-freeseries.mu/index.php?action=episodes_searchShow&year=2005',506,"%s/art/wfs/2005.png"%selfAddon.getAddonInfo("path"))
         addDir('2004','http://watch-freeseries.mu/index.php?action=episodes_searchShow&year=2004',506,"%s/art/wfs/2004.png"%selfAddon.getAddonInfo("path"))
         addDir('2003','http://watch-freeseries.mu/index.php?action=episodes_searchShow&year=2003',506,"%s/art/wfs/2003.png"%selfAddon.getAddonInfo("path"))
-        GA("None","Year")
+        GA("WFS","Year")
         VIEWSB()
 def LISTEpi(murl):
         link=OPENURL(murl)
@@ -1542,7 +1614,7 @@ def LISTEpi(murl):
                 if (dialogWait.iscanceled()):
                         return False
                 addDir(name+'   "'+epname+'"',url,503,thumb)
-        GA("None","LatestEPI-list")
+        GA("WFS","Latest-list")
         xbmcplugin.setContent(int(sys.argv[1]), 'Movies')
         
 def LISTShows(murl):
@@ -1567,7 +1639,7 @@ def LISTShows(murl):
                 if (dialogWait.iscanceled()):
                         return False
                 addInfo2(name,url,507,'','')
-        GA("None","Shows-list")
+        GA("WFS","Shows-list")
         xbmcplugin.setContent(int(sys.argv[1]), 'Movies')
 
 
@@ -1589,7 +1661,7 @@ def LISTPop(murl):
                 if (dialogWait.iscanceled()):
                         return False
                 addInfo2(name,url,507,'','')
-        GA("None","MostPOP-list")
+        GA("WFS","MostPOP-list")
         xbmcplugin.setContent(int(sys.argv[1]), 'tvshows')
 
         
@@ -1614,7 +1686,7 @@ def LISTSeason(mname,murl):
         xbmcplugin.setContent(int(sys.argv[1]), 'tvshows')
         if selfAddon.getSetting('auto-view') == 'true':
                 xbmc.executebuiltin("Container.SetViewMode(%s)" % selfAddon.getSetting('seasons-view'))          
-
+        GA("WFS","Sea-list")
 def LISTEpilist(name,murl):
         match=re.compile('http://watch-freeseries.mu/tv/.+?/.+?xoxc(.+?)xoxc(.+?)xoxc').findall(murl)
         for showname, sea in match:
@@ -1638,7 +1710,7 @@ def LISTEpilist(name,murl):
         xbmcplugin.setContent(int(sys.argv[1]), 'episodes')
         if selfAddon.getSetting('auto-view') == 'true':
                 xbmc.executebuiltin("Container.SetViewMode(%s)" % selfAddon.getSetting('episodes-view'))        
-        
+        GA("WFS","Epi-list")
 def SEARCHWFS():
         keyb = xbmc.Keyboard('', 'Search For Shows or Episodes')
         keyb.doModal()
@@ -1659,7 +1731,7 @@ def SEARCHWFS():
                             addDir(name,url,503,'')
                         else:
                             addInfo2(name,url,507,'','')
-        GA("None","Search")
+        GA("WFS","Search")
 
 def GETLINKWFS(url):
         link=OPENURL(url)
@@ -1673,65 +1745,77 @@ def VIDEOLINKSWFS(name,url):
         link=OPENURL(url)
         xbmc.executebuiltin("XBMC.Notification(Please Wait!,Collecting hosts,3000)")
         match=re.compile('<td width=".+?"><p><a href="(.+?)" target="_blank">putlocker.com</a></p></td>').findall(link)
-        for url in match:
+        for url in match[0:2]:
                 url=GETLINKWFS(url)
                 host='Putlocker'
                 hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
                 sources.append(hosted_media)
         match=re.compile('<td width=".+?"><p><a href="(.+?)" target="_blank">sockshare.com</a></p></td>').findall(link)
-        for url in match:
+        for url in match[0:2]:
                 url=GETLINKWFS(url)
                 host='Sockshare'
                 hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
                 sources.append(hosted_media)
         match=re.compile('<td width=".+?"><p><a href="(.+?)" target="_blank">flashx.tv</a></p></td>').findall(link)
-        for url in match:
+        for url in match[0:2]:
                 url=GETLINKWFS(url)
                 host='Flashx'
                 hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
                 sources.append(hosted_media)
         match=re.compile('<td width=".+?"><p><a href="(.+?)" target="_blank">180upload.com</a></p></td>').findall(link)
-        for url in match:
+        for url in match[0:2]:
                 url=GETLINKWFS(url)
                 host='180upload'
                 hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
                 sources.append(hosted_media)
         match=re.compile('<td width=".+?"><p><a href="(.+?)" target="_blank">nowvideo.eu</a></p></td>').findall(link)
-        for url in match:
+        for url in match[0:2]:
                 url=GETLINKWFS(url)
                 host='Nowvideo'
                 hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
                 sources.append(hosted_media)
+        match=re.compile('<td width=".+?"><p><a href="(.+?)" target="_blank">movreel.com</a></p></td>').findall(link)
+        for url in match[0:2]:
+                url=GETLINKWFS(url)
+                host='Movreel'
+                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
+                sources.append(hosted_media)
+        match=re.compile('<td width=".+?"><p><a href="(.+?)" target="_blank">sharesix.com</a></p></td>').findall(link)
+        for url in match[0:2]:
+                url=GETLINKWFS(url)
+                host='ShareSix'
+                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
+                sources.append(hosted_media)
         match=re.compile('<td width=".+?"><p><a href="(.+?)" target="_blank">filenuke.com</a></p></td>').findall(link)
-        for url in match:
+        for url in match[0:2]:
                 url=GETLINKWFS(url)
                 host='Filenuke'
                 hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
                 sources.append(hosted_media)
         match=re.compile('<td width=".+?"><p><a href="(.+?)" target="_blank">videoweed.es</a></p></td>').findall(link)
-        for url in match:
+        for url in match[0:2]:
                 url=GETLINKWFS(url)
                 host='Videoweed'
                 hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
                 sources.append(hosted_media)
         match=re.compile('<td width=".+?"><p><a href="(.+?)" target="_blank">novamov.com</a></p></td>').findall(link)
-        for url in match:
+        for url in match[0:2]:
                 url=GETLINKWFS(url)
                 host='Novamov'
                 hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
                 sources.append(hosted_media)
-        """match=re.compile('<td width=".+?"><p><a href="(.+?)" target="_blank">vidbux.com</a></p></td>').findall(link)
-        for url in match:
+        match=re.compile('<td width=".+?"><p><a href="(.+?)" target="_blank">vidbux.com</a></p></td>').findall(link)
+        for url in match[0:2]:
                 url=GETLINKWFS(url)
                 host='Vidbux'
                 hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
                 sources.append(hosted_media)
         match=re.compile('<td width=".+?"><p><a href="(.+?)" target="_blank">vidxden.com</a></p></td>').findall(link)
-        for url in match:
+        for url in match[0:2]:
                 url=GETLINKWFS(url)
                 host= 'Vidxden'
                 hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
-                sources.append(hosted_media)"""
+                sources.append(hosted_media)
                 
         if (len(sources)==0):
                 xbmc.executebuiltin("XBMC.Notification(Sorry!,Show doesn't have playable links,5000)")
@@ -1753,10 +1837,11 @@ def VIDEOLINKSWFS(name,url):
 ############################################################################################ WFS ENDS ##############################################################################
 ############################################################################################ SERIES GATE BEGIN ##############################################################################
 def MAINSG():
-        addDir('Search','http://watch-freeseries.mu/',504,"%s/art/wfs/search.png"%selfAddon.getAddonInfo("path"))
-        addDir('A-Z','',610,"%s/art/wfs/az.png"%selfAddon.getAddonInfo("path"))
+        addDir('Search','http://seriesgate.tv/',608,"%s/art/wfs/search.png"%selfAddon.getAddonInfo("path"))
+        addDir('A-Z','http://seriesgate.tv/',610,"%s/art/wfs/az.png"%selfAddon.getAddonInfo("path"))
         addDir('Latest Episodes','http://seriesgate.tv/latestepisodes/',602,"%s/art/wfs/latest.png"%selfAddon.getAddonInfo("path"))
         HOMESG()
+        GA("Plugin","SeriesGate")
         #addDir('TV Series','http://watch-freeseries.mu/tvseries',506,"%s/art/wfs/series.png"%selfAddon.getAddonInfo("path"))
         #addDir('Year','http://watch-freeseries.mu/',505,"%s/art/wfs/year.png"%selfAddon.getAddonInfo("path"))
         #addDir('Genre','http://watch-freeseries.mu/',502,"%s/art/wfs/genre.png"%selfAddon.getAddonInfo("path"))
@@ -1764,35 +1849,35 @@ def HOMESG():
         url='http://seriesgate.tv/'
         link=OPENURL(url)
         addLink('[COLOR red]Updated Shows[/COLOR]','','')
-        match=re.compile('<a href = "(.+?)" style=".+?"><img src="(.+?)"  height=".+?" width=".+?" alt="Watch (.+?)"').findall(link)
+        match=re.compile('<a href = "([^<]+)" style=".+?"><img src="(.+?)"  height=".+?" width=".+?" alt="Watch (.+?)"').findall(link)
         for url,thumb,name in match[0:5]:
-            addDir(name,'','',thumb)
+            addDir(name,url,604,thumb)
         addLink('[COLOR red]Knee Slapping Comedies[/COLOR]','','')
-        match=re.compile('<a href = "(.+?)" style=".+?"><img src="(.+?)"  height=".+?" width=".+?" alt="Watch (.+?)"').findall(link)
+        match=re.compile('<a href = "([^<]+)" style=".+?"><img src="(.+?)"  height=".+?" width=".+?" alt="Watch (.+?)"').findall(link)
         for url,thumb,name in match[5:10]:
-            addDir(name,'','',thumb)
+            addDir(name,url,604,thumb)
         addLink('[COLOR red]Turmoil and Tears: Drama[/COLOR]','','')
-        match=re.compile('<a href = "(.+?)" style=".+?"><img src="(.+?)"  height=".+?" width=".+?" alt="Watch (.+?)"').findall(link)
+        match=re.compile('<a href = "([^<]+)" style=".+?"><img src="(.+?)"  height=".+?" width=".+?" alt="Watch (.+?)"').findall(link)
         for url,thumb,name in match[10:15]:
-            addDir(name,'','',thumb)
+            addDir(name,url,604,thumb)
         addLink('[COLOR red]Rumbling and Tumbling Action[/COLOR]','','')
-        match=re.compile('<a href = "(.+?)" style=".+?"><img src="(.+?)"  height=".+?" width=".+?" alt="Watch (.+?)"').findall(link)
+        match=re.compile('<a href = "([^<]+)" style=".+?"><img src="(.+?)"  height=".+?" width=".+?" alt="Watch (.+?)"').findall(link)
         for url,thumb,name in match[15:20]:
-            addDir(name,'','',thumb)
+            addDir(name,url,604,thumb)
         addLink("[COLOR red]Editor's Flicks[/COLOR]",'','')
-        match=re.compile('<a href = "(.+?)" style=".+?"><img src="(.+?)"  height=".+?" width=".+?" alt="Watch (.+?)"').findall(link)
+        match=re.compile('<a href = "([^<]+)" style=".+?"><img src="(.+?)"  height=".+?" width=".+?" alt="Watch (.+?)"').findall(link)
         for url,thumb,name in match[20:25]:
-            addDir(name,'','',thumb)
+            addDir(name,url,604,thumb)
         addLink('[COLOR red]New to SeriesGate[/COLOR]','','')
-        match=re.compile('<a href = "(.+?)" style=".+?"><img src="(.+?)"  height=".+?" width=".+?" alt="Watch (.+?)"').findall(link)
+        match=re.compile('<a href = "([^<]+)" style=".+?"><img src="(.+?)"  height=".+?" width=".+?" alt="Watch (.+?)"').findall(link)
         for url,thumb,name in match[25:30]:
-            addDir(name,'','',thumb)
+            addDir(name,url,604,thumb)
             
 def AtoZSG():
         addDir('0-9','0-9',611,"%s/art/wfs/09.png"%selfAddon.getAddonInfo("path"))
         for i in string.ascii_uppercase:
                 addDir(i,i,611,"%s/art/wfs/%s.png"%(selfAddon.getAddonInfo("path"),i))
-        GA("None","A-Z")
+        GA("SeriesGate","A-Z")
         VIEWSB()
         
 def AllShows(murl):
@@ -1803,16 +1888,201 @@ def AllShows(murl):
                 name2 =name
                 if name[0:3]=='The':
                     name2=name.replace('The ','')
-                if name2[0:1] == murl:
-                    addDir(name,surl,'','')
-
+                if murl == '0-9':
+                    if name2[0:1] <= '9':
+                        durl='http://seriesgate.tv/'+surl+'/'
+                        thumb ='http://cdn.seriesgate.tv/6/cover/110x160/'+surl+'.png'
+                        addDir(name,durl,604,thumb)
+                    
+                elif name2[0:1] == murl:
+                    durl='http://seriesgate.tv/'+surl+'/'
+                    thumb ='http://cdn.seriesgate.tv/6/cover/110x160/'+surl+'.png'
+                    addDir(name,durl,604,thumb)
+        GA("SeriesGate","AllShows")
 def LISTEpiSG(murl):
     link=OPENURL(murl)
     match=re.compile('<a href="(.+?)"><div  class=".+?"><img  class=".+?" src=""  data-original ="(.+?)" width=".+?" height=".+?"  alt=".+?" title = "(.+?)" /><div class=".+?"><span style=".+?">(.+?)</span><div class=".+?"></div><span>(.+?)</span><div class=".+?">').findall(link)
-    for url,thumb,epiname, showname, seep in match:\
-        addDir(showname+' [COLOR red]'+seep+'[/COLOR]'+" "+'"'+epiname+'"','','',thumb)
-    
-############################################################################################ SERIES GATE END ##############################################################################
+    for url,thumb,epiname, showname, seep in match:
+        durl = url+'more_sources/'
+        addDir(showname+' [COLOR red]'+seep+'[/COLOR]'+" "+'"'+epiname+'"',durl,609,thumb)
+    GA("SeriesGate","Latest-list")
+def LISTSeasonSG(mname,murl):
+    link=OPENURL(murl)
+    match=re.compile('<div class="season_page">\n\t\t\t\t\t\t<a href="(.+?)" >(.+?)</a>').findall(link)
+    for url, seaname in match:
+        num=re.compile('Season ([^<]+)').findall(seaname)
+        if selfAddon.getSetting("meta-view") == "true":
+            print num[0]
+            cover = grab.get_seasons(mname, None, num[0], overlay=6)
+            print str(cover)
+            covers= re.compile("cover_url.+?'(.+?)'").findall(str(cover))
+            for thumb in covers:
+                thumb = str(thumb)
+                thumb= thumb.replace("',","%s/art/tv2.png"%selfAddon.getAddonInfo("path"))
+                print thumb
+        else:
+            thumb=''
+        durl = 'http://seriesgate.tv'+url
+        addDir(seaname,durl,605,str(thumb))
+        xbmcplugin.setContent(int(sys.argv[1]), 'tvshows')
+        GA("SeriesGate","Sea-list")
+def LISTEpilistSG(mname,murl):
+    link=OPENURL(murl)
+    #match=re.compile('<div class=".+?" style=".+?" >(.+?)- <span><a href = ".+?">.+?</a></span></div><div class=".+?" >(.+?)</div><div class = ".+?"></div><div style=".+?"><a href="(.+?)"><img src="(.+?)" width=".+?" height=".+?"  alt=".+?" title = "(.+?)" ></a></div><div class = ".+?" style = ".+?"><div class="s_page_season_description">(.+?)</div>').findall(link)
+    #if len(match) == 0:
+    match=re.compile('<div class=".+?" style=".+?" >(.+?)- <span><a href = ".+?">.+?</a></span></div><div class=".+?" >(.+?)</div><div class = ".+?"></div><div style=".+?"><a href="(.+?)"><img src="(.+?)" width=".+?" height=".+?"  alt=".+?" title = "(.+?)" ></a>').findall(link)
+    for seep, airdate, url, thumb, epiname in match:
+        durl = 'http://seriesgate.tv'+url+'more_sources/'
+        addDir2(seep+" "+'"'+epiname+'"',durl,609,thumb,'')
+    GA("SeriesGate","Epi-list")
+
+def SEARCHSG():
+        keyb = xbmc.Keyboard('', 'Search For Shows or Episodes')
+        keyb.doModal()
+        if (keyb.isConfirmed()):
+                search = keyb.getText()
+                encode=urllib.quote(search)
+                surl='http://seriesgate.tv/search/indv_episodes/'+encode+'/'
+                req = urllib2.Request(surl)
+                req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+                response = urllib2.urlopen(req)
+                link=response.read()
+                response.close()
+                addLink('[COLOR red]Shows[/COLOR]','','')
+                match=re.compile('src = "([^<]+)" height=".+?" width=".+?" alt=""  /></a><div class = ".+?" style=".+?"><div class = ".+?"><a href = "([^<]+)">([^<]+)</a></div><a href = ".+?">').findall(link)
+                for thumb,url,name in match:
+                        addDir(name,url,604,thumb)
+                addLink('[COLOR red]Episodes[/COLOR]','','')
+                match=re.compile('src="([^<]+)" width=".+?" height=".+?"  /></a></div><div style=".+?"><a style=".+?" href = "([^<]+)"><span style=".+?">([^<]+)</span></a><span style=".+?">EPISODE</span><div class=".+?"></div><span style=".+?">([^<]+)</span>').findall(link)
+                for thumb,url,epiname, name in match:
+                        durl = url+'more_sources/'
+                        addDir(name+' [COLOR red]"'+epiname+'"[/COLOR]',durl,609,thumb)
+        GA("SeriesGate","Search")
+
+
+def GETLINKSG(murl):
+        durl= 'http://seriesgate.tv'+murl
+        link=OPENURL(durl)
+        link=link.replace('var url = "http://cdn.seriesgate.tv','')
+        match=re.compile('var url = "(.+?)";').findall(link)
+        for url in match:
+                return url
+
+def VIDEOLINKSSG(mname,murl):
+        
+        GA("SG","Watched")
+        sources = []
+        link=OPENURL(murl)
+        xbmc.executebuiltin("XBMC.Notification(Please Wait!,Collecting hosts,3000)")
+        match=re.compile('TARGET=".+?" href="(.+?)">XVidStage</a>').findall(link)
+        for url in match[0:3]:
+                url=GETLINKSG(url)
+                host='XVidStage'
+                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
+                sources.append(hosted_media)
+        match2=re.compile('TARGET=".+?" href="(.+?)">Sockshare</a>').findall(link)
+        if len(match2)==0:
+            match2=re.compile('TARGET=".+?" href="(.+?)">SockShare</a>').findall(link)
+        for url in match2[0:3]:
+                url=GETLINKSG(url)
+                host='Sockshare'
+                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
+                sources.append(hosted_media)
+        match=re.compile('TARGET=".+?" href="(.+?)">nowvideo</a>').findall(link)
+        for url in match[0:3]:
+                url=GETLINKSG(url)
+                host='Nowvideo'
+                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
+                sources.append(hosted_media)
+        match3=re.compile('TARGET=".+?" href="(.+?)">Putlocker</a>').findall(link)
+        if len(match3)==0:
+            match3=re.compile('TARGET=".+?" href="(.+?)">PutLocker</a>').findall(link)
+        for url in match3[0:3]:
+                url=GETLINKSG(url)
+                host='Putlocker'
+                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
+                sources.append(hosted_media)
+        match=re.compile('TARGET=".+?" href="(.+?)">Flashx TV</a>').findall(link)
+        for url in match[0:3]:
+                url=GETLINKSG(url)
+                host='Flashx'
+                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
+                sources.append(hosted_media)
+        match=re.compile('TARGET=".+?" href="(.+?)">HostingBulk</a>').findall(link)
+        for url in match[0:3]:
+                url=GETLINKSG(url)
+                host='HostingBulk'
+                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
+                sources.append(hosted_media)
+        match=re.compile('TARGET=".+?" href="(.+?)">MovReel</a>').findall(link)
+        for url in match[0:3]:
+                url=GETLINKSG(url)
+                host='MovReel'
+                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
+                sources.append(hosted_media)
+        match=re.compile('TARGET=".+?" href="(.+?)">Share Six</a>').findall(link)
+        for url in match[0:3]:
+                url=GETLINKSG(url)
+                host='Share Six'
+                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
+                sources.append(hosted_media)
+        match=re.compile('TARGET=".+?" href="(.+?)">2GB Hosting</a>').findall(link)
+        for url in match[0:3]:
+                url=GETLINKSG(url)
+                host='2GB Hosting'
+                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
+                sources.append(hosted_media)
+        match=re.compile('TARGET=".+?" href="(.+?)">Filenuke</a>').findall(link)
+        for url in match[0:3]:
+                url=GETLINKSG(url)
+                host='Filenuke'
+                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
+                sources.append(hosted_media)
+        match=re.compile('TARGET=".+?" href="(.+?)">VideoWeed</a>').findall(link)
+        for url in match[0:3]:
+                url=GETLINKSG(url)
+                host='Videoweed'
+                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
+                sources.append(hosted_media)
+        match=re.compile('TARGET=".+?" href="(.+?)">NovaMov</a>').findall(link)
+        for url in match[0:3]:
+                url=GETLINKSG(url)
+                host='Novamov'
+                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
+                sources.append(hosted_media)
+        match=re.compile('TARGET=".+?" href="(.+?)">vidbux</a>').findall(link)
+        for url in match[0:3]:
+                url=GETLINKSG(url)
+                host='Vidbux'
+                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
+                sources.append(hosted_media)
+        match=re.compile('TARGET=".+?" href="(.+?)">Vidxden</a>').findall(link)
+        for url in match[0:3]:
+                url=GETLINKSG(url)
+                host= 'Vidxden'
+                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
+                sources.append(hosted_media)
+                
+        if (len(sources)==0):
+                xbmc.executebuiltin("XBMC.Notification(Sorry!,Show doesn't have playable links,5000)")
+      
+        else:
+                source = urlresolver.choose_source(sources)
+                if source:
+                        stream_url = source.resolve()
+                        if source.resolve()==False:
+                                xbmc.executebuiltin("XBMC.Notification(Sorry!,Link Cannot Be Resolved,5000)")
+                                return
+                else:
+                      stream_url = False
+                      return
+                listitem = xbmcgui.ListItem(name, iconImage="DefaultVideo.png")
+                listitem.setInfo('video', {'Title': name, 'Year': ''} )       
+                xbmc.Player().play(stream_url, listitem)
+                addDir('','','','')
+############################################################################################ SERIES GATE ENDNEW MY VIDEO LINKS BEGIN ##############################################################################
+
+
 
 def VIDEOLINKS(name,url):
         link=OPENURL(url)
@@ -2741,53 +3011,7 @@ def LINKTV4(mname,url):
                 addDir('','','','')
 
 
-def VIEWS():
-        if selfAddon.getSetting("auto-view") == "true":
-                if selfAddon.getSetting("choose-skin") == "true":
-                        if selfAddon.getSetting("con-view") == "0":
-                                xbmc.executebuiltin("Container.SetViewMode(50)")
-                        elif selfAddon.getSetting("con-view") == "1":
-                                xbmc.executebuiltin("Container.SetViewMode(51)")
-                        elif selfAddon.getSetting("con-view") == "2":
-                                xbmc.executebuiltin("Container.SetViewMode(500)")
-                        elif selfAddon.getSetting("con-view") == "3":
-                                xbmc.executebuiltin("Container.SetViewMode(501)")
-                        elif selfAddon.getSetting("con-view") == "4":
-                                xbmc.executebuiltin("Container.SetViewMode(508)")
-                        elif selfAddon.getSetting("con-view") == "5":
-                                xbmc.executebuiltin("Container.SetViewMode(504)")
-                        elif selfAddon.getSetting("con-view") == "6":
-                                xbmc.executebuiltin("Container.SetViewMode(503)")
-                        elif selfAddon.getSetting("con-view") == "7":
-                                xbmc.executebuiltin("Container.SetViewMode(515)")
-                        return
-                elif selfAddon.getSetting("choose-skin") == "false":
-                        if selfAddon.getSetting("xpr-view") == "0":
-                                xbmc.executebuiltin("Container.SetViewMode(50)")
-                        elif selfAddon.getSetting("xpr-view") == "1":
-                                xbmc.executebuiltin("Container.SetViewMode(52)")
-                        elif selfAddon.getSetting("xpr-view") == "2":
-                                xbmc.executebuiltin("Container.SetViewMode(501)")
-                        elif selfAddon.getSetting("xpr-view") == "3":
-                                xbmc.executebuiltin("Container.SetViewMode(55)")
-                        elif selfAddon.getSetting("xpr-view") == "4":
-                                xbmc.executebuiltin("Container.SetViewMode(54)")
-                        elif selfAddon.getSetting("xpr-view") == "5":
-                                xbmc.executebuiltin("Container.SetViewMode(60)")
-                        elif selfAddon.getSetting("xpr-view") == "6":
-                                xbmc.executebuiltin("Container.SetViewMode(53)")
-                        return
-        else:
-                return
 
-def VIEWSB():
-        if selfAddon.getSetting("auto-view") == "true":
-                        if selfAddon.getSetting("home-view") == "0":
-                                xbmc.executebuiltin("Container.SetViewMode(50)")
-                        elif selfAddon.getSetting("home-view") == "1":
-                                xbmc.executebuiltin("Container.SetViewMode(500)")
-
-                        return
 
 
 def loadVideos(url,name,isRequestForURL,isRequestForPlaylist):
@@ -3539,7 +3763,7 @@ def get_params():
 
 def addLink(name,url,iconimage):
         ok=True
-        liz=xbmcgui.ListItem(name, iconImage="DefaultVideo.png", thumbnailImage=iconimage)
+        liz=xbmcgui.ListItem(name, iconImage="%s/art/link.png"%selfAddon.getAddonInfo("path"), thumbnailImage=iconimage)
         liz.setInfo( type="Video", infoLabels={ "Title": name } )
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=url,listitem=liz)
         return ok
@@ -3547,7 +3771,7 @@ def addLink(name,url,iconimage):
 def addStop(name,url,mode,iconimage):
         u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
         ok=True
-        liz=xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=iconimage)
+        liz=xbmcgui.ListItem(name, iconImage="%s/art/vidicon.png"%selfAddon.getAddonInfo("path"), thumbnailImage=iconimage)
         liz.setInfo( type="Video", infoLabels={ "Title": name } )
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=False)
         return ok
@@ -3555,7 +3779,7 @@ def addStop(name,url,mode,iconimage):
 def addDir(name,url,mode,iconimage):
         u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
         ok=True
-        liz=xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=iconimage)
+        liz=xbmcgui.ListItem(name, iconImage="%s/art/vidicon.png"%selfAddon.getAddonInfo("path"), thumbnailImage=iconimage)
         liz.setInfo( type="Video", infoLabels={ "Title": name } )
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
         return ok
@@ -3563,7 +3787,7 @@ def addDir(name,url,mode,iconimage):
 def addDir2(name,url,mode,iconimage,desc):
         u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
         ok=True
-        liz=xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=iconimage)
+        liz=xbmcgui.ListItem(name, iconImage="%s/art/vidicon.png"%selfAddon.getAddonInfo("path"), thumbnailImage=iconimage)
         liz.setInfo( type="Video", infoLabels={ "Title": name, "Plot": desc } )
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
         return ok
@@ -3571,7 +3795,7 @@ def addDir2(name,url,mode,iconimage,desc):
 def addSport(name,url,mode,iconimage,desc,dur,gen):
         u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
         ok=True
-        liz=xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=iconimage)
+        liz=xbmcgui.ListItem(name, iconImage="%s/art/vidicon.png"%selfAddon.getAddonInfo("path"), thumbnailImage=iconimage)
         liz.setInfo( type="Video", infoLabels={ "Title": name, "Plot": desc, "Duration": dur ,"Genre": gen} )
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz)
         return ok
@@ -3579,7 +3803,7 @@ def addSport(name,url,mode,iconimage,desc,dur,gen):
 def addDirb(name,url,mode,iconimage,fan):
         u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
         ok=True
-        liz=xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=iconimage)
+        liz=xbmcgui.ListItem(name, iconImage="%s/art/vidicon.png"%selfAddon.getAddonInfo("path"), thumbnailImage=iconimage)
         liz.setInfo( type="Video", infoLabels={ "Title": name } )
         liz.setProperty('fanart_image', fan)
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
@@ -3600,7 +3824,7 @@ def addInfo(name,url,mode,iconimage,gen,year):
               ("[B][COLOR red]Remove[/COLOR][/B] from My Fav's","XBMC.RunScript(" + script2 + ", " + str(args) + ")")]
         if selfAddon.getSetting("meta-view") == "true":
                 Commands.append(("Play Trailer","XBMC.RunScript(" + script3 + ", " + str(tmdbid) + ")"))
-        liz=xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=infoLabels['cover_url'])
+        liz=xbmcgui.ListItem(name, iconImage="%s/art/vidicon.png"%selfAddon.getAddonInfo("path"), thumbnailImage=infoLabels['cover_url'])
         liz.addContextMenuItems( Commands )
         liz.setInfo( type="Video", infoLabels = infoLabels)
         liz.setProperty('fanart_image', infoLabels['backdrop_url'])
@@ -3611,7 +3835,7 @@ def addInfo2(name,url,mode,iconimage,plot):
         ok=True
         u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
         infoLabels = GETMETAShow(name,iconimage)
-        liz=xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=infoLabels['cover_url'])
+        liz=xbmcgui.ListItem(name, iconImage="%s/art/vidicon.png"%selfAddon.getAddonInfo("path"), thumbnailImage=infoLabels['cover_url'])
         liz.setInfo( type="Video", infoLabels=infoLabels)
         liz.setProperty('fanart_image', infoLabels['backdrop_url'])
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
@@ -3621,7 +3845,7 @@ def addEpi(name,url,mode,iconimage,data):
         ok=True
         u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
         infoLabels = GETMETAEpi(name,data)
-        liz=xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=infoLabels['cover_url'])
+        liz=xbmcgui.ListItem(name, iconImage="%s/art/vidicon.png"%selfAddon.getAddonInfo("path"), thumbnailImage=infoLabels['cover_url'])
         liz.setInfo( type="Video", infoLabels=infoLabels)
         liz.setProperty('fanart_image', infoLabels['backdrop_url'])
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
@@ -3630,7 +3854,7 @@ def addEpi(name,url,mode,iconimage,data):
 def addPlayableLink(name,url,mode,iconimage):
         u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
         ok=True
-        liz=xbmcgui.ListItem(name, iconImage="DefaultVideo.png", thumbnailImage=iconimage)
+        liz=xbmcgui.ListItem(name, iconImage="%s/art/vidicon.png"%selfAddon.getAddonInfo("path"), thumbnailImage=iconimage)
         liz.setInfo( type="Video", infoLabels={ "Title": name } )
         # adding context menus
         #new name LOAD BEFORE DOWNLOAD AJ
@@ -3647,7 +3871,7 @@ def addPlayableLink(name,url,mode,iconimage):
 def addPlayListLink(name,url,mode,iconimage):
         u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
         ok=True
-        liz=xbmcgui.ListItem(name, iconImage="DefaultVideo.png", thumbnailImage=iconimage)
+        liz=xbmcgui.ListItem(name, iconImage="%s/art/vidicon.png"%selfAddon.getAddonInfo("path"), thumbnailImage=iconimage)
         liz.setInfo( type="Video", infoLabels={ "Title": name } )
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz)
         return ok
@@ -3704,6 +3928,9 @@ elif mode==6:
 elif mode==7:
         YEAR()
 
+elif mode==23:
+        ENTYEAR()
+        
 elif mode==8:
         print ""+url
         YEARB(url)
