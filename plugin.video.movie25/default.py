@@ -113,7 +113,7 @@ def AtoZ():
                 addDir(i,'http://www.movie25.com/movies/'+i.lower()+'/',1,"%s/art/%s.png"%(selfAddon.getAddonInfo("path"),i.lower()))
         GA("None","A-Z")   
 def MAIN():
-        addDir('Search','http://www.movie25.com/',4,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
+        addDir('Search','http://www.movie25.com/',420,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
         addDir("My Fav's",'http://www.movie25.com/',10,"%s/art/fav.png"%selfAddon.getAddonInfo("path"))
         addDir('A-Z','http://www.movie25.com/',6,"%s/art/AZ.png"%selfAddon.getAddonInfo("path"))
         addDir('New Releases','http://www.movie25.com/movies/new-releases/',1,"%s/art/new.png"%selfAddon.getAddonInfo("path"))
@@ -133,7 +133,7 @@ def MAIN():
         addDir('Kids Zone','http://www.movie25.com/',76,"%s/art/kidzone2.png"%selfAddon.getAddonInfo("path"))
         addDir('Documentaries','http://www.movie25.com/',85,"%s/art/docsec2.png"%selfAddon.getAddonInfo("path"))
         addDir('Resolver Settings','http://www.movie25.com/',99,"%s/art/resset.png"%selfAddon.getAddonInfo("path"))
-        addDir('Select Me','http://www.movie25.com/',100,"%s/art/mash.png"%selfAddon.getAddonInfo("path"))
+        addDir('Need Help?','http://www.movie25.com/',100,"%s/art/xbmchub.png"%selfAddon.getAddonInfo("path"))
         VIEWSB()
         
 def GENRE(url):
@@ -1192,52 +1192,89 @@ def LISTDOCPOP(murl):
         for url,name in match:
             addDir(name,url,88,'')
 
-
-def SEARCH():
-        keyb = xbmc.Keyboard('', 'Search Movies')
-        keyb.doModal()
-        if (keyb.isConfirmed()):
-                search = keyb.getText()
-                encode=urllib.quote(search)
+def Searchhistory():
+        seapath=os.path.join(datapath,'Search')
+        SeaFile=os.path.join(seapath,'SearchHistory25')
+        if not os.path.exists(SeaFile):
+            url='m25'
+            SEARCH(url)
+        else:
+            addDir('Search','m25',4,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
+            thumb="%s/art/link.png"%selfAddon.getAddonInfo("path")
+            searchis=re.compile('search="(.+?)",').findall(open(SeaFile,'r').read())
+            for seahis in reversed(searchis):
+                    url=seahis
+                    addDir(seahis,url,4,thumb)
+            
+            
+        
+def SEARCH(murl):
+        seapath=os.path.join(datapath,'Search')
+        SeaFile=os.path.join(seapath,'SearchHistory25')
+        try:
+            os.makedirs(seapath)
+        except:
+            pass
+        if murl == 'm25':
+            keyb = xbmc.Keyboard('', 'Search Movies')
+            keyb.doModal()
+            if (keyb.isConfirmed()):
+                    search = keyb.getText()
+                    encode=urllib.quote(search)
+                    surl='http://www.movie25.com/search.php?key='+encode+'&submit='
+                    if not os.path.exists(SeaFile) and encode != '':
+                        open(SeaFile,'w').write('search="%s",'%encode)
+                    else:
+                        if encode != '':
+                            open(SeaFile,'a').write('search="%s",'%encode)
+                    searchis=re.compile('search="(.+?)",').findall(open(SeaFile,'r').read())
+                    for seahis in reversed(searchis):
+                        print seahis
+                    if len(searchis)>=8:
+                        searchis.remove(searchis[0])
+                        os.remove(SeaFile)
+                        for seahis in searchis:
+                            try:
+                                open(SeaFile,'a').write('search="%s",'%seahis)
+                            except:
+                                pass
+        else:
+                encode = murl
                 surl='http://www.movie25.com/search.php?key='+encode+'&submit='
-                req = urllib2.Request(surl)
-                req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-                response = urllib2.urlopen(req)
-                link=response.read()
-                response.close()
-                match=re.compile('<div class="movie_pic"><a href="(.+?)" target="_blank">\n                            <img src="(.+?)" width=".+?" height=".+?" />\n                            </a></div>\n            <div class="movie_about">\n              <div class="movie_about_text">\n                <h1><a href=".+?" target="_blank">\n                  (.+?)                </a></h1>\n                <div class="c">Genre:\n                  <a href=".+?" target=\'.+?\'>(.+?)</a>').findall(link)
-                dialogWait = xbmcgui.DialogProgress()
-                ret = dialogWait.create('Please wait until Movie list is cached.')
-                totalLinks = len(match)
-                loadedLinks = 0
+        link=OPENURL(surl)
+        match=re.compile('<div class="movie_pic"><a href="(.+?)" target="_blank">\n                            <img src="(.+?)" width=".+?" height=".+?" />\n                            </a></div>\n            <div class="movie_about">\n              <div class="movie_about_text">\n                <h1><a href=".+?" target="_blank">\n                  (.+?)                </a></h1>\n                <div class="c">Genre:\n                  <a href=".+?" target=\'.+?\'>(.+?)</a>').findall(link)
+        dialogWait = xbmcgui.DialogProgress()
+        ret = dialogWait.create('Please wait until Movie list is cached.')
+        totalLinks = len(match)
+        loadedLinks = 0
+        remaining_display = 'Movies loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
+        dialogWait.update(0, '[B]Will load instantly from now on[/B]',remaining_display)
+        for url,thumb,mname,genre in match:
+                namelen=len(mname)
+                if mname[-4:namelen-3] == ')':
+                        nam= namelen- 8
+                        year = mname[nam:namelen-4]
+                        name= mname[0:namelen-9]
+                elif mname[-3:namelen-2] == ')':
+                        nam= namelen- 7
+                        year = mname[nam:namelen-3]
+                        name= mname[0:namelen-8]
+                else:
+                        name = mname
+                        year = ''
+                name=name.replace('-','').replace('&','').replace('acute;','')
+                furl= 'http://movie25.com/'+url
+                addInfo(name+'('+year+')',furl,3,thumb,genre,year)
+                loadedLinks = loadedLinks + 1
+                percent = (loadedLinks * 100)/totalLinks
                 remaining_display = 'Movies loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
-                dialogWait.update(0, '[B]Will load instantly from now on[/B]',remaining_display)
-                for url,thumb,mname,genre in match:
-                        namelen=len(mname)
-                        if mname[-4:namelen-3] == ')':
-                                nam= namelen- 8
-                                year = mname[nam:namelen-4]
-                                name= mname[0:namelen-9]
-                        elif mname[-3:namelen-2] == ')':
-                                nam= namelen- 7
-                                year = mname[nam:namelen-3]
-                                name= mname[0:namelen-8]
-                        else:
-                                name = mname
-                                year = ''
-                        name=name.replace('-','').replace('&','').replace('acute;','')
-                        furl= 'http://movie25.com/'+url
-                        addInfo(name+'('+year+')',furl,3,thumb,genre,year)
-                        loadedLinks = loadedLinks + 1
-                        percent = (loadedLinks * 100)/totalLinks
-                        remaining_display = 'Movies loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
-                        dialogWait.update(percent,'[B]Will load instantly from now on[/B]',remaining_display)
-                        if (dialogWait.iscanceled()):
-                                return False 
-                dialogWait.close()
-                del dialogWait
-                addDir('[COLOR blue]Page 2[/COLOR]','http://www.movie25.com/search.php?page=2&key='+encode,9,"%s/art/next2.png"%selfAddon.getAddonInfo("path"))
-                GA("None","Search")
+                dialogWait.update(percent,'[B]Will load instantly from now on[/B]',remaining_display)
+                if (dialogWait.iscanceled()):
+                        return False 
+        dialogWait.close()
+        del dialogWait
+        addDir('[COLOR blue]Page 2[/COLOR]','http://www.movie25.com/search.php?page=2&key='+encode,9,"%s/art/next2.png"%selfAddon.getAddonInfo("path"))
+        GA("None","Search")
 
 def YEARB(murl):
         link=OPENURL(murl)
@@ -1475,9 +1512,9 @@ def GETMETAShow(mname):
                   'cast': meta['cast'],'studio': meta['studio'],'banner_url': meta['banner_url'],
                       'backdrop_url': meta['backdrop_url'],'status': meta['status']}
                 if infoLabels['cover_url']=='':
-                        infoLabels['cover_url']=thumb
+                        infoLabels['cover_url']="%s/art/vidicon.png"%selfAddon.getAddonInfo("path")
         else:
-                infoLabels = {'title': mname,'cover_url': "%s/art/folder.png"%selfAddon.getAddonInfo("path"),'backdrop_url': ''}
+                infoLabels = {'title': mname,'cover_url': "%s/art/vidicon.png"%selfAddon.getAddonInfo("path"),'backdrop_url': ''}
         return infoLabels
 
 def GETMETAEpi(mname,data):
@@ -1514,33 +1551,36 @@ def GetMetAll():
         dialog = xbmcgui.Dialog()
         ret = dialog.yesno('Download All Meta.', 'Download all meta information for videos at once.','Its better to get it out the way.', 'Would you like to download it? It takes around 20 minutes.','No', 'Yes')
         if ret==True:
-                urllist=[]
-                loadedparts = 1
-                urllist.append('http://watch-freeseries.mu/index.php?action=episodes_searchShow&letter=1')
-                for i in string.ascii_uppercase:
-                        url='http://watch-freeseries.mu/index.php?action=episodes_searchShow&letter='+i  
-                        urllist.append(url)
-                for murl in urllist:
-                        print murl
-                        link=OPENURL(murl)
-                        match=re.compile('<div class=".+?">\n                    <a href="(.+?)">\n                        <span class=".+?">(.+?)</span>\n                        <span class=".+?t">(.+?)</span>\n').findall(link)
-                        dialogWait = xbmcgui.DialogProgress()
-                        ret = dialogWait.create('[B]Please wait until TV Shows Meta is cached.[/B]')
-                        totalLinks = len(match)
-                        loadedLinks = 0
-                        parts= len(urllist)
-                        remaining_display = 'Parts loaded:: [B]'+str(loadedparts)+' / '+str(parts)+'[/B].''       TV Shows loaded:: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
-                        dialogWait.update(0, 'Process loads in 27 parts Numbers, A thru Z',remaining_display)
-                        for url,name,year in match:
-                                GETMETA(name,'')
-                                loadedLinks = loadedLinks + 1
-                                percent = (loadedLinks * 100)/totalLinks
-                                remaining_display ='Parts loaded:: [B]'+str(loadedparts)+' / '+str(parts)+'[/B].''       TV Shows loaded:: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
-                                dialogWait.update(percent,'Process loads in 27 parts Numbers, A thru Z',remaining_display)
-                                if (dialogWait.iscanceled()):
-                                        return False
-                        loadedparts = loadedparts + 1
-                xbmc.executebuiltin("XBMC.Notification(Nice!,Metacontainer DB Installation Success,5000)")
+                if selfAddon.getSetting("meta-view") == "false":
+                    ret = dialog.ok('Error','Enable Metadata in Settings first')
+                else:
+                    urllist=[]
+                    loadedparts = 1
+                    urllist.append('http://watch-freeseries.mu/index.php?action=episodes_searchShow&letter=1')
+                    for i in string.ascii_uppercase:
+                            url='http://watch-freeseries.mu/index.php?action=episodes_searchShow&letter='+i  
+                            urllist.append(url)
+                    for murl in urllist:
+                            print murl
+                            link=OPENURL(murl)
+                            match=re.compile('<div class=".+?">\n                    <a href="(.+?)">\n                        <span class=".+?">(.+?)</span>\n                        <span class=".+?t">(.+?)</span>\n').findall(link)
+                            dialogWait = xbmcgui.DialogProgress()
+                            ret = dialogWait.create('[B]Please wait until TV Shows Meta is cached.[/B]')
+                            totalLinks = len(match)
+                            loadedLinks = 0
+                            parts= len(urllist)
+                            remaining_display = 'Parts loaded:: [B]'+str(loadedparts)+' / '+str(parts)+'[/B].''       TV Shows loaded:: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
+                            dialogWait.update(0, 'Process loads in 27 parts Numbers, A thru Z',remaining_display)
+                            for url,name,year in match:
+                                    GETMETAShow(name)
+                                    loadedLinks = loadedLinks + 1
+                                    percent = (loadedLinks * 100)/totalLinks
+                                    remaining_display ='Parts loaded:: [B]'+str(loadedparts)+' / '+str(parts)+'[/B].''       TV Shows loaded:: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
+                                    dialogWait.update(percent,'Process loads in 27 parts Numbers, A thru Z',remaining_display)
+                                    if (dialogWait.iscanceled()):
+                                            return False
+                            loadedparts = loadedparts + 1
+                    xbmc.executebuiltin("XBMC.Notification(Nice!,Metacontainer DB Installation Success,5000)")
 
         MAINWFS()
 def AtoZWFS():
@@ -3732,7 +3772,7 @@ checkGA()
 
 
 
-def MESSAGE():
+"""def MESSAGE():
         class MessClass(xbmcgui.Window):
             def __init__(self):
                 xbmc.Player().play("%s/resources/message/music.mp3"%selfAddon.getAddonInfo("path"), xbmcgui.ListItem('Message'))
@@ -3744,7 +3784,51 @@ def MESSAGE():
 
         mess = MessClass()
         mess.doModal()
-        del mess
+        del mess"""
+
+class HUB( xbmcgui.WindowXMLDialog ):
+    def __init__( self, *args, **kwargs ):
+        self.logo = kwargs['logo_path']
+        xbmc.executebuiltin( "Skin.Reset(AnimeWindowXMLDialogClose)" )
+        xbmc.executebuiltin( "Skin.SetBool(AnimeWindowXMLDialogClose)" )
+       
+    def onInit( self ):
+        self.getControl( 48 ).reset()
+        xbmc.Player().play('%s/resources/skins/DefaultSkin/media/xbmchub.mp3'%selfAddon.getAddonInfo('path'))# Music.
+        listitem = xbmcgui.ListItem( selfAddon.getAddonInfo('name'),'', selfAddon.getAddonInfo('icon'), selfAddon.getAddonInfo('icon') )
+        listitem.setProperty( 'path', self.logo )
+        self.getControl( 48 ).addItem( listitem )
+
+    def onFocus( self, controlID ): pass
+
+    def onClick( self, controlID ): 
+        if controlID == 12:
+            xbmc.Player().stop()
+            self._close_dialog()
+        if controlID == 7:
+            xbmc.Player().stop()
+            self._close_dialog()
+
+    def onAction( self, action ):
+        if action in [ 9, 10, 117 ] or action.getButtonCode() in [ 275, 257, 261 ]or action.getButtonCode() in [ 5,6,7 ]:
+            xbmc.Player().stop()
+            self._close_dialog()
+
+    def _close_dialog( self ):
+        xbmc.executebuiltin( "Skin.Reset(AnimeWindowXMLDialogClose)" )
+        time.sleep( .4 )
+        self.close()
+        
+def pop():
+    if xbmc.getCondVisibility('system.platform.ios'):
+        if not xbmc.getCondVisibility('system.platform.atv'):
+            popup = HUB('hub1.xml',selfAddon.getAddonInfo('path'),'DefaultSkin',logo_path='%s/resources/skins/DefaultSkin/media/Logo/'%AselfAddon.getAddonInfo('path'))
+    if xbmc.getCondVisibility('system.platform.android'):
+        popup = HUB('hub1.xml',selfAddon.getAddonInfo('path'),'DefaultSkin',logo_path='%s/resources/skins/DefaultSkin/media/Logo/'%selfAddon.getAddonInfo('path'))
+    else:
+        popup = HUB('hub.xml',selfAddon.getAddonInfo('path'),'DefaultSkin',logo_path='%s/resources/skins/DefaultSkin/media/Logo/'%selfAddon.getAddonInfo('path'))
+    popup.doModal()
+    del popup
 
 def get_params():
         param=[]
@@ -3918,7 +4002,11 @@ elif mode==2:
 
 elif mode==4:
         print ""+url
-        SEARCH()
+        SEARCH(url)
+        
+elif mode==420:
+        print ""+url
+        Searchhistory()
 
 elif mode==3:
         print ""+url
@@ -4255,7 +4343,7 @@ elif mode==99:
         urlresolver.display_settings()
         
 elif mode==100:
-        MESSAGE()
+        pop()
         
 elif mode==101:
         SEARCHNEW(url)
