@@ -251,7 +251,7 @@ def OC():
 def UFC():
         addDir('UFC.com','ufc',47,"%s/art/ufc.png"%selfAddon.getAddonInfo("path"))
         addDir('UFC(Movie25)','ufc',60,"%s/art/ufc.png"%selfAddon.getAddonInfo("path"))
-        addDir('UFC(Newmyvideolinks)','ufc',101,"%s/art/ufc.png"%selfAddon.getAddonInfo("path"))
+        addDir('UFC(Newmyvideolinks)','ufc',103,"%s/art/ufc.png"%selfAddon.getAddonInfo("path"))
         GA("None","UFC")
 
 def ADVENTURE():
@@ -514,6 +514,7 @@ def WB():
         GA("KidZone","WBK")
 
 def DOCS():
+        addDir('Vice','http://www.vice.com/shows',104,"%s/art/dh.png"%selfAddon.getAddonInfo("path"))
         addDir('Documentary Heaven','doc1',86,"%s/art/dh.png"%selfAddon.getAddonInfo("path"))
         addDir('Top Documentary Films','doc2',86,"%s/art/topdoc.png"%selfAddon.getAddonInfo("path"))
         addDir('Documentary Log','doc3',86,"%s/art/doclog.png"%selfAddon.getAddonInfo("path"))
@@ -675,15 +676,17 @@ def LISTSP(murl):
         GA("HD","Oneclickwatch")
         
 def LISTSP2(murl):
-        addDir('Search Newmyvideolinks','search',101,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
         if murl=='3D':
+                addDir('Search Newmyvideolinks','movieNEW',102,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
                 try:
                         urllist=['http://newmyvideolinks.com/category/movies/3-d-movies/','http://newmyvideolinks.com/category/movies/3-d-movies/page/2/']
                 except:
                         urllist=['http://newmyvideolinks.com/category/movies/3-d-movies/']
         elif murl=='TV':
+                addDir('Search Newmyvideolinks','tvNEW',102,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
                 urllist=['http://newmyvideolinks.com/category/tv-shows/','http://newmyvideolinks.com/category/tv-shows/page/2/','http://newmyvideolinks.com/category/tv-shows/page/3/','http://newmyvideolinks.com/category/tv-shows/page/4/','http://newmyvideolinks.com/category/tv-shows/page/5/']
         else:
+                addDir('Search Newmyvideolinks','movieNEW',102,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
                 urllist=['http://newmyvideolinks.com/category/movies/bluray/','http://newmyvideolinks.com/category/movies/bluray/page/2/','http://newmyvideolinks.com/category/movies/bluray/page/3/','http://newmyvideolinks.com/category/movies/bluray/page/4/','http://newmyvideolinks.com/category/movies/bluray/page/5/']
         dialogWait = xbmcgui.DialogProgress()
         ret = dialogWait.create('Please wait until Movie list is cached.')
@@ -730,49 +733,134 @@ def LISTSP2(murl):
         del dialogWait
         GA("HD-3D-HDTV","Newmyvideolinks")
 
-
+def SearchhistoryNEW(murl):
+        if murl == 'tvNEW':
+            seapath=os.path.join(datapath,'Search')
+            SeaFile=os.path.join(seapath,'SearchHistoryTv')
+            if not os.path.exists(SeaFile):
+                url='tvNEW'
+                SEARCHNEW(url)
+            else:
+                addDir('Search','tvNEW',101,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
+                thumb="%s/art/link.png"%selfAddon.getAddonInfo("path")
+                searchis=re.compile('search="(.+?)",').findall(open(SeaFile,'r').read())
+                for seahis in reversed(searchis):
+                        url=seahis
+                        seahis=seahis.replace('%20',' ')
+                        addDir(seahis,url,101,thumb)
+        elif murl == 'movieNEW':
+            seapath=os.path.join(datapath,'Search')
+            SeaFile=os.path.join(seapath,'SearchHistory25')
+            if not os.path.exists(SeaFile):
+                url='movieNEW'
+                SEARCHNEW(url)
+            else:
+                addDir('Search','movieNEW',101,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
+                thumb="%s/art/link.png"%selfAddon.getAddonInfo("path")
+                searchis=re.compile('search="(.+?)",').findall(open(SeaFile,'r').read())
+                for seahis in reversed(searchis):
+                        url=seahis
+                        seahis=seahis.replace('%20',' ')
+                        addDir(seahis,url,101,thumb)
+            
 
 def SEARCHNEW(murl):
-        if murl == 'search':
+        if murl == 'movieNEW':
+                seapath=os.path.join(datapath,'Search')
+                SeaFile=os.path.join(seapath,'SearchHistory25')
+                try:
+                    os.makedirs(seapath)
+                except:
+                    pass
                 keyb = xbmc.Keyboard('', 'Search Movies')
                 keyb.doModal()
                 if (keyb.isConfirmed()):
                         search = keyb.getText()
                         encode=urllib.quote(search)
                         surl='http://newmyvideolinks.com/index.php?s='+encode
-                        link=OPENURL(surl)
+                        if not os.path.exists(SeaFile) and encode != '':
+                            open(SeaFile,'w').write('search="%s",'%encode)
+                        else:
+                            if encode != '':
+                                open(SeaFile,'a').write('search="%s",'%encode)
+                        searchis=re.compile('search="(.+?)",').findall(open(SeaFile,'r').read())
+                        for seahis in reversed(searchis):
+                            print seahis
+                        if len(searchis)>=10:
+                            searchis.remove(searchis[0])
+                            os.remove(SeaFile)
+                            for seahis in searchis:
+                                try:
+                                    open(SeaFile,'a').write('search="%s",'%seahis)
+                                except:
+                                    pass
+        elif murl == 'tvNEW':
+                seapath=os.path.join(datapath,'Search')
+                SeaFile=os.path.join(seapath,'SearchHistoryTv')
+                try:
+                    os.makedirs(seapath)
+                except:
+                    pass
+                keyb = xbmc.Keyboard('', 'Search TV Shows')
+                keyb.doModal()
+                if (keyb.isConfirmed()):
+                        search = keyb.getText()
+                        encode=urllib.quote(search)
+                        surl='http://newmyvideolinks.com/index.php?s='+encode
+                        if not os.path.exists(SeaFile) and encode != '':
+                            open(SeaFile,'w').write('search="%s",'%encode)
+                        else:
+                            if encode != '':
+                                open(SeaFile,'a').write('search="%s",'%encode)
+                        searchis=re.compile('search="(.+?)",').findall(open(SeaFile,'r').read())
+                        for seahis in reversed(searchis):
+                            continue
+                        if len(searchis)>=10:
+                            searchis.remove(searchis[0])
+                            os.remove(SeaFile)
+                            for seahis in searchis:
+                                try:
+                                    open(SeaFile,'a').write('search="%s",'%seahis)
+                                except:
+                                    pass
+
+                
+        else:
+                encode = murl
+                surl='http://newmyvideolinks.com/index.php?s='+encode
+        link=OPENURL(surl)
+        match=re.compile('<a href="(.+?)" rel=".+?" title=".+?"> <img src="(.+?)" width=".+?" height=".+?" title="(.+?)" class=".+?"></a>').findall(link)
+        if len(match)>0:
+                for url,thumb,name in match:
+                            addDir(name,url,35,thumb)
+
+        else:
+                match=re.compile('href="(.+?)" title="(.+?)"><img src="(.+?)" alt=".+?" width=".+?" height=".+?" class=".+?" />').findall(link)
+                for url,name,thumb in match:
+                            addDir(name,url,35,thumb)
+        GA("Newmyvideolinks","Search")
+
+def UFCNEW():
+        try: 
+                urllist=['http://newmyvideolinks.com/index.php?s=ufc','http://newmyvideolinks.com/page/2/?s=ufc']
+        except:
+                urllist=['http://newmyvideolinks.com/index.php?s=ufc']
+        for surl in urllist:
+                link=OPENURL(surl)
                 match=re.compile('<a href="(.+?)" rel=".+?" title=".+?"> <img src="(.+?)" width=".+?" height=".+?" title="(.+?)" class=".+?"></a>').findall(link)
                 if len(match)>0:
                         for url,thumb,name in match:
-                                 addDir(name,url,35,thumb)
+                                match=re.compile('UFC').findall(name)
+                                if len(match)>0:
+                                        addDir(name,url,35,thumb)
 
                 else:
                         match=re.compile('href="(.+?)" title="(.+?)"><img src="(.+?)" alt=".+?" width=".+?" height=".+?" class=".+?" />').findall(link)
                         for url,name,thumb in match:
-                                 addDir(name,url,35,thumb)
-                GA("Newmyvideolinks","Search")
-        else:
-                try: 
-                        urllist=['http://newmyvideolinks.com/index.php?s=ufc','http://newmyvideolinks.com/page/2/?s=ufc']
-                except:
-                        urllist=['http://newmyvideolinks.com/index.php?s=ufc']
-                for surl in urllist:
-                        link=OPENURL(surl)
-                        match=re.compile('<a href="(.+?)" rel=".+?" title=".+?"> <img src="(.+?)" width=".+?" height=".+?" title="(.+?)" class=".+?"></a>').findall(link)
-                        if len(match)>0:
-                                for url,thumb,name in match:
-                                        match=re.compile('UFC').findall(name)
-                                        if len(match)>0:
-                                                addDir(name,url,35,thumb)
-
-                        else:
-                                match=re.compile('href="(.+?)" title="(.+?)"><img src="(.+?)" alt=".+?" width=".+?" height=".+?" class=".+?" />').findall(link)
-                                for url,name,thumb in match:
-                                        match=re.compile('UFC').findall(name)
-                                        if len(match)>0:
-                                                addDir(name,url,35,thumb)
-                GA("Newmyvideolinks","UFC")
-    
+                                match=re.compile('UFC').findall(name)
+                                if len(match)>0:
+                                       addDir(name,url,35,thumb)
+        GA("Newmyvideolinks","UFC")
 
 def LISTSP3(murl):
         if murl == 'HD':
@@ -1191,6 +1279,22 @@ def LISTDOCPOP(murl):
         match=re.compile("<li><a href='(.+?)'>(.+?)</a></li>").findall(link)
         for url,name in match:
             addDir(name,url,88,'')
+            
+def Vice(murl):
+    GA("Documentary","Vice")
+    link=OPENURL(murl)
+    match=re.compile('<a href="(.+?)"><img width=".+?" height=".+?" src="(.+?)" /></a>    <h2><a href=".+?">(.+?)</a></h2>\n    <p>(.+?)</p>').findall(link)
+    for url,thumb,name,desc in match:
+        url='http://www.vice.com'+url
+        addDir2(name,url,104,thumb,desc)
+
+def ViceList(murl):
+    GA("Vice","Vice-list")
+    link=OPENURL(murl)
+    match=re.compile('<img src="(.+?)" alt="" width=".+?" height=".+?">\n                    <span class=".+?"></span>\n            </a>\n    <h2><a onClick=".+?" href="(.+?)">(.+?)</a></h2>\n.+?<p>\n(.+?)').findall(link)
+    for url,thumb,name,desc in match:
+        url='http://www.vice.com'+url
+        addDir2(name,url,88,thumb,desc)
 
 def Searchhistory():
         seapath=os.path.join(datapath,'Search')
@@ -1204,6 +1308,7 @@ def Searchhistory():
             searchis=re.compile('search="(.+?)",').findall(open(SeaFile,'r').read())
             for seahis in reversed(searchis):
                     url=seahis
+                    seahis=seahis.replace('%20',' ')
                     addDir(seahis,url,4,thumb)
             
             
@@ -1229,8 +1334,8 @@ def SEARCH(murl):
                             open(SeaFile,'a').write('search="%s",'%encode)
                     searchis=re.compile('search="(.+?)",').findall(open(SeaFile,'r').read())
                     for seahis in reversed(searchis):
-                        print seahis
-                    if len(searchis)>=8:
+                        continue
+                    if len(searchis)>=10:
                         searchis.remove(searchis[0])
                         os.remove(SeaFile)
                         for seahis in searchis:
@@ -1535,7 +1640,7 @@ def GETMETAEpi(mname,data):
         return infoLabels
 
 def MAINWFS():
-        addDir('Search','http://watch-freeseries.mu/',504,"%s/art/wfs/search.png"%selfAddon.getAddonInfo("path"))
+        addDir('Search','wfs',522,"%s/art/wfs/search.png"%selfAddon.getAddonInfo("path"))
         addDir('A-Z','http://watch-freeseries.mu/tvseries',510,"%s/art/wfs/az.png"%selfAddon.getAddonInfo("path"))
         addDir('This Week Episodes','http://watch-freeseries.mu/this-week-episodes/',528,"%s/art/wfs/latest.png"%selfAddon.getAddonInfo("path"))
         addDir('Popular TV Series','http://watch-freeseries.mu/',511,"%s/art/wfs/popu.png"%selfAddon.getAddonInfo("path"))
@@ -1757,26 +1862,73 @@ def LISTEpilist(name,murl):
         if selfAddon.getSetting('auto-view') == 'true':
                 xbmc.executebuiltin("Container.SetViewMode(%s)" % selfAddon.getSetting('episodes-view'))        
         
-def SEARCHWFS():
-        keyb = xbmc.Keyboard('', 'Search For Shows or Episodes')
-        keyb.doModal()
-        if (keyb.isConfirmed()):
-                search = keyb.getText()
-                encode=urllib.quote(search)
-                surl='http://watch-freeseries.mu/index.php?action=episodes_ajaxQuickSearchSuggest&limit=10&keywords='+encode
-                req = urllib2.Request(surl)
-                req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-                response = urllib2.urlopen(req)
-                link=response.read()
-                response.close()
-                match=re.compile('{"id":.+?,"label":".+?","value":"(.+?)","modrwName":"(.+?)"}').findall(link)
-                for name,url in match:
-                        url=url.replace('\/','/')
-                        match=re.compile('season').findall(url)
-                        if (len(match)>0):
-                            addDir(name,url,503,'')
+
+
+def Searchhistorywfs():
+        seapath=os.path.join(datapath,'Search')
+        SeaFile=os.path.join(seapath,'SearchHistoryTv')
+        if not os.path.exists(SeaFile):
+            url='wfs'
+            SEARCHWFS(url)
+        else:
+            addDir('Search','wfs',504,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
+            thumb="%s/art/link.png"%selfAddon.getAddonInfo("path")
+            searchis=re.compile('search="(.+?)",').findall(open(SeaFile,'r').read())
+            for seahis in reversed(searchis):
+                    url=seahis
+                    seahis=seahis.replace('%20',' ')
+                    addDir(seahis,url,504,thumb)
+            
+            
+    
+
+
+def SEARCHWFS(murl):
+        seapath=os.path.join(datapath,'Search')
+        SeaFile=os.path.join(seapath,'SearchHistoryTv')
+        try:
+            os.makedirs(seapath)
+        except:
+            pass
+        if murl == 'wfs':
+                keyb = xbmc.Keyboard('', 'Search For Shows or Episodes')
+                keyb.doModal()
+                if (keyb.isConfirmed()):
+                        search = keyb.getText()
+                        encode=urllib.quote(search)
+                        surl='http://watch-freeseries.mu/index.php?action=episodes_ajaxQuickSearchSuggest&limit=10&keywords='+encode
+                        if not os.path.exists(SeaFile) and encode != '':
+                            open(SeaFile,'w').write('search="%s",'%encode)
                         else:
-                            addInfo2(name,url,507,'','')
+                            if encode != '':
+                                open(SeaFile,'a').write('search="%s",'%encode)
+                        searchis=re.compile('search="(.+?)",').findall(open(SeaFile,'r').read())
+                        for seahis in reversed(searchis):
+                            continue
+                        if len(searchis)>=10:
+                            searchis.remove(searchis[0])
+                            os.remove(SeaFile)
+                            for seahis in searchis:
+                                try:
+                                    open(SeaFile,'a').write('search="%s",'%seahis)
+                                except:
+                                    pass
+        else:
+                encode = murl
+                surl='http://watch-freeseries.mu/index.php?action=episodes_ajaxQuickSearchSuggest&limit=10&keywords='+encode
+        req = urllib2.Request(surl)
+        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        response = urllib2.urlopen(req)
+        link=response.read()
+        response.close()
+        match=re.compile('{"id":.+?,"label":".+?","value":"(.+?)","modrwName":"(.+?)"}').findall(link)
+        for name,url in match:
+                url=url.replace('\/','/')
+                match=re.compile('season').findall(url)
+                if (len(match)>0):
+                        addDir(name,url,503,'')
+                else:
+                    addInfo2(name,url,507,'','')
         GA("WFS","Search")
 
 def GETLINKWFS(url):
@@ -1883,7 +2035,7 @@ def VIDEOLINKSWFS(name,url):
 ############################################################################################ WFS ENDS ##############################################################################
 ############################################################################################ SERIES GATE BEGIN ##############################################################################
 def MAINSG():
-        addDir('Search','http://seriesgate.tv/',608,"%s/art/wfs/search.png"%selfAddon.getAddonInfo("path"))
+        addDir('Search','sg',612,"%s/art/wfs/search.png"%selfAddon.getAddonInfo("path"))
         addDir('A-Z','http://seriesgate.tv/',610,"%s/art/wfs/az.png"%selfAddon.getAddonInfo("path"))
         addDir('Latest Episodes','http://seriesgate.tv/latestepisodes/',602,"%s/art/wfs/latest.png"%selfAddon.getAddonInfo("path"))
         HOMESG()
@@ -1982,27 +2134,73 @@ def LISTEpilistSG(mname,murl):
         addDir2(seep+" "+'"'+epiname+'"',durl,609,thumb,'')
     GA("SeriesGate","Epi-list")
 
-def SEARCHSG():
-        keyb = xbmc.Keyboard('', 'Search For Shows or Episodes')
-        keyb.doModal()
-        if (keyb.isConfirmed()):
-                search = keyb.getText()
-                encode=urllib.quote(search)
-                surl='http://seriesgate.tv/search/indv_episodes/'+encode+'/'
-                req = urllib2.Request(surl)
-                req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
-                response = urllib2.urlopen(req)
-                link=response.read()
-                response.close()
-                addLink('[COLOR red]Shows[/COLOR]','','')
-                match=re.compile('src = "([^<]+)" height=".+?" width=".+?" alt=""  /></a><div class = ".+?" style=".+?"><div class = ".+?"><a href = "([^<]+)">([^<]+)</a></div><a href = ".+?">').findall(link)
-                for thumb,url,name in match:
-                        addDir(name,url,604,thumb)
-                addLink('[COLOR red]Episodes[/COLOR]','','')
-                match=re.compile('src="([^<]+)" width=".+?" height=".+?"  /></a></div><div style=".+?"><a style=".+?" href = "([^<]+)"><span style=".+?">([^<]+)</span></a><span style=".+?">EPISODE</span><div class=".+?"></div><span style=".+?">([^<]+)</span>').findall(link)
-                for thumb,url,epiname, name in match:
-                        durl = url+'more_sources/'
-                        addDir(name+' [COLOR red]"'+epiname+'"[/COLOR]',durl,609,thumb)
+def SearchhistorySG():
+        seapath=os.path.join(datapath,'Search')
+        SeaFile=os.path.join(seapath,'SearchHistoryTv')
+        if not os.path.exists(SeaFile):
+            url='sg'
+            SEARCHSG(url)
+        else:
+            addDir('Search','sg',608,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
+            thumb="%s/art/link.png"%selfAddon.getAddonInfo("path")
+            searchis=re.compile('search="(.+?)",').findall(open(SeaFile,'r').read())
+            for seahis in reversed(searchis):
+                    url=seahis
+                    seahis=seahis.replace('%20',' ')
+                    addDir(seahis,url,608,thumb)
+            
+            
+
+
+def SEARCHSG(murl):
+        seapath=os.path.join(datapath,'Search')
+        SeaFile=os.path.join(seapath,'SearchHistoryTv')
+        try:
+            os.makedirs(seapath)
+        except:
+            pass
+        if murl == 'sg':
+            keyb = xbmc.Keyboard('', 'Search For Shows or Episodes')
+            keyb.doModal()
+            if (keyb.isConfirmed()):
+                    search = keyb.getText()
+                    encode=urllib.quote(search)
+                    surl='http://seriesgate.tv/search/indv_episodes/'+encode+'/'
+                    if not os.path.exists(SeaFile) and encode != '':
+                        open(SeaFile,'w').write('search="%s",'%encode)
+                    else:
+                        if encode != '':
+                            open(SeaFile,'a').write('search="%s",'%encode)
+                    searchis=re.compile('search="(.+?)",').findall(open(SeaFile,'r').read())
+                    for seahis in reversed(searchis):
+                        continue
+                    if len(searchis)>=10:
+                        searchis.remove(searchis[0])
+                        os.remove(SeaFile)
+                        for seahis in searchis:
+                            try:
+                                open(SeaFile,'a').write('search="%s",'%seahis)
+                            except:
+                                pass
+
+
+        else:
+            encode = murl
+            surl='http://seriesgate.tv/search/indv_episodes/'+encode+'/'    
+        req = urllib2.Request(surl)
+        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        response = urllib2.urlopen(req)
+        link=response.read()
+        response.close()
+        addLink('[COLOR red]Shows[/COLOR]','','')
+        match=re.compile('src = "([^<]+)" height=".+?" width=".+?" alt=""  /></a><div class = ".+?" style=".+?"><div class = ".+?"><a href = "([^<]+)">([^<]+)</a></div><a href = ".+?">').findall(link)
+        for thumb,url,name in match:
+                addDir(name,url,604,thumb)
+        addLink('[COLOR red]Episodes[/COLOR]','','')
+        match=re.compile('src="([^<]+)" width=".+?" height=".+?"  /></a></div><div style=".+?"><a style=".+?" href = "([^<]+)"><span style=".+?">([^<]+)</span></a><span style=".+?">EPISODE</span><div class=".+?"></div><span style=".+?">([^<]+)</span>').findall(link)
+        for thumb,url,epiname, name in match:
+                durl = url+'more_sources/'
+                addDir(name+' [COLOR red]"'+epiname+'"[/COLOR]',durl,609,thumb)
         GA("SeriesGate","Search")
 
 
@@ -2126,7 +2324,7 @@ def VIDEOLINKSSG(mname,murl):
                 listitem.setInfo('video', {'Title': name, 'Year': ''} )       
                 xbmc.Player().play(stream_url, listitem)
                 addDir('','','','')
-############################################################################################ SERIES GATE ENDNEW MY VIDEO LINKS BEGIN ##############################################################################
+############################################################################################ SERIES GATE END ##############################################################################
 
 
 
@@ -4348,6 +4546,19 @@ elif mode==100:
 elif mode==101:
         SEARCHNEW(url)
 
+elif mode==102:
+        SearchhistoryNEW(url)
+        
+elif mode==103:
+        UFCNEW()
+        
+elif mode==104:
+        Vice(url)
+        
+elif mode==105:
+        ViceList(url)
+        
+        
 elif mode==500:
         TVAll()        
 
@@ -4380,7 +4591,11 @@ elif mode==502:
 
 elif mode==504:
         print ""+url
-        SEARCHWFS()
+        SEARCHWFS(url)
+        
+elif mode==522:
+        print ""+url
+        Searchhistorywfs()
 
 elif mode==503:
         print ""+url
@@ -4428,12 +4643,17 @@ elif mode==607:
 
 elif mode==608:
         print ""+url
-        SEARCHSG()
+        SEARCHSG(url)
+        
+elif mode==612:
+        print ""+url
+        SearchhistorySG()
 
 elif mode==609:
         print ""+url
         VIDEOLINKSSG(name,url)
-        
+
+     
         
 elif mode==610:
         print ""+url
