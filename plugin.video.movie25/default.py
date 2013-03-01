@@ -514,7 +514,7 @@ def WB():
         GA("KidZone","WBK")
 
 def DOCS():
-        addDir('Vice','http://www.vice.com/shows',104,"%s/art/dh.png"%selfAddon.getAddonInfo("path"))
+        addDir('Vice','http://www.vice.com/shows',104,"%s/art/vice.png"%selfAddon.getAddonInfo("path"))
         addDir('Documentary Heaven','doc1',86,"%s/art/dh.png"%selfAddon.getAddonInfo("path"))
         addDir('Top Documentary Films','doc2',86,"%s/art/topdoc.png"%selfAddon.getAddonInfo("path"))
         addDir('Documentary Log','doc3',86,"%s/art/doclog.png"%selfAddon.getAddonInfo("path"))
@@ -684,10 +684,10 @@ def LISTSP2(murl):
                         urllist=['http://newmyvideolinks.com/category/movies/3-d-movies/']
         elif murl=='TV':
                 addDir('Search Newmyvideolinks','tvNEW',102,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
-                urllist=['http://newmyvideolinks.com/category/tv-shows/','http://newmyvideolinks.com/category/tv-shows/page/2/','http://newmyvideolinks.com/category/tv-shows/page/3/','http://newmyvideolinks.com/category/tv-shows/page/4/','http://newmyvideolinks.com/category/tv-shows/page/5/']
+                urllist=['http://newmyvideolinks.com/category/tv-shows/','http://newmyvideolinks.com/category/tv-shows/page/2/','http://newmyvideolinks.com/category/tv-shows/page/3/','http://newmyvideolinks.com/category/tv-shows/page/4/','http://newmyvideolinks.com/category/tv-shows/page/5/','http://newmyvideolinks.com/category/tv-shows/page/6/','http://newmyvideolinks.com/category/tv-shows/page/7/','http://newmyvideolinks.com/category/tv-shows/page/8/','http://newmyvideolinks.com/category/tv-shows/page/9/','http://newmyvideolinks.com/category/tv-shows/page/10/']
         else:
                 addDir('Search Newmyvideolinks','movieNEW',102,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
-                urllist=['http://newmyvideolinks.com/category/movies/bluray/','http://newmyvideolinks.com/category/movies/bluray/page/2/','http://newmyvideolinks.com/category/movies/bluray/page/3/','http://newmyvideolinks.com/category/movies/bluray/page/4/','http://newmyvideolinks.com/category/movies/bluray/page/5/']
+                urllist=['http://newmyvideolinks.com/category/movies/bluray/','http://newmyvideolinks.com/category/movies/bluray/page/2/','http://newmyvideolinks.com/category/movies/bluray/page/3/','http://newmyvideolinks.com/category/movies/bluray/page/4/','http://newmyvideolinks.com/category/movies/bluray/page/5/','http://newmyvideolinks.com/category/movies/bluray/page/6/','http://newmyvideolinks.com/category/movies/bluray/page/7/','http://newmyvideolinks.com/category/movies/bluray/page/8/','http://newmyvideolinks.com/category/movies/bluray/page/9/','http://newmyvideolinks.com/category/movies/bluray/page/10/']
         dialogWait = xbmcgui.DialogProgress()
         ret = dialogWait.create('Please wait until Movie list is cached.')
         totalLinks = len(urllist)
@@ -1286,15 +1286,81 @@ def Vice(murl):
     match=re.compile('<a href="(.+?)"><img width=".+?" height=".+?" src="(.+?)" /></a>    <h2><a href=".+?">(.+?)</a></h2>\n    <p>(.+?)</p>').findall(link)
     for url,thumb,name,desc in match:
         url='http://www.vice.com'+url
-        addDir2(name,url,104,thumb,desc)
+        addDir2(name,url,105,thumb,desc)
 
 def ViceList(murl):
     GA("Vice","Vice-list")
     link=OPENURL(murl)
-    match=re.compile('<img src="(.+?)" alt="" width=".+?" height=".+?">\n                    <span class=".+?"></span>\n            </a>\n    <h2><a onClick=".+?" href="(.+?)">(.+?)</a></h2>\n.+?<p>\n(.+?)').findall(link)
-    for url,thumb,name,desc in match:
+    match=re.compile('<img src="(.+?)" alt="" width=".+?" height=".+?">\n                    <span class=".+?"></span>\n            </a>\n    <h2><a onClick=".+?" href="(.+?)">(.+?)</a></h2>').findall(link)
+    for thumb,url,name in match:
         url='http://www.vice.com'+url
-        addDir2(name,url,88,thumb,desc)
+        addDir2(name,url,106,thumb,'')
+
+def ViceLink(mname,murl):
+    GA("Vice","Watched")
+    link=OPENURL(murl)
+    desci=re.compile('<meta name="description" content="(.+?)" />').findall(link)
+    if len(desci)>0:
+        desc=desci[0]
+    else:
+        desc=''
+    thumbi=re.compile('<meta property="og:image" content="(.+?)" />').findall(link)
+    if len(thumbi)>0:
+        thumb=thumbi[0]
+    else:
+        thumb=''
+    match=re.compile('content="http://player.ooyala.com/player.swf.?embedCode=(.+?)&amp;.+?"').findall(link)
+    if len(match)>0:
+        playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+        playlist.clear()
+        durl='http://player.ooyala.com/player/ipad/'+match[0]+'.m3u8'
+        link2=OPENURL(durl)
+        match=re.compile('http://(.+?).m3u8').findall(link2)
+        if len(match)==0:
+            xbmc.executebuiltin("XBMC.Notification(Sorry!,Link Cannot Be Played,5000)")
+        else:
+            if selfAddon.getSetting("vice-qua") == "0":
+                try:
+                    stream_url = 'http://'+match[3]+'.m3u8'
+                except:
+                    stream_url = 'http://'+match[0]+'.m3u8'
+            elif selfAddon.getSetting("vice-qua") == "1":
+                try:
+                    stream_url = 'http://'+match[0]+'.m3u8'
+                except:
+                    stream_url = 'http://'+match[2]+'.m3u8'
+            else:
+                try:
+                    stream_url = 'http://'+match[2]+'.m3u8'
+                except:
+                    stream_url = 'http://'+match[0]+'.m3u8'
+            listitem = xbmcgui.ListItem(mname, thumbnailImage= thumb)
+            listitem.setInfo("Video", infoLabels={ "Title": mname, "Plot": desc})
+            playlist.add(stream_url,listitem)
+            xbmcPlayer = xbmc.Player()
+            xbmcPlayer.play(playlist)
+            addDir('','','','')
+    
+    match2=re.compile('content="http://www.youtube.com/v/(.+?)" />').findall(link)
+    if len(match2)>0:
+        playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+        playlist.clear()
+        url='http://www.youtube.com/watch?v='+match2[0]
+        media = urlresolver.HostedMediaFile(str(url))
+        source = media
+        listitem = xbmcgui.ListItem(mname)
+        if source:
+                xbmc.executebuiltin("XBMC.Notification(Please Wait!,Resolving Link,3000)")
+                stream_url = source.resolve()
+                if source.resolve()==False:
+                        xbmc.executebuiltin("XBMC.Notification(Sorry!,Link Cannot Be Resolved,5000)")
+                        return
+        else:
+              stream_url = False  
+        playlist.add(stream_url,listitem)
+        xbmcPlayer = xbmc.Player()
+        xbmcPlayer.play(playlist)
+        addDir('','','','')
 
 def Searchhistory():
         seapath=os.path.join(datapath,'Search')
@@ -2782,8 +2848,9 @@ def LINKDISC(name,url):
                 playlist.add(final,listitem)
                 i=i+1
       
-        xbmcPlayer = xbmc.Player()
-        xbmcPlayer.play(playlist)
+        xbmc.Player().play(playlist)
+        xbmc.sleep(1000)
+        xbmc.Player().pause()
         if idlist3[0][0:7]==idlist3[1][0:7]:
                 xbmc.executebuiltin("XBMC.Notification([B]Attention![/B],"+str(len(match))+" Clips loaded to playlist,10000)")
         elif idlist3[0][6:13]==idlist3[1][6:13]:
@@ -3986,19 +4053,20 @@ checkGA()
 
 class HUB( xbmcgui.WindowXMLDialog ):
     def __init__( self, *args, **kwargs ):
-        self.logo = kwargs['logo_path']
+        self.shut = kwargs['close_time'] 
         xbmc.executebuiltin( "Skin.Reset(AnimeWindowXMLDialogClose)" )
         xbmc.executebuiltin( "Skin.SetBool(AnimeWindowXMLDialogClose)" )
-       
+                                       
     def onInit( self ):
-        self.getControl( 48 ).reset()
-        xbmc.Player().play('%s/resources/skins/DefaultSkin/media/xbmchub.mp3'%selfAddon.getAddonInfo('path'))# Music.
-        listitem = xbmcgui.ListItem( selfAddon.getAddonInfo('name'),'', selfAddon.getAddonInfo('icon'), selfAddon.getAddonInfo('icon') )
-        listitem.setProperty( 'path', self.logo )
-        self.getControl( 48 ).addItem( listitem )
-
+        xbmc.Player().play('%s/resources/skins/DefaultSkin/media/xbmchub.mp3'%selfA.getAddonInfo('path'))# Music.
+        while self.shut > 0:
+            time.sleep(1)
+            self.shut -= 1
+        xbmc.Player().stop()
+        self._close_dialog()
+                
     def onFocus( self, controlID ): pass
-
+    
     def onClick( self, controlID ): 
         if controlID == 12:
             xbmc.Player().stop()
@@ -4008,7 +4076,7 @@ class HUB( xbmcgui.WindowXMLDialog ):
             self._close_dialog()
 
     def onAction( self, action ):
-        if action in [ 9, 10, 117 ] or action.getButtonCode() in [ 275, 257, 261 ]or action.getButtonCode() in [ 5,6,7 ]:
+        if action in [ 5, 6, 7, 9, 10, 92, 117 ] or action.getButtonCode() in [ 275, 257, 261 ]:
             xbmc.Player().stop()
             self._close_dialog()
 
@@ -4018,13 +4086,14 @@ class HUB( xbmcgui.WindowXMLDialog ):
         self.close()
         
 def pop():
+    xbmc.Player().play('%s/resources/skins/DefaultSkin/media/xbmchub.mp3'%selfAddon.getAddonInfo('path'))
     if xbmc.getCondVisibility('system.platform.ios'):
         if not xbmc.getCondVisibility('system.platform.atv'):
-            popup = HUB('hub1.xml',selfAddon.getAddonInfo('path'),'DefaultSkin',logo_path='%s/resources/skins/DefaultSkin/media/Logo/'%AselfAddon.getAddonInfo('path'))
+            popup = HUB('hub1.xml',selfAddon.getAddonInfo('path'),'DefaultSkin',close_time=11,logo_path='%s/resources/skins/DefaultSkin/media/Logo/'%AselfAddon.getAddonInfo('path'))
     if xbmc.getCondVisibility('system.platform.android'):
-        popup = HUB('hub1.xml',selfAddon.getAddonInfo('path'),'DefaultSkin',logo_path='%s/resources/skins/DefaultSkin/media/Logo/'%selfAddon.getAddonInfo('path'))
+        popup = HUB('hub1.xml',selfAddon.getAddonInfo('path'),'DefaultSkin',close_time=11,logo_path='%s/resources/skins/DefaultSkin/media/Logo/'%selfAddon.getAddonInfo('path'))
     else:
-        popup = HUB('hub.xml',selfAddon.getAddonInfo('path'),'DefaultSkin',logo_path='%s/resources/skins/DefaultSkin/media/Logo/'%selfAddon.getAddonInfo('path'))
+        popup = HUB('hub.xml',selfAddon.getAddonInfo('path'),'DefaultSkin',close_time=11,logo_path='%s/resources/skins/DefaultSkin/media/Logo/'%selfAddon.getAddonInfo('path'))
     popup.doModal()
     del popup
 
@@ -4069,7 +4138,7 @@ def addDir(name,url,mode,iconimage):
         ok=True
         liz=xbmcgui.ListItem(name, iconImage="%s/art/vidicon.png"%selfAddon.getAddonInfo("path"), thumbnailImage=iconimage)
         liz.setInfo( type="Video", infoLabels={ "Title": name } )
-        ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=mode!=2)
+        ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
         return ok
     
 def addDir2(name,url,mode,iconimage,desc):
@@ -4557,7 +4626,9 @@ elif mode==104:
         
 elif mode==105:
         ViceList(url)
-        
+
+elif mode==106:        
+        ViceLink(name,url)        
         
 elif mode==500:
         TVAll()        

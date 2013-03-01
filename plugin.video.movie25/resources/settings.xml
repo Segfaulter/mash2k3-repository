@@ -12,6 +12,10 @@
 		<setting id="xpr-view"	type="enum" label="Xperience 1080 View" values="List|Info List|Thumbnail|Posters|Landscape|Banner|Panel" default="3" enable="!eq(-2,true)+!eq(-6,false)"/>
 		<setting id="ga_time" type="text" label="GA Called" default="2000-01-01 00:00:00" visible="false"/>
 		<setting id="visitor_ga" type="text" label="GA visitor" default="" visible="false"/>
+		
+   </category>
+   <category label="Video Quality">
 		<setting id="bit-disc"	type="enum" label="[B]Discovery Bitrate[/B]" values="3500k|1500k|600k" default="0"/>
+		<setting id="vice-qua"	type="enum" label="[B]Vice Bitrate[/B]" values="High|Medium|Low" default="0"/>
    </category>
 </settings>

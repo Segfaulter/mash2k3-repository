@@ -1,3 +1,24 @@
+[B]Version 1.2.2[/B]
+
+-Added military channel (woodypecker)
+-Added youtube channnels(kid shows)
+-Added animal planet
+-Added velocity
+-Added science discovery
+-Added a documentary section
+-Added Doc heaven, Doc log and Top Doc Films in documentary section
+-Added more pages to newmyvideolinks
+-Added function to ask user desired year in movie25 section
+-Added search history for Movie and TV sections
+-Added vice in documentary section (woodypecker)
+-Added Built in plugin section
+-Added Series gate to Built in plugin section (poegloom)
+-Added Watch-FreeSeries to Built in plugin section (duquesa)
+-Integrated dependencies to plugin
+-Added XBMCHUB popup
+-Added force play code to discovery section(voinage,spoyser)
+-Fixed Favorites to save to userdata folder. 
+
 [B]Version 1.2.1[/B]
 
 -Quick fix, National geo anil and kids not showing all video
