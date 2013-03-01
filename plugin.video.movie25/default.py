@@ -1905,7 +1905,7 @@ def LISTSeason(mname,murl):
         
 def LISTEpilist(name,murl):
         GA("WFS","Epi-list")
-        match=re.compile('http://watch-freeseries.mu/tv/.+?/.+?xoxc(.+?)xoxc(.+?)xoxc').findall(murl)
+        match=re.compile('xoxc(.+?)xoxc(.+?)xoxc').findall(murl)
         for showname, sea in match:
                 season=sea
                 murl=murl.replace('xoxc'+sea+'xoxc','').replace(str(showname),'').replace('xoxc','')
@@ -1919,7 +1919,7 @@ def LISTEpilist(name,murl):
                 name =name +'xoxc'
                 match=re.compile('Episode (.+?) - (.+?)xoxc').findall(name)
                 for epinum, epiname in match:
-                        print epinum
+                    continue
 
                 data=str(showname)+'xoxc'+str(season)+'xoxc'+str(epinum)+'xoxc'+str(epiname)+'xoxc'
                 name=name.replace('xoxc','')
