@@ -221,6 +221,7 @@ def SPORTS():
         addDir('ESPN','http:/espn.com',44,"%s/art/espn.png"%selfAddon.getAddonInfo("path"))
         addDir('UFC','ufc',59,"%s/art/ufc.png"%selfAddon.getAddonInfo("path"))
         addDir('Outdoor Channel','http://outdoorchannel.com/',50,"%s/art/OC.png"%selfAddon.getAddonInfo("path"))
+        addDir('Wild TV','https://www.wildtv.ca/shows',92,"%s/art/wildtv.png"%selfAddon.getAddonInfo("path"))
         GA("None","Sports")
 
 def ESPN():
@@ -353,6 +354,7 @@ def ANIP():
         VIEWSB()
         
 def MILIT():
+        addDir('AIR ACES','aa',90,'http://viewersguide.ca/wp-content/uploads/2013/01/air-aces-ss-280x200.png')
         addDir('AN OFFICER AND A MOVIE','http://military.discovery.com/services/taxonomy/AN%20OFFICER%20AND%20A%20MOVIE/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/oam.jpg')
         addDir('BLACK OPS','http://military.discovery.com/services/taxonomy/BLACK%20OPS/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/black_ops.jpg')
         addDir('COMBAT COUNTDOWN','http://military.discovery.com/services/taxonomy/COMBAT%20COUNTDOWN/?num=200&page=0&filter=clip%2Cplaylist%2Cfullepisode&tpl=dds%2Fmodules%2Fvideo%2Fall_assets_grid.html&sort=date&order=desc&feedGroup=video',64,'http://static.ddmcdn.com/gif/combat-countdown.jpg')
@@ -1362,6 +1364,80 @@ def ViceLink(mname,murl):
         xbmcPlayer.play(playlist)
         addDir('','','','')
 
+
+def LISTAA():
+        GA("Military","AirAces-list")
+        addDir('George Beurling S01E01','5nlDEnOqFF3O6&aifpxoxocHIST_AirAces_E1001',91,'http://a123.g.akamai.net/f/123/68811/1d/broadcastent.download.akamai.com/68961/Canwest_Broadcast_Entertainment/HIST_AirAces_E1001_230x160_2323832069.jpg')
+        addDir('Douglas Bader S01E02','1ptFFnRnDE6P5&aifpxoxocHIST_AirAces_E1002',91,'http://a123.g.akamai.net/f/123/68811/1d/broadcastent.download.akamai.com/68961/Canwest_Broadcast_Entertainment/HIST_AirAces_E1002_230x160_2324816281.jpg')
+        addDir('Red Tails S01E03','7prEIqMqzCYM7&aifpxoxocHIST_AirAces_E1003',91,'http://a123.g.akamai.net/f/123/68811/1d/broadcastent.download.akamai.com/68961/Canwest_Broadcast_Entertainment/HIST_AirAces_E1004_230x160_2327588677.jpg')
+        addDir('Robin Olds S01E04','5pnGCnKozF2N2&aifpxoxocHIST_AirAces_E1004',91,'http://a123.g.akamai.net/f/123/68811/1d/broadcastent.download.akamai.com/68961/Canwest_Broadcast_Entertainment/HIST_AirAces_E1005_230x160_2329175886.jpg')
+        addDir('Wing Walker S01E05','2pnGBpRpFD1M8&aifpxoxocHIST_AirAces_E1005',91,'http://a123.g.akamai.net/f/123/68811/1d/broadcastent.download.akamai.com/68961/Canwest_Broadcast_Entertainment/HIST_AirAces_E1003_230x160_2331028278.jpg')
+        addDir('Gabby Gabreski S01E06','6nnGAoKpxC5O6&aifpxoxocHIST_AirAces_E1006',91,'http://a123.g.akamai.net/f/123/68811/1d/broadcastent.download.akamai.com/68961/Canwest_Broadcast_Entertainment/HIST_AirAces_E1006_230x160_2333235943.jpg')
+        addDir('Air Aces Interview - Part 1','2psEDnRpyD0M5&aifp=xoxocAirAcesPt1',91,'http://a123.g.akamai.net/f/123/68811/1d/broadcastent.download.akamai.com/68961/Canwest_Broadcast_Entertainment/AirAcesPt1_230x160_2327083941.jpg')
+        addDir('Air Aces Interview - Part 2','9nuFFoLozFYOa&aifp=xoxocAirAcesPt2',91,'http://a123.g.akamai.net/f/123/68811/1d/broadcastent.download.akamai.com/68961/Canwest_Broadcast_Entertainment/AirAcesPt2_230x160_2327083934.jpg')
+
+def PLAYAA(mname,murl):
+        GA("AirAces-list","Watched")
+        match=re.compile('([^<]+)xoxoc([^<]+)').findall(murl)
+        for fid, filename in match:
+            continue
+        stream_url = 'rtmp://cp68811.edgefcs.net/ondemand/?auth=dbEc2aOaoa2dNd4c3dYabcPc7c4bQdObCcn-brnsbZ-4q-d9i-5'+fid+'=1234&slist=Canwest_Broadcast_En tertainment/'
+        playpath = 'mp4:Canwest_Broadcast_Entertainment/'+filename+'.mp4'       
+        playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+        playlist.clear()
+        listitem = xbmcgui.ListItem(mname)
+        listitem.setProperty('PlayPath', playpath);
+        playlist.add(stream_url,listitem)
+        xbmcPlayer = xbmc.Player()
+        xbmcPlayer.play(playlist)
+        addDir('','','','')
+
+        
+
+def WILDTV(murl):
+        GA("Sports","Wildtv")
+        link=OPENURL(murl)
+        match=re.compile('<option value="(.+?)">(.+?)</option>').findall(link)
+        for idnum, name in match:
+            url='https://www.wildtv.ca/show/'+idnum
+            addDir(name,url,93,"%s/art/wildtv.png"%selfAddon.getAddonInfo("path"))
+
+def LISTWT(murl):
+        GA("Wildtv","Wildtv-list")
+        link=OPENURL(murl)
+        match=re.compile('alt="Video: (.+?)" href="(.+?)">\r\n<img class=".+?" src="(.+?)"').findall(link)
+        for name, url, thumb in match:
+            thumb='https:'+thumb
+            url='https://www.wildtv.ca/' +url
+            addDir(name,url,94,thumb)
+
+def LINKWT(mname,murl):
+        GA("Wildtv-list","Watched")
+        link=OPENURL(murl)
+        stream=re.compile('streamer: "(.+?)",').findall(link)
+        Path=re.compile('file: "mp4:med/(.+?).mp4",').findall(link)
+        desc=re.compile('<meta name="description" content="(.+?)" />').findall(link)
+        if len(desc)>0:
+            desc=desc[0]
+        else:
+            desc=''
+        thumb=re.compile('image: "(.+?)",').findall(link)
+        if len(thumb)>0:
+            thumb='https:'+thumb[0]
+        else:
+            thumb=''
+        stream_url = stream[0]+'/'
+        playpath = 'mp4:main/'+Path[0]+'.mp4'
+        playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+        playlist.clear()
+        listitem = xbmcgui.ListItem(mname, thumbnailImage= thumb)
+        listitem.setProperty('PlayPath', playpath);
+        listitem.setInfo("Video", infoLabels={ "Title": mname, "Plot": desc})
+        playlist.add(stream_url,listitem)
+        xbmcPlayer = xbmc.Player()
+        xbmcPlayer.play(playlist)
+        addDir('','','','')
+        
 def Searchhistory():
         seapath=os.path.join(datapath,'Search')
         SeaFile=os.path.join(seapath,'SearchHistory25')
@@ -4603,8 +4679,25 @@ elif mode==89:
         print ""+url
         LISTDOCPOP(url)
 
+elif mode==90:
+        print ""+url
+        LISTAA()
 
+elif mode==91:
+        print ""+url
+        PLAYAA(name,url)
 
+elif mode==92:
+        print ""+url
+        WILDTV(url)        
+
+elif mode==93:
+        print ""+url
+        LISTWT(url)
+        
+elif mode==94:
+        print ""+url
+        LINKWT(name,url)
         
 elif mode==99:
         urlresolver.display_settings()
