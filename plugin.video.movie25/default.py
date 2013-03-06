@@ -1,5 +1,5 @@
 #-*- coding: utf-8 -*-
-import urllib,urllib2,re,cookielib,string
+import urllib,urllib2,re,cookielib,string, urlparse
 import xbmc, xbmcgui, xbmcaddon, xbmcplugin
 import urlresolver
 from t0mm0.common.addon import Addon
@@ -219,6 +219,7 @@ def INT():
 
 def SPORTS():
         addDir('ESPN','http:/espn.com',44,"%s/art/espn.png"%selfAddon.getAddonInfo("path"))
+        addDir('TSN','http:/tsn.com',95,"%s/art/tsn.png"%selfAddon.getAddonInfo("path"))
         addDir('UFC','ufc',59,"%s/art/ufc.png"%selfAddon.getAddonInfo("path"))
         addDir('Outdoor Channel','http://outdoorchannel.com/',50,"%s/art/OC.png"%selfAddon.getAddonInfo("path"))
         addDir('Wild TV','https://www.wildtv.ca/shows',92,"%s/art/wildtv.png"%selfAddon.getAddonInfo("path"))
@@ -237,6 +238,25 @@ def ESPN():
         addDir('GOLF','http://m.espn.go.com/mobilecache/general/apps/videohub/moreVideos?xhr=1&pageNum=1&numResults=100&trackingPage=espntablet%3Ageneral%3Avideo&format=json&cid=4331063',45,"%s/art/espn.png"%selfAddon.getAddonInfo("path"))
         addDir('MOTORSPORTS','http://m.espn.go.com/mobilecache/general/apps/videohub/moreVideos?xhr=1&pageNum=1&numResults=100&trackingPage=espntablet%3Ageneral%3Avideo&format=json&cid=3879997',45,"%s/art/espn.png"%selfAddon.getAddonInfo("path"))
         GA("Sports","ESPN")
+
+def TSNDIR():
+        addDir('Featured','http://esi.ctv.ca/datafeedrss/vhBinData.aspx?bid=14070',97,"%s/art/tsn.png"%selfAddon.getAddonInfo("path"))
+        addDir('NHL','nhl',96,"%s/art/tsn.png"%selfAddon.getAddonInfo("path"))
+        addDir('NFL','nfl',96,"%s/art/tsn.png"%selfAddon.getAddonInfo("path"))
+        addDir('NBA','nba',96,"%s/art/tsn.png"%selfAddon.getAddonInfo("path"))
+        addDir('Hockey Canada','canadian_hockey',96,"%s/art/tsn.png"%selfAddon.getAddonInfo("path"))
+        addDir('CFL','cfl',96,"%s/art/tsn.png"%selfAddon.getAddonInfo("path"))
+        addDir('MLB','mlb',96,"%s/art/tsn.png"%selfAddon.getAddonInfo("path"))
+        addDir('Soccer','soccer',96,"%s/art/tsn.png"%selfAddon.getAddonInfo("path"))
+        addDir('Curling','http://esi.ctv.ca/datafeedrss/vhBinData.aspx?bid=1524',97,"%s/art/tsn.png"%selfAddon.getAddonInfo("path"))
+        addDir('Golf','http://esi.ctv.ca/datafeedrss/vhBinData.aspx?bid=1126',97,"%s/art/tsn.png"%selfAddon.getAddonInfo("path"))
+        addDir('Tennis','http://esi.ctv.ca/datafeedrss/vhBinData.aspx?bid=1124',97,"%s/art/tsn.png"%selfAddon.getAddonInfo("path"))
+        addDir('NLL','http://esi.ctv.ca/datafeedrss/vhBinData.aspx?bid=5995',97,"%s/art/tsn.png"%selfAddon.getAddonInfo("path"))
+        addDir('X Games','http://esi.ctv.ca/datafeedrss/vhBinData.aspx?bid=3133',97,"%s/art/tsn.png"%selfAddon.getAddonInfo("path"))
+        addDir('TSN Shows','shows',96,"%s/art/tsn.png"%selfAddon.getAddonInfo("path"))
+        addDir('MMA','http://esi.ctv.ca/datafeedrss/vhBinData.aspx?bid=1134',97,"%s/art/tsn.png"%selfAddon.getAddonInfo("path"))
+        addDir('NCAA','http://esi.ctv.ca/datafeedrss/vhBinData.aspx?bid=9981',97,"%s/art/tsn.png"%selfAddon.getAddonInfo("path"))
+        GA("Sports","TSN")
 
 def OC():
         addDir('All Videos','http://feed.theplatform.com/f/MTQ3NTE2MjMwOA/swTdEQGW9CKd?byCategories=',51,"%s/art/OC.png"%selfAddon.getAddonInfo("path"))
@@ -1437,7 +1457,126 @@ def LINKWT(mname,murl):
         xbmcPlayer = xbmc.Player()
         xbmcPlayer.play(playlist)
         addDir('','','','')
+
+
+def TSNDIRLIST(murl):
+        thumb="%s/art/folder.png"%selfAddon.getAddonInfo("path")
+        if murl=='nhl':
+            addDir('Latest','http://esi.ctv.ca/datafeedrss/vhBinData.aspx?bid=1104',97,thumb)
+            addDir('Highlights','http://esi.ctv.ca/datafeedrss/vhSportEventClips.aspx?leagueId=1&categoryId=1&binId=1104',97,thumb)
+            addDir('News & Analysis','http://esi.ctv.ca/datafeedrss/vhSportEventClips.aspx?leagueId=1&categoryId=3&binId=1104',97,thumb)
+            addDir('Features','http://esi.ctv.ca/datafeedrss/vhSportEventClips.aspx?leagueId=1&categoryId=4&binId=1104',97,thumb)
+            addDir("That's Hockey",'http://esi.ctv.ca/datafeedrss/vhBinData.aspx?bid=2452',97,thumb)
+            addDir('TH2N','http://esi.ctv.ca/datafeedrss/vhBinData.aspx?bid=9598',97,thumb)
+            addDir('Top 50 NHL Players','http://esi.ctv.ca/datafeedrss/vhBinData.aspx?bid=16230',97,thumb)
+            addLink('TEAM CHANNELS','','')
+            addDir('Canucks','http://esi.ctv.ca/datafeedrss/vhSportEventClips.aspx?teamId=28&binId=1104',97,'http://images.tsn.ca/images/v3/logos/24x24/nhl-canucks.png')
+            addDir('Flames','http://esi.ctv.ca/datafeedrss/vhSportEventClips.aspx?teamId=4&binId=1104',97,'http://images.tsn.ca/images/v3/logos/24x24/nhl-flames.png')
+            addDir('Oilers','http://esi.ctv.ca/datafeedrss/vhSportEventClips.aspx?teamId=11&binId=1104',97,'http://images.tsn.ca/images/v3/logos/24x24/nhl-oilers.png')
+            addDir('Jets','http://esi.ctv.ca/datafeedrss/vhSportEventClips.aspx?teamId=30&binId=1104',97,'http://images.tsn.ca/images/v3/logos/24x24/nhl-jets.png')
+            addDir('Maple Leafs','http://esi.ctv.ca/datafeedrss/vhSportEventClips.aspx?teamId=27&binId=1104',97,'http://images.tsn.ca/images/silver/_fpos/toronto_maple_leafs.png')
+            addDir('Senators','http://esi.ctv.ca/datafeedrss/vhSportEventClips.aspx?teamId=20&binId=1104',97,'http://images.tsn.ca/images/v3/logos/24x24/nhl-senators.png')
+            addDir('Canadiens','http://esi.ctv.ca/datafeedrss/vhSportEventClips.aspx?teamId=15&binId=1104',97,'http://images.tsn.ca/images/v3/logos/24x24/nhl-canadiens.png')
+
+        elif murl=='nfl':
+            addDir('Latest','http://esi.ctv.ca/datafeedrss/vhBinData.aspx?bid=1175',97,thumb)
+            addDir('Highlights','http://esi.ctv.ca/datafeedrss/vhSportEventClips.aspx?leagueId=9&categoryId=1&binId=1175',97,thumb)
+            addDir('News & Analysis','http://esi.ctv.ca/datafeedrss/vhSportEventClips.aspx?leagueId=9&categoryId=3&binId=1175',97,thumb)
+            addDir('Samsung Passion Play','http://esi.ctv.ca/datafeedrss/vhBinData.aspx?bid=15421',97,thumb)
+
+        elif murl=='nba':
+            addDir('Latest','http://esi.ctv.ca/datafeedrss/vhBinData.aspx?bid=1176',97,thumb)
+            addDir('Highlights','http://esi.ctv.ca/datafeedrss/vhSportEventClips.aspx?leagueId=14&categoryId=1&binId=1176',97,thumb)
+            addDir('News & Analysis','http://esi.ctv.ca/datafeedrss/vhSportEventClips.aspx?leagueId=14&categoryId=3&binId=1176',97,thumb)
+            addLink('TEAM CHANNELS','','')
+            addDir('Raptors','http://esi.ctv.ca/datafeedrss/vhSportEventClips.aspx?teamId=153&binId=1176',97,'http://images.tsn.ca/images/v3/logos/24x24/nba-raptors.png')
+
+        elif murl=='canadian_hockey':
+            addDir('Latest','http://esi.ctv.ca/datafeedrss/vhBinData.aspx?bid=1174',97,thumb)
+            addDir('WJC Highlights','http://esi.ctv.ca/datafeedrss/vhSportEventClips.aspx?leagueId=45&categoryId=1&binId=1174',97,thumb)
+            addDir('WJC News & Analysis','http://esi.ctv.ca/datafeedrss/vhSportEventClips.aspx?leagueId=45&categoryId=3&binId=1174',97,thumb)
+            addDir('WJC Features','http://esi.ctv.ca/datafeedrss/vhSportEventClips.aspx?leagueId=45&categoryId=4&binId=1174',97,thumb)
+            addDir("WJC Team Canada Skills",'http://esi.ctv.ca/datafeedrss/vhBinData.aspx?bid=16130',97,thumb)
+            addDir('Games On-Demand','http://esi.ctv.ca/datafeedrss/vhBinData.aspx?bid=2685',97,thumb)
+
+        elif murl=='cfl':
+            addDir('Latest','http://esi.ctv.ca/datafeedrss/vhBinData.aspx?bid=1518',97,thumb)
+            addDir('Highlights','http://esi.ctv.ca/datafeedrss/vhSportEventClips.aspx?leagueId=8&categoryId=1&binId=1518',97,thumb)
+            addDir('News & Analysis','http://esi.ctv.ca/datafeedrss/vhSportEventClips.aspx?leagueId=8&categoryId=3&binId=1518',97,thumb)
+            addDir('Games On-Demand','http://esi.ctv.ca/datafeedrss/vhBinData.aspx?bid=1105',97,thumb)
+            addDir("Grey Cup 100",'http://esi.ctv.ca/datafeedrss/vhBinData.aspx?bid=15576',97,thumb)
+
+        elif murl=='mlb':
+            addDir('Latest','http://esi.ctv.ca/datafeedrss/vhBinData.aspx?bid=1177',97,thumb)
+            addDir('News & Analysis','http://esi.ctv.ca/datafeedrss/vhSportEventClips.aspx?leagueId=11&categoryId=3&binId=1177',97,thumb)
+            addLink('TEAM CHANNELS','','')
+            addDir('Blue Jays','http://esi.ctv.ca/datafeedrss/vhSportEventClips.aspx?teamId=124&binId=1177',97,'http://images.tsn.ca/images/v3/logos/24x24/mlb-bluejays.png')
+
+        elif murl=='soccer':
+            addDir('Latest','http://esi.ctv.ca/datafeedrss/vhBinData.aspx?bid=7481',97,thumb)
+            addDir('MLS','http://esi.ctv.ca/datafeedrss/vhSportEventClips.aspx?leagueId=15&binId=7481',97,thumb)
+            addDir('Premier League','http://esi.ctv.ca/datafeedrss/vhSportEventClips.aspx?leagueId=16&binId=7481',97,thumb)
+
+        elif murl=='shows':
+            addDir('Off The Record','http://esi.ctv.ca/datafeedrss/vhBinData.aspx?bid=1100',97,thumb)
+            addDir('The Reporters','http://esi.ctv.ca/datafeedrss/vhBinData.aspx?bid=1101',97,thumb)
+            addDir('SC Top 10','http://esi.ctv.ca/datafeedrss/vhBinData.aspx?bid=8884',97,thumb)
+            addDir("That's Hockey",'http://esi.ctv.ca/datafeedrss/vhBinData.aspx?bid=2452',97,thumb)
+            addDir("TH2N",'http://esi.ctv.ca/datafeedrss/vhBinData.aspx?bid=9598',97,thumb)
+            addDir('Cabbie Presents','http://esi.ctv.ca/datafeedrss/vhBinData.aspx?bid=10907',97,thumb)
+
+def TSNLIST(murl):
+        GA("TSN","TSN-list")
+        murl=murl+'&pageSize=200'
+        link=OPENURL(murl)
+        match = re.compile('<id>(.+?)</id>.+?<title><(.+?)></title><description><(.+?)></description><imgUrl>(.+?)</imgUrl>').findall(link)
+        for url,name,desc,thumb in match:
+            name=name.replace('![CDATA[','').replace(']]','').replace('/',' ')
+            desc=desc.replace('![CDATA[','').replace(']]','').replace('/',' ')
+            addDir2(name,url,98,thumb,desc)
+
+def TSNLINK(mname,murl):
+        GA("TSN-list","Watched")
+        url = 'http://esi.ctv.ca/datafeed/urlgenjs.aspx?vid=' + murl
+        link=OPENURL(url)
+        rtmpe = re.compile("Video.Load.+?{url:'(.+?)'").findall(link)
+        parsed = urlparse.urlparse(rtmpe[0])
+        match = re.compile("country_blocked").findall(rtmpe[0])
+        if len(match)>0:
+                xbmc.executebuiltin("XBMC.Notification(Sorry!,Playable Only in Canada,5000)")
+        else:
+            if parsed.netloc == 'tsn.fcod.llnwd.net':
+                firstpart = 'rtmpe://tsn.fcod.llnwd.net/a5504'
+                secondpart = re.compile('a5504/(.+?)\'').findall(link)
+                playpath = re.compile('ondemand/(.+?).mp4').findall(rtmpe[0])
+                stream_url = firstpart + ' playpath=mp4:' + secondpart[0]
+            elif parsed.netloc == 'ctvmms.rd.llnwd.net':
+                firstpart = 'http://ctvmms.vo.llnwd.net/kip0/_pxn=1+_pxI0=Ripod-h264+_pxL0=undefined+_pxM0=+_pxK=19321+_pxE=mp4/'
+                secondpart = re.compile('ctvmms.rd.llnwd.net/(.+?).mp4').findall(rtmpe[0])
+                stream_url = firstpart + secondpart[0] + '.mp4'
+            elif parsed.netloc == 'tsnpmd.akamaihd.edgesuite.net':
+                stream_url = rtmpe[0]
         
+            else:
+                firstpart = re.compile('rtmpe(.+?)ondemand/').findall(rtmpe[0])
+                firstpart = 'rtmpe' + firstpart[0] + 'ondemand?'
+                secondpart = re.compile('\?(.+?)\'').findall(link)
+                thirdpart = re.compile('ondemand/(.+?)Adaptive_.+?.mp4\?').findall(rtmpe[0])
+                if len(thirdpart)==0:
+                    thirdpart = re.compile('ondemand/(.+?)\?').findall(rtmpe[0])
+                    playpath = ' playpath=mp4:' + thirdpart[0]
+                    stream_url = firstpart + secondpart[0] + playpath   
+                else:
+                    playpath = ' playpath=mp4:' + thirdpart[0]
+                    stream_url = firstpart + secondpart[0] + playpath+'Adaptive_05.mp4'
+            playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+            playlist.clear()
+            listitem = xbmcgui.ListItem(mname)
+            listitem.setInfo("Video", infoLabels={ "Title": mname})
+            playlist.add(stream_url,listitem)
+            xbmcPlayer = xbmc.Player()
+            xbmcPlayer.play(playlist)
+            addDir('','','','')
 def Searchhistory():
         seapath=os.path.join(datapath,'Search')
         SeaFile=os.path.join(seapath,'SearchHistory25')
@@ -4698,6 +4837,22 @@ elif mode==93:
 elif mode==94:
         print ""+url
         LINKWT(name,url)
+
+elif mode==95:
+        print ""+url
+        TSNDIR()
+
+elif mode==96:
+        print ""+url
+        TSNDIRLIST(url)        
+
+elif mode==97:
+        print ""+url
+        TSNLIST(url)
+        
+elif mode==98:
+        print ""+url
+        TSNLINK(name,url)
         
 elif mode==99:
         urlresolver.display_settings()
