@@ -200,6 +200,7 @@ def TV():
 def TVAll():
         addDir('Watch-Free Series','TV',501,"%s/art/wfs/wsf.png"%selfAddon.getAddonInfo("path"))
         addDir('Series Gate','TV',601,"%s/art/wfs/sg.png"%selfAddon.getAddonInfo("path"))
+        addDir('Extramina','TV',530,"%s/art/wfs/sg.png"%selfAddon.getAddonInfo("path"))
         GA("None","Plugin")
 
 def HD():
@@ -2701,7 +2702,156 @@ def VIDEOLINKSSG(mname,murl):
                 xbmc.Player().play(stream_url, listitem)
                 addDir('','','','')
 ############################################################################################ SERIES GATE END ##############################################################################
+############################################################################################ EXTRAMINA BEGINS ##############################################################################
+def MAINEXTRA():
+        addDir('Search','extra',535,"%s/art/wfs/search.png"%selfAddon.getAddonInfo("path"))
+        addDir('A-Z','http://seriesgate.tv/',610,"%s/art/wfs/az.png"%selfAddon.getAddonInfo("path"))
+        addDir('Latest Release','latest',532,"%s/art/wfs/latest.png"%selfAddon.getAddonInfo("path"))
+        addDir('Recent Post','http://www.extraminamovies.in/',532,"%s/art/wfs/latest.png"%selfAddon.getAddonInfo("path"))
+        addDir('Genre','http://www.extraminamovies.in/',533,"%s/art/wfs/latest.png"%selfAddon.getAddonInfo("path"))
 
+def LISTEXrecent(murl):     
+        if murl=='latest':
+            url='http://www.extraminamovies.in/'
+            link=OPENURL(url)
+            match= re.compile('custom menu-item-.+?"><a href="(.+?)">(.+?)</a></li>').findall(link)
+            for url,name in match:
+                addDir(name,url,536,'')
+        else:
+            link=OPENURL(murl)
+            desclist=[]
+            i=0
+            desc = re.compile('span class="wpexcerpt">(.+?)</span>').findall(link)
+            for plot in desc:
+                desclist.append(plot)
+            match = re.compile('<a title="(.+?)" href="(.+?)" rel="bookmark">.+?</a></h2>\n<div class=".+?">.+?</div><div class=".+?">\n<div class=".+?">\n<img class=".+?" src="(.+?)"/></div>\n<div class=".+?">.+?rel=".+?">([^<]+)</a></span></div>').findall(link)
+            for name, url,thumb,genre in match:
+                addSport(name,url,536,thumb,desclist[i],'',genre)
+                i=i+1
+            paginate = re.compile("<a href='([^<]+)' class='nextpostslink'>»</a>").findall(link)
+            if len(paginate)>0:
+                addDir('Next',paginate[0],532,'')
+def GENREEXTRA(murl):
+        addDir('Action','http://www.extraminamovies.in/category/action-movies/',532,"%s/art/wfs/act.png"%selfAddon.getAddonInfo("path"))
+        addDir('Adventure','http://www.extraminamovies.in/category/adventure-movies/',532,"%s/art/wfs/adv.png"%selfAddon.getAddonInfo("path"))
+        addDir('Animation','http://www.extraminamovies.in/category/animation-movies/',532,"%s/art/wfs/ani.png"%selfAddon.getAddonInfo("path"))
+        addDir('Biography','http://www.extraminamovies.in/category/biography-movies/',532,"%s/art/wfs/bio.png"%selfAddon.getAddonInfo("path"))
+        addDir('Bollywood','http://www.extraminamovies.in/category/bollywood-movies/',532,'')
+        addDir('Classics','http://www.extraminamovies.in/category/classic-movies/',532,'')
+        addDir('Comedy','http://www.extraminamovies.in/category/comedy-movies/',532,"%s/art/wfs/com.png"%selfAddon.getAddonInfo("path"))
+        addDir('Crime','http://www.extraminamovies.in/category/crime-movies/',532,"%s/art/wfs/cri.png"%selfAddon.getAddonInfo("path"))
+        addDir('Documentary','http://www.extraminamovies.in/category/documentary-movies/',532,"%s/art/wfs/doc.png"%selfAddon.getAddonInfo("path"))
+        addDir('Drama','http://www.extraminamovies.in/category/drama-movies/',532,"%s/art/wfs/dra.png"%selfAddon.getAddonInfo("path"))
+        addDir('Family','http://www.extraminamovies.in/category/family-movies/',532,"%s/art/wfs/fam.png"%selfAddon.getAddonInfo("path"))
+        addDir('Fantasy','http://www.extraminamovies.in/category/fantasy-movies/',532,"%s/art/wfs/fan.png"%selfAddon.getAddonInfo("path"))
+        addDir('Foreign','http://www.extraminamovies.in/category/foreign-movies/',532,'')
+        addDir('Horror','http://www.extraminamovies.in/category/horror-movies/',532,"%s/art/wfs/hor.png"%selfAddon.getAddonInfo("path"))
+        addDir('Music','http://www.extraminamovies.in/category/music-movies/',532,"%s/art/wfs/mus.png"%selfAddon.getAddonInfo("path"))
+        addDir('Mystery','http://www.extraminamovies.in/category/mystery-movies/',532,"%s/art/wfs/mys.png"%selfAddon.getAddonInfo("path"))
+        addDir('Romance','http://www.extraminamovies.in/category/romance-movies/',532,"%s/art/wfs/rom.png"%selfAddon.getAddonInfo("path"))
+        addDir('Sci-Fi','http://www.extraminamovies.in/category/scifi-movies/',532,"%s/art/wfs/sci.png"%selfAddon.getAddonInfo("path"))
+        addDir('Sport','http://www.extraminamovies.in/category/sport-movies/',532,"%s/art/wfs/spo.png"%selfAddon.getAddonInfo("path"))
+        addDir('Thriller','http://www.extraminamovies.in/category/thriller-movies/',532,"%s/art/wfs/thr.png"%selfAddon.getAddonInfo("path"))
+        addDir('War','http://www.extraminamovies.in/category/war-movies/',532,"%s/art/wfs/war.png"%selfAddon.getAddonInfo("path"))
+        addDir('Western','http://www.extraminamovies.in/category/western-movies/',532,"%s/art/wfs/wes.png"%selfAddon.getAddonInfo("path"))
+        GA("Extramina","Genre")
+        VIEWSB()
+
+def SearchhistoryEXTRA():
+        seapath=os.path.join(datapath,'Search')
+        SeaFile=os.path.join(seapath,'SearchHistory25')
+        if not os.path.exists(SeaFile):
+            url='extra'
+            SEARCHEXTRA(url)
+        else:
+            addDir('Search','extra',534,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
+            thumb="%s/art/link.png"%selfAddon.getAddonInfo("path")
+            searchis=re.compile('search="(.+?)",').findall(open(SeaFile,'r').read())
+            for seahis in reversed(searchis):
+                    url=seahis
+                    seahis=seahis.replace('%20',' ')
+                    addDir(seahis,url,534,thumb)
+            
+            
+        
+def SEARCHEXTRA(murl):
+        seapath=os.path.join(datapath,'Search')
+        SeaFile=os.path.join(seapath,'SearchHistory25')
+        try:
+            os.makedirs(seapath)
+        except:
+            pass
+        if murl == 'extra':
+            keyb = xbmc.Keyboard('', 'Search Movies')
+            keyb.doModal()
+            if (keyb.isConfirmed()):
+                    search = keyb.getText()
+                    encode=urllib.quote(search)
+                    surl='http://www.extraminamovies.in/?s='+encode
+                    if not os.path.exists(SeaFile) and encode != '':
+                        open(SeaFile,'w').write('search="%s",'%encode)
+                    else:
+                        if encode != '':
+                            open(SeaFile,'a').write('search="%s",'%encode)
+                    searchis=re.compile('search="(.+?)",').findall(open(SeaFile,'r').read())
+                    for seahis in reversed(searchis):
+                        continue
+                    if len(searchis)>=10:
+                        searchis.remove(searchis[0])
+                        os.remove(SeaFile)
+                        for seahis in searchis:
+                            try:
+                                open(SeaFile,'a').write('search="%s",'%seahis)
+                            except:
+                                pass
+        else:
+                encode = murl
+                surl='http://www.extraminamovies.in/?s='+encode
+        link=OPENURL(surl)
+        desclist=[]
+        i=0
+        desc = re.compile('span class="wpexcerpt">(.+?)</span>').findall(link)
+        for plot in desc:
+            desclist.append(plot)
+        match = re.compile('<a title="(.+?)" href="(.+?)" rel="bookmark">.+?</a></h2>\n<div class=".+?">.+?</div><div class=".+?">\n<div class=".+?">\n<img class=".+?" src="(.+?)"/></div>\n<div class=".+?">.+?rel=".+?">([^<]+)</a></span></div>').findall(link)
+        for name, url,thumb,genre in match:
+            addSport(name,url,536,thumb,desclist[i],'',genre)
+            i=i+1
+        paginate = re.compile("<a href='([^<]+)' class='nextpostslink'>»</a>").findall(link)
+        if len(paginate)>0:
+            addDir('Next',paginate[0],532,'')
+        GA("Extramina","Search")
+        
+def VIDEOLINKSEXTRA(mname,murl):
+        GA("Extramina","Watched")
+        sources = []
+        link=OPENURL(murl)
+        xbmc.executebuiltin("XBMC.Notification(Please Wait!,Collecting hosts,3000)")
+        match=re.compile('class="autohyperlink" title="(.+?)" target="_blank"').findall(link)
+        for url in match:
+                match2=re.compile('http://www.(.+?)/.+?').findall(url)
+                for host in match2:
+                    continue
+                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
+                sources.append(hosted_media)
+        if (len(sources)==0):
+                xbmc.executebuiltin("XBMC.Notification(Sorry!,Show doesn't have playable links,5000)")
+      
+        else:
+                source = urlresolver.choose_source(sources)
+                if source:
+                        stream_url = source.resolve()
+                        if source.resolve()==False:
+                                xbmc.executebuiltin("XBMC.Notification(Sorry!,Link Cannot Be Resolved,5000)")
+                                return
+                else:
+                      stream_url = False
+                      return
+                listitem = xbmcgui.ListItem(mname, iconImage="DefaultVideo.png")
+                listitem.setInfo('video', {'Title': mname, 'Year': ''} )       
+                xbmc.Player().play(stream_url, listitem)
+                addDir('','','','')
+############################################################################################ EXTRAMINA ENDS ##############################################################################
 
 
 def VIDEOLINKS(name,url):
@@ -5047,6 +5197,39 @@ elif mode==510:
 elif mode==527:
         print ""+url
         GetMetAll()
+
+elif mode==530:
+        MAINEXTRA()
+
+elif mode==531:
+        print ""+url
+        LISTEXlatest(url)
+
+elif mode==532:
+        print ""+url
+        LISTEXrecent(url)
+
+
+elif mode==533:
+        print ""+url
+        GENREEXTRA(url)
+
+elif mode==534:
+        print ""+url
+        SEARCHEXTRA(url)
+        
+elif mode==535:
+        print ""+url
+        SearchhistoryEXTRA()
+
+elif mode==536:
+        print ""+url
+        VIDEOLINKSEXTRA(name,url)
+
+                
+elif mode==538:
+        print ""+url
+        AtoZEXTRA()
 
 elif mode==601:
         MAINSG()
