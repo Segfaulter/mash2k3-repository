@@ -15,7 +15,6 @@ selfAddon = xbmcaddon.Addon(id=addon_id)
 grab = metahandlers.MetaData(preparezip = False)
 addon = Addon(addon_id)
 datapath = addon.get_profile()
-#datapath = os.path.join(xbmc.translatePath('special://profile/addon_data/' + addon_id), '')
 if selfAddon.getSetting('visitor_ga')=='':
     from random import randint
     selfAddon.setSetting('visitor_ga',str(randint(0, 0x7fffffff)))
@@ -441,6 +440,7 @@ def VELO():
         VIEWSB()
 
 def KIDZone(murl):
+    addDir('Disney Jr.','djk',107,"%s/art/disjr.png"%selfAddon.getAddonInfo("path"))
     addDir('National Geographic Kids','ngk',71,"%s/art/ngk.png"%selfAddon.getAddonInfo("path"))
     addDir('WB Kids','wbk',77,"%s/art/wb.png"%selfAddon.getAddonInfo("path"))
     addDir('Youtube Kids','wbk',84,"%s/art/youkids.png"%selfAddon.getAddonInfo("path"))
@@ -534,6 +534,13 @@ def WB():
         addDir('Tom and Jerry Tales','Tom And Jerry Tales',78,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/TomJerryTales_video.jpg')
         addDir('Xiaolin Showdown','Xiaolin Showdown',78,'http://staticswf.kidswb.com/franchise/content/images/touts/video_channel_thumbs/XiaolinShowdown_video.jpg')
         GA("KidZone","WBK")
+
+def DISJR():
+        addDir('By Character','charac',108,"%s/art/disjr.png"%selfAddon.getAddonInfo("path"))
+        addDir('Full Episodes','full',108,"%s/art/disjr.png"%selfAddon.getAddonInfo("path"))
+        addDir('Short Videos','short',108,"%s/art/disjr.png"%selfAddon.getAddonInfo("path"))
+        addDir('Music Videos','music',108,"%s/art/disjr.png"%selfAddon.getAddonInfo("path"))
+
 
 def DOCS():
         addDir('Vice','http://www.vice.com/shows',104,"%s/art/vice.png"%selfAddon.getAddonInfo("path"))
@@ -1447,7 +1454,10 @@ def LINKWT(mname,murl):
         else:
             thumb=''
         stream_url = stream[0]+'/'
-        playpath = 'mp4:main/'+Path[0]+'.mp4'
+        if selfAddon.getSetting("wild-qua") == "0":
+                playpath = 'mp4:high/'+Path[0]+'.mp4'
+        elif selfAddon.getSetting("wild-qua") == "1":
+                playpath = 'mp4:med/'+Path[0]+'.mp4'
         playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
         playlist.clear()
         listitem = xbmcgui.ListItem(mname, thumbnailImage= thumb)
@@ -1568,7 +1578,12 @@ def TSNLINK(mname,murl):
                     stream_url = firstpart + secondpart[0] + playpath   
                 else:
                     playpath = ' playpath=mp4:' + thirdpart[0]
-                    stream_url = firstpart + secondpart[0] + playpath+'Adaptive_05.mp4'
+                    if selfAddon.getSetting("tsn-qua") == "0":
+                        stream_url = firstpart + secondpart[0] + playpath+'Adaptive_05.mp4'
+                    elif selfAddon.getSetting("tsn-qua") == "1":
+                        stream_url = firstpart + secondpart[0] + playpath+'Adaptive_03.mp4'
+                    elif selfAddon.getSetting("tsn-qua") == "2":
+                        stream_url = firstpart + secondpart[0] + playpath+'Adaptive_01.mp4'
             playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
             playlist.clear()
             listitem = xbmcgui.ListItem(mname)
@@ -1577,6 +1592,86 @@ def TSNLINK(mname,murl):
             xbmcPlayer = xbmc.Player()
             xbmcPlayer.play(playlist)
             addDir('','','','')
+
+def DISJRList(murl):
+        if murl=='music':
+            url ='http://disney.go.com/disneyjunior/data/tilePack?id=1815108&maxAmount=240'
+            link=OPENURL(url)
+            match = re.compile('<a href="(.+?)" ping=".+?"/>\n\t\t<img src="(.+?)" />\n\t\t<text class="title"><(.+?)>').findall(link)
+            for url,thumb, name in match:
+                name=name.replace('![CDATA[',' ').replace(']]',' ')
+                addDir(name,url,110,thumb)
+
+        elif murl=='full':
+            url ='http://disney.go.com/disneyjunior/data/tilePack?id=1815106&maxAmount=240'
+            link=OPENURL(url)
+            match = re.compile('<a href="(.+?)" ping=".+?"/>\n\t\t<img src="(.+?)" />\n\t\t<text class="title"><(.+?)>').findall(link)
+            for url,thumb, name in match:
+                sname = re.compile('http://disney.go.com/disneyjunior/(.+?)/.+?').findall(url)
+                sname = sname[0]
+                sname=sname.replace('-',' ')
+                name=name.replace('![CDATA[',' ').replace(']]',' ')
+                sname=sname.upper()
+                addDir(sname+'  [COLOR red]"'+name+'"[/COLOR]',url,110,thumb)
+
+        elif murl=='short':
+            url ='http://disney.go.com/disneyjunior/data/tilePack?id=1815107&maxAmount=240'
+            link=OPENURL(url)
+            match = re.compile('<a href="(.+?)" ping=".+?"/>\n\t\t<img src="(.+?)" />\n\t\t<text class="title"><(.+?)>').findall(link)
+            for url,thumb, name in match:
+                sname = re.compile('http://disney.go.com/disneyjunior/(.+?)/.+?/.+?').findall(url)
+                sname = sname[0]
+                sname=sname.replace('-',' ')
+                name=name.replace('![CDATA[',' ').replace(']]',' ')
+                sname=sname.upper()
+                addDir(sname+'  [COLOR red]"'+name+'"[/COLOR]',url,110,thumb)
+
+        elif murl=='charac':
+            url ='http://disney.go.com/disneyjunior/data/tilePack?id=1815104&maxAmount=240'
+            link=OPENURL(url)
+            match = re.compile('<a href="(.+?)" target="_self" ping=".+?"></a>\n\t\t<img src="(.+?)" />\n\t\t<text class="title"><(.+?)]]>').findall(link)
+            for url,thumb, name in match:
+                name=name.replace('<font size="9">','').replace('<font size="10">','').replace('</font>','')
+                name=name.replace('![CDATA[',' ').replace(']]',' ')
+                addDir(name,url,109,thumb)
+        
+def DISJRList2(murl):
+            link=OPENURL(murl)
+            match = re.compile('tileService: "http://disney.go.com/disneyjunior/data/tilePack.?id=(.+?)%26.+?" }').findall(link)
+            url='http://disney.go.com/disneyjunior/data/tilePack?id='+match[0]+'&maxAmount=240'
+            link2=OPENURL(url)
+            match2 = re.compile('<a href="(.+?)" ping=".+?"/>\n\t\t<img src="(.+?)" />\n\t\t<text class="title"><(.+?)>').findall(link2)
+            for url,thumb, name in match2:
+                sname = re.compile('http://disney.go.com/disneyjunior/(.+?)/.+?').findall(url)
+                sname = sname[0]
+                sname=sname.replace('-',' ')
+                name=name.replace('![CDATA[',' ').replace(']]',' ')
+                sname=sname.upper()
+                addDir(sname+'  [COLOR red]"'+name+'"[/COLOR]',url,110,thumb)
+
+def DISJRLink(mname,murl):
+        GA("DisJR-list","Watched")
+        link=OPENURL(murl)
+        vidID = re.compile('\'player-placeholder\', {entryId:\'(.+?)\',').findall(link)
+        vurl='http://cdnapi.kaltura.com/p/628012/sp/628012/playManifest/entryId/'+vidID[0]+'/format/rtmp/protocol/rtmp/'
+        link2=OPENURL(vurl)
+        video = re.compile('<media url="(.+?)" bitrate=".+?" width=".+?" height=".+?"/>').findall(link2)
+        stream_url = 'rtmp://videodolimgfs.fplive.net/videodolimg'
+        if selfAddon.getSetting("disj-qua") == "0":
+            playpath = video[len(video)-1]
+        elif selfAddon.getSetting("disj-qua") == "1":
+            playpath = video[len(video)-5]
+        elif selfAddon.getSetting("disj-qua") == "2":
+            playpath = video[0]  
+        playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+        playlist.clear()
+        listitem = xbmcgui.ListItem(mname)
+        listitem.setProperty('PlayPath', playpath);
+        playlist.add(stream_url,listitem)
+        xbmcPlayer = xbmc.Player()
+        xbmcPlayer.play(playlist)
+        addDir('','','','')
+    
 def Searchhistory():
         seapath=os.path.join(datapath,'Search')
         SeaFile=os.path.join(seapath,'SearchHistory25')
@@ -4877,6 +4972,26 @@ elif mode==105:
 
 elif mode==106:        
         ViceLink(name,url)        
+
+elif mode==107:
+        DISJR()
+        
+elif mode==108:
+        DISJRList(url)
+
+elif mode==109:
+        DISJRList2(url)
+        
+elif mode==110:        
+        DISJRLink(name,url)       
+
+
+
+
+
+
+
+
         
 elif mode==500:
         TVAll()        

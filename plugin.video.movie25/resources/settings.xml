@@ -17,5 +17,8 @@
    <category label="Video Quality">
 		<setting id="bit-disc"	type="enum" label="[B]Discovery Bitrate[/B]" values="3500k|1500k|600k" default="0"/>
 		<setting id="vice-qua"	type="enum" label="[B]Vice Bitrate[/B]" values="High|Medium|Low" default="0"/>
+		<setting id="tsn-qua"	type="enum" label="[B]TSN Bitrate[/B]" values="High|Medium|Low" default="0"/>
+		<setting id="wild-qua"	type="enum" label="[B]Wild Tv Bitrate[/B]" values="High|Low" default="0"/>
+		<setting id="disj-qua"	type="enum" label="[B]Disney Jr. Bitrate[/B]" values="High|Medium|Low" default="0"/>
    </category>
 </settings>
