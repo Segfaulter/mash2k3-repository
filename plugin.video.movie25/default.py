@@ -1688,7 +1688,8 @@ def StrikeFList(murl):
         
         paginate = re.compile('<a class="paginationNext" href="(.+?)"> </a>').findall(link)
         if len(paginate)>0:
-            addDir('Next','http://www.strikeforce.com/video'+paginate[0],111,"%s/art/next2.png"%selfAddon.getAddonInfo("path"))
+            addDir('Next','http://www.strikeforce.com/video'+paginate[0],111,"%s/art/next2.png"%selfAddon.getAddonInfo("path"))
+
         VIEWSB()
 
 def StrikeFLink(mname,murl):
@@ -2777,11 +2778,11 @@ def VIDEOLINKSSG(mname,murl):
 ############################################################################################ SERIES GATE END ##############################################################################
 ############################################################################################ EXTRAMINA BEGINS ##############################################################################
 def MAINEXTRA():
-        addDir('Search','extra',535,"%s/art/wfs/search.png"%selfAddon.getAddonInfo("path"))
-        addDir('A-Z','http://seriesgate.tv/',538,"%s/art/wfs/az.png"%selfAddon.getAddonInfo("path"))
-        addDir('Latest Release','latest',532,"%s/art/wfs/latest.png"%selfAddon.getAddonInfo("path"))
-        addDir('Recent Post','http://www.extraminamovies.in/',532,"%s/art/wfs/latest.png"%selfAddon.getAddonInfo("path"))
-        addDir('Genre','http://www.extraminamovies.in/',533,"%s/art/wfs/genre.png"%selfAddon.getAddonInfo("path"))
+        addDir('Search','extra',535,"%s/art/wfs/searchex.png"%selfAddon.getAddonInfo("path"))
+        addDir('A-Z','http://seriesgate.tv/',538,"%s/art/wfs/azex.png"%selfAddon.getAddonInfo("path"))
+        addDir('Recent Posts','http://www.extraminamovies.in/',532,"%s/art/wfs/recentex.png"%selfAddon.getAddonInfo("path"))
+        addDir('Latest Releases','latest',532,"%s/art/wfs/latestex.png"%selfAddon.getAddonInfo("path"))
+        addDir('Genre','http://www.extraminamovies.in/',533,"%s/art/wfs/genreex.png"%selfAddon.getAddonInfo("path"))
         GA("Plugin","Extramina")
         VIEWSB()
         
@@ -2862,7 +2863,7 @@ def AtoZEXTRA():
         addDir('X','http://www.extraminamovies.in/list-of-movies/?pgno=289#char_58',531,"%s/art/wfs/X.png"%selfAddon.getAddonInfo("path"))
         addDir('Y','http://www.extraminamovies.in/list-of-movies/?pgno=289#char_59',531,"%s/art/wfs/Y.png"%selfAddon.getAddonInfo("path"))
         addDir('Z','http://www.extraminamovies.in/list-of-movies/?pgno=291#char_5a',531,"%s/art/wfs/Z.png"%selfAddon.getAddonInfo("path"))
-        GA("Extramina","Genre")
+        GA("Extramina","AZ")
         VIEWSB()
         
 
@@ -2898,7 +2899,7 @@ def LISTEXAZ(mname,murl):
             paginate = re.compile('<a href="([^<]+)" title="Next page">').findall(link)
             if len(paginate)>0 and name[0]==mname:
                 addDir('Next',mname+'xoxc'+paginate[0]+'xoxc',531,"%s/art/next2.png"%selfAddon.getAddonInfo("path"))
-   
+        GA("AZ","Movie-list")
 def SearchhistoryEXTRA():
         seapath=os.path.join(datapath,'Search')
         SeaFile=os.path.join(seapath,'SearchHistory25')
