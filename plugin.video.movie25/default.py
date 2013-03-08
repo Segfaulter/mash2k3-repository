@@ -200,7 +200,7 @@ def TV():
 def TVAll():
         addDir('Watch-Free Series','TV',501,"%s/art/wfs/wsf.png"%selfAddon.getAddonInfo("path"))
         addDir('Series Gate','TV',601,"%s/art/wfs/sg.png"%selfAddon.getAddonInfo("path"))
-        addDir('Extramina','TV',530,"%s/art/wfs/sg.png"%selfAddon.getAddonInfo("path"))
+        addDir('Extramina','TV',530,"%s/art/wfs/extramina.png"%selfAddon.getAddonInfo("path"))
         GA("None","Plugin")
 
 def HD():
@@ -220,10 +220,16 @@ def INT():
 def SPORTS():
         addDir('ESPN','http:/espn.com',44,"%s/art/espn.png"%selfAddon.getAddonInfo("path"))
         addDir('TSN','http:/tsn.com',95,"%s/art/tsn.png"%selfAddon.getAddonInfo("path"))
-        addDir('UFC','ufc',59,"%s/art/ufc.png"%selfAddon.getAddonInfo("path"))
+        addDir('All MMA','mma',537,"%s/art/mma.png"%selfAddon.getAddonInfo("path"))
         addDir('Outdoor Channel','http://outdoorchannel.com/',50,"%s/art/OC.png"%selfAddon.getAddonInfo("path"))
         addDir('Wild TV','https://www.wildtv.ca/shows',92,"%s/art/wildtv.png"%selfAddon.getAddonInfo("path"))
         GA("None","Sports")
+
+def MMA():
+        addDir('UFC','ufc',59,"%s/art/ufc.png"%selfAddon.getAddonInfo("path"))
+        addDir('Strike Force','http://www.strikeforce.com/video',111,"%s/art/strikef.png"%selfAddon.getAddonInfo("path"))
+        addDir('TSN','http:/tsn.com',95,"%s/art/tsn.png"%selfAddon.getAddonInfo("path"))
+        addDir('Outdoor Channel','http://outdoorchannel.com/',50,"%s/art/OC.png"%selfAddon.getAddonInfo("path"))
 
 def ESPN():
         addDir('NFL','http://m.espn.go.com/mobilecache/general/apps/videohub/moreVideos?xhr=1&pageNum=1&numResults=100&trackingPage=espntablet%3Ageneral%3Avideo&format=json&cid=3520083',45,"%s/art/espn.png"%selfAddon.getAddonInfo("path"))
@@ -1653,6 +1659,8 @@ def DISJRList2(murl):
 def DISJRLink(mname,murl):
         GA("DisJR-list","Watched")
         link=OPENURL(murl)
+        playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+        playlist.clear()
         vidID = re.compile('\'player-placeholder\', {entryId:\'(.+?)\',').findall(link)
         vurl='http://cdnapi.kaltura.com/p/628012/sp/628012/playManifest/entryId/'+vidID[0]+'/format/rtmp/protocol/rtmp/'
         link2=OPENURL(vurl)
@@ -1664,14 +1672,79 @@ def DISJRLink(mname,murl):
             playpath = video[len(video)-5]
         elif selfAddon.getSetting("disj-qua") == "2":
             playpath = video[0]  
-        playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
-        playlist.clear()
         listitem = xbmcgui.ListItem(mname)
         listitem.setProperty('PlayPath', playpath);
         playlist.add(stream_url,listitem)
         xbmcPlayer = xbmc.Player()
         xbmcPlayer.play(playlist)
         addDir('','','','')
+
+def StrikeFList(murl):
+        GA("MMA","StrikeForce")
+        link=OPENURL(murl)
+        match = re.compile('<a href="(.+?)">\r\n\t\t\t\t\t\t\t\t<img alt="(.+?)" src="(.+?)">\r\n\t\t\t\t\t\t\t</a>\r\n\t\t\t\t\t\t\t<div class=".+?">\r\n\t\t\t\t\t\t\t\t<a href="/.+?">\r\n\t\t\t\t\t\t\t\t\t(.+?)\r\n\t\t\t\t\t\t\t\t</a>').findall(link)
+        for url, desc, thumb,name in match:
+            addDir2(name,'http://www.strikeforce.com'+url,112,thumb,desc)
+        
+        paginate = re.compile('<a class="paginationNext" href="(.+?)"> </a>').findall(link)
+        if len(paginate)>0:
+            addDir('Next','http://www.strikeforce.com/video'+paginate[0],111,"%s/art/next2.png"%selfAddon.getAddonInfo("path"))
+        VIEWSB()
+
+def StrikeFLink(mname,murl):
+        GA("StrikeForce","Watched")
+        link=OPENURL(murl)
+        playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+        playlist.clear()
+        match = re.compile('<param name="movie" value="http://www.youtube.com/v/(.+?)?version=.+?" />').findall(link)
+        if len(match)>0:
+            url='http://www.youtube.com/watch?v='+match[0]
+            media = urlresolver.HostedMediaFile(str(url))
+            source = media
+            listitem = xbmcgui.ListItem(mname)
+            if source:
+                    xbmc.executebuiltin("XBMC.Notification(Please Wait!,Resolving Link,3000)")
+                    stream_url = source.resolve()
+                    if source.resolve()==False:
+                            xbmc.executebuiltin("XBMC.Notification(Sorry!,Link Cannot Be Resolved,5000)")
+                            return
+            else:
+                  stream_url = False  
+            playlist.add(stream_url,listitem)
+            xbmcPlayer = xbmc.Player()
+            xbmcPlayer.play(playlist)
+            addDir('','','','')
+        else:
+            descr = re.compile('"videoDesc.+?":.+?"(.+?).?",').findall(link)
+            if len(descr)>0:
+                desc=descr[0]
+            else:
+                desc=''
+            thumba = re.compile('"previewImagePath.+?":.+?"(.+?).?",').findall(link)
+            if len(thumba)>0:
+                thumb=thumba[0]
+                thumb=thumb.replace('\/','/')
+            else:
+                thumb=''
+            match = re.compile('.+?"videoPath.+?":.+?"(.+?).?",').findall(link)
+            if len(match)>0:
+                vlink=match[0]
+                vlink=vlink.replace('\/','/')
+                match2 = re.compile('(.+?)mp4:(.+?).mp4').findall(vlink)
+                for stream ,playp in match2:
+                    stream_url = stream
+                    playpath = 'mp4:'+playp+'.mp4'       
+                playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+                playlist.clear()
+                listitem = xbmcgui.ListItem(mname, thumbnailImage= thumb)
+                listitem.setProperty('PlayPath', playpath);
+                listitem.setInfo("Video", infoLabels={ "Title": mname, "Plot": desc})
+                playlist.add(stream_url,listitem)
+                xbmcPlayer = xbmc.Player()
+                xbmcPlayer.play(playlist)
+                addDir('','','','')
+            else:
+                xbmc.executebuiltin("XBMC.Notification(Sorry!,Link Cannot Be Found,5000)")
     
 def Searchhistory():
         seapath=os.path.join(datapath,'Search')
@@ -2705,11 +2778,13 @@ def VIDEOLINKSSG(mname,murl):
 ############################################################################################ EXTRAMINA BEGINS ##############################################################################
 def MAINEXTRA():
         addDir('Search','extra',535,"%s/art/wfs/search.png"%selfAddon.getAddonInfo("path"))
-        addDir('A-Z','http://seriesgate.tv/',610,"%s/art/wfs/az.png"%selfAddon.getAddonInfo("path"))
+        addDir('A-Z','http://seriesgate.tv/',538,"%s/art/wfs/az.png"%selfAddon.getAddonInfo("path"))
         addDir('Latest Release','latest',532,"%s/art/wfs/latest.png"%selfAddon.getAddonInfo("path"))
         addDir('Recent Post','http://www.extraminamovies.in/',532,"%s/art/wfs/latest.png"%selfAddon.getAddonInfo("path"))
-        addDir('Genre','http://www.extraminamovies.in/',533,"%s/art/wfs/latest.png"%selfAddon.getAddonInfo("path"))
-
+        addDir('Genre','http://www.extraminamovies.in/',533,"%s/art/wfs/genre.png"%selfAddon.getAddonInfo("path"))
+        GA("Plugin","Extramina")
+        VIEWSB()
+        
 def LISTEXrecent(murl):     
         if murl=='latest':
             url='http://www.extraminamovies.in/'
@@ -2730,7 +2805,8 @@ def LISTEXrecent(murl):
                 i=i+1
             paginate = re.compile("<a href='([^<]+)' class='nextpostslink'>»</a>").findall(link)
             if len(paginate)>0:
-                addDir('Next',paginate[0],532,'')
+                addDir('Next',paginate[0],532,"%s/art/next2.png"%selfAddon.getAddonInfo("path"))
+        GA("Extramina","Recent-Latest")
 def GENREEXTRA(murl):
         addDir('Action','http://www.extraminamovies.in/category/action-movies/',532,"%s/art/wfs/act.png"%selfAddon.getAddonInfo("path"))
         addDir('Adventure','http://www.extraminamovies.in/category/adventure-movies/',532,"%s/art/wfs/adv.png"%selfAddon.getAddonInfo("path"))
@@ -2757,6 +2833,72 @@ def GENREEXTRA(murl):
         GA("Extramina","Genre")
         VIEWSB()
 
+def AtoZEXTRA():
+        addDir('#','http://www.extraminamovies.in/list-of-movies/?pgno=292#char_21',531,"%s/art/wfs/pound.png"%selfAddon.getAddonInfo("path"))
+        addDir('0-9','http://www.extraminamovies.in/list-of-movies/?pgno=1#char_31',531,"%s/art/wfs/09.png"%selfAddon.getAddonInfo("path"))
+        addDir('A','http://www.extraminamovies.in/list-of-movies/?pgno=6#char_41',531,"%s/art/wfs/A.png"%selfAddon.getAddonInfo("path"))
+        addDir('B','http://www.extraminamovies.in/list-of-movies/?pgno=24#char_42',531,"%s/art/wfs/B.png"%selfAddon.getAddonInfo("path"))
+        addDir('C','http://www.extraminamovies.in/list-of-movies/?pgno=44#char_43',531,"%s/art/wfs/C.png"%selfAddon.getAddonInfo("path"))
+        addDir('D','http://www.extraminamovies.in/list-of-movies/?pgno=60#char_44',531,"%s/art/wfs/D.png"%selfAddon.getAddonInfo("path"))
+        addDir('E','http://www.extraminamovies.in/list-of-movies/?pgno=75#char_45',531,"%s/art/wfs/E.png"%selfAddon.getAddonInfo("path"))
+        addDir('F','http://www.extraminamovies.in/list-of-movies/?pgno=81#char_46',531,"%s/art/wfs/F.png"%selfAddon.getAddonInfo("path"))
+        addDir('G','http://www.extraminamovies.in/list-of-movies/?pgno=92#char_47',531,"%s/art/wfs/G.png"%selfAddon.getAddonInfo("path"))
+        addDir('H','http://www.extraminamovies.in/list-of-movies/?pgno=99#char_48',531,"%s/art/wfs/H.png"%selfAddon.getAddonInfo("path"))
+        addDir('I','http://www.extraminamovies.in/list-of-movies/?pgno=112#char_49',531,"%s/art/wfs/I.png"%selfAddon.getAddonInfo("path"))
+        addDir('J','http://www.extraminamovies.in/list-of-movies/?pgno=120#char_4a',531,"%s/art/wfs/J.png"%selfAddon.getAddonInfo("path"))
+        addDir('K','http://www.extraminamovies.in/list-of-movies/?pgno=125#char_4b',531,"%s/art/wfs/K.png"%selfAddon.getAddonInfo("path"))
+        addDir('L','http://www.extraminamovies.in/list-of-movies/?pgno=130#char_4c',531,"%s/art/wfs/L.png"%selfAddon.getAddonInfo("path"))
+        addDir('M','http://www.extraminamovies.in/list-of-movies/?pgno=141#char_4d',531,"%s/art/wfs/M.png"%selfAddon.getAddonInfo("path"))
+        addDir('N','http://www.extraminamovies.in/list-of-movies/?pgno=156#char_4e',531,"%s/art/wfs/N.png"%selfAddon.getAddonInfo("path"))
+        addDir('O','http://www.extraminamovies.in/list-of-movies/?pgno=162#char_4f',531,"%s/art/wfs/O.png"%selfAddon.getAddonInfo("path"))
+        addDir('P','http://www.extraminamovies.in/list-of-movies/?pgno=166#char_50',531,"%s/art/wfs/P.png"%selfAddon.getAddonInfo("path"))
+        addDir('Q','http://www.extraminamovies.in/list-of-movies/?pgno=177#char_51',531,"%s/art/wfs/Q.png"%selfAddon.getAddonInfo("path"))
+        addDir('R','http://www.extraminamovies.in/list-of-movies/?pgno=178#char_52',531,"%s/art/wfs/R.png"%selfAddon.getAddonInfo("path"))
+        addDir('S','http://www.extraminamovies.in/list-of-movies/?pgno=188#char_53',531,"%s/art/wfs/S.png"%selfAddon.getAddonInfo("path"))
+        addDir('T','http://www.extraminamovies.in/list-of-movies/?pgno=214#char_54',531,"%s/art/wfs/T.png"%selfAddon.getAddonInfo("path"))
+        addDir('U','http://www.extraminamovies.in/list-of-movies/?pgno=273#char_55',531,"%s/art/wfs/U.png"%selfAddon.getAddonInfo("path"))
+        addDir('V','http://www.extraminamovies.in/list-of-movies/?pgno=278#char_56',531,"%s/art/wfs/V.png"%selfAddon.getAddonInfo("path"))
+        addDir('W','http://www.extraminamovies.in/list-of-movies/?pgno=279#char_57',531,"%s/art/wfs/W.png"%selfAddon.getAddonInfo("path"))
+        addDir('X','http://www.extraminamovies.in/list-of-movies/?pgno=289#char_58',531,"%s/art/wfs/X.png"%selfAddon.getAddonInfo("path"))
+        addDir('Y','http://www.extraminamovies.in/list-of-movies/?pgno=289#char_59',531,"%s/art/wfs/Y.png"%selfAddon.getAddonInfo("path"))
+        addDir('Z','http://www.extraminamovies.in/list-of-movies/?pgno=291#char_5a',531,"%s/art/wfs/Z.png"%selfAddon.getAddonInfo("path"))
+        GA("Extramina","Genre")
+        VIEWSB()
+        
+
+def LISTEXAZ(mname,murl):
+        if mname=='#':
+            link=OPENURL(murl)
+            match = re.compile('<li><a href="(.+?)"><span class="head">(.+?)</span></a></li>').findall(link)
+            for url, name in match:
+                if name[0]!='Z':
+                    addDir(name,url,536,'')
+            paginate = re.compile('<a href="([^<]+)" title="Next page">').findall(link)
+            if len(paginate)>0:
+                addDir('Next',paginate[0],531,"%s/art/next2.png"%selfAddon.getAddonInfo("path"))
+        elif mname=='0-9' or mname=='Next >>':
+            link=OPENURL(murl)
+            match = re.compile('<li><a href="(.+?)"><span class="head">(.+?)</span></a></li>').findall(link)
+            for url, name in match:
+                    addDir(name,url,536,'')
+            paginate = re.compile('<a href="([^<]+)" title="Next page">').findall(link)
+            if len(paginate)>0:
+                addDir('Next >>',paginate[0],531,"%s/art/next2.png"%selfAddon.getAddonInfo("path"))
+        else:
+            match2 = re.compile('(.+?)xoxc(.+?)xoxc').findall(murl)
+            if len(match2)>0:
+                for name,url in match2:
+                    mname=name
+                    murl=url
+            link=OPENURL(murl)
+            match = re.compile('<li><a href="(.+?)"><span class="head">(.+?)</span></a></li>').findall(link)
+            for url, name in match:
+                if name[0]==mname or name[0]==mname.lower():
+                    addDir(name,url,536,'')
+            paginate = re.compile('<a href="([^<]+)" title="Next page">').findall(link)
+            if len(paginate)>0 and name[0]==mname:
+                addDir('Next',mname+'xoxc'+paginate[0]+'xoxc',531,"%s/art/next2.png"%selfAddon.getAddonInfo("path"))
+   
 def SearchhistoryEXTRA():
         seapath=os.path.join(datapath,'Search')
         SeaFile=os.path.join(seapath,'SearchHistory25')
@@ -5134,8 +5276,12 @@ elif mode==109:
         
 elif mode==110:        
         DISJRLink(name,url)       
+        
+elif mode==111:
+        StrikeFList(url)
 
-
+elif mode==112:        
+        StrikeFLink(name,url)   
 
 
 
@@ -5203,7 +5349,7 @@ elif mode==530:
 
 elif mode==531:
         print ""+url
-        LISTEXlatest(url)
+        LISTEXAZ(name,url)
 
 elif mode==532:
         print ""+url
@@ -5225,7 +5371,10 @@ elif mode==535:
 elif mode==536:
         print ""+url
         VIDEOLINKSEXTRA(name,url)
-
+        
+elif mode==537:
+        print ""+url
+        MMA()
                 
 elif mode==538:
         print ""+url
