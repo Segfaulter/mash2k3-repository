@@ -193,7 +193,7 @@ def TV():
         addDir('Latest Episodes (Newmyvideolinks) True HD','TV',34,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
         addDir('Latest Episodes (Rlsmix)[COLOR red](Real Debrid Only)[/COLOR] True HD','TV',61,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
         addDir('Latest Episodes (iWatchonline)','http://www.iwatchonline.org/tv-show/latest-epsiodes?limit=18',28,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
-        addDir('Latest Episodes (Movie1k)','http://www.movie1k.org',30,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
+        addDir('Latest Episodes (Movie1k)','movintv',30,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
         addDir('Latest Episodes (Oneclickwatch)','http://oneclickwatch.org',32,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
         GA("None","TV-Latest")
         
@@ -212,9 +212,10 @@ def HD():
         GA("None","HD")
 def INT():
         addDir('Latest Indian Subtitled Movies (einthusan)','http://www.einthusan.com',37,"%s/art/intl.png"%selfAddon.getAddonInfo("path"))
+        addDir('Latest Indian Movies (Movie1k)','movin',30,"%s/art/intl.png"%selfAddon.getAddonInfo("path"))
+        addDir('Latest Indian Dubbed Movies (Movie1k)','movindub',30,"%s/art/intl.png"%selfAddon.getAddonInfo("path"))
         addDir('Latest Asian Subtitled Movies (dramacrazy)','http://www.dramacrazy.net',39,"%s/art/intl.png"%selfAddon.getAddonInfo("path"))
         addDir('Latest Spanish Dubbed & Subtitled(ESP) Movies (cinevip)','http://www.cinevip.org/',66,"%s/art/intl.png"%selfAddon.getAddonInfo("path"))
-        addDir('Latest Russian Dubbed Movies (Kino-live)','http://kino-live.org/hq/',68,"%s/art/intl.png"%selfAddon.getAddonInfo("path"))
         GA("None","INT")
 
 def SPORTS():
@@ -228,8 +229,8 @@ def SPORTS():
 def MMA():
         addDir('UFC','ufc',59,"%s/art/ufc.png"%selfAddon.getAddonInfo("path"))
         addDir('Strike Force','http://www.strikeforce.com/video',111,"%s/art/strikef.png"%selfAddon.getAddonInfo("path"))
-        addDir('TSN','http:/tsn.com',95,"%s/art/tsn.png"%selfAddon.getAddonInfo("path"))
-        addDir('Outdoor Channel','http://outdoorchannel.com/',50,"%s/art/OC.png"%selfAddon.getAddonInfo("path"))
+        addDir('Bellator','BellatorMMA',47,"%s/art/bellator.png"%selfAddon.getAddonInfo("path"))
+        addDir('MMA Fighting.com','http://www.mmafighting.com/videos',113,"%s/art/mmafig.png"%selfAddon.getAddonInfo("path"))
 
 def ESPN():
         addDir('NFL','http://m.espn.go.com/mobilecache/general/apps/videohub/moreVideos?xhr=1&pageNum=1&numResults=100&trackingPage=espntablet%3Ageneral%3Avideo&format=json&cid=3520083',45,"%s/art/espn.png"%selfAddon.getAddonInfo("path"))
@@ -1746,6 +1747,108 @@ def StrikeFLink(mname,murl):
                 addDir('','','','')
             else:
                 xbmc.executebuiltin("XBMC.Notification(Sorry!,Link Cannot Be Found,5000)")
+
+def MMAFList(murl):
+        GA("MMA","MMA-Fighting")
+        i=0
+        if murl=='http://www.mmafighting.com/videos':
+            
+            thumblist=[]
+            link=OPENURL(murl)
+            thum = re.compile('load" data-original="(.+?)" src="').findall(link)
+            for thumb in thum:
+                thumblist.append(thumb)
+            match = re.compile('      </div>\n      <h2>\n        <a href="([^<]+)">([^<]+)</a>').findall(link)
+            for url, name in match:
+                addDir(name,url,114,thumblist[i])
+                i=i+1
+            addDir('Next','http://www.mmafighting.com/videos/archives',113,"%s/art/next2.png"%selfAddon.getAddonInfo("path"))
+        else:
+            thumblist=[]
+            link=OPENURL(murl)
+            thum = re.compile('load" data-original="(.+?)" src="').findall(link)
+            for thumb in thum:
+                thumblist.append(thumb)
+            match = re.compile('      </div>\n      <h2>\n        <a href="([^<]+)">([^<]+)</a>').findall(link)
+            for url, name in match:
+                addDir(name,url,114,thumblist[i])
+                i=i+1
+            match2 = re.compile('<h3><a href="([^<]+)">([^<]+)</a></h3>').findall(link)
+            for url, name in match2:
+                addDir(name,url,114,'http://cdn3.sbnation.com/uploads/branded_hub/sbnu_logo_minimal/395/large_mmafighting.com.minimal.png')
+            paginate = re.compile('<a href="([^<]+)" rel="next">Next</a>').findall(link)
+            if len(paginate)>0:
+                addDir('Next',paginate[0],113,"%s/art/next2.png"%selfAddon.getAddonInfo("path"))
+        VIEWSB()
+
+def MMAFLink(mname,murl):
+    GA("MMA-Fighting","Watched")
+    link=OPENURL(murl)
+    match=re.compile('content="https://player.ooyala.com/tframe.html.?ec=(.+?)&pbid=.+?"').findall(link)
+    if len(match)>0:
+        desci=re.compile('<meta property="og:description" content="(.+?)" />').findall(link)
+        if len(desci)>0:
+            desc=desci[0]
+        else:
+            desc=''
+        thumbi=re.compile('<meta property="og:image" content="(.+?)" />').findall(link)
+        if len(thumbi)>0:
+            thumb=thumbi[0]
+        else:
+            thumb=''
+        playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+        playlist.clear()
+        durl='http://player.ooyala.com/player/ipad/'+match[0]+'.m3u8'
+        link2=OPENURL(durl)
+        match=re.compile('http://(.+?).m3u8').findall(link2)
+        if len(match)==0:
+            xbmc.executebuiltin("XBMC.Notification(Sorry!,Link Cannot Be Played,5000)")
+        else:
+            if selfAddon.getSetting("vice-qua") == "0":
+                try:
+                    stream_url = 'http://'+match[len(match)-1]+'.m3u8'
+                except:
+                    stream_url = 'http://'+match[0]+'.m3u8'
+            elif selfAddon.getSetting("vice-qua") == "1":
+                try:
+                    stream_url = 'http://'+match[0]+'.m3u8'
+                except:
+                    stream_url = 'http://'+match[2]+'.m3u8'
+            else:
+                try:
+                    stream_url = 'http://'+match[2]+'.m3u8'
+                except:
+                    stream_url = 'http://'+match[0]+'.m3u8'
+            listitem = xbmcgui.ListItem(mname, thumbnailImage= thumb)
+            listitem.setInfo("Video", infoLabels={ "Title": mname, "Plot": desc})
+            playlist.add(stream_url,listitem)
+            xbmcPlayer = xbmc.Player()
+            xbmcPlayer.play(playlist)
+            addDir('','','','')
+    else:
+        playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+        playlist.clear()
+        match=re.compile('src="http://www.youtube.com/embed/(.+?)"').findall(link)
+        if len(match)>0:
+            url='http://www.youtube.com/watch?v='+match[0]
+            media = urlresolver.HostedMediaFile(str(url))
+            source = media
+            listitem = xbmcgui.ListItem(mname)
+            if source:
+                    xbmc.executebuiltin("XBMC.Notification(Please Wait!,Resolving Link,3000)")
+                    stream_url = source.resolve()
+                    if source.resolve()==False:
+                            xbmc.executebuiltin("XBMC.Notification(Sorry!,Link Cannot Be Resolved,5000)")
+                            return
+            else:
+                    stream_url = False  
+            playlist.add(stream_url,listitem)
+            xbmcPlayer = xbmc.Player()
+            xbmcPlayer.play(playlist)
+            addDir('','','','')
+        
+        else:
+            xbmc.executebuiltin("XBMC.Notification(Sorry!,Link Cannot Be Found,5000)")
     
 def Searchhistory():
         seapath=os.path.join(datapath,'Search')
@@ -1761,7 +1864,6 @@ def Searchhistory():
                     url=seahis
                     seahis=seahis.replace('%20',' ')
                     addDir(seahis,url,4,thumb)
-            
             
         
 def SEARCH(murl):
@@ -1966,10 +2068,16 @@ def LISTTV(murl):
         VIEWS()
         GA("TV","iWatchonline")
 def LISTTV2(murl):
-        urllist=['http://www.movie1k.org/category/tv-show/','http://www.movie1k.org/category/tv-show/page/2/','http://www.movie1k.org/category/tv-show/page/3/','http://www.movie1k.org/category/tv-show/page/4/','http://www.movie1k.org/category/tv-show/page/5/']
+        if murl=='movintv':
+            urllist=['http://www.movie1k.org/category/tv-show/','http://www.movie1k.org/category/tv-show/page/2/','http://www.movie1k.org/category/tv-show/page/3/','http://www.movie1k.org/category/tv-show/page/4/','http://www.movie1k.org/category/tv-show/page/5/']
+        elif murl=='movin':
+            urllist=['http://www.movie1k.org/category/hindi-movies/','http://www.movie1k.org/category/hindi-movies/page/2/','http://www.movie1k.org/category/hindi-movies/page/3/','http://www.movie1k.org/category/hindi-movies/page/4/','http://www.movie1k.org/category/hindi-movies/page/5/','http://www.movie1k.org/category/hindi-movies/page/6/','http://www.movie1k.org/category/hindi-movies/page/7/']
+        elif murl=='movindub':
+            urllist=['http://www.movie1k.org/category/hindi-dubbed-movies/','http://www.movie1k.org/category/hindi-dubbed-movies/page/2/','http://www.movie1k.org/category/hindi-dubbed-movies/page/3/','http://www.movie1k.org/category/hindi-dubbed-movies/page/4/','http://www.movie1k.org/category/hindi-dubbed-movies/page/5/','http://www.movie1k.org/category/hindi-dubbed-movies/page/6/','http://www.movie1k.org/category/hindi-dubbed-movies/page/7/']
+            murl=murl
         dialogWait = xbmcgui.DialogProgress()
         ret = dialogWait.create('Please wait until Show list is cached.')
-        totalLinks = 5
+        totalLinks = len(urllist)
         loadedLinks = 0
         remaining_display = 'Pages loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
         dialogWait.update(0,'[B]Will load instantly from now on[/B]',remaining_display)
@@ -1988,7 +2096,7 @@ def LISTTV2(murl):
                         return False   
         dialogWait.close()
         del dialogWait
-        GA("TV","Movie1k")        
+        GA("TV-INT","Movie1k")        
 def LISTTV3(murl):
         urllist=['http://oneclickwatch.org/category/tv-shows/','http://oneclickwatch.org/category/tv-shows/page/2/','http://oneclickwatch.org/category/tv-shows/page/3/','http://oneclickwatch.org/category/tv-shows/page/4/','http://oneclickwatch.org/category/tv-shows/page/5/']
         dialogWait = xbmcgui.DialogProgress()
@@ -2972,9 +3080,9 @@ def VIDEOLINKSEXTRA(mname,murl):
         xbmc.executebuiltin("XBMC.Notification(Please Wait!,Collecting hosts,3000)")
         match=re.compile('class="autohyperlink" title="(.+?)" target="_blank"').findall(link)
         for url in match:
-                match2=re.compile('http://www.(.+?)/.+?').findall(url)
+                match2=re.compile('http://(.+?)/.+?').findall(url)
                 for host in match2:
-                    continue
+                    host = host.replace('www.','')
                 hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
                 sources.append(hosted_media)
         if (len(sources)==0):
@@ -3840,36 +3948,46 @@ def VIDEOLINKST(mname,url):
                 
                 addDir('','','','')
             
-def VIDEOLINKST2(mname,url):
+def VIDEOLINKST2(mname,murl):
         sources = []
         GA("Movie1k","Watched")
-        link=OPENURL(url)
+        link=OPENURL(murl)
         match=re.compile('<a href="(.+?)">(.+?)</a><br />').findall(link)
-        if (len(match)>0):
-                for url, host in match:
-                        print "mam "+url
-                        hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
-                        sources.append(hosted_media)
-                if (len(sources)==0):
-                        xbmc.executebuiltin("XBMC.Notification(Sorry!,Show doesn't have playable links,5000)")
+        for url, host in match:
+                
+                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
+                sources.append(hosted_media)
+                
+        match2=re.compile(': (.+?)</strong></p>\n<p><a href=".+?watch.php.?idl=(.+?)"').findall(link)
+        for host, url in match2:
+                print host
+                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
+                sources.append(hosted_media)
+                link2=OPENURL(url)
+                match3=re.compile('<iframe.+?src="(.+?)"').findall(link2)
+                for url2 in match3:
+                    hosted_media = urlresolver.HostedMediaFile(url=url2, title=host)
+                    sources.append(hosted_media)
+        if (len(sources)==0):
+                xbmc.executebuiltin("XBMC.Notification(Sorry!,Show doesn't have playable links,5000)")
       
-                else:
-                        source = urlresolver.choose_source(sources)
-                        if source:
-                                xbmc.executebuiltin("XBMC.Notification(Please Wait!,Resolving Link,3000)")
-                                stream_url = source.resolve()
-                                if source.resolve()==False:
-                                        xbmc.executebuiltin("XBMC.Notification(Sorry!,Link Cannot Be Resolved,5000)")
-                                        return
-                        else:
-                                stream_url = False
+        else:
+                source = urlresolver.choose_source(sources)
+                if source:
+                        xbmc.executebuiltin("XBMC.Notification(Please Wait!,Resolving Link,3000)")
+                        stream_url = source.resolve()
+                        if source.resolve()==False:
+                                xbmc.executebuiltin("XBMC.Notification(Sorry!,Link Cannot Be Resolved,5000)")
                                 return
-                        listitem = xbmcgui.ListItem(mname, iconImage="DefaultVideo.png")
-                        listitem.setInfo('video', {'Title': mname, 'Year': ''} )         
-                        xbmc.Player().play(stream_url, listitem)
+                else:
+                        stream_url = False
+                        return
+                listitem = xbmcgui.ListItem(mname, iconImage="DefaultVideo.png")
+                listitem.setInfo('video', {'Title': mname, 'Year': ''} )         
+                xbmc.Player().play(stream_url, listitem)
                         
-                        addDir('','','','')
-        elif(len(match)==0):
+                addDir('','','','')
+        """elif(len(match)==0):
                 match=re.compile(': (.+?)</strong></p>\n<p><a href=".+?watch.php.?idl=(.+?)"').findall(link)        
                 for host, url in match:
 
@@ -3892,7 +4010,7 @@ def VIDEOLINKST2(mname,url):
                         listitem = xbmcgui.ListItem(mname, iconImage="DefaultVideo.png")
                         listitem.setInfo('video', {'Title': mname, 'Year': ''} )
                         xbmc.Player().play(stream_url, listitem)
-                        addDir('','','','')
+                        addDir('','','','')"""
 
 
 def LINKTV4(mname,url):
@@ -5284,7 +5402,11 @@ elif mode==111:
 elif mode==112:        
         StrikeFLink(name,url)   
 
+elif mode==113:
+        MMAFList(url)
 
+elif mode==114:        
+        MMAFLink(name,url)   
 
 
 
