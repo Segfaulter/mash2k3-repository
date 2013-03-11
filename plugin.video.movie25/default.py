@@ -202,10 +202,14 @@ def ENTYEAR():
     
 def TV():
         addDir('Latest Episodes (Newmyvideolinks) True HD','TV',34,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
-        addDir('Latest Episodes (Rlsmix)[COLOR red](Real Debrid Only)[/COLOR] True HD','TV',61,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
+        addDir('Latest Episodes (Rlsmix)[COLOR red](Debrid Only)[/COLOR] True HD','TV',61,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
+        addDir('Latest Episodes (Sceper)[COLOR red](Debrid Only)[/COLOR] True HD','http://sceper.ws/home/category/tv-shows',545,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
         addDir('Latest Episodes (iWatchonline)','http://www.iwatchonline.org/tv-show/latest-epsiodes?limit=18',28,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
         addDir('Latest Episodes (Movie1k)','movintv',30,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
         addDir('Latest Episodes (Oneclickwatch)','http://oneclickwatch.org',32,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
+        addLink('[COLOR red]Back Up Sources[/COLOR]','','')
+        addDir('Latest 150 Episodes (ChannelCut)','http://www.channelcut.me/last-150',546,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
+        addDir('Latest 100 Episodes (Tv4stream)','http://www.tv4stream.info/last-100-links/',546,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
         GA("None","TV-Latest")
         
 def TVAll():
@@ -219,7 +223,8 @@ def HD():
         addDir('Latest HD Movies (Newmyvideolinks) True HD','http://go.etowns.net/category/movies/bluray/',34,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
         addDir('Latest HD Movies (Dailyfix) True HD','HD',53,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
         addDir('Latest HD Movies (Starplay) Direct MP4 True HD','http://87.98.161.165/latest.php',57,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
-        addDir('Latest HD Movies (Oneclickmovies)[COLOR red](Real Debrid Only)[/COLOR] True HD','www.scnsrc.me',55,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
+        addDir('Latest HD Movies (Oneclickmovies)[COLOR red](Debrid Only)[/COLOR] True HD','www.scnsrc.me',55,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
+        addDir('Latest HD Movies (Sceper)[COLOR red](Debrid Only)[/COLOR] True HD','http://sceper.ws/home/category/movies/movies-hdtv-720p',541,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
         addDir('Latest HD Movies (Oneclickwatch)','http://oneclickwatch.org/category/movies/',25,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
         GA("None","HD")
 def INT():
@@ -2161,7 +2166,47 @@ def LISTTV4(murl):
         dialogWait.close()
         del dialogWait
         GA("TV","Rlsmix")
-        
+
+def CHANNELCList(murl):
+        link=OPENURL(murl)
+        match=re.compile('<li>(.+?): <a href="(.+?)">(.+?)</a> </li>').findall(link)
+        for date,url,name in match:
+            addDir(name+' [COLOR red]'+date+'[/COLOR]',url,547,'')
+
+def CHANNELCLink(mname,murl):
+        GA("ChannelCut","Watched")
+        sources = []
+        xbmc.executebuiltin("XBMC.Notification(Please Wait!,Collecting hosts,3000)")
+        link=OPENURL(murl)
+        site = re.findall('channelcut',murl)
+        if len(site)>0:
+            match=re.compile('<p><a href="(.+?)" rel=".+?">.+?</a></p>').findall(link)
+        else:
+            match=re.compile('<td><a href="(.+?)" target="').findall(link)
+        for url in match:
+                match2=re.compile('http://(.+?)/.+?').findall(url)
+                for host in match2:
+                    host = host.replace('www.','')
+                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
+                sources.append(hosted_media)     
+        if (len(sources)==0):
+                xbmc.executebuiltin("XBMC.Notification(Sorry!,Show doesn't have playable links,5000)")
+      
+        else:
+                source = urlresolver.choose_source(sources)
+                if source:
+                        xbmc.executebuiltin("XBMC.Notification(Please Wait!,Resolving Link,5000)")
+                        stream_url = source.resolve()
+                        if source.resolve()==False:
+                                xbmc.executebuiltin("XBMC.Notification(Sorry!,Link Cannot Be Resolved,5000)")
+                                return
+                else:
+                      stream_url = False
+                      return
+                listitem = xbmcgui.ListItem(mname, iconImage="DefaultVideo.png")
+                listitem.setInfo('video', {'Title': mname, 'Year': ''} )       
+                xbmc.Player().play(stream_url, listitem)
+                addDir('','','','')
 ############################################################################################ WFS BEGINS ##############################################################################
 def GETMETAShow(mname): 
         if selfAddon.getSetting("meta-view") == "true":
@@ -5737,6 +5782,15 @@ elif mode==543:
 elif mode==544:
         print ""+url
         VIDEOLINKSSCEPER(name,url)
+
+elif mode==546:
+        print ""+url
+        CHANNELCList(url)
+
+elif mode==547:
+        print ""+url
+        CHANNELCLink(name,url)
+
 
 elif mode==601:
         MAINSG()
