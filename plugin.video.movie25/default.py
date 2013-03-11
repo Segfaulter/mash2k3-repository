@@ -19,7 +19,7 @@ if selfAddon.getSetting('visitor_ga')=='':
     from random import randint
     selfAddon.setSetting('visitor_ga',str(randint(0, 0x7fffffff)))
 
-VERSION = "1.2.2"
+VERSION = "1.2.3"
 PATH = "Movie25-"            
 UATRACK="UA-38312513-1" 
 
@@ -207,10 +207,10 @@ def TV():
         addDir('Latest Episodes (iWatchonline)','http://www.iwatchonline.org/tv-show/latest-epsiodes?limit=18',28,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
         addDir('Latest Episodes (Movie1k)','movintv',30,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
         addDir('Latest Episodes (Oneclickwatch)','http://oneclickwatch.org',32,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
-        addLink('[COLOR red]Back Up Sources[/COLOR]','','')
+        addLink('[COLOR red]Back Up Sources[/COLOR]  No man shall be deprived of his favorite tv shows :)','','')
         addDir('Latest 150 Episodes (ChannelCut)','http://www.channelcut.me/last-150',546,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
         addDir('Latest 100 Episodes (Tv4stream)','http://www.tv4stream.info/last-100-links/',546,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
-        addDir('Latest Episodes (Etowns) True HD [COLOR red]Backup Clone of Newmyvideolinks[/COLOR]','TV',548,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
+        addDir('Latest Episodes (Etowns) True HD [COLOR red] Clone Backup of Newmyvideolinks[/COLOR]','TV',548,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
         GA("None","TV-Latest")
         
 def TVAll():
@@ -227,8 +227,8 @@ def HD():
         addDir('Latest HD Movies (Oneclickmovies)[COLOR red](Debrid Only)[/COLOR] True HD','www.scnsrc.me',55,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
         addDir('Latest HD Movies (Sceper)[COLOR red](Debrid Only)[/COLOR] True HD','http://sceper.ws/home/category/movies/movies-hdtv-720p',541,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
         addDir('Latest HD Movies (Oneclickwatch)','http://oneclickwatch.org/category/movies/',25,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
-        addLink('[COLOR red]Back Up Sources[/COLOR]','','')
-        addDir('Latest HD Movies (Etowns) True HD  [COLOR red]Backup Clone of Newmyvideolinks[/COLOR]','http://go.etowns.net/category/movies/bluray/',548,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
+        addLink('[COLOR red]Back Up Sources[/COLOR]  No man shall be deprived of his favorite movies :)','','')
+        addDir('Latest HD Movies (Etowns) True HD  [COLOR red]Clone Backup of Newmyvideolinks[/COLOR]','http://go.etowns.net/category/movies/bluray/',548,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
         GA("None","HD")
 def INT():
         addDir('Latest Indian Subtitled Movies (einthusan)','http://www.einthusan.com',37,"%s/art/intl.png"%selfAddon.getAddonInfo("path"))
@@ -1636,30 +1636,35 @@ def LINKWT(mname,murl):
         link=OPENURL(murl)
         stream=re.compile('streamer: "(.+?)",').findall(link)
         Path=re.compile('file: "mp4:med/(.+?).mp4",').findall(link)
-        desc=re.compile('<meta name="description" content="(.+?)" />').findall(link)
-        if len(desc)>0:
-            desc=desc[0]
+        if len(Path)>0:
+            desc=re.compile('<meta name="description" content="(.+?)" />').findall(link)
+            if len(desc)>0:
+                desc=desc[0]
+            else:
+                desc=''
+            thumb=re.compile('image: "(.+?)",').findall(link)
+            if len(thumb)>0:
+                thumb='https:'+thumb[0]
+            else:
+                thumb=''
+            stream_url = stream[0]+'/'
+            if selfAddon.getSetting("wild-qua") == "0":
+                    playpath = 'mp4:high/'+Path[0]+'.mp4'
+            elif selfAddon.getSetting("wild-qua") == "1":
+                    playpath = 'mp4:med/'+Path[0]+'.mp4'
+            playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+            playlist.clear()
+            listitem = xbmcgui.ListItem(mname, thumbnailImage= thumb)
+            listitem.setProperty('PlayPath', playpath);
+            listitem.setInfo("Video", infoLabels={ "Title": mname, "Plot": desc})
+            playlist.add(stream_url,listitem)
+            xbmcPlayer = xbmc.Player()
+            xbmcPlayer.play(playlist)
+            addDir('','','','')
         else:
-            desc=''
-        thumb=re.compile('image: "(.+?)",').findall(link)
-        if len(thumb)>0:
-            thumb='https:'+thumb[0]
-        else:
-            thumb=''
-        stream_url = stream[0]+'/'
-        if selfAddon.getSetting("wild-qua") == "0":
-                playpath = 'mp4:high/'+Path[0]+'.mp4'
-        elif selfAddon.getSetting("wild-qua") == "1":
-                playpath = 'mp4:med/'+Path[0]+'.mp4'
-        playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
-        playlist.clear()
-        listitem = xbmcgui.ListItem(mname, thumbnailImage= thumb)
-        listitem.setProperty('PlayPath', playpath);
-        listitem.setInfo("Video", infoLabels={ "Title": mname, "Plot": desc})
-        playlist.add(stream_url,listitem)
-        xbmcPlayer = xbmc.Player()
-        xbmcPlayer.play(playlist)
-        addDir('','','','')
+            xbmc.executebuiltin("XBMC.Notification(Sorry!,Link not found,3000)")
+
+            
 
 
 def TSNDIRLIST(murl):
@@ -5045,9 +5050,7 @@ def checkGA():
         return
 
     selfAddon.setSetting('ga_time', str(now).split('.')[0])
-    APP_LAUNCH()
-    
-    
+    APP_LAUNCH()    
     
                     
 def send_request_to_google_analytics(utm_url):
@@ -5121,25 +5124,13 @@ def GA(group,name):
             
 def APP_LAUNCH():
         try:
-            if xbmc.getCondVisibility('system.platform.osx'):
-                if xbmc.getCondVisibility('system.platform.atv2'):
-                    log_path = '/var/mobile/Library/Preferences'
-                else:
-                    log_path = os.path.join(os.path.expanduser('~'), 'Library/Logs')
-            elif xbmc.getCondVisibility('system.platform.ios'):
-                log_path = '/var/mobile/Library/Preferences'
-            elif xbmc.getCondVisibility('system.platform.windows'):
-                log_path = xbmc.translatePath('special://home')
-                log = os.path.join(log_path, 'xbmc.log')
-                logfile = open(log, 'r').read()
-            elif xbmc.getCondVisibility('system.platform.linux'):
-                log_path = xbmc.translatePath('special://home/temp')
-            else:
-                log_path = xbmc.translatePath('special://logpath')
+            log_path = xbmc.translatePath('special://logpath')
             log = os.path.join(log_path, 'xbmc.log')
             logfile = open(log, 'r').read()
+            match=re.compile('Starting XBMC \((.+?) Git:.+?Platform: (.+?)\. Built.+?').findall(logfile)
         except:
             logfile='Starting XBMC (Unknown Git:.+?Platform: Unknown. Built.+?'
+            match=re.compile('Starting XBMC \((.+?) Git:.+?Platform: (.+?)\. Built.+?').findall(logfile)
         print '==========================   '+PATH+' '+VERSION+'   =========================='
         try:
             from hashlib import md5
@@ -5152,7 +5143,6 @@ def APP_LAUNCH():
         from hashlib import sha1
         import platform
         VISITOR = selfAddon.getSetting('visitor_ga')
-        match=re.compile('Starting XBMC \((.+?) Git:.+?Platform: (.+?)\. Built.+?').findall(logfile)
         for build, PLATFORM in match:
             if re.search('12.0',build,re.IGNORECASE): 
                 build="Frodo" 

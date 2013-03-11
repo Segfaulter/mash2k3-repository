@@ -20,7 +20,7 @@
 
 <addon id="plugin.video.movie25"
        name="Movie25"
-       version="1.2.2"
+       version="1.2.3"
        provider-name="Mash2k3">
     <requires>
         <import addon="xbmc.python" version="1.0"/>

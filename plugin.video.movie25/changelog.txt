@@ -1,3 +1,17 @@
+[B]Version 1.2.3[/B]
+
+-Added TSN to sports
+-Added WildTV to sports(woodypecker)
+-Added Strikeforce, MMA Fighting, and Bellator to MMA section in sports
+-Added Disney Jr. to kidszone
+-Added Indian and Indian dubbed movies to internatinal(Movie1k)
+-Added Sceper to built-in plugins
+-Added Extramina to built-in plugins(Voinage)
+-Added a clone backup of newmyvideolinks
+-Added channelcut and tv4stream as backup tv sources
+-Added updated GA
+-Added bitrate controls to addon settings
+
 [B]Version 1.2.2[/B]
 
 -Added military channel (woodypecker)
