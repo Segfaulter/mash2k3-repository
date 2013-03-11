@@ -210,6 +210,7 @@ def TV():
         addLink('[COLOR red]Back Up Sources[/COLOR]','','')
         addDir('Latest 150 Episodes (ChannelCut)','http://www.channelcut.me/last-150',546,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
         addDir('Latest 100 Episodes (Tv4stream)','http://www.tv4stream.info/last-100-links/',546,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
+        addDir('Latest Episodes (Etowns) True HD [COLOR red]Backup Clone of Newmyvideolinks[/COLOR]','TV',548,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
         GA("None","TV-Latest")
         
 def TVAll():
@@ -220,12 +221,14 @@ def TVAll():
         GA("None","Plugin")
 
 def HD():
-        addDir('Latest HD Movies (Newmyvideolinks) True HD','http://go.etowns.net/category/movies/bluray/',34,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
+        addDir('Latest HD Movies (Newmyvideolinks) True HD','http://newmyvideolinks.com',34,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
         addDir('Latest HD Movies (Dailyfix) True HD','HD',53,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
         addDir('Latest HD Movies (Starplay) Direct MP4 True HD','http://87.98.161.165/latest.php',57,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
         addDir('Latest HD Movies (Oneclickmovies)[COLOR red](Debrid Only)[/COLOR] True HD','www.scnsrc.me',55,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
         addDir('Latest HD Movies (Sceper)[COLOR red](Debrid Only)[/COLOR] True HD','http://sceper.ws/home/category/movies/movies-hdtv-720p',541,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
         addDir('Latest HD Movies (Oneclickwatch)','http://oneclickwatch.org/category/movies/',25,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
+        addLink('[COLOR red]Back Up Sources[/COLOR]','','')
+        addDir('Latest HD Movies (Etowns) True HD  [COLOR red]Backup Clone of Newmyvideolinks[/COLOR]','http://go.etowns.net/category/movies/bluray/',548,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
         GA("None","HD")
 def INT():
         addDir('Latest Indian Subtitled Movies (einthusan)','http://www.einthusan.com',37,"%s/art/intl.png"%selfAddon.getAddonInfo("path"))
@@ -728,20 +731,20 @@ def LISTSP(murl):
         dialogWait.close()
         del dialogWait
         GA("HD","Oneclickwatch")
-        
+
 def LISTSP2(murl):
         if murl=='3D':
                 addDir('Search Newmyvideolinks','movieNEW',102,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
                 try:
-                        urllist=['http://go.etowns.net/category/movies/3-d-movies/','http://go.etowns.net/category/movies/3-d-movies/page/2/']
+                        urllist=['http://newmyvideolinks.com/category/movies/3-d-movies/','http://newmyvideolinks.com/category/movies/3-d-movies/page/2/']
                 except:
-                        urllist=['http://go.etowns.net/category/movies/3-d-movies/']
+                        urllist=['http://newmyvideolinks.com/category/movies/3-d-movies/']
         elif murl=='TV':
                 addDir('Search Newmyvideolinks','tvNEW',102,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
-                urllist=['http://go.etowns.net/category/tv-shows/','http://go.etowns.net/category/tv-shows/page/2/','http://go.etowns.net/category/tv-shows/page/3/','http://go.etowns.net/category/tv-shows/page/4/','http://go.etowns.net/category/tv-shows/page/5/','http://go.etowns.net/category/tv-shows/page/6/','http://go.etowns.net/category/tv-shows/page/7/','http://go.etowns.net/category/tv-shows/page/8/','http://go.etowns.net/category/tv-shows/page/9/','http://go.etowns.net/category/tv-shows/page/10/']
+                urllist=['http://newmyvideolinks.com/category/tv-shows/','http://newmyvideolinks.com/category/tv-shows/page/2/','http://newmyvideolinks.com/category/tv-shows/page/3/','http://newmyvideolinks.com/category/tv-shows/page/4/','http://newmyvideolinks.com/category/tv-shows/page/5/','http://newmyvideolinks.com/category/tv-shows/page/6/','http://newmyvideolinks.com/category/tv-shows/page/7/','http://newmyvideolinks.com/category/tv-shows/page/8/','http://newmyvideolinks.com/category/tv-shows/page/9/','http://newmyvideolinks.com/category/tv-shows/page/10/']
         else:
                 addDir('Search Newmyvideolinks','movieNEW',102,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
-                urllist=['http://go.etowns.net/category/movies/bluray/','http://go.etowns.net/category/movies/bluray/page/2/','http://go.etowns.net/category/movies/bluray/page/3/','http://go.etowns.net/category/movies/bluray/page/4/','http://go.etowns.net/category/movies/bluray/page/5/','http://go.etowns.net/category/movies/bluray/page/6/','http://go.etowns.net/category/movies/bluray/page/7/','http://go.etowns.net/category/movies/bluray/page/8/','http://go.etowns.net/category/movies/bluray/page/9/','http://go.etowns.net/category/movies/bluray/page/10/']
+                urllist=['http://newmyvideolinks.com/category/movies/bluray/','http://newmyvideolinks.com/category/movies/bluray/page/2/','http://newmyvideolinks.com/category/movies/bluray/page/3/','http://newmyvideolinks.com/category/movies/bluray/page/4/','http://newmyvideolinks.com/category/movies/bluray/page/5/','http://newmyvideolinks.com/category/movies/bluray/page/6/','http://newmyvideolinks.com/category/movies/bluray/page/7/','http://newmyvideolinks.com/category/movies/bluray/page/8/','http://newmyvideolinks.com/category/movies/bluray/page/9/','http://newmyvideolinks.com/category/movies/bluray/page/10/']
         dialogWait = xbmcgui.DialogProgress()
         ret = dialogWait.create('Please wait until Movie list is cached.')
         totalLinks = len(urllist)
@@ -750,16 +753,16 @@ def LISTSP2(murl):
         dialogWait.update(0,'[B]Loading....[/B]',remaining_display)
         for xurl in urllist:
                 link=OPENURL(xurl)
-                match=re.compile('<a href="(.+?)" rel="bookmark" title=".+?">(.+?)</a>').findall(link)
+                match=re.compile('<a href="(.+?)" rel=".+?" title=".+?"> <img src="(.+?)" width=".+?" height=".+?" title="(.+?)" class=".+?"></a>').findall(link)
                 if len(match)>0:
-                        for url,name in match:
+                        for url,thumb,name in match:
                                 if murl=='TV':
                                         match=re.compile('720p').findall(name)
                                         if (len(match)>0):
-                                                addDir(name,url,35,'')
+                                                addDir(name,url,35,thumb)
                                      
                                 else:
-                                        addDir(name,url,35,'')
+                                        addDir(name,url,35,thumb)
                         loadedLinks = loadedLinks + 1
                         percent = (loadedLinks * 100)/totalLinks
                         remaining_display = 'Pages loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
@@ -819,6 +822,171 @@ def SearchhistoryNEW(murl):
             
 
 def SEARCHNEW(murl):
+        if murl == 'movieNEW':
+                seapath=os.path.join(datapath,'Search')
+                SeaFile=os.path.join(seapath,'SearchHistory25')
+                try:
+                    os.makedirs(seapath)
+                except:
+                    pass
+                keyb = xbmc.Keyboard('', 'Search Movies')
+                keyb.doModal()
+                if (keyb.isConfirmed()):
+                        search = keyb.getText()
+                        encode=urllib.quote(search)
+                        surl='http://newmyvideolinks.com/index.php?s='+encode
+                        if not os.path.exists(SeaFile) and encode != '':
+                            open(SeaFile,'w').write('search="%s",'%encode)
+                        else:
+                            if encode != '':
+                                open(SeaFile,'a').write('search="%s",'%encode)
+                        searchis=re.compile('search="(.+?)",').findall(open(SeaFile,'r').read())
+                        for seahis in reversed(searchis):
+                            print seahis
+                        if len(searchis)>=10:
+                            searchis.remove(searchis[0])
+                            os.remove(SeaFile)
+                            for seahis in searchis:
+                                try:
+                                    open(SeaFile,'a').write('search="%s",'%seahis)
+                                except:
+                                    pass
+        elif murl == 'tvNEW':
+                seapath=os.path.join(datapath,'Search')
+                SeaFile=os.path.join(seapath,'SearchHistoryTv')
+                try:
+                    os.makedirs(seapath)
+                except:
+                    pass
+                keyb = xbmc.Keyboard('', 'Search TV Shows')
+                keyb.doModal()
+                if (keyb.isConfirmed()):
+                        search = keyb.getText()
+                        encode=urllib.quote(search)
+                        surl='http://newmyvideolinks.com/index.php?s='+encode
+                        if not os.path.exists(SeaFile) and encode != '':
+                            open(SeaFile,'w').write('search="%s",'%encode)
+                        else:
+                            if encode != '':
+                                open(SeaFile,'a').write('search="%s",'%encode)
+                        searchis=re.compile('search="(.+?)",').findall(open(SeaFile,'r').read())
+                        for seahis in reversed(searchis):
+                            continue
+                        if len(searchis)>=10:
+                            searchis.remove(searchis[0])
+                            os.remove(SeaFile)
+                            for seahis in searchis:
+                                try:
+                                    open(SeaFile,'a').write('search="%s",'%seahis)
+                                except:
+                                    pass
+
+                
+        else:
+                encode = murl
+                surl='http://newmyvideolinks.com/index.php?s='+encode
+        link=OPENURL(surl)
+        match=re.compile('<a href="(.+?)" rel=".+?" title=".+?"> <img src="(.+?)" width=".+?" height=".+?" title="(.+?)" class=".+?"></a>').findall(link)
+        if len(match)>0:
+                for url,thumb,name in match:
+                            addDir(name,url,35,thumb)
+
+        else:
+                match=re.compile('href="(.+?)" title="(.+?)"><img src="(.+?)" alt=".+?" width=".+?" height=".+?" class=".+?" />').findall(link)
+                for url,name,thumb in match:
+                            addDir(name,url,35,thumb)
+        GA("Newmyvideolinks","Search")
+        
+def LISTEtowns(murl):
+        if murl=='3D':
+                addDir('Search Etowns','movieNEW',550,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
+                try:
+                        urllist=['http://go.etowns.net/category/movies/3-d-movies/','http://go.etowns.net/category/movies/3-d-movies/page/2/']
+                except:
+                        urllist=['http://go.etowns.net/category/movies/3-d-movies/']
+        elif murl=='TV':
+                addDir('Search Etowns','tvNEW',550,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
+                urllist=['http://go.etowns.net/category/tv-shows/','http://go.etowns.net/category/tv-shows/page/2/','http://go.etowns.net/category/tv-shows/page/3/','http://go.etowns.net/category/tv-shows/page/4/','http://go.etowns.net/category/tv-shows/page/5/','http://go.etowns.net/category/tv-shows/page/6/','http://go.etowns.net/category/tv-shows/page/7/','http://go.etowns.net/category/tv-shows/page/8/','http://go.etowns.net/category/tv-shows/page/9/','http://go.etowns.net/category/tv-shows/page/10/']
+        else:
+                addDir('Search Etowns','movieNEW',550,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
+                urllist=['http://go.etowns.net/category/movies/bluray/','http://go.etowns.net/category/movies/bluray/page/2/','http://go.etowns.net/category/movies/bluray/page/3/','http://go.etowns.net/category/movies/bluray/page/4/','http://go.etowns.net/category/movies/bluray/page/5/','http://go.etowns.net/category/movies/bluray/page/6/','http://go.etowns.net/category/movies/bluray/page/7/','http://go.etowns.net/category/movies/bluray/page/8/','http://go.etowns.net/category/movies/bluray/page/9/','http://go.etowns.net/category/movies/bluray/page/10/']
+        dialogWait = xbmcgui.DialogProgress()
+        ret = dialogWait.create('Please wait until Movie list is cached.')
+        totalLinks = len(urllist)
+        loadedLinks = 0
+        remaining_display = 'Pages loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
+        dialogWait.update(0,'[B]Loading....[/B]',remaining_display)
+        for xurl in urllist:
+                link=OPENURL(xurl)
+                match=re.compile('<a href="(.+?)" rel="bookmark" title=".+?">(.+?)</a>').findall(link)
+                if len(match)>0:
+                        for url,name in match:
+                                if murl=='TV':
+                                        match=re.compile('720p').findall(name)
+                                        if (len(match)>0):
+                                                addDir(name,url,35,'')
+                                     
+                                else:
+                                        addDir(name,url,35,'')
+                        loadedLinks = loadedLinks + 1
+                        percent = (loadedLinks * 100)/totalLinks
+                        remaining_display = 'Pages loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
+                        dialogWait.update(percent,'[B]Loading....[/B]',remaining_display)
+                        if (dialogWait.iscanceled()):
+                                return False   
+
+                else:
+                        match=re.compile('href="(.+?)" title="(.+?)"><img src="(.+?)" alt=".+?" width=".+?" height=".+?" class=".+?" />').findall(link)
+                        for url,name,thumb in match:
+                                if murl=='TV':
+                                        match=re.compile('720p').findall(name)
+                                        if (len(match)>0):
+                                                addDir(name,url,35,thumb)
+                                                
+                                else:
+                                        addDir(name,url,35,thumb)
+                        loadedLinks = loadedLinks + 1
+                        percent = (loadedLinks * 100)/totalLinks
+                        remaining_display = 'Pages loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
+                        dialogWait.update(percent,'[B]Loading....[/B]',remaining_display)
+                        if (dialogWait.iscanceled()):
+                                return False   
+        dialogWait.close()
+        del dialogWait
+        GA("HD-3D-HDTV","Etowns")
+
+def SearchhistoryEtowns(murl):
+        if murl == 'tvNEW':
+            seapath=os.path.join(datapath,'Search')
+            SeaFile=os.path.join(seapath,'SearchHistoryTv')
+            if not os.path.exists(SeaFile):
+                url='tvNEW'
+                SEARCHNEW(url)
+            else:
+                addDir('Search','tvNEW',549,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
+                thumb="%s/art/link.png"%selfAddon.getAddonInfo("path")
+                searchis=re.compile('search="(.+?)",').findall(open(SeaFile,'r').read())
+                for seahis in reversed(searchis):
+                        url=seahis
+                        seahis=seahis.replace('%20',' ')
+                        addDir(seahis,url,549,thumb)
+        elif murl == 'movieNEW':
+            seapath=os.path.join(datapath,'Search')
+            SeaFile=os.path.join(seapath,'SearchHistory25')
+            if not os.path.exists(SeaFile):
+                url='movieNEW'
+                SEARCHNEW(url)
+            else:
+                addDir('Search','movieNEW',101,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
+                thumb="%s/art/link.png"%selfAddon.getAddonInfo("path")
+                searchis=re.compile('search="(.+?)",').findall(open(SeaFile,'r').read())
+                for seahis in reversed(searchis):
+                        url=seahis
+                        seahis=seahis.replace('%20',' ')
+                        addDir(seahis,url,101,thumb)
+            
+
+def SEARCHEtowns(murl):
         if murl == 'movieNEW':
                 seapath=os.path.join(datapath,'Search')
                 SeaFile=os.path.join(seapath,'SearchHistory25')
@@ -892,7 +1060,7 @@ def SEARCHNEW(murl):
                 match=re.compile('href="(.+?)" title="(.+?)"><img src="(.+?)" alt=".+?" width=".+?" height=".+?" class=".+?" />').findall(link)
                 for url,name,thumb in match:
                             addDir(name,url,35,thumb)
-        GA("Newmyvideolinks","Search")
+        GA("Etowns","Search")
 
 def UFCNEW():
         try: 
@@ -3542,10 +3710,11 @@ def LINKSP4(mname,murl):
         link= link.replace('href="http://oneclickmoviez.com/dws/MEGA','')
         match=re.compile('<a href="(.+?)" target="_blank">(.+?)</a>.+?</p>').findall(link)
         for url, host in match:
-                print url
                 vlink = getlink(url)
-                hosted_media = urlresolver.HostedMediaFile(url=vlink, title=host)
-                sources.append(hosted_media)
+                match2=re.compile('rar').findall(vlink)
+                if len(match2)==0:
+                        hosted_media = urlresolver.HostedMediaFile(url=vlink, title=host)
+                        sources.append(hosted_media)
         if (len(sources)==0):
                 xbmc.executebuiltin("XBMC.Notification(Sorry!,Show doesn't have playable links,5000)")
       
@@ -5790,6 +5959,17 @@ elif mode==546:
 elif mode==547:
         print ""+url
         CHANNELCLink(name,url)
+
+elif mode==548:
+        print ""+url
+        LISTEtowns(url)
+
+elif mode==549:
+        SEARCHEtowns(url)
+
+elif mode==550:
+        SearchhistoryEtowns(url)
+
 
 
 elif mode==601:
