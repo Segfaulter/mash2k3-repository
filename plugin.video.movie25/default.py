@@ -31,6 +31,7 @@ def OPENURL(url):
         response = urllib2.urlopen(req)
         link=response.read()
         response.close()
+        link=link.replace('&#39;',"'").replace('&quot;','"').replace('&amp;',"&").replace("&#39;","'").replace('&lt;i&gt;','').replace("#8211;","-").replace('&lt;/i&gt;','').replace("&#8217;","'").replace('&amp;quot;','"').replace('&#215;','').replace('&#038;','').replace('&#8216;','').replace('&#8211;','').replace('&#8220;','').replace('&#8221;','').replace('&#8212;','')
         return link
 
 def FAVS():
@@ -215,6 +216,7 @@ def TV():
         
 def TVAll():
         #addDir('Watch-Free Series','TV',501,"%s/art/wfs/wsf.png"%selfAddon.getAddonInfo("path"))
+        addDir('BTV Guide','TV',551,"%s/art/wfs/sg.png"%selfAddon.getAddonInfo("path"))
         addDir('Series Gate','TV',601,"%s/art/wfs/sg.png"%selfAddon.getAddonInfo("path"))
         addDir('Extramina','TV',530,"%s/art/wfs/extramina.png"%selfAddon.getAddonInfo("path"))
         addDir('Sceper [COLOR red](Debrid Only)[/COLOR]','TV',539,"%s/art/wfs/sceper.png"%selfAddon.getAddonInfo("path"))
@@ -3171,7 +3173,7 @@ def GENREEXTRA(murl):
         VIEWSB()
 
 def AtoZEXTRA():
-        addDir('#','http://www.extraminamovies.in/list-of-movies/?pgno=292#char_21',531,"%s/art/wfs/pound.png"%selfAddon.getAddonInfo("path"))
+        addDir('#','http://www.extraminamovies.in/list-of-movies/?pgno=293#char_22',531,"%s/art/wfs/pound.png"%selfAddon.getAddonInfo("path"))
         addDir('0-9','http://www.extraminamovies.in/list-of-movies/?pgno=1#char_31',531,"%s/art/wfs/09.png"%selfAddon.getAddonInfo("path"))
         addDir('A','http://www.extraminamovies.in/list-of-movies/?pgno=6#char_41',531,"%s/art/wfs/A.png"%selfAddon.getAddonInfo("path"))
         addDir('B','http://www.extraminamovies.in/list-of-movies/?pgno=24#char_42',531,"%s/art/wfs/B.png"%selfAddon.getAddonInfo("path"))
@@ -3514,6 +3516,25 @@ def VIDEOLINKSSCEPER(mname,murl):
                 addDir('','','','')
 
 ############################################################################################ SCEPER ENDS ##############################################################################
+
+############################################################################################ BTV GUIDE BEGINS ##############################################################################
+
+def MAINBTV():
+        addDir('Search','s',543,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
+        addDir('Todays Episodes','todays',555,"%s/art/wfs/scepert.png"%selfAddon.getAddonInfo("path"))
+        addDir('Tv Shows','tvshows',540,"%s/art/wfs/scepert.png"%selfAddon.getAddonInfo("path"))
+        addDir('Tv Shows','tvshows',540,"%s/art/wfs/scepert.png"%selfAddon.getAddonInfo("path"))
+        addDir('Tv Shows','tvshows',555,"%s/art/wfs/scepert.png"%selfAddon.getAddonInfo("path"))
+
+def LISTPopBTV(murl):
+    if murl=='todays':
+        url='http://www.btvguide.com/shows'
+        link=OPENURL(url)
+        match=re.compile('<a href="(.+?)" class=".+?" style=".+?">\r\n\t\t\t\t\t\t\t\t\t<span class=".+?">(.+?)</span>\r\n\t\t\t\t\t\t\t\t\t<span class=".+?">(.+?)\r\n\t\t\t\t\t\t\t\t\t(.+?)</span>').findall(link)
+        for url, name, seep, epiname in match:
+            addDir(name+'  '+seep+' [COLOR red]"'+epiname+'"[/COLOR]',url,556,'')
+############################################################################################ BTV GUIDE ENDS ##############################################################################
+
 
 def VIDEOLINKS(name,url):
         link=OPENURL(url)
@@ -5960,7 +5981,52 @@ elif mode==549:
 elif mode==550:
         SearchhistoryEtowns(url)
 
+elif mode==551:
+        MAINBTV()
 
+elif mode==552:
+        print ""+url
+        LISTShowsBTV(url)
+
+elif mode==553:
+        print ""+url
+        LISTSeasonBTV(name,url)
+
+elif mode==554:
+        print ""+url
+        LISTEpilistBTV(name,url)
+
+elif mode==555:
+        print ""+url
+        LISTPopBTV(url)
+
+elif mode==556:
+        print ""+url
+        GENREBTV(url)
+
+elif mode==557:
+        print ""+url
+        SEARCHBTV(url)
+        
+elif mode==558:
+        print ""+url
+        SearchhistoryBTV()
+
+elif mode==559:
+        print ""+url
+        VIDEOLINKSBTV(name,url)     
+        
+elif mode==560:
+        print ""+url
+        AtoZBTV()
+        
+elif mode==561:
+        print ""+url
+        AllShowsBTV(url)
+
+
+
+        
 
 elif mode==601:
         MAINSG()
