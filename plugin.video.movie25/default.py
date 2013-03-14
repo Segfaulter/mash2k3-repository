@@ -3522,7 +3522,7 @@ def VIDEOLINKSSCEPER(mname,murl):
 def MAINBTV():
         addDir('Search','s',543,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
         addDir('Todays Episodes','todays',555,"%s/art/wfs/scepert.png"%selfAddon.getAddonInfo("path"))
-        addDir('Tv Shows','tvshows',540,"%s/art/wfs/scepert.png"%selfAddon.getAddonInfo("path"))
+        addDir('Popular Shows','http://www.btvguide.com/shows',562,"%s/art/wfs/scepert.png"%selfAddon.getAddonInfo("path"))
         addDir('Tv Shows','tvshows',540,"%s/art/wfs/scepert.png"%selfAddon.getAddonInfo("path"))
         addDir('Tv Shows','tvshows',555,"%s/art/wfs/scepert.png"%selfAddon.getAddonInfo("path"))
 
@@ -3533,6 +3533,102 @@ def LISTPopBTV(murl):
         match=re.compile('<a href="(.+?)" class=".+?" style=".+?">\r\n\t\t\t\t\t\t\t\t\t<span class=".+?">(.+?)</span>\r\n\t\t\t\t\t\t\t\t\t<span class=".+?">(.+?)\r\n\t\t\t\t\t\t\t\t\t(.+?)</span>').findall(link)
         for url, name, seep, epiname in match:
             addDir(name+'  '+seep+' [COLOR red]"'+epiname+'"[/COLOR]',url,556,'')
+
+def LISTPOPShowsBTV(murl):
+        desclist=[]
+        i=0
+        link=OPENURL(murl)
+        link=link.replace('\r','').replace('\n','').replace('\t','')
+        descr=re.compile('<span class=\'_more_less\'>([^<]+)').findall(link)
+        if len(descr)>0:
+            for desc in descr:
+                desclist.append(desc)
+        match=re.compile('<a href="([^<]+)" title="([^<]+)"><img src="([^<]+)" alt=".+?" title=".+?" width=".+?" height=".+?" />').findall(link)
+        for url, name, thumb in match:
+            addDir2(name,url,553,thumb,desclist[i])
+            i=i+1
+        paginate = re.compile('<a href="([^<]+)">&gt;</a>').findall(link)
+        if len(paginate)>0:
+            addDir('Next','http://www.btvguide.com'+paginate[0],562,"%s/art/next2.png"%selfAddon.getAddonInfo("path"))
+
+def LISTSeasonBTV(mname,murl):
+        murl=murl+'/watch-online'
+        link=OPENURL(murl)
+        link=link.replace('\r','').replace('\n','').replace('\t','')
+        match=re.compile('<a rel="nofollow" href="([^<]+)"><strong>([^<]+)</strong>([^<]+)</a>').findall(link)
+        for url,seaname, epilen in match:
+            addDir(seaname+epilen,url,554,'')
+
+def LISTEpilistBTV(mname,murl):
+        link=OPENURL(murl)
+        season=re.compile('http://www.btvguide.com/.+?/watch-online/(.+?)/.?#.+?').findall(murl)
+        seas=season[0]
+        seas=seas.replace('+','-')
+        link=link.replace('\r','').replace('\n','').replace('\t','')
+        match=re.compile('<img class="thumb lazy" data-original="([^<]+)" src=".+?".+?<a class="title" href="([^<]+)">([^<]+)</a><br/><div class="ep_info">([^<]+)</div></div><div class=".+?"><div class="date">([^<]+)</div></div></div><div class="description">([^<]+)</div>').findall(link)
+        for thumb,url,epiname,epinum,date,desc in match:
+            match2=re.compile(seas).findall(url)
+            if len(match2)>0:
+                addDir2('[COLOR red]'+epinum+'[/COLOR] "'+epiname+'"',url,559,thumb,desc)
+                
+def GETLINKBTV(murl):
+    print "oob2 "+murl
+    html = net().http_GET(murl).content
+    next_url = re.compile('action="(.+?)" target="_blank">').findall(html)[0]
+    token = re.compile('name="btvguide_csrf_token" value="(.+?)"').findall(html)[0]
+    second = net().http_POST(next_url,{'submit':'','btvguide_csrf_token':token}).content
+    match=re.compile('<title>GorillaVid - Just watch it!</title>').findall(second)
+    if len(match)>0:
+        match=re.compile('<input type="hidden" name="id" value="(.+?)">\n<input type="hidden"').findall(second)
+        url='http://gorillavid.in/'+match[0]
+        return url
+    match2=re.compile('<title>DaClips - Just watch it!</title>').findall(second)
+    if len(match2)>0:
+        match=re.compile('<input type="hidden" name="id" value="(.+?)">\n<input type="hidden"').findall(second)
+        url='http://daclips.in/'+match[0]
+        return url
+
+def VIDEOLINKSBTV(mname,murl):
+        GA("BTV-GUIDE","Watched")
+        murl=murl+'/watch-online'
+        link=OPENURL(murl)
+        link=link.replace('\r','').replace('\n','').replace('\t','')
+        xbmc.executebuiltin("XBMC.Notification(Please Wait!,Collecting hosts,3000)")
+        match=re.compile('<a class="clickfreehoney" rel="nofollow" href="(.+?)" style=".+?">.+?</span> on&nbsp;(.+?)<br/>').findall(link)
+        for url,host in match[0:2]:
+                print "oob "+host
+                putlocker=re.compile('gorillavid').findall(host)
+                if len(putlocker) > 0:
+                    addDirb(host,url,563,"%s/art/put.png"%selfAddon.getAddonInfo("path"),"%s/art/put.png"%selfAddon.getAddonInfo("path"))
+                oeupload=re.compile('daclips').findall(host)
+                if len(oeupload) > 0: 
+                    addDirb(host,url,563,"%s/art/180u.png"%selfAddon.getAddonInfo("path"),"%s/art/180u.png"%selfAddon.getAddonInfo("path"))
+
+
+def PLAYBTV(mname,murl):
+        furl=GETLINKBTV(murl)
+        
+        playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+        playlist.clear()
+        listitem = xbmcgui.ListItem(mname, iconImage="DefaultVideo.png",thumbnailImage='')
+        #listitem.setInfo("Video", infoLabels = infoLabels)
+        #listitem.setProperty('mimetype', 'video/x-msvideo')
+        #listitem.setProperty('IsPlayable', 'true')
+        media = urlresolver.HostedMediaFile(furl)
+        source = media
+        if source:
+                xbmc.executebuiltin("XBMC.Notification(Please Wait!,Resolving Link,3000)")
+                stream_url = source.resolve()
+                if source.resolve()==False:
+                        xbmc.executebuiltin("XBMC.Notification(Sorry!,Link Cannot Be Resolved,5000)")
+                        return
+        else:
+              stream_url = False  
+        playlist.add(stream_url,listitem)
+        xbmcPlayer = xbmc.Player()
+        xbmcPlayer.play(playlist)
+        
+        addDir('','','','')
 ############################################################################################ BTV GUIDE ENDS ##############################################################################
 
 
@@ -6023,7 +6119,13 @@ elif mode==560:
 elif mode==561:
         print ""+url
         AllShowsBTV(url)
+elif mode==562:
+        print ""+url
+        LISTPOPShowsBTV(url)
 
+elif mode==563:
+        print ""+url
+        PLAYBTV(name,url)
 
 
         
