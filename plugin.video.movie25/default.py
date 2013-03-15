@@ -3523,8 +3523,8 @@ def MAINBTV():
         addDir('Search','s',543,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
         addDir('Todays Episodes','todays',555,"%s/art/wfs/scepert.png"%selfAddon.getAddonInfo("path"))
         addDir('Popular Shows','http://www.btvguide.com/shows',562,"%s/art/wfs/scepert.png"%selfAddon.getAddonInfo("path"))
-        addDir('Tv Shows','tvshows',540,"%s/art/wfs/scepert.png"%selfAddon.getAddonInfo("path"))
-        addDir('Tv Shows','tvshows',555,"%s/art/wfs/scepert.png"%selfAddon.getAddonInfo("path"))
+        addDir('New Shows','http://www.btvguide.com/shows/list-type/new_shows',564,"%s/art/wfs/scepert.png"%selfAddon.getAddonInfo("path"))
+        addDir('New Episodes (Starting from yesterdays)','http://www.btvguide.com/shows/list-type/new_episodes',565,"%s/art/wfs/scepert.png"%selfAddon.getAddonInfo("path"))
 
 def LISTPopBTV(murl):
     if murl=='todays':
@@ -3532,7 +3532,17 @@ def LISTPopBTV(murl):
         link=OPENURL(url)
         match=re.compile('<a href="(.+?)" class=".+?" style=".+?">\r\n\t\t\t\t\t\t\t\t\t<span class=".+?">(.+?)</span>\r\n\t\t\t\t\t\t\t\t\t<span class=".+?">(.+?)\r\n\t\t\t\t\t\t\t\t\t(.+?)</span>').findall(link)
         for url, name, seep, epiname in match:
-            addDir(name+'  '+seep+' [COLOR red]"'+epiname+'"[/COLOR]',url,556,'')
+            addDir(name+'  '+seep+' [COLOR red]"'+epiname+'"[/COLOR]',url,559,'')
+
+def LISTNEWEpiBTV(murl):
+        link=OPENURL(murl)
+        link=link.replace('\r','').replace('\n','').replace('\t','')
+        match=re.compile('<img .+?="h(.+?)" .+?/></a></div></div><div class=".+?"><h4><a href="([^<]+)" title="([^<]+)" style=".+?"  target=".+?">([^<]+)</a><div class=".+?" style=".+?">.+?</div></h4><div class=".+?" ><span class=\'_more_less\' style=".+?"><span style=".+?">([^<]+)</span>').findall(link)
+        for thumb, url, epiname, name, seep in match:
+            addDir(name+'  '+seep+' [COLOR red]"'+epiname+'"[/COLOR]',url,559,'h'+thumb)
+        paginate = re.compile('<a href="([^<]+)">&gt;</a>').findall(link)
+        if len(paginate)>0:
+            addDir('Next','http://www.btvguide.com'+paginate[0],565,"%s/art/next2.png"%selfAddon.getAddonInfo("path"))
 
 def LISTPOPShowsBTV(murl):
         desclist=[]
@@ -3550,6 +3560,23 @@ def LISTPOPShowsBTV(murl):
         paginate = re.compile('<a href="([^<]+)">&gt;</a>').findall(link)
         if len(paginate)>0:
             addDir('Next','http://www.btvguide.com'+paginate[0],562,"%s/art/next2.png"%selfAddon.getAddonInfo("path"))
+
+def LISTNEWShowsBTV(murl):
+        desclist=[]
+        i=0
+        link=OPENURL(murl)
+        link=link.replace('\r','').replace('\n','').replace('\t','')
+        descr=re.compile('<span class=\'_more_less\'>([^<]+)').findall(link)
+        if len(descr)>0:
+            for desc in descr:
+                desclist.append(desc)
+        match=re.compile('<a href="([^<]+)" title="([^<]+)"><img src="([^<]+)" alt=".+?" title=".+?" width=".+?" height=".+?" />').findall(link)
+        for url, name, thumb in match:
+            addDir2(name,url,553,thumb,desclist[i])
+            i=i+1
+        paginate = re.compile('<a href="([^<]+)">&gt;</a>').findall(link)
+        if len(paginate)>0:
+            addDir('Next','http://www.btvguide.com'+paginate[0],564,"%s/art/next2.png"%selfAddon.getAddonInfo("path"))
 
 def LISTSeasonBTV(mname,murl):
         murl=murl+'/watch-online'
@@ -3580,55 +3607,144 @@ def GETLINKBTV(murl):
     match=re.compile('<title>GorillaVid - Just watch it!</title>').findall(second)
     if len(match)>0:
         match=re.compile('<input type="hidden" name="id" value="(.+?)">\n<input type="hidden"').findall(second)
-        url='http://gorillavid.in/'+match[0]
-        return url
+        if len(match)>0:
+            url='http://gorillavid.in/'+match[0]
+            return url
+        else:
+            xbmc.executebuiltin("XBMC.Notification(Sorry!,Link Removed,3000)")
+            return ''
     match2=re.compile('<title>DaClips - Just watch it!</title>').findall(second)
     if len(match2)>0:
         match=re.compile('<input type="hidden" name="id" value="(.+?)">\n<input type="hidden"').findall(second)
-        url='http://daclips.in/'+match[0]
-        return url
+        if len(match)>0:
+            url='http://daclips.in/'+match[0]
+            return url
+        else:
+            xbmc.executebuiltin("XBMC.Notification(Sorry!,Link Removed,3000)")
+            return ''
+    match3=re.compile('<title>MovPod - Just watch it!</title>').findall(second)
+    if len(match3)>0:
+        match=re.compile('<input type="hidden" name="id" value="(.+?)">\n<input type="hidden"').findall(second)
+        if len(match)>0:
+            url='http://movpod.in/'+match[0]
+            return url
+        else:
+            xbmc.executebuiltin("XBMC.Notification(Sorry!,Link Removed,3000)")
+            return ''
+    match4=re.compile('DivxStage').findall(second)
+    if len(match4)>0:
+        match=re.compile('type=".+?" value="(.+?)" id=".+?"').findall(second)
+        if len(match)>0:
+            url=match[0]
+            return url
+        else:
+            xbmc.executebuiltin("XBMC.Notification(Sorry!,Link Removed,3000)")
+            return ''
+    match5=re.compile('<title>VidX Den').findall(second)
+    if len(match5)>0:
+        match=re.compile('<input name="id" type="hidden" value="(.+?)">').findall(second)
+        if len(match)>0:
+            url='http://www.vidxden.com/'+match[0]
+            return url
+        else:
+            xbmc.executebuiltin("XBMC.Notification(Sorry!,Link Removed,3000)")
+            return ''
+    match6=re.compile('<title>VidBux').findall(second)
+    if len(match6)>0:
+        match=re.compile('<input name="id" type="hidden" value="(.+?)">').findall(second)
+        if len(match)>0:
+            url='http://www.vidbux.com/'+match[0]
+            return url
+        else:
+            xbmc.executebuiltin("XBMC.Notification(Sorry!,Link Removed,3000)")
+            return ''
+    match7=re.compile('http://vidbull.com').findall(second)
+    if len(match7)>0:
+        match=re.compile('<input type="hidden" name="id" value="(.+?)">\n<input type="hidden"').findall(second)
+        if len(match)>0:
+            url='http://vidbull.com/'+match[0]
+            return url
+        else:
+            xbmc.executebuiltin("XBMC.Notification(Sorry!,Link Removed,3000)")
+            return ''
+    match8=re.compile('http://flashx.tv/favicon.ico').findall(second)
+    if len(match8)>0:
+        match=re.compile('<meta property="og:video" content=\'(.+?)\'>').findall(second)
+        if len(match)>0:
+            url=match[0]
+            return url
+        else:
+            xbmc.executebuiltin("XBMC.Notification(Sorry!,Link Removed,3000)")
+            return ''
 
 def VIDEOLINKSBTV(mname,murl):
         GA("BTV-GUIDE","Watched")
         murl=murl+'/watch-online'
         link=OPENURL(murl)
         link=link.replace('\r','').replace('\n','').replace('\t','')
-        xbmc.executebuiltin("XBMC.Notification(Please Wait!,Collecting hosts,3000)")
         match=re.compile('<a class="clickfreehoney" rel="nofollow" href="(.+?)" style=".+?">.+?</span> on&nbsp;(.+?)<br/>').findall(link)
-        for url,host in match[0:2]:
-                print "oob "+host
-                putlocker=re.compile('gorillavid').findall(host)
-                if len(putlocker) > 0:
+        for url,host in match:
+                gorillavid=re.compile('gorillavid').findall(host)
+                if len(gorillavid) > 0:
                     addDirb(host,url,563,"%s/art/put.png"%selfAddon.getAddonInfo("path"),"%s/art/put.png"%selfAddon.getAddonInfo("path"))
-                oeupload=re.compile('daclips').findall(host)
-                if len(oeupload) > 0: 
+                daclips=re.compile('daclips').findall(host)
+                if len(daclips) > 0: 
                     addDirb(host,url,563,"%s/art/180u.png"%selfAddon.getAddonInfo("path"),"%s/art/180u.png"%selfAddon.getAddonInfo("path"))
-
+                movpod=re.compile('movpod').findall(host)
+                if len(movpod) > 0:
+                    addDirb(host,url,563,"%s/art/put.png"%selfAddon.getAddonInfo("path"),"%s/art/put.png"%selfAddon.getAddonInfo("path"))
+                divxstage=re.compile('divxstage').findall(host)
+                if len(divxstage) > 0: 
+                    addDirb(host,url,563,"%s/art/180u.png"%selfAddon.getAddonInfo("path"),"%s/art/180u.png"%selfAddon.getAddonInfo("path"))
+                nowvideo=re.compile('nowvideo').findall(host)
+                if len(nowvideo) > 0:
+                    addDirb(host,url,563,"%s/art/put.png"%selfAddon.getAddonInfo("path"),"%s/art/put.png"%selfAddon.getAddonInfo("path"))
+                movshare=re.compile('movshare').findall(host)
+                if len(movshare) > 0: 
+                    addDirb(host,url,563,"%s/art/180u.png"%selfAddon.getAddonInfo("path"),"%s/art/180u.png"%selfAddon.getAddonInfo("path"))
+                flashx=re.compile('flashx').findall(host)
+                if len(flashx) > 0:
+                    addDirb(host,url,563,"%s/art/put.png"%selfAddon.getAddonInfo("path"),"%s/art/put.png"%selfAddon.getAddonInfo("path"))
+                vidhog=re.compile('vidhog').findall(host)
+                if len(vidhog) > 0:
+                    addDirb(host,url,563,"%s/art/put.png"%selfAddon.getAddonInfo("path"),"%s/art/put.png"%selfAddon.getAddonInfo("path"))
+                vidbull=re.compile('vidbull').findall(host)
+                if len(vidbull) > 0: 
+                    addDirb(host,url,563,"%s/art/180u.png"%selfAddon.getAddonInfo("path"),"%s/art/180u.png"%selfAddon.getAddonInfo("path"))
+                vidxden=re.compile('vidxden').findall(host)
+                if len(vidxden) > 0:
+                    addDirb(host,url,563,"%s/art/put.png"%selfAddon.getAddonInfo("path"),"%s/art/put.png"%selfAddon.getAddonInfo("path"))
+                vidbux=re.compile('vidbux').findall(host)
+                if len(vidbux) > 0: 
+                    addDirb(host,url,563,"%s/art/180u.png"%selfAddon.getAddonInfo("path"),"%s/art/180u.png"%selfAddon.getAddonInfo("path"))
 
 def PLAYBTV(mname,murl):
         furl=GETLINKBTV(murl)
-        
-        playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
-        playlist.clear()
-        listitem = xbmcgui.ListItem(mname, iconImage="DefaultVideo.png",thumbnailImage='')
-        #listitem.setInfo("Video", infoLabels = infoLabels)
-        #listitem.setProperty('mimetype', 'video/x-msvideo')
-        #listitem.setProperty('IsPlayable', 'true')
-        media = urlresolver.HostedMediaFile(furl)
-        source = media
-        if source:
-                xbmc.executebuiltin("XBMC.Notification(Please Wait!,Resolving Link,3000)")
-                stream_url = source.resolve()
-                if source.resolve()==False:
-                        xbmc.executebuiltin("XBMC.Notification(Sorry!,Link Cannot Be Resolved,5000)")
-                        return
+        print "final url "+furl
+        if furl=='':
+            addDir('','','','')
         else:
-              stream_url = False  
-        playlist.add(stream_url,listitem)
-        xbmcPlayer = xbmc.Player()
-        xbmcPlayer.play(playlist)
+            playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+            playlist.clear()
+            listitem = xbmcgui.ListItem(mname, iconImage="DefaultVideo.png",thumbnailImage='')
+            #listitem.setInfo("Video", infoLabels = infoLabels)
+            #listitem.setProperty('mimetype', 'video/x-msvideo')
+            #listitem.setProperty('IsPlayable', 'true')
+            media = urlresolver.HostedMediaFile(furl)
+            source = media
+            if source:
+                    xbmc.executebuiltin("XBMC.Notification(Please Wait!,Resolving Link,3000)")
+                    stream_url = source.resolve()
+                    if source.resolve()==False:
+                            xbmc.executebuiltin("XBMC.Notification(Sorry!,Link Cannot Be Resolved,5000)")
+                            return
+            else:
+                  stream_url = False  
+            playlist.add(str(stream_url),listitem)
+            xbmcPlayer = xbmc.Player()
+            xbmcPlayer.play(playlist)
         
-        addDir('','','','')
+            addDir('','','','')
 ############################################################################################ BTV GUIDE ENDS ##############################################################################
 
 
@@ -6126,6 +6242,12 @@ elif mode==562:
 elif mode==563:
         print ""+url
         PLAYBTV(name,url)
+elif mode==564:
+        print ""+url
+        LISTNEWShowsBTV(url)
+elif mode==565:
+        print ""+url
+        LISTNEWEpiBTV(url)
 
 
         
