@@ -216,7 +216,7 @@ def TV():
         
 def TVAll():
         #addDir('Watch-Free Series','TV',501,"%s/art/wfs/wsf.png"%selfAddon.getAddonInfo("path"))
-        addDir('BTV Guide','TV',551,"%s/art/wfs/sg.png"%selfAddon.getAddonInfo("path"))
+        addDir('BTV Guide','TV',551,"%s/art/wfs/btvguide.png"%selfAddon.getAddonInfo("path"))
         addDir('Series Gate','TV',601,"%s/art/wfs/sg.png"%selfAddon.getAddonInfo("path"))
         addDir('Extramina','TV',530,"%s/art/wfs/extramina.png"%selfAddon.getAddonInfo("path"))
         addDir('Sceper [COLOR red](Debrid Only)[/COLOR]','TV',539,"%s/art/wfs/sceper.png"%selfAddon.getAddonInfo("path"))
@@ -3520,11 +3520,112 @@ def VIDEOLINKSSCEPER(mname,murl):
 ############################################################################################ BTV GUIDE BEGINS ##############################################################################
 
 def MAINBTV():
-        addDir('Search','s',543,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
-        addDir('Todays Episodes','todays',555,"%s/art/wfs/scepert.png"%selfAddon.getAddonInfo("path"))
-        addDir('Popular Shows','http://www.btvguide.com/shows',562,"%s/art/wfs/scepert.png"%selfAddon.getAddonInfo("path"))
-        addDir('New Shows','http://www.btvguide.com/shows/list-type/new_shows',564,"%s/art/wfs/scepert.png"%selfAddon.getAddonInfo("path"))
-        addDir('New Episodes (Starting from yesterdays)','http://www.btvguide.com/shows/list-type/new_episodes',565,"%s/art/wfs/scepert.png"%selfAddon.getAddonInfo("path"))
+        addDir('Search','s',558,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
+        addDir('A-Z','s',560,"%s/art/wfs/az.png"%selfAddon.getAddonInfo("path"))
+        addDir('Todays Episodes','todays',555,"%s/art/wfs/toepi.png"%selfAddon.getAddonInfo("path"))
+        addDir('Popular Shows','http://www.btvguide.com/shows',562,"%s/art/wfs/popshow.png"%selfAddon.getAddonInfo("path"))
+        addDir('New Shows','http://www.btvguide.com/shows/list-type/new_shows',564,"%s/art/wfs/newshow.png"%selfAddon.getAddonInfo("path"))
+        addDir('New Episodes (Starting from yesterdays)','http://www.btvguide.com/shows/list-type/new_episodes',565,"%s/art/wfs/newepi.png"%selfAddon.getAddonInfo("path"))
+        addDir('By Genre','genre',566,"%s/art/wfs/bygen.png"%selfAddon.getAddonInfo("path"))
+        addDir('By Decade','decade',566,"%s/art/wfs/bydec.png"%selfAddon.getAddonInfo("path"))
+        addDir('By Network','network',566,"%s/art/wfs/bynet.png"%selfAddon.getAddonInfo("path"))
+        GA("Plugin","BTV-Guide")
+        VIEWSB()
+        
+def AtoZBTV():
+    addDir('0-9','http://www.btvguide.com/shows/list-type/a_z',561,"%s/art/wfs/09.png"%selfAddon.getAddonInfo("path"))
+    for i in string.ascii_uppercase:
+            addDir(i,'http://www.btvguide.com/shows/sort/'+i.lower()+'/list-type/a_z',561,"%s/art/wfs/%s.png"%(selfAddon.getAddonInfo("path"),i))
+    GA("BTV-Guide","A-Z")
+    VIEWSB()
+
+def DECADEBTV(murl):
+        url ='http://www.btvguide.com/shows/list-type/a_z'
+        link=OPENURL(url)
+        link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
+        if murl=='decade':
+            match=re.compile('<li class="filter"><a  href="/shows/decade/(.+?)">(.+?)<em>(.+?)</em></a></li>').findall(link)
+            thumb="%s/art/folder.png"%selfAddon.getAddonInfo("path")
+            for url, name, length in match:
+                addDir(name+' '+length,'http://www.btvguide.com/shows/decade/'+url,561,thumb)
+        elif murl=='genre':
+            match=re.compile('<li class="filter"><a  href="/shows/category/(.+?)">(.+?)<em>(.+?)</em></a></li>').findall(link)
+            thumb="%s/art/folder.png"%selfAddon.getAddonInfo("path")
+            for url, name, length in match:
+                addDir(name+' '+length,'http://www.btvguide.com/shows/category/'+url,561,thumb)
+        elif murl=='network':
+            match=re.compile('<li class="filter"><a  href="/shows/network/(.+?)">(.+?)<em>(.+?)</em></a></li>').findall(link)
+            thumb="%s/art/folder.png"%selfAddon.getAddonInfo("path")
+            for url, name, length in match:
+                addDir(name+' '+length,'http://www.btvguide.com/shows/network/'+url,561,thumb)
+
+def SearchhistoryBTV():
+        seapath=os.path.join(datapath,'Search')
+        SeaFile=os.path.join(seapath,'SearchHistoryTV')
+        if not os.path.exists(SeaFile):
+            url='btv'
+            SEARCHBTV(url)
+        else:
+            addDir('Search','btv',557,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
+            thumb="%s/art/link.png"%selfAddon.getAddonInfo("path")
+            searchis=re.compile('search="(.+?)",').findall(open(SeaFile,'r').read())
+            for seahis in reversed(searchis):
+                    url=seahis
+                    seahis=seahis.replace('%20',' ')
+                    addDir(seahis,url,557,thumb)
+            
+            
+        
+def SEARCHBTV(murl):
+        seapath=os.path.join(datapath,'Search')
+        SeaFile=os.path.join(seapath,'SearchHistoryTV')
+        try:
+            os.makedirs(seapath)
+        except:
+            pass
+        if murl == 'btv':
+            keyb = xbmc.Keyboard('', 'Search Tv Shows')
+            keyb.doModal()
+            if (keyb.isConfirmed()):
+                    search = keyb.getText()
+                    encode=urllib.quote(search)
+                    surl='http://www.btvguide.com/searchresults/?q='+encode
+                    if not os.path.exists(SeaFile) and encode != '':
+                        open(SeaFile,'w').write('search="%s",'%encode)
+                    else:
+                        if encode != '':
+                            open(SeaFile,'a').write('search="%s",'%encode)
+                    searchis=re.compile('search="(.+?)",').findall(open(SeaFile,'r').read())
+                    for seahis in reversed(searchis):
+                        continue
+                    if len(searchis)>=10:
+                        searchis.remove(searchis[0])
+                        os.remove(SeaFile)
+                        for seahis in searchis:
+                            try:
+                                open(SeaFile,'a').write('search="%s",'%seahis)
+                            except:
+                                pass
+        else:
+                encode = murl
+                surl='http://www.btvguide.com/searchresults/?q='+encode
+        link=OPENURL(surl)
+        link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
+        match=re.compile('<div class="mask"><a class="_image_container" href="(.+?)"><img class="lazy" data-original="(.+?)"src=".+?" alt="(.+?)" /></a>').findall(link)
+        for url,thumb,name in match:
+                addDir(name,url,553,thumb)
+        GA("BTV-Guide","Search")
+
+            
+def AllShowsBTV(murl):
+        link=OPENURL(murl)
+        link=link.replace('\r','').replace('\n','').replace('\t','')
+        match=re.compile('<li class="show"><a href="(.+?)">(.+?)</a></li>').findall(link)
+        for url, name in match:
+            addDir(name,url,553,'')
+        paginate = re.compile('<a href="([^<]+)">&gt;</a>').findall(link)
+        if len(paginate)>0:
+            addDir('Next','http://www.btvguide.com'+paginate[0],561,"%s/art/next2.png"%selfAddon.getAddonInfo("path"))
 
 def LISTPopBTV(murl):
     if murl=='todays':
@@ -3676,6 +3777,34 @@ def GETLINKBTV(murl):
         else:
             xbmc.executebuiltin("XBMC.Notification(Sorry!,Link Removed,3000)")
             return ''
+    match9=re.compile('filenuke.com').findall(second)
+    if len(match9)>0:
+        match=re.compile('</span> <a href="(.+?)">.+?</a>').findall(second)
+        if len(match)>0:
+            url=match[0]
+            return url
+        else:
+            xbmc.executebuiltin("XBMC.Notification(Sorry!,Link Removed,3000)")
+            return ''
+    match10=re.compile('<title>NowVideo - Just watch it now!</title>').findall(second)
+    if len(match10)>0:
+        match=re.compile('type="text" value="(.+?)">').findall(second)
+        if len(match)>0:
+            url=match[0]
+            return url
+        else:
+            xbmc.executebuiltin("XBMC.Notification(Sorry!,Link Removed,3000)")
+            return ''
+    match11=re.compile('MovShare - Reliable video hosting</title>').findall(second)
+    if len(match11)>0:
+        match=re.compile('id="embedtext"  value="([^<]+)">').findall(second)
+        if len(match)>0:
+            url=match[0]
+            return url
+        else:
+            xbmc.executebuiltin("XBMC.Notification(Sorry!,Link Removed,3000)")
+            return ''
+
 
 def VIDEOLINKSBTV(mname,murl):
         GA("BTV-GUIDE","Watched")
@@ -3705,12 +3834,9 @@ def VIDEOLINKSBTV(mname,murl):
                 flashx=re.compile('flashx').findall(host)
                 if len(flashx) > 0:
                     addDirb(host,url,563,"%s/art/put.png"%selfAddon.getAddonInfo("path"),"%s/art/put.png"%selfAddon.getAddonInfo("path"))
-                vidhog=re.compile('vidhog').findall(host)
-                if len(vidhog) > 0:
-                    addDirb(host,url,563,"%s/art/put.png"%selfAddon.getAddonInfo("path"),"%s/art/put.png"%selfAddon.getAddonInfo("path"))
-                vidbull=re.compile('vidbull').findall(host)
-                if len(vidbull) > 0: 
-                    addDirb(host,url,563,"%s/art/180u.png"%selfAddon.getAddonInfo("path"),"%s/art/180u.png"%selfAddon.getAddonInfo("path"))
+                filenuke=re.compile('filenuke').findall(host)
+                if len(filenuke) > 0:
+                    addDirb(host,url,563,"%s/art/put.png"%selfAddon.getAddonInfo("path"),"%s/art/put.png"%selfAddon.getAddonInfo("path"))               
                 vidxden=re.compile('vidxden').findall(host)
                 if len(vidxden) > 0:
                     addDirb(host,url,563,"%s/art/put.png"%selfAddon.getAddonInfo("path"),"%s/art/put.png"%selfAddon.getAddonInfo("path"))
@@ -6249,7 +6375,9 @@ elif mode==565:
         print ""+url
         LISTNEWEpiBTV(url)
 
-
+elif mode==566:
+        print ""+url
+        DECADEBTV(url)
         
 
 elif mode==601:
