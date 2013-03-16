@@ -138,6 +138,7 @@ def MAIN():
         addDir('3D Movies','3D',34,"%s/art/3d.png"%selfAddon.getAddonInfo("path"))
         addDir('International','http://www.movie25.com/',36,"%s/art/intl.png"%selfAddon.getAddonInfo("path"))
         addDir('TV Latest','http://www.movie25.com/',27,"%s/art/tv2.png"%selfAddon.getAddonInfo("path"))
+        addDir('Live Streams','http://www.movie25.com/',115,"%s/art/live.png"%selfAddon.getAddonInfo("path"))
         addDir('Built in Plugins','http://www.movie25.com/',500,"%s/art/plugins.png"%selfAddon.getAddonInfo("path"))
         addDir('Sports','http://www.movie25.com/',43,"%s/art/sportsec2.png"%selfAddon.getAddonInfo("path"))
         addDir('Adventure','http://www.movie25.com/',63,"%s/art/adv2.png"%selfAddon.getAddonInfo("path"))
@@ -580,6 +581,9 @@ def DOCS():
         addDir('Documentaries (Movie25)','http://www.movie25.com/movies/documentary/',1,"%s/art/doc.png"%selfAddon.getAddonInfo("path"))
         GA("None","Documentary")
 
+
+def LiveStreams():
+        addDir('Livestation News','http://mobile.livestation.com/',116,"%s/art/vice.png"%selfAddon.getAddonInfo("path"))
         
 def GETMETA(mname,genre,year,thumb): 
         if selfAddon.getSetting("meta-view") == "true":
@@ -2042,7 +2046,38 @@ def MMAFLink(mname,murl):
         
         else:
             xbmc.executebuiltin("XBMC.Notification(Sorry!,Link Cannot Be Found,5000)")
-    
+
+def LivestationList(murl):
+        GA("LiveStreams","Livestation")
+        link=OPENURL(murl)
+        match=re.compile('<a href="(.+?)"><img alt=".+?" src="(.+?)" /></a>\n</div>\n<h3>\n<a href=".+?">(.+?)</a>').findall(link)
+        for url,thumb,name in match:
+            addDir(name,'http://mobile.livestation.com'+url,117,thumb)
+
+def LivestationLink(mname,murl):
+        link=OPENURL(murl)
+        link=link.replace('href="/en/sessions/new','')
+        match= re.compile('\n<li>\n<a href="(.+?)">(.+?)</a>\n</li>').findall(link)
+        if len(match)>1:
+            for url, name in match:
+                addDir(name,'http://mobile.livestation.com'+url,118,'')
+        else:
+            LivestationLink2(mname,murl)
+            
+def LivestationLink2(mname,murl):
+        GA("Livestation","Watched")
+        link=OPENURL(murl)
+        playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+        playlist.clear()
+        rtmp= re.compile('"streamer":"(.+?)"').findall(link)
+        match= re.compile('"file":"(.+?)high.sdp"').findall(link)
+        for fid in match[0:1]:
+            stream_url = rtmp[0]+' playpath='+fid+'high.sdp swfUrl=http://beta.cdn.livestation.com/player/5.10/livestation-player.swf pageUrl='+murl
+        listitem = xbmcgui.ListItem('test')
+        playlist.add(stream_url,listitem)
+        xbmcPlayer = xbmc.Player()
+        xbmcPlayer.play(playlist)
+        addDir('','','','')
 def Searchhistory():
         seapath=os.path.join(datapath,'Search')
         SeaFile=os.path.join(seapath,'SearchHistory25')
@@ -3815,34 +3850,34 @@ def VIDEOLINKSBTV(mname,murl):
         for url,host in match:
                 gorillavid=re.compile('gorillavid').findall(host)
                 if len(gorillavid) > 0:
-                    addDirb(host,url,563,"%s/art/put.png"%selfAddon.getAddonInfo("path"),"%s/art/put.png"%selfAddon.getAddonInfo("path"))
+                    addDirb(host,url,563,"%s/art/gorillavid.png"%selfAddon.getAddonInfo("path"),"%s/art/gorillavid.png"%selfAddon.getAddonInfo("path"))
                 daclips=re.compile('daclips').findall(host)
                 if len(daclips) > 0: 
-                    addDirb(host,url,563,"%s/art/180u.png"%selfAddon.getAddonInfo("path"),"%s/art/180u.png"%selfAddon.getAddonInfo("path"))
+                    addDirb(host,url,563,"%s/art/daclips.png"%selfAddon.getAddonInfo("path"),"%s/art/daclips.png"%selfAddon.getAddonInfo("path"))
                 movpod=re.compile('movpod').findall(host)
                 if len(movpod) > 0:
-                    addDirb(host,url,563,"%s/art/put.png"%selfAddon.getAddonInfo("path"),"%s/art/put.png"%selfAddon.getAddonInfo("path"))
+                    addDirb(host,url,563,"%s/art/movpod.png"%selfAddon.getAddonInfo("path"),"%s/art/movpod.png"%selfAddon.getAddonInfo("path"))
                 divxstage=re.compile('divxstage').findall(host)
                 if len(divxstage) > 0: 
-                    addDirb(host,url,563,"%s/art/180u.png"%selfAddon.getAddonInfo("path"),"%s/art/180u.png"%selfAddon.getAddonInfo("path"))
+                    addDirb(host,url,563,"%s/art/divxstage.png"%selfAddon.getAddonInfo("path"),"%s/art/divxstage.png"%selfAddon.getAddonInfo("path"))
                 nowvideo=re.compile('nowvideo').findall(host)
                 if len(nowvideo) > 0:
-                    addDirb(host,url,563,"%s/art/put.png"%selfAddon.getAddonInfo("path"),"%s/art/put.png"%selfAddon.getAddonInfo("path"))
+                    addDirb(host,url,563,"%s/art/nowvideo.png"%selfAddon.getAddonInfo("path"),"%s/art/nowvideo.png"%selfAddon.getAddonInfo("path"))
                 movshare=re.compile('movshare').findall(host)
                 if len(movshare) > 0: 
-                    addDirb(host,url,563,"%s/art/180u.png"%selfAddon.getAddonInfo("path"),"%s/art/180u.png"%selfAddon.getAddonInfo("path"))
+                    addDirb(host,url,563,"%s/art/movshare.png"%selfAddon.getAddonInfo("path"),"%s/art/movshare.png"%selfAddon.getAddonInfo("path"))
                 flashx=re.compile('flashx').findall(host)
                 if len(flashx) > 0:
-                    addDirb(host,url,563,"%s/art/put.png"%selfAddon.getAddonInfo("path"),"%s/art/put.png"%selfAddon.getAddonInfo("path"))
+                    addDirb(host,url,563,"%s/art/flash.png"%selfAddon.getAddonInfo("path"),"%s/art/flash.png"%selfAddon.getAddonInfo("path"))
                 filenuke=re.compile('filenuke').findall(host)
                 if len(filenuke) > 0:
-                    addDirb(host,url,563,"%s/art/put.png"%selfAddon.getAddonInfo("path"),"%s/art/put.png"%selfAddon.getAddonInfo("path"))               
+                    addDirb(host,url,563,"%s/art/fn.png"%selfAddon.getAddonInfo("path"),"%s/art/fn.png"%selfAddon.getAddonInfo("path"))               
                 vidxden=re.compile('vidxden').findall(host)
                 if len(vidxden) > 0:
-                    addDirb(host,url,563,"%s/art/put.png"%selfAddon.getAddonInfo("path"),"%s/art/put.png"%selfAddon.getAddonInfo("path"))
+                    addDirb(host,url,563,"%s/art/vidx.png"%selfAddon.getAddonInfo("path"),"%s/art/vidx.png"%selfAddon.getAddonInfo("path"))
                 vidbux=re.compile('vidbux').findall(host)
                 if len(vidbux) > 0: 
-                    addDirb(host,url,563,"%s/art/180u.png"%selfAddon.getAddonInfo("path"),"%s/art/180u.png"%selfAddon.getAddonInfo("path"))
+                    addDirb(host,url,563,"%s/art/vidb.png"%selfAddon.getAddonInfo("path"),"%s/art/vidb.png"%selfAddon.getAddonInfo("path"))
 
 def PLAYBTV(mname,murl):
         furl=GETLINKBTV(murl)
@@ -6179,10 +6214,14 @@ elif mode==113:
 
 elif mode==114:        
         MMAFLink(name,url)   
-
-
-
-
+elif mode==115:
+        LiveStreams()
+elif mode==116:
+        LivestationList(url)
+elif mode==117:
+        LivestationLink(name,url)
+elif mode==118:
+        LivestationLink2(name,url)
         
 elif mode==500:
         TVAll()        
