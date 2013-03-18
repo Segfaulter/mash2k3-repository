@@ -118,8 +118,8 @@ def MAIN():
         if not os.path.exists(notified):
             open(notified,'w').write('version="%s",'%mashup)
             dialog = xbmcgui.Dialog()
-            ok=dialog.ok('[B]Attention!!![/B]', 'Starting next update(v1.2.4) Movie25 plugin will go by','the name [B]Mash Up[/B].There is an artwork voting poll at','XBMCHUB.COM for Mash Up, PLEASE VOTE!!!.')
-            ok=dialog.ok('[B]VERSION 1.2.3[/B]', 'Please checkout the changes in the following sections','KidsZone, Sports, International, BuiltIn Plugins','Latest TV & HD Movies. Thanks and Enjoy the plugin')
+            ok=dialog.ok('[B]Attention!!![/B]', 'Winner of Artwork is','Please Visit XBMCHUB.COM for','your input and plugin support.')
+            ok=dialog.ok('[B]VERSION 1.2.4[/B]', 'Please checkout the changes in the following sections','Live, Sports and BuiltIn Plugins.', 'Thanks and Enjoy the plugin')
             mashup=mashup-1
             notified=os.path.join(datapath,str(mashup))
             if  os.path.exists(notified):
@@ -209,7 +209,7 @@ def TV():
         addDir('Latest Episodes (iWatchonline)','http://www.iwatchonline.org/tv-show/latest-epsiodes?limit=18',28,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
         addDir('Latest Episodes (Movie1k)','movintv',30,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
         addDir('Latest Episodes (Oneclickwatch)','http://oneclickwatch.org',32,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
-        addLink('[COLOR red]Back Up Sources[/COLOR]  No man shall be deprived of his favorite tv shows :)','','')
+        addLink('[COLOR red]Back Up Sources[/COLOR]','','')
         addDir('Latest 150 Episodes (ChannelCut)','http://www.channelcut.me/last-150',546,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
         addDir('Latest 100 Episodes (Tv4stream)','http://www.tv4stream.info/last-100-links/',546,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
         addDir('Latest Episodes (Etowns) True HD [COLOR red] Clone Backup of Newmyvideolinks[/COLOR]','TV',548,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
@@ -230,7 +230,7 @@ def HD():
         addDir('Latest HD Movies (Oneclickmovies)[COLOR red](Debrid Only)[/COLOR] True HD','www.scnsrc.me',55,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
         addDir('Latest HD Movies (Sceper)[COLOR red](Debrid Only)[/COLOR] True HD','http://sceper.ws/home/category/movies/movies-hdtv-720p',541,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
         addDir('Latest HD Movies (Oneclickwatch)','http://oneclickwatch.org/category/movies/',25,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
-        addLink('[COLOR red]Back Up Sources[/COLOR]  No man shall be deprived of his favorite movies :)','','')
+        addLink('[COLOR red]Back Up Sources[/COLOR]','','')
         addDir('Latest HD Movies (Etowns) True HD  [COLOR red]Clone Backup of Newmyvideolinks[/COLOR]','http://go.etowns.net/category/movies/bluray/',548,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
         GA("None","HD")
 def INT():
@@ -244,6 +244,7 @@ def INT():
 def SPORTS():
         addDir('ESPN','http:/espn.com',44,"%s/art/espn.png"%selfAddon.getAddonInfo("path"))
         addDir('TSN','http:/tsn.com',95,"%s/art/tsn.png"%selfAddon.getAddonInfo("path"))
+        addDir('Fox Soccer','http:/tsn.com',124,"%s/art/foxsoc.png"%selfAddon.getAddonInfo("path"))
         addDir('All MMA','mma',537,"%s/art/mma.png"%selfAddon.getAddonInfo("path"))
         addDir('Outdoor Channel','http://outdoorchannel.com/',50,"%s/art/OC.png"%selfAddon.getAddonInfo("path"))
         addDir('Wild TV','https://www.wildtv.ca/shows',92,"%s/art/wildtv.png"%selfAddon.getAddonInfo("path"))
@@ -287,6 +288,13 @@ def TSNDIR():
         addDir('MMA','http://esi.ctv.ca/datafeedrss/vhBinData.aspx?bid=1134',97,"%s/art/tsn.png"%selfAddon.getAddonInfo("path"))
         addDir('NCAA','http://esi.ctv.ca/datafeedrss/vhBinData.aspx?bid=9981',97,"%s/art/tsn.png"%selfAddon.getAddonInfo("path"))
         GA("Sports","TSN")
+
+def FOXSOC():
+        addDir('Premier League','http://edge4.catalog.video.msn.com/videoByTag.aspx?ff=8a&ind=1&mk=us&ns=Fox%20Sports_Gallery&ps=100&rct=1,3&sf=ActiveStartDate&tag=premier%20league&vs=1&responseEncoding=xml&template=foxsports',125,"%s/art/foxsoc.png"%selfAddon.getAddonInfo("path"))
+        addDir('Champions League','http://edge4.catalog.video.msn.com/videoByTag.aspx?ff=8a&ind=1&mk=us&ns=Fox%20Sports_Gallery&ps=100&rct=1,3&sf=ActiveStartDate&tag=champions%20league&vs=1&responseEncoding=xml&template=foxsports',125,"%s/art/foxsoc.png"%selfAddon.getAddonInfo("path"))
+        addDir('FA Cup','http://edge4.catalog.video.msn.com/videoByTag.aspx?ff=8a&ind=1&mk=us&ns=Fox%20Sports_Gallery&ps=100&rct=1,3&sf=ActiveStartDate&tag=fa%20cup&vs=1&responseEncoding=xml&template=foxsports',125,"%s/art/foxsoc.png"%selfAddon.getAddonInfo("path"))
+        addDir('USA','http://edge4.catalog.video.msn.com/videoByTag.aspx?ff=8a&ind=1&mk=us&ns=Fox%20Sports_Gallery&ps=100&rct=1,3&sf=ActiveStartDate&tag=usa&vs=1&responseEncoding=xml&template=foxsports',125,"%s/art/foxsoc.png"%selfAddon.getAddonInfo("path"))
+        addDir('Euro 2012','http://edge4.catalog.video.msn.com/videoByTag.aspx?ff=8a&ind=1&mk=us&ns=Fox%20Sports_Gallery&ps=100&rct=1,3&sf=ActiveStartDate&tag=euro%202012&vs=1&responseEncoding=xml&template=foxsports',125,"%s/art/foxsoc.png"%selfAddon.getAddonInfo("path"))
 
 def OC():
         addDir('All Videos','http://feed.theplatform.com/f/MTQ3NTE2MjMwOA/swTdEQGW9CKd?byCategories=',51,"%s/art/OC.png"%selfAddon.getAddonInfo("path"))
@@ -583,7 +591,17 @@ def DOCS():
 
 
 def LiveStreams():
-        addDir('Livestation News','http://mobile.livestation.com/',116,"%s/art/vice.png"%selfAddon.getAddonInfo("path"))
+        livearea='live'
+        notified=os.path.join(datapath,str(livearea))
+        if not os.path.exists(notified):
+            open(notified,'w').write('version="%s",'%livearea)
+            dialog = xbmcgui.Dialog()
+            ok=dialog.ok('[B]Attention!!![/B]', 'Please be carefull in this section','may have content unsuitable for children','please report at XBMCHUB if XXX content found.')
+        addDir('Livestation News','http://mobile.livestation.com/',116,"%s/art/livestation.png"%selfAddon.getAddonInfo("path"))
+        addDir('iLive Streams','ilive',119,"%s/art/ilive.png"%selfAddon.getAddonInfo("path"))
+        addDir('Castalba Streams','castalgba',122,"%s/art/castalba.png"%selfAddon.getAddonInfo("path"))
+        addDir('Misc. Music Streams','music',127,"%s/art/miscmusic.png"%selfAddon.getAddonInfo("path"))
+
         
 def GETMETA(mname,genre,year,thumb): 
         if selfAddon.getSetting("meta-view") == "true":
@@ -805,6 +823,7 @@ def SearchhistoryNEW(murl):
                 SEARCHNEW(url)
             else:
                 addDir('Search','tvNEW',101,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
+                addDir('Clear History',SeaFile,128,"%s/art/cleahis.png"%selfAddon.getAddonInfo("path"))
                 thumb="%s/art/link.png"%selfAddon.getAddonInfo("path")
                 searchis=re.compile('search="(.+?)",').findall(open(SeaFile,'r').read())
                 for seahis in reversed(searchis):
@@ -819,6 +838,7 @@ def SearchhistoryNEW(murl):
                 SEARCHNEW(url)
             else:
                 addDir('Search','movieNEW',101,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
+                addDir('Clear History',SeaFile,128,"%s/art/cleahis.png"%selfAddon.getAddonInfo("path"))
                 thumb="%s/art/link.png"%selfAddon.getAddonInfo("path")
                 searchis=re.compile('search="(.+?)",').findall(open(SeaFile,'r').read())
                 for seahis in reversed(searchis):
@@ -924,16 +944,16 @@ def LISTEtowns(murl):
         dialogWait.update(0,'[B]Loading....[/B]',remaining_display)
         for xurl in urllist:
                 link=OPENURL(xurl)
-                match=re.compile('<a href="(.+?)" rel="bookmark" title=".+?">(.+?)</a>').findall(link)
+                match=re.compile('<a href="(.+?)" rel=".+?" title=".+?"> <img src="(.+?)" width=".+?" height=".+?" title="(.+?)" class=".+?"></a>').findall(link)
                 if len(match)>0:
-                        for url,name in match:
+                        for url,thumb,name in match:
                                 if murl=='TV':
                                         match=re.compile('720p').findall(name)
                                         if (len(match)>0):
-                                                addDir(name,url,35,'')
+                                                addDir(name,url,35,thumb)
                                      
                                 else:
-                                        addDir(name,url,35,'')
+                                        addDir(name,url,35,thumb)
                         loadedLinks = loadedLinks + 1
                         percent = (loadedLinks * 100)/totalLinks
                         remaining_display = 'Pages loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
@@ -970,6 +990,7 @@ def SearchhistoryEtowns(murl):
                 SEARCHNEW(url)
             else:
                 addDir('Search','tvNEW',549,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
+                addDir('Clear History',SeaFile,128,"%s/art/cleahis.png"%selfAddon.getAddonInfo("path"))
                 thumb="%s/art/link.png"%selfAddon.getAddonInfo("path")
                 searchis=re.compile('search="(.+?)",').findall(open(SeaFile,'r').read())
                 for seahis in reversed(searchis):
@@ -984,6 +1005,7 @@ def SearchhistoryEtowns(murl):
                 SEARCHNEW(url)
             else:
                 addDir('Search','movieNEW',101,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
+                addDir('Clear History',SeaFile,128,"%s/art/cleahis.png"%selfAddon.getAddonInfo("path"))
                 thumb="%s/art/link.png"%selfAddon.getAddonInfo("path")
                 searchis=re.compile('search="(.+?)",').findall(open(SeaFile,'r').read())
                 for seahis in reversed(searchis):
@@ -2050,6 +2072,7 @@ def MMAFLink(mname,murl):
 def LivestationList(murl):
         GA("LiveStreams","Livestation")
         link=OPENURL(murl)
+        addLink('BBC News','http://akamedia2.lsops.net/live/bbcworld1_en.smil/playlist.m3u8','http://beta.cdn.livestation.com/uploads/channel/ident/10/medium_bbcworld_en.jpg')
         match=re.compile('<a href="(.+?)"><img alt=".+?" src="(.+?)" /></a>\n</div>\n<h3>\n<a href=".+?">(.+?)</a>').findall(link)
         for url,thumb,name in match:
             addDir(name,'http://mobile.livestation.com'+url,117,thumb)
@@ -2071,13 +2094,208 @@ def LivestationLink2(mname,murl):
         playlist.clear()
         rtmp= re.compile('"streamer":"(.+?)"').findall(link)
         match= re.compile('"file":"(.+?)high.sdp"').findall(link)
-        for fid in match[0:1]:
-            stream_url = rtmp[0]+' playpath='+fid+'high.sdp swfUrl=http://beta.cdn.livestation.com/player/5.10/livestation-player.swf pageUrl='+murl
-        listitem = xbmcgui.ListItem('test')
+        if len(match)>0:
+            for fid in match[0:1]:
+                stream_url = rtmp[0]+' playpath='+fid+'high.sdp swfUrl=http://beta.cdn.livestation.com/player/5.10/livestation-player.swf pageUrl='+murl
+        else:
+            match3= re.compile('<source src="(.+?)" type="video/mp4"/>').findall(link)
+            if len(match3)>0:
+                for vid in match3:
+                    match2= re.compile('akamedia').findall(vid)
+                    if len(match2)>0:
+                        stream_url =vid
+                    else:
+                        stream_url =vid
+            else:
+                fid= re.compile('"file":"(.+?).sdp"').findall(link)
+                stream_url = rtmp[0]+' playpath='+fid[0]+'.sdp swfUrl=http://beta.cdn.livestation.com/player/5.10/livestation-player.swf pageUrl='+murl      
+        listitem = xbmcgui.ListItem(mname)
         playlist.add(stream_url,listitem)
         xbmcPlayer = xbmc.Player()
         xbmcPlayer.play(playlist)
         addDir('','','','')
+
+
+def iLive():
+        addDir('General','general',120,'')
+        addDir('Entertainment','entertainment',120,'')
+        addDir('Sports','sports',120,'')
+        addDir('News','news',120,'')
+        addDir('Music','music',120,'')
+        addDir('Animation','animation',120,'')
+        GA("Live","iLive")
+        
+def iLiveList(murl):
+        if murl=='general':
+            try:
+                urllist=['http://www.ilive.to/channels/General','http://www.ilive.to/channels/General?p=2']
+            except:
+                urllist=['http://www.ilive.to/channels/General']
+        if murl=='entertainment':
+            try:
+                urllist=['http://www.ilive.to/channels/Entertainment','http://www.ilive.to/channels/Entertainment?p=2','http://www.ilive.to/channels/Entertainment?p=3','http://www.ilive.to/channels/Entertainment?p=4','http://www.ilive.to/channels/Entertainment?p=5','http://www.ilive.to/channels/Entertainment?p=6']
+            except:
+                urllist=['http://www.ilive.to/channels/Entertainment','http://www.ilive.to/channels/Entertainment?p=2','http://www.ilive.to/channels/Entertainment?p=3','http://www.ilive.to/channels/Entertainment?p=4','http://www.ilive.to/channels/Entertainment?p=5']
+        if murl=='sports':
+            try:
+                urllist=['http://www.ilive.to/channels/Sport','http://www.ilive.to/channels/Sport?p=2','http://www.ilive.to/channels/Sport?p=3','http://www.ilive.to/channels/Sport?p=4']
+            except:
+                urllist=['http://www.ilive.to/channels/Sport','http://www.ilive.to/channels/Sport?p=2','http://www.ilive.to/channels/Sport?p=3']
+        if murl=='news':
+            try:
+                urllist=['http://www.ilive.to/channels/News']
+            except:
+                urllist=['http://www.ilive.to/channels/News']
+        if murl=='music':
+            try:
+                urllist=['http://www.ilive.to/channels/Music']
+            except:
+                urllist=['http://www.ilive.to/channels/Music']
+        if murl=='animation':
+            try:
+                urllist=['http://www.ilive.to/channels/Animation']
+            except:
+                urllist=['http://www.ilive.to/channels/Animation']
+        dialogWait = xbmcgui.DialogProgress()
+        ret = dialogWait.create('Please wait until channel list is loaded.')
+        totalLinks = len(urllist)
+        loadedLinks = 0
+        remaining_display = 'Pages loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
+        dialogWait.update(0,'[B]Loading.....[/B]',remaining_display)
+        for durl in urllist:
+                link=OPENURL(durl)
+                link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
+                match=re.compile('<img width=".+?" height=".+?" src="([^<]+)" alt=""/></noscript></a><a href="(.+?)"><strong>(.+?)</strong></a>').findall(link)
+                for thumb,url,name in match:
+                    if name != 'Playboy TV':
+                        addDir(name,url,121,thumb)
+                
+                loadedLinks = loadedLinks + 1
+                percent = (loadedLinks * 100)/totalLinks
+                remaining_display = 'Pages loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
+                dialogWait.update(percent,'[B]Loading.....[/B]',remaining_display)
+                if (dialogWait.iscanceled()):
+                        return False   
+        dialogWait.close()
+        del dialogWait
+        GA("iLive","List") 
+
+def iLiveLink(mname,murl):
+        GA("iLive","Watched")
+        link=OPENURL(murl)
+        playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+        playlist.clear()
+        link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
+        match=re.compile('http://www.ilive.to/embed/(.+?)&width=(.+?)&height=(.+?)&autoplay=true').findall(link)
+        for fid,wid,hei in match:
+            pageUrl='http://www.ilive.to/embedplayer.php?width='+wid+'&height='+hei+'&channel='+fid+'&autoplay=true'
+        link=OPENURL(pageUrl)
+        playpath=re.compile("file\': \'(.+?).flv").findall(link)
+        for playPath in playpath:
+            stream_url = 'rtmp://142.4.216.176/edge playpath=' + playPath + " swfUrl=http://static.ilive.to/jwplayer/player_embed.swf pageUrl="+pageUrl+"live=1"
+        listitem = xbmcgui.ListItem(mname)
+        playlist.add(stream_url,listitem)
+        xbmcPlayer = xbmc.Player()
+        xbmcPlayer.play(playlist)
+        addDir('','','','')
+
+
+def CastalbaList(murl):
+        try:
+            urllist=['http://castalba.tv/channels/p=1','http://castalba.tv/channels/p=2']
+        except:
+            urllist=['http://castalba.tv/channels/p=1','http://castalba.tv/channels/p=2']
+        dialogWait = xbmcgui.DialogProgress()
+        ret = dialogWait.create('Please wait until channel list is loaded.')
+        totalLinks = len(urllist)
+        loadedLinks = 0
+        remaining_display = 'Pages loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
+        dialogWait.update(0,'[B]Loading.....[/B]',remaining_display)
+        for durl in urllist:
+                link=OPENURL(durl)
+                link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
+                match=re.compile('<a href=".+?"><img src="..([^<]+)" alt="" />                                <span class=".+?">.+?</span>                                </a>                            <a href=".+?" class=".+?"><img src=".+?" alt="" /></a>                            </div>                        <div class=".+?"></div>                        <h4><a class=".+?"  href="..(.+?)">(.+?)</a></h4><p class=".+?" >In: <a href=".+?" class=".+?">(.+?)</a></p>').findall(link)
+                for thumb,url,name,section in match:
+                    if name != 'Playboy TV':
+                        addDir(name+'   [COLOR red]'+section+'[/COLOR]','http://castalba.tv'+url,123,'http://castalba.tv'+thumb)
+                loadedLinks = loadedLinks + 1
+                percent = (loadedLinks * 100)/totalLinks
+                remaining_display = 'Pages loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
+                dialogWait.update(percent,'[B]Loading.....[/B]',remaining_display)
+                if (dialogWait.iscanceled()):
+                        return False   
+        dialogWait.close()
+        del dialogWait
+        GA("Castalba","List")
+
+def CastalbaLink(mname,murl):
+        GA("Castalba","Watched")
+        link=OPENURL(murl)
+        playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+        playlist.clear()
+        link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
+        match=re.compile('<script type="text/javascript"> id="(.+?)"; ew="(.+?)"; eh="(.+?)";</script>').findall(link)
+        for fid,wid,hei in match:
+            pageUrl='http://castalba.tv/embed.php?cid='+fid+'&wh='+wid+'&ht='+hei
+        link2=OPENURL(pageUrl)
+        rtmp=re.compile("'streamer\': \'(.+?)\',").findall(link2)
+        swfUrl=re.compile('flashplayer\': "(.+?)"').findall(link2)
+        playPath=re.compile("'file\': \'(.+?)\',\r\n\r\n\t\t\t\'streamer\'").findall(link2)
+        stream_url= rtmp[0] + ' playpath=' + playPath[0] + ' swfUrl=' + swfUrl[0] + ' live=true timeout=15 swfVfy=true pageUrl=' + pageUrl
+        listitem = xbmcgui.ListItem(mname)
+        playlist.add(stream_url,listitem)
+        xbmcPlayer = xbmc.Player()
+        xbmcPlayer.play(playlist)
+        addDir('','','','')
+
+def FOXSOCList(murl):
+        GA("FoxSoccer","List")
+        link=OPENURL(murl)
+        match=re.compile('<video xmlns=".+?">(.+?)</video>').findall(link)
+        for entry in match:
+            name=re.compile('<title>([^<]+)</title>').findall(entry)
+            desc=re.compile('<description>([^<]+)</description>').findall(entry)
+            thumb=re.compile('<file formatCode="2001".+?<uri>([^<]+)</uri></file>').findall(entry)
+            addDir2(name[0],entry,126,thumb[0],desc[0])
+
+def FOXSOCLink(mname,entry):
+        GA("FoxSoccer","Watched")
+        playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+        playlist.clear()
+        low=re.compile('<videoFile formatCode="102".+?<uri>([^<]+)</uri></videoFile>').findall(entry)
+        med=re.compile('<videoFile formatCode="103".+?<uri>([^<]+)</uri></videoFile>').findall(entry)
+        high=re.compile('<videoFile formatCode="104".+?<uri>([^<]+)</uri></videoFile>').findall(entry)
+        if selfAddon.getSetting("tsn-qua") == "0":
+            if len(high)>0:
+                stream_url=high[0]
+            else:
+                stream_url=low[0]
+        if selfAddon.getSetting("tsn-qua") == "1":
+            if len(med)>0:
+                stream_url=med[0]
+            else:
+                stream_url=low[0]
+        if selfAddon.getSetting("tsn-qua") == "2":
+            if len(low)>0:
+                stream_url=low[0]
+            else:
+                stream_url=med[0]
+        desc=re.compile('<description>([^<]+)</description>').findall(entry)
+        thumb=re.compile('<file formatCode="2001".+?<uri>([^<]+)</uri></file>').findall(entry)
+        listitem = xbmcgui.ListItem(mname, thumbnailImage= thumb[0])
+        listitem.setInfo("Video", infoLabels={ "Title": mname, "Plot": desc[0]})
+        playlist.add(stream_url,listitem)
+        xbmcPlayer = xbmc.Player()
+        xbmcPlayer.play(playlist)
+        addDir('','','','')
+
+def MUSICSTREAMS():
+        addLink('Heart TV','rtmp://cdn-the-2.musicradio.com:80/LiveVideo playpath=Heart swfUrl=http://heart.gcstatic.com/gusto/a/tv/swf/player.swf pageUrl=http://www.heart.co.uk/tv/player/','http://www.elky666.plus.com/logo/Sky%20Logos/Heart%20TV.png')
+        addLink('Capital TV','rtmp://cdn-the-2.musicradio.com:80/LiveVideo playpath=Capital swfUrl=http://capital.gcstatic.com/gusto/a/tv/swf/player.swf pageUrl=http://www.capitalfm.com/tv/player/','http://www.atvtoday.co.uk/wp-content/uploads/2012/10/capital-one.gif')
+        addLink('Vevo TV','http://vevoplaylist-live.hls.adaptive.level3.net/vevo/ch1/appleman.m3u8',"%s/art/vevotv.jpg"%selfAddon.getAddonInfo("path"))
+
+
+###############################################################################################upupup##############################################################################        
 def Searchhistory():
         seapath=os.path.join(datapath,'Search')
         SeaFile=os.path.join(seapath,'SearchHistory25')
@@ -2086,14 +2304,17 @@ def Searchhistory():
             SEARCH(url)
         else:
             addDir('Search','m25',4,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
+            addDir('Clear History',SeaFile,128,"%s/art/cleahis.png"%selfAddon.getAddonInfo("path"))
             thumb="%s/art/link.png"%selfAddon.getAddonInfo("path")
             searchis=re.compile('search="(.+?)",').findall(open(SeaFile,'r').read())
             for seahis in reversed(searchis):
                     url=seahis
                     seahis=seahis.replace('%20',' ')
                     addDir(seahis,url,4,thumb)
-            
-        
+
+def Clearhistory(SeaFile):
+        os.remove(SeaFile)
+        MAIN()
 def SEARCH(murl):
         seapath=os.path.join(datapath,'Search')
         SeaFile=os.path.join(seapath,'SearchHistory25')
@@ -2699,6 +2920,7 @@ def Searchhistorywfs():
             SEARCHWFS(url)
         else:
             addDir('Search','wfs',504,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
+            addDir('Clear History',SeaFile,128,"%s/art/cleahis.png"%selfAddon.getAddonInfo("path"))
             thumb="%s/art/link.png"%selfAddon.getAddonInfo("path")
             searchis=re.compile('search="(.+?)",').findall(open(SeaFile,'r').read())
             for seahis in reversed(searchis):
@@ -2969,6 +3191,7 @@ def SearchhistorySG():
             SEARCHSG(url)
         else:
             addDir('Search','sg',608,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
+            addDir('Clear History',SeaFile,128,"%s/art/cleahis.png"%selfAddon.getAddonInfo("path"))
             thumb="%s/art/link.png"%selfAddon.getAddonInfo("path")
             searchis=re.compile('search="(.+?)",').findall(open(SeaFile,'r').read())
             for seahis in reversed(searchis):
@@ -3157,7 +3380,7 @@ def MAINEXTRA():
         addDirb('Search','extra',535,"%s/art/wfs/searchex.png"%selfAddon.getAddonInfo("path"),"%s/art/blobfish.jpg"%selfAddon.getAddonInfo("path"))
         addDirb('A-Z','http://seriesgate.tv/',538,"%s/art/wfs/azex.png"%selfAddon.getAddonInfo("path"),"%s/art/blobfish.jpg"%selfAddon.getAddonInfo("path"))
         addDirb('Recent Posts','http://www.extraminamovies.in/',532,"%s/art/wfs/recentex.png"%selfAddon.getAddonInfo("path"),"%s/art/blobfish.jpg"%selfAddon.getAddonInfo("path"))
-        addDirb('Latest Releases','latest',532,"%s/art/wfs/latestex.png"%selfAddon.getAddonInfo("path"),"%s/art/blobfish.jpg"%selfAddon.getAddonInfo("path"))
+        #addDirb('Latest Releases','latest',532,"%s/art/wfs/latestex.png"%selfAddon.getAddonInfo("path"),"%s/art/blobfish.jpg"%selfAddon.getAddonInfo("path"))
         addDirb('Genre','http://www.extraminamovies.in/',533,"%s/art/wfs/genreex.png"%selfAddon.getAddonInfo("path"),"%s/art/blobfish.jpg"%selfAddon.getAddonInfo("path"))
         GA("Plugin","Extramina")
         VIEWSB()
@@ -3171,8 +3394,8 @@ def LISTEXrecent(murl):
                 addDir(name,url,536,'')
         else:
             link=OPENURL(murl)
-            link=link.replace('\xc2\xa0','').replace('\n','')
-            match = re.compile('<h1 class="post-title"><a href="([^<]+)" rel=".+?" title="Permanent Link to ([^<]+)"><img alt=".+?" class=".+?" src="(.+?)"></a>(.+?)<div').findall(link)
+            link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','').replace('\xc2\xa0','')
+            match=re.compile('<a itemprop="url" href="(.+?)" rel=".+?" title="Permanent Link to (.+?)"><img itemprop="thumbnailUrl" alt=".+?" class="smallposter" src="(.+?)"></a>.+?<span itemprop="description">(.+?)</span>').findall(link)
             if len(match)==0:
                 match = re.compile('<h1 class="post-title"><a href="([^<]+)" rel=".+?" title=".+?">([^<]+)</a></h1><img style=.+? src="(.+?)">(.+?)<div').findall(link)
             for url, name, thumb,desc in match:
@@ -3180,7 +3403,7 @@ def LISTEXrecent(murl):
             paginate = re.compile("<a href='([^<]+)' class='nextpostslink'>»</a>").findall(link)
             if len(paginate)>0:
                 addDir('Next',paginate[0],532,"%s/art/next2.png"%selfAddon.getAddonInfo("path"))
-        GA("Extramina","Recent-Latest")
+        GA("Extramina","Recent")
 def GENREEXTRA(murl):
         addDir('Action','http://www.extraminamovies.in/category/action-movies/',532,"%s/art/wfs/act.png"%selfAddon.getAddonInfo("path"))
         addDir('Adventure','http://www.extraminamovies.in/category/adventure-movies/',532,"%s/art/wfs/adv.png"%selfAddon.getAddonInfo("path"))
@@ -3281,6 +3504,7 @@ def SearchhistoryEXTRA():
             SEARCHEXTRA(url)
         else:
             addDir('Search','extra',534,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
+            addDir('Clear History',SeaFile,128,"%s/art/cleahis.png"%selfAddon.getAddonInfo("path"))
             thumb="%s/art/link.png"%selfAddon.getAddonInfo("path")
             searchis=re.compile('search="(.+?)",').findall(open(SeaFile,'r').read())
             for seahis in reversed(searchis):
@@ -3457,6 +3681,7 @@ def SearchhistorySCEPER():
             SEARCHSCEPER(url)
         else:
             addDir('Search','extra',542,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
+            addDir('Clear History',SeaFile,128,"%s/art/cleahis.png"%selfAddon.getAddonInfo("path"))
             thumb="%s/art/link.png"%selfAddon.getAddonInfo("path")
             searchis=re.compile('search="(.+?)",').findall(open(SeaFile,'r').read())
             for seahis in reversed(searchis):
@@ -3602,6 +3827,7 @@ def SearchhistoryBTV():
             SEARCHBTV(url)
         else:
             addDir('Search','btv',557,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
+            addDir('Clear History',SeaFile,128,"%s/art/cleahis.png"%selfAddon.getAddonInfo("path"))
             thumb="%s/art/link.png"%selfAddon.getAddonInfo("path")
             searchis=re.compile('search="(.+?)",').findall(open(SeaFile,'r').read())
             for seahis in reversed(searchis):
@@ -3850,34 +4076,34 @@ def VIDEOLINKSBTV(mname,murl):
         for url,host in match:
                 gorillavid=re.compile('gorillavid').findall(host)
                 if len(gorillavid) > 0:
-                    addDirb(host,url,563,"%s/art/gorillavid.png"%selfAddon.getAddonInfo("path"),"%s/art/gorillavid.png"%selfAddon.getAddonInfo("path"))
+                    addDirb(mname+' '+host,url,563,"%s/art/gorillavid.png"%selfAddon.getAddonInfo("path"),"%s/art/gorillavid.png"%selfAddon.getAddonInfo("path"))
                 daclips=re.compile('daclips').findall(host)
                 if len(daclips) > 0: 
-                    addDirb(host,url,563,"%s/art/daclips.png"%selfAddon.getAddonInfo("path"),"%s/art/daclips.png"%selfAddon.getAddonInfo("path"))
+                    addDirb(mname+' '+host,url,563,"%s/art/daclips.png"%selfAddon.getAddonInfo("path"),"%s/art/daclips.png"%selfAddon.getAddonInfo("path"))
                 movpod=re.compile('movpod').findall(host)
                 if len(movpod) > 0:
-                    addDirb(host,url,563,"%s/art/movpod.png"%selfAddon.getAddonInfo("path"),"%s/art/movpod.png"%selfAddon.getAddonInfo("path"))
+                    addDirb(mname+' '+host,url,563,"%s/art/movpod.png"%selfAddon.getAddonInfo("path"),"%s/art/movpod.png"%selfAddon.getAddonInfo("path"))
                 divxstage=re.compile('divxstage').findall(host)
                 if len(divxstage) > 0: 
-                    addDirb(host,url,563,"%s/art/divxstage.png"%selfAddon.getAddonInfo("path"),"%s/art/divxstage.png"%selfAddon.getAddonInfo("path"))
+                    addDirb(mname+' '+host,url,563,"%s/art/divxstage.png"%selfAddon.getAddonInfo("path"),"%s/art/divxstage.png"%selfAddon.getAddonInfo("path"))
                 nowvideo=re.compile('nowvideo').findall(host)
                 if len(nowvideo) > 0:
-                    addDirb(host,url,563,"%s/art/nowvideo.png"%selfAddon.getAddonInfo("path"),"%s/art/nowvideo.png"%selfAddon.getAddonInfo("path"))
+                    addDirb(mname+' '+host,url,563,"%s/art/nowvideo.png"%selfAddon.getAddonInfo("path"),"%s/art/nowvideo.png"%selfAddon.getAddonInfo("path"))
                 movshare=re.compile('movshare').findall(host)
                 if len(movshare) > 0: 
-                    addDirb(host,url,563,"%s/art/movshare.png"%selfAddon.getAddonInfo("path"),"%s/art/movshare.png"%selfAddon.getAddonInfo("path"))
+                    addDirb(mname+' '+host,url,563,"%s/art/movshare.png"%selfAddon.getAddonInfo("path"),"%s/art/movshare.png"%selfAddon.getAddonInfo("path"))
                 flashx=re.compile('flashx').findall(host)
                 if len(flashx) > 0:
-                    addDirb(host,url,563,"%s/art/flash.png"%selfAddon.getAddonInfo("path"),"%s/art/flash.png"%selfAddon.getAddonInfo("path"))
+                    addDirb(mname+' '+host,url,563,"%s/art/flash.png"%selfAddon.getAddonInfo("path"),"%s/art/flash.png"%selfAddon.getAddonInfo("path"))
                 filenuke=re.compile('filenuke').findall(host)
                 if len(filenuke) > 0:
-                    addDirb(host,url,563,"%s/art/fn.png"%selfAddon.getAddonInfo("path"),"%s/art/fn.png"%selfAddon.getAddonInfo("path"))               
+                    addDirb(mname+' '+host,url,563,"%s/art/fn.png"%selfAddon.getAddonInfo("path"),"%s/art/fn.png"%selfAddon.getAddonInfo("path"))               
                 vidxden=re.compile('vidxden').findall(host)
                 if len(vidxden) > 0:
-                    addDirb(host,url,563,"%s/art/vidx.png"%selfAddon.getAddonInfo("path"),"%s/art/vidx.png"%selfAddon.getAddonInfo("path"))
+                    addDirb(mname+' '+host,url,563,"%s/art/vidx.png"%selfAddon.getAddonInfo("path"),"%s/art/vidx.png"%selfAddon.getAddonInfo("path"))
                 vidbux=re.compile('vidbux').findall(host)
                 if len(vidbux) > 0: 
-                    addDirb(host,url,563,"%s/art/vidb.png"%selfAddon.getAddonInfo("path"),"%s/art/vidb.png"%selfAddon.getAddonInfo("path"))
+                    addDirb(mname+' '+host,url,563,"%s/art/vidb.png"%selfAddon.getAddonInfo("path"),"%s/art/vidb.png"%selfAddon.getAddonInfo("path"))
 
 def PLAYBTV(mname,murl):
         furl=GETLINKBTV(murl)
@@ -5517,12 +5743,33 @@ def GA(group,name):
             
             
 def APP_LAUNCH():
-        try:
+        versionNumber = int(xbmc.getInfoLabel("System.BuildVersion" )[0:2])
+        if versionNumber < 12:
+            if xbmc.getCondVisibility('system.platform.osx'):
+                if xbmc.getCondVisibility('system.platform.atv2'):
+                    log_path = '/var/mobile/Library/Preferences'
+                else:
+                    log_path = os.path.join(os.path.expanduser('~'), 'Library/Logs')
+            elif xbmc.getCondVisibility('system.platform.ios'):
+                log_path = '/var/mobile/Library/Preferences'
+            elif xbmc.getCondVisibility('system.platform.windows'):
+                log_path = xbmc.translatePath('special://home')
+                log = os.path.join(log_path, 'xbmc.log')
+                logfile = open(log, 'r').read()
+            elif xbmc.getCondVisibility('system.platform.linux'):
+                log_path = xbmc.translatePath('special://home/temp')
+            else:
+                log_path = xbmc.translatePath('special://logpath')
+            log = os.path.join(log_path, 'xbmc.log')
+            logfile = open(log, 'r').read()
+            match=re.compile('Starting XBMC \((.+?) Git:.+?Platform: (.+?)\. Built.+?').findall(logfile)
+        elif versionNumber > 11:
+            print '======================= more than ===================='
             log_path = xbmc.translatePath('special://logpath')
             log = os.path.join(log_path, 'xbmc.log')
             logfile = open(log, 'r').read()
             match=re.compile('Starting XBMC \((.+?) Git:.+?Platform: (.+?)\. Built.+?').findall(logfile)
-        except:
+        else:
             logfile='Starting XBMC (Unknown Git:.+?Platform: Unknown. Built.+?'
             match=re.compile('Starting XBMC \((.+?) Git:.+?Platform: (.+?)\. Built.+?').findall(logfile)
         print '==========================   '+PATH+' '+VERSION+'   =========================='
@@ -5560,6 +5807,8 @@ def APP_LAUNCH():
                 send_request_to_google_analytics(utm_track)
             except:
                 print "============================  CANNOT POST APP LAUNCH TRACK EVENT ============================" 
+
+
 checkGA()
 
 
@@ -6222,6 +6471,30 @@ elif mode==117:
         LivestationLink(name,url)
 elif mode==118:
         LivestationLink2(name,url)
+
+elif mode==119:
+        iLive()
+elif mode==120:
+        iLiveList(url)
+elif mode==121:
+        iLiveLink(name,url)
+
+elif mode==122:
+        CastalbaList(url)
+elif mode==123:
+        CastalbaLink(name,url)
+
+elif mode==124:
+        FOXSOC()
+elif mode==125:
+        FOXSOCList(url)
+elif mode==126:
+        FOXSOCLink(name,url)
+
+elif mode==127:
+        MUSICSTREAMS()
+elif mode==128:
+        Clearhistory(url)
         
 elif mode==500:
         TVAll()        
