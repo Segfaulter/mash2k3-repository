@@ -599,7 +599,7 @@ def LiveStreams():
             ok=dialog.ok('[B]Attention!!![/B]', 'Please be carefull in this section','may have content unsuitable for children','please report at XBMCHUB if XXX content found.')
         addDir('Livestation News','http://mobile.livestation.com/',116,"%s/art/livestation.png"%selfAddon.getAddonInfo("path"))
         addDir('iLive Streams','ilive',119,"%s/art/ilive.png"%selfAddon.getAddonInfo("path"))
-        addDir('Desi Streams','desi',129,"%s/art/ilive.png"%selfAddon.getAddonInfo("path"))
+        addDir('Desi Streams','desi',129,"%s/art/desistream.png"%selfAddon.getAddonInfo("path"))
         addDir('Castalba Streams','castalgba',122,"%s/art/castalba.png"%selfAddon.getAddonInfo("path"))
         addDir('Misc. Music Streams','music',127,"%s/art/miscmusic.png"%selfAddon.getAddonInfo("path"))
 
@@ -2307,12 +2307,27 @@ def DESISTREAMSList(murl):
         link=OPENURL('http://www.desistreams.tv/')
         link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
         if murl=='sports':
-            match=re.compile('<font color="brown" size="4"><b>Sports Channels</b></font></center>(.+?)<center><font color="brown" size="4"><b>Indian Channels</b></font></center>').findall(link)
-            for entry in match:
-                match2=re.compile('<a href="(.+?)" Target=.+?><center><img src="(.+?)" width=".+?" height=".+?" alt="" /></a><br />(.+?)<').findall(entry)
-                for url,thumb,name in match2:
-                    url=url.replace('http://desistreams.tv/','')
-                    addDir(name,'http://www.desistreams.tv/'+url,131,'http://www.desistreams.tv/'+thumb)
+            addLink('Sky Sports 1','rtmp://live.ukcast.tv/broadcast playpath=sky_sports101.stream swfUrl=http://www.ukcast.tv/player/player.swf live=true timeout=15 pageUrl=http://www.ukcast.tv/embed.php?u=sky_sports1&vw=600&vh=430','http://www.desistreams.tv/images/sky_sports1.jpg')
+            addLink('Sky Sports 2','rtmp://live.ukcast.tv/broadcast playpath=sky_sports202.stream swfUrl=http://www.ukcast.tv/player/player.swf live=true timeout=15 pageUrl=http://www.ukcast.tv/embed.php?u=sky_sports2&vw=600&vh=430','http://www.desistreams.tv/images/sky_sports2.jpg')
+            addLink('Sky Sports 3','rtmp://live.ukcast.tv/broadcast playpath=sky_sports303.stream swfUrl=http://www.ukcast.tv/player/player.swf live=true timeout=15 pageUrl=http://www.ukcast.tv/embed.php?u=sky_sports3&vw=600&vh=430','http://www.desistreams.tv/images/sky_sports3.jpg')
+            addLink('NBA TV','rtmp://cdn.livecaster.tv/stream playpath=nbu7 swfUrl=http://www.livecaster.tv/player/player.swf live=true timeout=15 pageUrl=http://www.livecaster.tv/embed.php?u=nbu7&vw=600&vh=430','http://www.desistreams.tv/images/nba.png')
+            addLink('Live Footy','rtmp://cdn.livecaster.tv/broadcast playpath=espn.stream swfUrl=http://www.livecaster.tv/player/player.swf live=true timeout=15 pageUrl=http://www.livecaster.tv/embed.php?u=espn&vw=600&vh=430','http://www.desistreams.tv/images/espn.jpg')
+            addLink('Geo Super','rtmp://cdn.livecaster.tv/stream playpath=13246540114814 swfUrl=http://www.livecaster.tv/player/player.swf pageUrl=http://www.livecaster.tv/embed.php?u=Geosuper&vw=600&vh=470','http://www.desistreams.tv/images/geo_super.png')
+            addLink('PTV Sports','rtmp://cdn.livecaster.tv/broadcast playpath=onlineptvsports swfUrl=http://www.livecaster.tv/player/player.swf live=true timeout=15 pageUrl=http://www.livecaster.tv/embed.php?u=ptvsportsss1&vw=600&vh=430','http://www.desistreams.tv/images/ptv_sports.PNG')
+            addLink('PTV Sports 2','rtmp://live.ukcast.tv/broadcast playpath=sportsptv swfUrl=http://www.ukcast.tv/player/player.swf live=true timeout=15 pageUrl=http://www.ukcast.tv/embed.php?u=sportsptv&vw=600&vh=430','http://www.desistreams.tv/images/ptv_sports.PNG')
+            addLink('Ten Cricket','rtmp://80.82.78.37/cast playpath=12377 swfUrl=http://95.211.219.184/player-licensed.swf live=true timeout=15 pageUrl=http://www.flashcast.tv/embed.php?live=tencricketyo&vw=600&vh=430','http://www.desistreams.tv/images/ten_cricket.png')
+            addLink('Ten Cricket','rtmp://80.82.78.37/cast playpath=454666h swfUrl=http://95.211.219.184/player-licensed.swf live=true timeout=15 pageUrl=http://www.flashcast.tv/embed.php?live=ten_cricktu&vw=600&vh=430','http://www.desistreams.tv/images/ten_cricket.png')
+            addLink('Star Cricket','rtmp://212.7.206.71/live playpath=starcricketnew?id=39362 swfUrl=http://www.ucaster.eu/static/scripts/eplayer.swf live=true timeout=15 pageUrl=http://www.ucaster.eu/embedded/starcricketnew/1/600/430','http://www.desistreams.tv/images/star_cricket.png')
+            addLink('Star Cricket HQ','','http://www.desistreams.tv/images/star_cricket.png')
+            addLink('Willow Cricket','','http://www.desistreams.tv/images/willow_cricket.PNG')
+            addLink('Star Sports','','http://www.desistreams.tv/images/star_sports.png')
+            addLink('Ten Sports','','http://www.desistreams.tv/images/ten_sports.jpg')
+            addLink('Ten Sports 2','','http://www.desistreams.tv/images/ten_sports.jpg')
+            addLink('Sony Six (IPL)','','http://www.desistreams.tv/images/sony_six.png')
+            addLink('JSC Sports +2','','http://www.desistreams.tv/images/jsc+2.png')
+            addLink('ESPN UK','','http://www.desistreams.tv/images/espn_uk.png')
+            addLink('ESPN USA','','http://www.desistreams.tv/images/espn.jpg')
+            addLink('Bein Sport','','http://www.desistreams.tv/images/bein_sport.jpeg')
         elif murl=='english':
             match=re.compile('<font color="brown" size="4"><b>English Channels</b></font></center>(.+?)<center><font color="brown" size="4"><b>Bangladeshi Channels</b></font></center>').findall(link)
             for entry in match:
@@ -2347,27 +2362,41 @@ def DESISTREAMSLink(mname,murl):
         playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
         playlist.clear()
         link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
-        match=re.compile('<script type=\'text/javascript\'>fid=\'(.+?)\'; v_width=(.+?); v_height=(.+?);</script><script type=\'text/javascript\' src=\'(.+?)\'>').findall(link)
-        for fid,wid,hei,streamer in match[0:1]:
-            continue
+        match=re.compile('<script type=\'text/javascript\'> width=(.+?), height=(.+?), channel=\'(.+?)\', g=\'.+?\';</script><script type=\'text/javascript\' src=\'(.+?)\'>').findall(link)
+        for wid,hei,fid,streamer in match[0:1]:
+                continue
+        if len(match)==0:
+            match=re.compile('<script type=\'text/javascript\'>fid=\'(.+?)\'; v_width=(.+?); v_height=(.+?);</script><script type=\'text/javascript\' src=\'(.+?)\'>').findall(link)
+            for fid,wid,hei,streamer in match[0:1]:
+                continue
         livecaster = re.compile("livecaster").findall(streamer)
         if len(livecaster)>0:
             pageUrl='http://www.livecaster.tv/embed.php?u='+fid+'&vw='+wid+'&vh='+hei
-            if mname=='Live Footy' or mname=='PTV Sports':
+            if mname=='Live Footy' or mname=='PTV Sports'or mname=='Ten Sports':
                 if fid=='ptvsportsss1':
                     fid='onlineptvsports'
                     stream_url ='rtmp://cdn.livecaster.tv/broadcast playpath='+fid+' swfUrl=http://www.livecaster.tv/player/player.swf pageUrl='+pageUrl
-                else:
-                    stream_url ='rtmp://cdn.livecaster.tv/broadcast playpath='+fid+'.stream swfUrl=http://www.livecaster.tv/player/player.swf pageUrl='+pageUrl
+                elif fid=='TenSportsLive':
+                    fid='1155200'
+                    stream_url ='rtmp://cdn.livecaster.tv/broadcast playpath='+fid+' swfUrl=http://www.livecaster.tv/player/player.swf pageUrl='+pageUrl
             else:
                 if fid =='Geosuper':
                     fid='13246540114814'
+                elif fid=='ten_sports9':
+                    fid='ten_sports9.stream'
+                elif fid=='wwe2':
+                    fid='wwe2.stream'
                 stream_url ='rtmp://cdn.livecaster.tv/stream playpath='+fid+' swfUrl=http://www.livecaster.tv/player/player.swf live=true timeout=15 pageUrl='+pageUrl
             
         ukcast = re.compile("ukcast").findall(streamer)
         if len(ukcast)>0:
             pageUrl='http://www.ukcast.tv/embed.php?u='+fid+'&vw='+wid+'&vh='+hei
-            stream_url ='rtmp://live.ukcast.tv/broadcast playpath='+fid+'.stream swfUrl=http://www.ukcast.tv/player/player.swf pageUrl='+pageUrl
+            if mname=='PTV Sports 2'or mname=='JSC Sports +2':
+                stream_url ='rtmp://live.ukcast.tv/broadcast playpath='+fid+' swfUrl=http://www.ukcast.tv/player/player.swf pageUrl='+pageUrl
+            else:
+                if fid=='espnukk':
+                    fid='espn_uk'
+                stream_url ='rtmp://live.ukcast.tv/broadcast playpath='+fid+'.stream swfUrl=http://www.ukcast.tv/player/player.swf pageUrl='+pageUrl
         listitem = xbmcgui.ListItem(mname)
         playlist.add(stream_url,listitem)
         xbmcPlayer = xbmc.Player()
