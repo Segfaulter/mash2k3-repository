@@ -14,7 +14,7 @@ FavFile=os.path.join(moviefav,'Fav')
 def delFAVS(url,title):
     Favs=re.compile('url="(.+?)",name="(.+?)"').findall(open(FavFile,'r').read())
     if not str(Favs).find(title):
-        xbmc.executebuiltin("XBMC.Notification([B][COLOR green]Movie25[/COLOR][/B],[B][COLOR orange]"+title+"[/COLOR]not in Favourites.[/B],1000,"")")
+        xbmc.executebuiltin("XBMC.Notification([B][COLOR green]Mash Up[/COLOR][/B],[B][COLOR orange]"+title+"[/COLOR]not in Favourites.[/B],1000,"")")
     if len(Favs)<=1 and str(Favs).find(title):
         os.remove(FavFile)
         xbmc.executebuiltin("Container.Refresh")
@@ -29,7 +29,7 @@ def delFAVS(url,title):
                         xbmc.executebuiltin("Container.Refresh")
                         xbmc.executebuiltin("XBMC.Notification([B][COLOR orange]"+title+"[/COLOR][/B],[B]Removed from Favourites[/B],1000,"")")
                     except: pass
-    else: xbmc.executebuiltin("XBMC.Notification([B][COLOR green]Movie25[/COLOR][/B],[B]You Have No Favourites to delete[/B],1000,"")")
+    else: xbmc.executebuiltin("XBMC.Notification([B][COLOR green]Mash Up[/COLOR][/B],[B]You Have No Favourites to delete[/B],1000,"")")
 
 bits = sys.argv[1].split(',')
 print "BaseUrl= "+sys.argv[0]

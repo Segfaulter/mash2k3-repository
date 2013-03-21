@@ -1,3 +1,19 @@
+[B]Version 1.2.4[/B]
+
+-Changed Name to Mash Up
+-Added Live section
+-Added iLive, Livestation, Desistreams to Live section
+-Added Music streams to Live section
+-Added Btv Guide to built in plugin section
+-Added Fox soccer to sports section
+-Fixed Extramina recent directory
+-Fixed Etowns search and scraping
+-Added Clear search history
+-Added Castalba streams to Live section
+-Fixed movie25 section not showing video links.
+-Added Nowvideo and Sockshare hosts to movie25 section.
+-Added search function for Movie1k
+
 [B]Version 1.2.3[/B]
 
 -Added TSN to sports

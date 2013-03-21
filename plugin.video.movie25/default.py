@@ -7,7 +7,7 @@ from t0mm0.common.net import Net as net
 from metahandler import metahandlers
 import datetime,time
 
-#Movie25.com - by Mash2k3 2012.
+#Mash Up - by Mash2k3 2012.
 
 Mainurl ='http://www.movie25.com/movies/'
 addon_id = 'plugin.video.movie25'
@@ -19,7 +19,7 @@ if selfAddon.getSetting('visitor_ga')=='':
     from random import randint
     selfAddon.setSetting('visitor_ga',str(randint(0, 0x7fffffff)))
 
-VERSION = "1.2.3"
+VERSION = "1.2.4"
 PATH = "Movie25-"            
 UATRACK="UA-38312513-1" 
 
@@ -56,7 +56,7 @@ def FAVS():
                                 addInfo(name+'('+year+')',url,3,thumb,'',year)
                 xbmcplugin.setContent(int(sys.argv[1]), 'Movies')
                 VIEWS()
-        else: xbmc.executebuiltin("XBMC.Notification([B][COLOR green]Movies25[/COLOR][/B],[B]You Have No Saved Favourites[/B],5000,"")")
+        else: xbmc.executebuiltin("XBMC.Notification([B][COLOR green]Mash Up[/COLOR][/B],[B]You Have No Saved Favourites[/B],5000,"")")
         GA("None","Fav")
 
 def VIEWS():
@@ -113,12 +113,12 @@ def AtoZ():
                 addDir(i,'http://www.movie25.com/movies/'+i.lower()+'/',1,"%s/art/%s.png"%(selfAddon.getAddonInfo("path"),i.lower()))
         GA("None","A-Z")   
 def MAIN():
-        mashup=123
+        mashup=124
         notified=os.path.join(datapath,str(mashup))
         if not os.path.exists(notified):
             open(notified,'w').write('version="%s",'%mashup)
             dialog = xbmcgui.Dialog()
-            ok=dialog.ok('[B]Attention!!![/B]', 'Winner of Artwork is','Please Visit XBMCHUB.COM for','your input and plugin support.')
+            ok=dialog.ok('[B]Attention!!![/B]', 'Winners of Artwork selection are Panda Monium', 'and UmOuch. Please Visit XBMCHUB.COM for','your input and plugin support.')
             ok=dialog.ok('[B]VERSION 1.2.4[/B]', 'Please checkout the changes in the following sections','Live, Sports and BuiltIn Plugins.', 'Thanks and Enjoy the plugin')
             mashup=mashup-1
             notified=os.path.join(datapath,str(mashup))
@@ -244,7 +244,7 @@ def INT():
 def SPORTS():
         addDir('ESPN','http:/espn.com',44,"%s/art/espn.png"%selfAddon.getAddonInfo("path"))
         addDir('TSN','http:/tsn.com',95,"%s/art/tsn.png"%selfAddon.getAddonInfo("path"))
-        addDir('Fox Soccer','http:/tsn.com',124,"%s/art/foxsoc.png"%selfAddon.getAddonInfo("path"))
+        addDir('Fox Soccer  [COLOR red](US ONLY)[/COLOR]','http:/tsn.com',124,"%s/art/foxsoc.png"%selfAddon.getAddonInfo("path"))
         addDir('All MMA','mma',537,"%s/art/mma.png"%selfAddon.getAddonInfo("path"))
         addDir('Outdoor Channel','http://outdoorchannel.com/',50,"%s/art/OC.png"%selfAddon.getAddonInfo("path"))
         addDir('Wild TV','https://www.wildtv.ca/shows',92,"%s/art/wildtv.png"%selfAddon.getAddonInfo("path"))
@@ -1822,6 +1822,7 @@ def TSNLINK(mname,murl):
             addDir('','','','')
 
 def DISJRList(murl):
+        GA("DisneyJR","Category")
         if murl=='music':
             url ='http://disney.go.com/disneyjunior/data/tilePack?id=1815108&maxAmount=240'
             link=OPENURL(url)
@@ -1864,6 +1865,7 @@ def DISJRList(murl):
                 addDir(name,url,109,thumb)
         
 def DISJRList2(murl):
+            GA("DisneyJR","DisJR-list")
             link=OPENURL(murl)
             match = re.compile('tileService: "http://disney.go.com/disneyjunior/data/tilePack.?id=(.+?)%26.+?" }').findall(link)
             url='http://disney.go.com/disneyjunior/data/tilePack?id='+match[0]+'&maxAmount=240'
@@ -2291,12 +2293,14 @@ def FOXSOCLink(mname,entry):
         addDir('','','','')
 
 def MUSICSTREAMS():
+        GA("MUSIC-Streams","Watched")
         addLink('Heart TV','rtmp://cdn-the-2.musicradio.com:80/LiveVideo playpath=Heart swfUrl=http://heart.gcstatic.com/gusto/a/tv/swf/player.swf pageUrl=http://www.heart.co.uk/tv/player/','http://www.elky666.plus.com/logo/Sky%20Logos/Heart%20TV.png')
         addLink('Capital TV','rtmp://cdn-the-2.musicradio.com:80/LiveVideo playpath=Capital swfUrl=http://capital.gcstatic.com/gusto/a/tv/swf/player.swf pageUrl=http://www.capitalfm.com/tv/player/','http://www.atvtoday.co.uk/wp-content/uploads/2012/10/capital-one.gif')
         addLink('Vevo TV','http://vevoplaylist-live.hls.adaptive.level3.net/vevo/ch1/appleman.m3u8',"%s/art/vevotv.jpg"%selfAddon.getAddonInfo("path"))
 
 
 def DESISTREAMS():
+        GA("Live","Desistreams")
         addDir('Sports','sports',130,"%s/art/desistream.png"%selfAddon.getAddonInfo("path"))
         addDir('English Channels','english',130,"%s/art/desistream.png"%selfAddon.getAddonInfo("path"))
         addDir('Indian Channels','indian',130,"%s/art/desistream.png"%selfAddon.getAddonInfo("path"))
@@ -2307,6 +2311,7 @@ def DESISTREAMSList(murl):
         link=OPENURL('http://www.desistreams.tv/')
         link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
         if murl=='sports':
+            GA("Desi-Sport","Watched")
             addLink('Sky Sports 1','rtmp://live.ukcast.tv/broadcast playpath=sky_sports101.stream swfUrl=http://www.ukcast.tv/player/player.swf live=true timeout=15 pageUrl=http://www.ukcast.tv/embed.php?u=sky_sports1&vw=600&vh=430','http://www.desistreams.tv/images/sky_sports1.jpg')
             addLink('Sky Sports 2','rtmp://live.ukcast.tv/broadcast playpath=sky_sports202.stream swfUrl=http://www.ukcast.tv/player/player.swf live=true timeout=15 pageUrl=http://www.ukcast.tv/embed.php?u=sky_sports2&vw=600&vh=430','http://www.desistreams.tv/images/sky_sports2.jpg')
             addLink('Sky Sports 3','rtmp://live.ukcast.tv/broadcast playpath=sky_sports303.stream swfUrl=http://www.ukcast.tv/player/player.swf live=true timeout=15 pageUrl=http://www.ukcast.tv/embed.php?u=sky_sports3&vw=600&vh=430','http://www.desistreams.tv/images/sky_sports3.jpg')
@@ -2330,6 +2335,7 @@ def DESISTREAMSList(murl):
             addLink('ESPN USA','rtmp://live.ukcast.tv/broadcast playpath=espn_usa.stream swfUrl=http://www.ukcast.tv/player/player.swf live=true timeout=15 pageUrl=http://www.ukcast.tv/embed.php?u=espn_usa&vw=600&vh=430','http://www.desistreams.tv/images/espn.jpg')
             addLink('Bein Sport','rtmp://live.ukcast.tv/broadcast playpath=bein_sport99.stream swfUrl=http://www.ukcast.tv/player/player.swf live=true timeout=15 pageUrl=http://www.ukcast.tv/embed.php?u=bein_sport99&vw=600&vh=430','http://www.desistreams.tv/images/bein_sport.jpeg')
         elif murl=='english':
+            GA("Desi-English","Watched")
             addLink('ITV 1','rtmp://live.ukcast.tv/broadcast playpath=itv1.stream swfUrl=http://www.ukcast.tv/player/player.swf live=true timeout=15 pageUrl=http://www.ukcast.tv/embed.php?u=itv1&vw=600&vh=430','http://desistreams.tv/images/itv1.jpg')
             addLink('BBC One','rtmp://live.ukcast.tv/broadcast playpath=bbc11.stream swfUrl=http://www.ukcast.tv/player/player.swf live=true timeout=15 pageUrl=http://www.ukcast.tv/embed.php?u=bbc11&vw=600&vh=430','http://www.desistreams.tv/images/bbc1.jpg')
             addLink('Fox Movies','rtmp://live.ukcast.tv/broadcast playpath=fox_movies.stream swfUrl=http://www.ukcast.tv/player/player.swf live=true timeout=15 pageUrl=http://www.ukcast.tv/embed.php?u=fox_movies&vw=600&vh=430','http://www.desistreams.tv/images/fox_movies.jpg')
@@ -2362,6 +2368,7 @@ def DESISTREAMSList(murl):
             addLink('CNN Int.','rtmp://live.ukcast.tv/broadcast playpath=cnn1.stream swfUrl=http://www.ukcast.tv/player/player.swf live=true timeout=15 pageUrl=http://www.ukcast.tv/embed.php?u=cnn1&vw=600&vh=430','http://www.desistreams.tv/images/cnn.gif')
             addLink('Star World','rtmp://live.ukcast.tv/broadcast playpath=star_world.stream swfUrl=http://www.ukcast.tv/player/player.swf live=true timeout=15 pageUrl=http://www.ukcast.tv/embed.php?u=star_world&vw=600&vh=430','http://www.desistreams.tv/images/star_world.jpg')
         elif murl=='indian':
+           
             match=re.compile('<font color="brown" size="4"><b>Indian Channels</b></font></center>(.+?)<center><font color="brown" size="4"><b>Pakistani Channels</b></font></center>').findall(link)
             for entry in match:
                 match2=re.compile('<a href="(.+?)" Target=.+?><center><img src="(.+?)" width=".+?" height=".+?" alt="" /></a><br />(.+?)<').findall(entry)
@@ -2369,30 +2376,30 @@ def DESISTREAMSList(murl):
                     url=url.replace('http://desistreams.tv/','')
                     addDir(name,'http://www.desistreams.tv/'+url,131,'http://www.desistreams.tv/'+thumb)
         elif murl=='pakistani':
-            addLink('Geo News','','http://www.desistreams.tv/images/urdu_1.jpg')
-            addLink('Geo News 2','','http://www.desistreams.tv/images/geo_news.jpg')
-            addLink('ARY QTV','','http://www.desistreams.tv/images/qtv.png')
-            addLink('Hum TV','','http://www.desistreams.tv/images/hum_tv.png')
-            addLink('Hum TV 2','','http://www.desistreams.tv/images/hum_tv.png')
-            addLink('Geo Entertainment 2','','http://www.desistreams.tv/images/geo_entertainment.jpg')
-            addLink('Ary Digital 2','','http://www.desistreams.tv/images/ary_digital.jpg')
-            addLink('Masala TV','','http://www.desistreams.tv/images/masala_tv.png')
-            addLink('Express Entertainment','','http://www.desistreams.tv/images/express_entertainment.png')
-            addLink('Express News','','http://www.desistreams.tv/images/express_news.png')
-            addLink('Dubbed Movies','','http://www.desistreams.tv/images/dubbed_movies.jpg')
-            addLink('Cartoon Network','','http://www.desistreams.tv/images/ptv_home.jpg')
-            match=re.compile('<font color="brown" size="4"><b>Pakistani Channels</b></font></center>(.+?)<center><font color="brown" size="4"><b>English Channels</b></font></center>').findall(link)
-            for entry in match:
-                match2=re.compile('<a href="(.+?)" Target=.+?><center><img src="(.+?)" width=".+?" height=".+?" alt="" /></a><br />(.+?)<').findall(entry)
-                for url,thumb,name in match2:
-                    url=url.replace('http://desistreams.tv/','')
-                    addDir(name,'http://www.desistreams.tv/'+url,131,'http://www.desistreams.tv/'+thumb)
+            GA("Desi-Pakistani","Watched")
+            addLink('Urdu 1','rtmp://cdn.livecaster.tv/broadcast playpath=urdupk1 swfUrl=http://www.livecaster.tv/player/player.swf live=true timeout=15 pageUrl=http://www.livecaster.tv/embed.php?u=urdupk1&vw=600&vh=430','http://www.desistreams.tv/images/urdu_1.jpg')
+            addLink('Ary News','rtmp://cdn.livecaster.tv/stream playpath=arynews swfUrl=http://www.livecaster.tv/player/player.swf live=true timeout=15 pageUrl=http://www.livecaster.tv/embed.php?u=arynews&vw=600&vh=430','http://desistreams.tv/images/ary_news.jpg')
+            addLink('Geo News','rtmp://cdn.livecaster.tv/stream playpath=geonewsa swfUrl=http://www.livecaster.tv/player/player.swf live=true timeout=15 pageUrl=http://www.livecaster.tv/embed.php?u=geonewsa&vw=600&vh=430','http://desistreams.tv/images/geo_news.jpg')
+            addLink('Geo News 2','rtmp://live.wcast.tv/broadcast playpath=115517 swfUrl=http://www.livecaster.tv/player/player.swf live=true timeout=15 pageUrl=http://www.livecaster.tv/embed.php?u=geonews115&vw=600&vh=430','http://www.desistreams.tv/images/geo_news.jpg')
+            addLink('ARY QTV','rtmp://cdn.livecaster.tv/stream playpath=qtv swfUrl=http://www.livecaster.tv/player/player.swf live=true timeout=15 pageUrl=http://www.livecaster.tv/embed.php?u=qtv&vw=600&vh=430','http://www.desistreams.tv/images/qtv.png')
+            addLink('Hum TV','rtmp://live.ukcast.tv/broadcast playpath=humtvj swfUrl=http://www.ukcast.tv/player/player.swf live=true timeout=15 pageUrl=http://www.ukcast.tv/embed.php?u=humtvj&vw=600&vh=470','http://www.desistreams.tv/images/hum_tv.png')
+            addLink('Hum TV 2','rtmp://cdn.livecaster.tv/broadcast playpath=115520 swfUrl=http://www.livecaster.tv/player/player.swf live=true timeout=15 pageUrl=http://www.livecaster.tv/embed.php?u=humtv2&vw=600&vh=470','http://www.desistreams.tv/images/hum_tv.png')
+            addLink('Geo Entertainment 2','rtmp://cdn.livecaster.tv/broadcast playpath=ent1 swfUrlhttp://www.livecaster.tv/player/player.swf live=true timeout=15 pageUrl=http://www.livecaster.tv/embed.php?u=GeoTv&vw=600&vh=430','http://www.desistreams.tv/images/geo_entertainment.jpg')
+            addLink('Ary Digital 2','rtmp://cdn.livecaster.tv/broadcast playpath=111206 swfUrl=http://www.livecaster.tv/player/player.swf live=true timeout=15 pageUrl=http://www.livecaster.tv/embed.php?u=aryhq072&vw=600&vh=430','http://www.desistreams.tv/images/ary_digital.jpg')
+            addLink('Masala TV','rtmp://cdn.livecaster.tv/stream playpath=masalo swfUrl=http://www.livecaster.tv/player/player.swf live=true timeout=15 pageUrl=http://www.livecaster.tv/embed.php?u=masalo&vw=600&vh=430','http://www.desistreams.tv/images/masala_tv.png')
+            addLink('Express Entertainment','rtmp://cdn.livecaster.tv/stream playpath=express5 swfUrl=http://www.livecaster.tv/player/player.swf live=true timeout=15 pageUrl=http://www.livecaster.tv/embed.php?u=express5&vw=600&vh=430','http://www.desistreams.tv/images/express_entertainment.png')
+            addLink('Express News','rtmp://cdn.livecaster.tv/stream playpath=expressnewsi2 swfUrl=http://www.livecaster.tv/player/player.swf live=true timeout=15 pageUrl=http://www.livecaster.tv/embed.php?u=expressnewsi2&vw=600&vh=430','http://www.desistreams.tv/images/express_news.png')
+            addLink('Dubbed Movies','rtmp://cdn.livecaster.tv/stream playpath=dubbedmovie swfUrl=http://www.livecaster.tv/player/player.swf live=true timeout=15 pageUrl=http://www.livecaster.tv/embed.php?u=dubbedmovie&vw=600&vh=430','http://www.desistreams.tv/images/dubbed_movies.jpg')
+            addLink('PTV Home','rtmp://cdn.livecaster.tv/stream playpath=ptv_home.stream swfUrl=http://www.livecaster.tv/player/player.swf live=true timeout=15 pageUrl=http://www.livecaster.tv/embed.php?u=ptv_home&vw=600&vh=430','http://www.desistreams.tv/images/ptv_home.jpg')
+            addLink('Cartoon Network','rtmp://cdn.livecaster.tv/stream playpath=cartoonnet9.stream swfUrl=http://www.livecaster.tv/player/player.swf live=true timeout=15 pageUrl=http://www.livecaster.tv/embed.php?u=cartoonnet9&vw=600&vh=430','http://desistreams.tv/images/cartoon_network.jpg')
         elif murl=='bangladeshi':
+            GA("Desi-Bangla","Watched")
             addLink('OTV Bangla','rtmp://cdn.livecaster.tv/stream playpath=otv_bangla.stream swfUrl=http://www.livecaster.tv/player/player.swf live=true timeout=15 pageUrl=http://www.livecaster.tv/embed.php?u=otv_bangla&vw=600&vh=430','http://www.desistreams.tv/images/otv_bangla.gif')
             addLink('Tarang Bangla','rtmp://cdn.livecaster.tv/stream playpath=tarang_bangla.stream swfUrl=http://www.livecaster.tv/player/player.swf live=true timeout=15 pageUrl=http://www.livecaster.tv/embed.php?u=tarang_bangla&vw=600&vh=430','http://www.desistreams.tv/images/tarang_bangla.gif')
 
 def DESISTREAMSLink(mname,murl):
         link=OPENURL(murl)
+        GA("Desi-Indian","Watched")
         playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
         playlist.clear()
         link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
@@ -2661,6 +2668,7 @@ def LISTTV(murl):
         GA("TV","iWatchonline")
 def LISTTV2(murl):
         if murl=='movintv':
+            addDir('Search Movie1k','www.movie1k.org',132,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
             urllist=['http://www.movie1k.org/category/tv-show/','http://www.movie1k.org/category/tv-show/page/2/','http://www.movie1k.org/category/tv-show/page/3/','http://www.movie1k.org/category/tv-show/page/4/','http://www.movie1k.org/category/tv-show/page/5/']
         elif murl=='movin':
             urllist=['http://www.movie1k.org/category/hindi-movies/','http://www.movie1k.org/category/hindi-movies/page/2/','http://www.movie1k.org/category/hindi-movies/page/3/','http://www.movie1k.org/category/hindi-movies/page/4/','http://www.movie1k.org/category/hindi-movies/page/5/','http://www.movie1k.org/category/hindi-movies/page/6/','http://www.movie1k.org/category/hindi-movies/page/7/']
@@ -2688,7 +2696,73 @@ def LISTTV2(murl):
                         return False   
         dialogWait.close()
         del dialogWait
-        GA("TV-INT","Movie1k")        
+        GA("TV-INT","Movie1k")
+
+
+def SearchhistoryMovie1k():
+        seapath=os.path.join(datapath,'Search')
+        SeaFile=os.path.join(seapath,'SearchHistoryTv')
+        if not os.path.exists(SeaFile):
+            url='M1k'
+            SEARCHMovie1k(url)
+        else:
+            addDir('Search','M1k',133,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
+            addDir('Clear History',SeaFile,128,"%s/art/cleahis.png"%selfAddon.getAddonInfo("path"))
+            thumb="%s/art/link.png"%selfAddon.getAddonInfo("path")
+            searchis=re.compile('search="(.+?)",').findall(open(SeaFile,'r').read())
+            for seahis in reversed(searchis):
+                    url=seahis
+                    seahis=seahis.replace('%20',' ')
+                    addDir(seahis,url,133,thumb)
+            
+            
+    
+
+
+def SEARCHMovie1k(murl):
+        seapath=os.path.join(datapath,'Search')
+        SeaFile=os.path.join(seapath,'SearchHistoryTv')
+        try:
+            os.makedirs(seapath)
+        except:
+            pass
+        if murl == 'M1k':
+                keyb = xbmc.Keyboard('', 'Search For Shows or Movies')
+                keyb.doModal()
+                if (keyb.isConfirmed()):
+                        search = keyb.getText()
+                        encode=urllib.quote(search)
+                        surl='http://www.movie1k.org/?s='+encode
+                        if not os.path.exists(SeaFile) and encode != '':
+                            open(SeaFile,'w').write('search="%s",'%encode)
+                        else:
+                            if encode != '':
+                                open(SeaFile,'a').write('search="%s",'%encode)
+                        searchis=re.compile('search="(.+?)",').findall(open(SeaFile,'r').read())
+                        for seahis in reversed(searchis):
+                            continue
+                        if len(searchis)>=10:
+                            searchis.remove(searchis[0])
+                            os.remove(SeaFile)
+                            for seahis in searchis:
+                                try:
+                                    open(SeaFile,'a').write('search="%s",'%seahis)
+                                except:
+                                    pass
+        else:
+                encode = murl
+                surl='http://www.movie1k.org/?s='+encode
+        req = urllib2.Request(surl)
+        req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
+        response = urllib2.urlopen(req)
+        link=response.read()
+        response.close()
+        match=re.compile('href="(.+?)"><img width=".+?" height=".+?" src="(.+?)" class=".+?" alt="Watch.+?" title="(.+?)" />').findall(link)
+        for url,thumb,name in match:
+                    addDir(name,url,31,thumb)
+        GA("Movie1k","Search")
+
+        
 def LISTTV3(murl):
         urllist=['http://oneclickwatch.org/category/tv-shows/','http://oneclickwatch.org/category/tv-shows/page/2/','http://oneclickwatch.org/category/tv-shows/page/3/','http://oneclickwatch.org/category/tv-shows/page/4/','http://oneclickwatch.org/category/tv-shows/page/5/']
         dialogWait = xbmcgui.DialogProgress()
@@ -4283,93 +4357,111 @@ def VIDEOLINKS(name,url):
         qual = re.compile('<h1 >Links - Quality\n              \n              (.+?) <a name="link"></a> </h1>').findall(link)
         quality=str(qual)
         quality=quality.replace("'","")
-        putlocker=re.compile('<li class=link_name>putlocker</li>.+?javascript:window.open.+?url=(.+?)\'').findall(link)
+        putlocker=re.compile('<li class=link_name>putlocker</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         if len(putlocker) > 0:
                 addDirb(name+" [COLOR red]"+quality+"[/COLOR]"+"[COLOR blue] : Putlocker[/COLOR]",url,11,"%s/art/put.png"%selfAddon.getAddonInfo("path"),"%s/art/put.png"%selfAddon.getAddonInfo("path"))
-        oeupload=re.compile('<li class=link_name>180upload</li>.+?javascript:window.open.+?url=(.+?)\'').findall(link)
+        sockshare=re.compile('<li class=link_name>sockshare</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
+        if len(sockshare) > 0:
+                addDirb(name+" [COLOR red]"+quality+"[/COLOR]"+"[COLOR blue] : Sockshare[/COLOR]",url,22,"%s/art/Sockshare.png"%selfAddon.getAddonInfo("path"),"%s/art/Sockshare.png"%selfAddon.getAddonInfo("path"))
+        nowvideo=re.compile('<li class=link_name>nowvideo</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
+        if len(nowvideo) > 0:
+                addDirb(name+" [COLOR red]"+quality+"[/COLOR]"+"[COLOR blue] : Nowvideo[/COLOR]",url,24,"%s/art/nowvideo.png"%selfAddon.getAddonInfo("path"),"%s/art/nowvideo.png"%selfAddon.getAddonInfo("path"))
+        oeupload=re.compile('<li class=link_name>180upload</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         if len(oeupload) > 0:
                 addDirb(name+" [COLOR red]"+quality+"[/COLOR]"+"[COLOR blue] : 180upload[/COLOR]",url,12,"%s/art/180u.png"%selfAddon.getAddonInfo("path"),"%s/art/180u.png"%selfAddon.getAddonInfo("path"))
-        filenuke=re.compile('<li class=link_name>filenuke</li>.+?javascript:window.open.+?url=(.+?)\'').findall(link)
+        filenuke=re.compile('<li class=link_name>filenuke</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         if len(filenuke) > 0:
                 addDirb(name+" [COLOR red]"+quality+"[/COLOR]"+"[COLOR blue] : Filenuke[/COLOR]",url,13,"%s/art/fn.png"%selfAddon.getAddonInfo("path"),"%s/art/fn.png"%selfAddon.getAddonInfo("path"))
-        flashx=re.compile('<li class=link_name>flashx</li>.+?javascript:window.open.+?url=(.+?)\'').findall(link)
+        flashx=re.compile('<li class=link_name>flashx</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         if len(flashx) > 0:
                 addDirb(name+" [COLOR red]"+quality+"[/COLOR]"+"[COLOR blue] : Flashx[/COLOR]",url,15,"%s/art/flash.png"%selfAddon.getAddonInfo("path"),"%s/art/flash.png"%selfAddon.getAddonInfo("path"))
-        novamov=re.compile('<li class=link_name>novamov</li>.+?javascript:window.open.+?url=(.+?)\'').findall(link)
+        novamov=re.compile('<li class=link_name>novamov</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         if len(novamov) > 0:
                 addDirb(name+" [COLOR red]"+quality+"[/COLOR]"+"[COLOR blue] : Novamov[/COLOR]",url,16,"%s/art/nov.png"%selfAddon.getAddonInfo("path"),"%s/art/nov.png"%selfAddon.getAddonInfo("path"))
-        uploadc=re.compile('<li class=link_name>uploadc</li>.+?javascript:window.open.+?url=(.+?)\'').findall(link)
+        uploadc=re.compile('<li class=link_name>uploadc</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         if len(uploadc) > 0:
                 addDirb(name+" [COLOR red]"+quality+"[/COLOR]"+"[COLOR blue] : Uploadc[/COLOR]",url,17,"%s/art/uc.png"%selfAddon.getAddonInfo("path"),"%s/art/uc.png"%selfAddon.getAddonInfo("path"))
-        xvidstage=re.compile('<li class=link_name>xvidstage</li>.+?javascript:window.open.+?url=(.+?)\'').findall(link)
+        xvidstage=re.compile('<li class=link_name>xvidstage</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         if len(xvidstage) > 0:
                 addDirb(name+" [COLOR red]"+quality+"[/COLOR]"+"[COLOR blue] : Xvidstage[/COLOR]",url,18,"%s/art/xvid.png"%selfAddon.getAddonInfo("path"),"%s/art/xvid.png"%selfAddon.getAddonInfo("path"))        
-        zooupload=re.compile('<li class=link_name>zooupload</li>.+?javascript:window.open.+?url=(.+?)\'').findall(link)
+        zooupload=re.compile('<li class=link_name>zooupload</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         if len(zooupload) > 0:
                 addDirb(name+" [COLOR red]"+quality+"[/COLOR]"+"[COLOR blue] : Zooupload[/COLOR]",url,19,"%s/art/zooup.png"%selfAddon.getAddonInfo("path"),"%s/art/zooup.png"%selfAddon.getAddonInfo("path"))
-        zalaa=re.compile('<li class=link_name>zalaa</li>.+?javascript:window.open.+?url=(.+?)\'').findall(link)
+        zalaa=re.compile('<li class=link_name>zalaa</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         if len(zalaa) > 0:
                 addDirb(name+" [COLOR red]"+quality+"[/COLOR]"+"[COLOR blue] : Zalaa[/COLOR]",url,20,"%s/art/zalaa.png"%selfAddon.getAddonInfo("path"),"%s/art/zalaa.png"%selfAddon.getAddonInfo("path"))
-        vidxden=re.compile('<li class=link_name>vidxden</li>.+?javascript:window.open.+?url=(.+?)\'').findall(link)
+        vidxden=re.compile('<li class=link_name>vidxden</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         if len(vidxden) > 0:
                 addDirb(name+" [COLOR red]"+quality+"[/COLOR]"+"[COLOR blue] : Vidxden[/COLOR]",url,21,"%s/art/vidx.png"%selfAddon.getAddonInfo("path"),"%s/art/vidx.png"%selfAddon.getAddonInfo("path"))
-        vidbux=re.compile('<li class=link_name>vidbux</li>.+?javascript:window.open.+?url=(.+?)\'').findall(link)
+        vidbux=re.compile('<li class=link_name>vidbux</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         if len(vidbux) > 0:
                 addDirb(name+" [COLOR red]"+quality+"[/COLOR]"+"[COLOR blue] : Vidbux[/COLOR]",url,14,"%s/art/vidb.png"%selfAddon.getAddonInfo("path"),"%s/art/vidb.png"%selfAddon.getAddonInfo("path"))
 
 def PUTLINKS(name,url):
         link=OPENURL(url)
-        putlocker=re.compile('<li class=link_name>putlocker</li>.+?javascript:window.open.+?url=(.+?)\'').findall(link)
+        putlocker=re.compile('<li class=link_name>putlocker</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         for url in putlocker:
                 addDirb(name,url,5,"%s/art/put.png"%selfAddon.getAddonInfo("path"),"%s/art/put.png"%selfAddon.getAddonInfo("path"))
+
+def SOCKLINKS(name,url):
+        link=OPENURL(url)
+        sockshare=re.compile('<li class=link_name>sockshare</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
+        for url in sockshare:
+                addDirb(name,url,5,"%s/art/Sockshare.png"%selfAddon.getAddonInfo("path"),"%s/art/Sockshare.png"%selfAddon.getAddonInfo("path"))
+def NOWLINKS(name,url):
+        link=OPENURL(url)
+        nowvideo=re.compile('<li class=link_name>nowvideo</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
+        for url in nowvideo:
+                addDirb(name,url,5,"%s/art/nowvideo.png"%selfAddon.getAddonInfo("path"),"%s/art/nowvideo.png"%selfAddon.getAddonInfo("path"))
+
 def OELINKS(name,url):
         link=OPENURL(url)
-        oeupload=re.compile('<li class=link_name>180upload</li>.+?javascript:window.open.+?url=(.+?)\'').findall(link)
+        oeupload=re.compile('<li class=link_name>180upload</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         for url in oeupload:
                 addDirb(name,url,5,"%s/art/180u.png"%selfAddon.getAddonInfo("path"),"%s/art/180u.png"%selfAddon.getAddonInfo("path"))
 def FNLINKS(name,url):
         link=OPENURL(url)
-        filenuke=re.compile('<li class=link_name>filenuke</li>.+?javascript:window.open.+?url=(.+?)\'').findall(link)
+        filenuke=re.compile('<li class=link_name>filenuke</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         for url in filenuke:
                 addDirb(name,url,5,"%s/art/fn.png"%selfAddon.getAddonInfo("path"),"%s/art/fn.png"%selfAddon.getAddonInfo("path"))
 def FLALINKS(name,url):
         link=OPENURL(url)
-        flashx=re.compile('<li class=link_name>flashx</li>.+?javascript:window.open.+?url=(.+?)\'').findall(link)
+        flashx=re.compile('<li class=link_name>flashx</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         for url in flashx:
                 addDirb(name,url,5,"%s/art/flash.png"%selfAddon.getAddonInfo("path"),"%s/art/flash.png"%selfAddon.getAddonInfo("path"))
 def VIDLINKS(name,url):
         link=OPENURL(url)
-        vidbux=re.compile('<li class=link_name>vidbux</li>.+?javascript:window.open.+?url=(.+?)\'').findall(link)
+        vidbux=re.compile('<li class=link_name>vidbux</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         for url in vidbux:
                 addDirb(name,url,5,"%s/art/vidb.png"%selfAddon.getAddonInfo("path"),"%s/art/vidb.png"%selfAddon.getAddonInfo("path"))
 def NOVLINKS(name,url):
         link=OPENURL(url)
-        novamov=re.compile('<li class=link_name>novamov</li>.+?javascript:window.open.+?url=(.+?)\'').findall(link)
+        novamov=re.compile('<li class=link_name>novamov</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         for url in novamov:
                 addDirb(name,url,5,"%s/art/nov.png"%selfAddon.getAddonInfo("path"),"%s/art/nov.png"%selfAddon.getAddonInfo("path"))
 def UPLINKS(name,url):
         link=OPENURL(url)
-        uploadc=re.compile('<li class=link_name>uploadc</li>.+?javascript:window.open.+?url=(.+?)\'').findall(link)
+        uploadc=re.compile('<li class=link_name>uploadc</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         for url in uploadc:
                 addDirb(name,url,5,"%s/art/uc.png"%selfAddon.getAddonInfo("path"),"%s/art/uc.png"%selfAddon.getAddonInfo("path"))
 def XVLINKS(name,url):
         link=OPENURL(url)
-        xvidstage=re.compile('<li class=link_name>xvidstage</li>.+?javascript:window.open.+?url=(.+?)\'').findall(link)
+        xvidstage=re.compile('<li class=link_name>xvidstage</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         for url in xvidstage:
                 addDirb(name,url,5,"%s/art/xvid.png"%selfAddon.getAddonInfo("path"),"%s/art/xvid.png"%selfAddon.getAddonInfo("path"))
 def ZOOLINKS(name,url):
         link=OPENURL(url)
-        zooupload=re.compile('<li class=link_name>zooupload</li>.+?javascript:window.open.+?url=(.+?)\'').findall(link)
+        zooupload=re.compile('<li class=link_name>zooupload</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         for url in zooupload:
                 addDirb(name,url,5,"%s/art/zooup.png"%selfAddon.getAddonInfo("path"),"%s/art/zooup.png"%selfAddon.getAddonInfo("path"))
 def ZALINKS(name,url):
         link=OPENURL(url)
-        zalaa=re.compile('<li class=link_name>zalaa</li>.+?javascript:window.open.+?url=(.+?)\'').findall(link)
+        zalaa=re.compile('<li class=link_name>zalaa</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         for url in zalaa:
                 addDirb(name,url,5,"%s/art/zalaa.png"%selfAddon.getAddonInfo("path"),"%s/art/zalaa.png"%selfAddon.getAddonInfo("path"))
 def VIDXLINKS(name,url):
         link=OPENURL(url)
-        vidxden=re.compile('<li class=link_name>vidxden</li>.+?javascript:window.open.+?url=(.+?)\'').findall(link)
+        vidxden=re.compile('<li class=link_name>vidxden</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         for url in vidxden:
                 addDirb(name,url,5,"%s/art/vidx.png"%selfAddon.getAddonInfo("path"),"%s/art/vidx.png"%selfAddon.getAddonInfo("path"))
 
@@ -5050,10 +5142,10 @@ def LOAD_AND_PLAY_VIDEO(url,name):
         
         return ok
                       
-def PLAY(name,url):
+def PLAY(name,murl):
         GA("Movie25-Oneclickwatch","Watched")
         name=name.replace('[DVD]','').replace('[TS]','').replace('[TC]','').replace('[CAM]','').replace('[SCREENER]','').replace('[COLOR blue]','').replace('[COLOR red]','').replace('[/COLOR]','')
-        name=name.replace(' : Putlocker','').replace(' : 180upload','').replace(' : Filenuke','').replace(' : Flashx','').replace(' : Novamov','').replace(' : Uploadc','').replace(' : Xvidstage','').replace(' : Zooupload','').replace(' : Zalaa','').replace(' : Vidxden','').replace(' : Vidbux','')
+        name=name.replace(' : Putlocker','').replace(' : Sockshare','').replace(' : Nowvideo','').replace(' : 180upload','').replace(' : Filenuke','').replace(' : Flashx','').replace(' : Novamov','').replace(' : Uploadc','').replace(' : Xvidstage','').replace(' : Zooupload','').replace(' : Zalaa','').replace(' : Vidxden','').replace(' : Vidbux','')
         name=name.replace(' 720p BRRip','').replace(' 720p HDRip','').replace(' 720p WEBRip','').replace(' 720p BluRay','')
         namelen=len(name)
         if name[-2:namelen-1] == ')':
@@ -5065,6 +5157,10 @@ def PLAY(name,url):
                 year = name[nam:namelen-1]
                 name= name[0:namelen-6]
         infoLabels = GETMETAB(name,'',year,'')
+        link=OPENURL(murl)
+        match=re.compile("Javascript:location.?href=.+?'(.+?)\'").findall(link)
+        for url in match:
+            print url
         playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
         playlist.clear()
         listitem = xbmcgui.ListItem(name, iconImage="DefaultVideo.png",thumbnailImage=infoLabels['cover_url'])
@@ -6042,6 +6138,7 @@ def addLink(name,url,iconimage):
         ok=True
         liz=xbmcgui.ListItem(name, iconImage="%s/art/link.png"%selfAddon.getAddonInfo("path"), thumbnailImage=iconimage)
         liz.setInfo( type="Video", infoLabels={ "Title": name } )
+        liz.setProperty('fanart_image', "%s/fanart.jpg"%selfAddon.getAddonInfo("path"))
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=url,listitem=liz)
         return ok
 
@@ -6050,6 +6147,7 @@ def addStop(name,url,mode,iconimage):
         ok=True
         liz=xbmcgui.ListItem(name, iconImage="%s/art/vidicon.png"%selfAddon.getAddonInfo("path"), thumbnailImage=iconimage)
         liz.setInfo( type="Video", infoLabels={ "Title": name } )
+        liz.setProperty('fanart_image', "%s/fanart.jpg"%selfAddon.getAddonInfo("path"))
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=False)
         return ok
 
@@ -6058,6 +6156,7 @@ def addDir(name,url,mode,iconimage):
         ok=True
         liz=xbmcgui.ListItem(name, iconImage="%s/art/vidicon.png"%selfAddon.getAddonInfo("path"), thumbnailImage=iconimage)
         liz.setInfo( type="Video", infoLabels={ "Title": name } )
+        liz.setProperty('fanart_image', "%s/fanart.jpg"%selfAddon.getAddonInfo("path"))
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
         return ok
     
@@ -6066,6 +6165,7 @@ def addDir2(name,url,mode,iconimage,desc):
         ok=True
         liz=xbmcgui.ListItem(name, iconImage="%s/art/vidicon.png"%selfAddon.getAddonInfo("path"), thumbnailImage=iconimage)
         liz.setInfo( type="Video", infoLabels={ "Title": name, "Plot": desc } )
+        liz.setProperty('fanart_image', "%s/fanart.jpg"%selfAddon.getAddonInfo("path"))
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
         return ok
 
@@ -6074,6 +6174,7 @@ def addSport(name,url,mode,iconimage,desc,dur,gen):
         ok=True
         liz=xbmcgui.ListItem(name, iconImage="%s/art/vidicon.png"%selfAddon.getAddonInfo("path"), thumbnailImage=iconimage)
         liz.setInfo( type="Video", infoLabels={ "Title": name, "Plot": desc, "Duration": dur ,"Genre": gen} )
+        liz.setProperty('fanart_image', "%s/fanart.jpg"%selfAddon.getAddonInfo("path"))
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz)
         return ok
 
@@ -6140,7 +6241,7 @@ def addPlayableLink(name,url,mode,iconimage):
         contextMenuItems.append(('Download', 'XBMC.RunPlugin(%s?mode=13&name=%s&url=%s)' % (sys.argv[0], urllib.quote_plus(loadName), urllib.quote_plus(url))))
         contextMenuItems.append(('Download and Play', 'XBMC.RunPlugin(%s?mode=15&name=%s&url=%s)' % (sys.argv[0], urllib.quote_plus(loadName), urllib.quote_plus(url))))
         contextMenuItems.append(('Download Quietly', 'XBMC.RunPlugin(%s?mode=14&name=%s&url=%s)' % (sys.argv[0], urllib.quote_plus(loadName), urllib.quote_plus(url))))
-        
+        liz.setProperty('fanart_image', "%s/fanart.jpg"%selfAddon.getAddonInfo("path"))
         liz.addContextMenuItems(contextMenuItems, replaceItems=True)
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz)
         return ok
@@ -6150,6 +6251,7 @@ def addPlayListLink(name,url,mode,iconimage):
         ok=True
         liz=xbmcgui.ListItem(name, iconImage="%s/art/vidicon.png"%selfAddon.getAddonInfo("path"), thumbnailImage=iconimage)
         liz.setInfo( type="Video", infoLabels={ "Title": name } )
+        liz.setProperty('fanart_image', "%s/fanart.jpg"%selfAddon.getAddonInfo("path"))
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz)
         return ok
               
@@ -6266,6 +6368,14 @@ elif mode==20:
 elif mode==21:
         print ""+url
         VIDXLINKS(name,url)
+
+elif mode==22:
+        print ""+url
+        SOCKLINKS(name,url)
+
+elif mode==24:
+        print ""+url
+        NOWLINKS(name,url)
 
 elif mode==25:
         print ""+url
@@ -6645,7 +6755,11 @@ elif mode==130:
         DESISTREAMSList(url)
 elif mode==131:
         DESISTREAMSLink(name,url)
-
+        
+elif mode==132:
+        SearchhistoryMovie1k()
+elif mode==133:
+        SEARCHMovie1k(url)
         
 elif mode==500:
         TVAll()        
