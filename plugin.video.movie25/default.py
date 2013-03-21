@@ -19,7 +19,7 @@ if selfAddon.getSetting('visitor_ga')=='':
     from random import randint
     selfAddon.setSetting('visitor_ga',str(randint(0, 0x7fffffff)))
 
-VERSION = "1.2.4"
+VERSION = "1.2.5"
 PATH = "Movie25-"            
 UATRACK="UA-38312513-1" 
 
@@ -113,7 +113,7 @@ def AtoZ():
                 addDir(i,'http://www.movie25.com/movies/'+i.lower()+'/',1,"%s/art/%s.png"%(selfAddon.getAddonInfo("path"),i.lower()))
         GA("None","A-Z")   
 def MAIN():
-        mashup=124
+        mashup=125
         notified=os.path.join(datapath,str(mashup))
         if not os.path.exists(notified):
             open(notified,'w').write('version="%s",'%mashup)
