@@ -47,7 +47,7 @@ def AtoZ():
                 main.addDir(i,'http://www.movie25.com/movies/'+i.lower()+'/',1,"%s/art/%s.png"%(selfAddon.getAddonInfo("path"),i.lower()))
         main.GA("None","A-Z")   
 def MAIN():
-        mashup=127
+        mashup=126
         notified=os.path.join(main.datapath,str(mashup))
         if not os.path.exists(notified):
             open(notified,'w').write('version="%s",'%mashup)
