@@ -23,7 +23,7 @@ if selfAddon.getSetting('visitor_ga')=='':
     from random import randint
     selfAddon.setSetting('visitor_ga',str(randint(0, 0x7fffffff)))
 
-VERSION = "1.2.6"
+VERSION = "1.2.7"
 PATH = "Movie25-"            
 UATRACK="UA-38312513-1" 
 

@@ -111,7 +111,7 @@ def SearchhistoryWS():
         SeaFile=os.path.join(seapath,'SearchHistoryTv')
         if not os.path.exists(SeaFile):
             url='ws'
-            SEARCHSG(url)
+            SEARCHWS(url)
         else:
             main.addDir('Search','ws',582,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
             main.addDir('Clear History',SeaFile,128,"%s/art/cleahis.png"%selfAddon.getAddonInfo("path"))
