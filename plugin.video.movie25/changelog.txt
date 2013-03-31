@@ -1,3 +1,21 @@
+[B]Version 1.2.6[/B]
+
+-Re-Structured code more organized.
+-Added 10 more hosts to Movie25 content
+-Added More live streams to Misc Music
+-Added Random streams to Live section
+-Added Added streams from different countries to Live section(thanks Kjartansson)
+-Added Watchseries.it to built in plugin section
+-Added Babytv to youtube kids
+-Fixed Extramina
+-Fixed Vibe
+-Added CNN and euronews to Livestation
+-Added Free Movies Addict to built in plugin section
+-Fixed Empty directory showing after movie finishes.
+-Added Movie year to Starplay content.
+-Added search function for Rlmix
+
+
 [B]Version 1.2.5[/B]
 
 -Changed Icon to png was not showing up as jpg
