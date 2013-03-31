@@ -1,8 +1,8 @@
 import xbmc, xbmcaddon, xbmcgui, xbmcplugin, xbmcvfs,cookielib,string,StringIO, urllib, urllib2, os,time,base64,logging,re,sys
-import urlresolver
+#import urlresolver
 addon_id = 'plugin.video.movie25'
 selfAddon = xbmcaddon.Addon(id=addon_id)
-
+from libs import main
 
 tmdbid = sys.argv[1]
 tmdbid=tmdbid.replace('"','').replace("'","").replace('[','').replace(']','').replace('(','').replace(')','').replace(',','')
@@ -19,7 +19,7 @@ def trailer(tmdbid):
         quality=re.compile('"size":"HD","source":"(.+?)"').findall(response)[0]
         print quality
         youtube='http://www.youtube.com/watch?v=' + quality
-        media = urlresolver.HostedMediaFile(youtube)
+        media = main.urlresolver.HostedMediaFile(youtube)
         source = media
         if source:
             stream_url = source.resolve()
@@ -30,7 +30,7 @@ def trailer(tmdbid):
         quality=re.compile('"size":"HQ","source":"(.+?)"').findall(response)[0]
         print quality
         youtube='http://www.youtube.com/watch?v=' + quality
-        media = urlresolver.HostedMediaFile(youtube)
+        media = main.urlresolver.HostedMediaFile(youtube)
         source = media
         if source:
             stream_url = source.resolve()
