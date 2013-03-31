@@ -79,7 +79,7 @@ def LISTMOVIES(murl):
                 paginate=re.compile('http://www.movie25.com/movies/(.+?)/index-(.+?).html').findall(murl)
                 for section, page in paginate:
                         pg= int(page) +1
-                        xurl = Mainurl + str(section) + '/' + 'index-'+ str (pg) + '.html'
+                        xurl = main.Mainurl + str(section) + '/' + 'index-'+ str (pg) + '.html'
                 main.addDir('[COLOR red]Home[/COLOR]','',0,"%s/art/home.png"%selfAddon.getAddonInfo("path"))
                 main.addDir('[COLOR blue]Page '+ str(pg)+'[/COLOR]',xurl,1,"%s/art/next2.png"%selfAddon.getAddonInfo("path"))
         
