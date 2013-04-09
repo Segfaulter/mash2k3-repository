@@ -220,7 +220,7 @@ def LINKDISC(name,url):
                 idlist3.append(id3)
                 qualitylist.append(quality)
         i=0
-        main.GA(mtitle,"Watching")
+        main.GA("Discovery-"+mtitle,"Watching")
         for i in range(len(match)):
                 match1=re.compile('3500k').findall(qualitylist[i])
                 match2=re.compile('1500k').findall(qualitylist[i])

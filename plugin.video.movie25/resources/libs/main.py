@@ -23,8 +23,8 @@ if selfAddon.getSetting('visitor_ga')=='':
     from random import randint
     selfAddon.setSetting('visitor_ga',str(randint(0, 0x7fffffff)))
 
-VERSION = "1.2.6"
-PATH = "Movie25-"            
+VERSION = "1.2.8"
+PATH = "MashUp-"            
 UATRACK="UA-38312513-1" 
 
 
@@ -36,6 +36,7 @@ def OPENURL(url):
         link=response.read()
         response.close()
         link=link.replace('&#39;',"'").replace('&quot;','"').replace('&amp;',"&").replace("&#39;","'").replace('&lt;i&gt;','').replace("#8211;","-").replace('&lt;/i&gt;','').replace("&#8217;","'").replace('&amp;quot;','"').replace('&#215;','').replace('&#038;','').replace('&#8216;','').replace('&#8211;','').replace('&#8220;','').replace('&#8221;','').replace('&#8212;','')
+        link=link.replace('%3A',':').replace('%2F','/')
         return link
 
 def REDIRECT(url):

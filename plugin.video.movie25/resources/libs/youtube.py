@@ -48,6 +48,7 @@ def YOUList(mname,durl):
 
 def YOULink(mname,url):
         print url
+        ok=True
         main.GA("Youtube-List","Watched")
         url = "plugin://plugin.video.youtube/?path=/root/video&action=play_video&videoid="+url+"&hd=1"
         playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
@@ -57,4 +58,4 @@ def YOULink(mname,url):
         playlist.add(stream_url,listitem)
         xbmcPlayer = xbmc.Player()
         xbmcPlayer.play(playlist)
-        main.addDir('','','','')
+        return ok

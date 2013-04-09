@@ -83,7 +83,7 @@ def LISTNG2(murl):
     main.GA("NG-Show","List")
 
 def LINKNG(mname,murl):
-        main.GA(mname,"Watched")
+        main.GA("NatGeo-"+mname,"Watched")
         link=main.OPENURL(murl)
         ok=True
         match=re.compile('property=".+?" content="(.+?)" />\n    <meta property=".+?" content=".+?" />\n    <meta property=".+?" content=".+?" />\n    <meta property=".+?" content=".+?" />\n\n\n    \n    <meta property=".+?" content=".+?" />\n\n    \n    <meta property=".+?" content="(.+?)" />\n\n    \n\n    <meta property=".+?" content="(.+?)" ').findall(link)
@@ -140,7 +140,7 @@ def LINKNG(mname,murl):
         return ok
         
 def LINKNG2(mname,murl):
-        main.GA(mname,"Watched")
+        main.GA("NatGeo-"+mname,"Watched")
         playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
         playlist.clear()
         MainUrl='http://video.nationalgeographic.com'

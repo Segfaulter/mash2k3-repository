@@ -1,4 +1,3 @@
-# -*- coding: cp1252 -*-
 import urllib,urllib2,re,cookielib
 import xbmc, xbmcgui, xbmcaddon, xbmcplugin
 from resources.libs import main
@@ -8,18 +7,28 @@ from resources.libs import main
 addon_id = 'plugin.video.movie25'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 
-def MUSICSTREAMS():
-        main.GA("MUSIC-Streams","List")
-        link=main.OPENURL('https://nkjtvt.googlecode.com/svn/trunk/playlists/musicstreams2.xml')
+
+
+def VIPplaylists(murl):
+        link=main.OPENURL(murl)
+        link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
+        match=re.compile('<name>(.+?)</name><link>(.+?)</link><thumbnail>(.+?)</thumbnail><date>(.+?)</date>').findall(link)
+        for name,url,thumb,date in match:
+            main.addDir(name+'         [COLOR red]Updated '+date+'[/COLOR]',url,182,thumb)
+        main.GA("Live","VIPPlaylists")
+
+
+def VIPList(mname,murl):
+        main.GA("VIPPlaylists",mname)
+        link=main.OPENURL(murl)
         link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
         match=re.compile('<item><titl[^>]+>([^<]+)</title><link>(.+?)</link><thumbnail>(.+?)</thumbnail></item>').findall(link)
         for name,url,thumb in sorted(match):
-            main.addPlay(name,url,184,thumb)
+            main.addPlay(name,url,183,thumb)
 
-        
-        
-def MUSICSTREAMSLink(mname,murl):
-        main.GA("MUSIC-Streams-"+mname,"Watched")
+
+def VIPLink(mname,murl):
+        main.GA("VIPPlaylists-"+mname,"Watched")
         ok=True
         playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
         playlist.clear()

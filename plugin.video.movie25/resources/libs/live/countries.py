@@ -23,8 +23,8 @@ def COUNTRIES():
         for name,url,thumb in sorted(match):
             main.addDir(name,url,144,thumb)
         main.VIEWSB()
-def COUNTRIESList(murl):
-        main.GA("Countries","Watched")
+def COUNTRIESList(mname,murl):
+        main.GA("Countries-"+mname,"Watched")
         link=main.OPENURL(murl)
         link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','').replace('type=playlistname=Sorted by user-assigned order','').replace('name=Sorted [COLOR=FF00FF00]by user-assigned order[/COLOR]','').replace('name=Live Tv Channels Twothumb','')
         match=re.compile('<title>(.+?)</title><link>(.+?)</link><thumbnail>(.+?)</thumbnail>').findall(link)

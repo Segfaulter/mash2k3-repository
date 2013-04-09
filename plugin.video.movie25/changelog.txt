@@ -1,3 +1,18 @@
+[B]Version 1.2.8[/B]
+
+-Changed Mash2k3 info to a icon with twitter info.
+-Fixed disney jr video loop.
+-Changed keyboard to numeric pad for enter year.
+-Added arabic live channels to random streams
+-Fixed Extramina genre listings
+-Added SkySports.com to sports section
+-Added Global BC to Plugin section
+-Made Changes to Musicstream section
+-Added Euronews english to livestation
+-Changed minor things in desi streams.
+-Made Hub Maintenance a Choice to Install.
+-Added Watch Documentary to documentary section.
+
 [B]Version 1.2.7[/B]
 
 -Fixed watchseries search

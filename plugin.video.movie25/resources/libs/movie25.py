@@ -32,7 +32,7 @@ def FAVS():
                 xbmcplugin.setContent(int(sys.argv[1]), 'Movies')
                 main.VIEWS()
         else: xbmc.executebuiltin("XBMC.Notification([B][COLOR green]Mash Up[/COLOR][/B],[B]You Have No Saved Favourites[/B],5000,"")")
-        main.GA("None","Fav")
+        main.GA("None","Movie25-Fav")
 
 
 
@@ -148,9 +148,9 @@ def SEARCH(murl):
         except:
             pass
         if murl == 'm25':
-            keyb = xbmc.Keyboard('', 'Search Movies')
-            keyb.doModal()
-            if (keyb.isConfirmed()):
+                keyb = xbmc.Keyboard('', 'Search Movies')
+                keyb.doModal()
+                if (keyb.isConfirmed()):
                     search = keyb.getText()
                     encode=urllib.quote(search)
                     surl='http://www.movie25.com/search.php?key='+encode+'&submit='
@@ -170,6 +170,8 @@ def SEARCH(murl):
                                 open(SeaFile,'a').write('search="%s",'%seahis)
                             except:
                                 pass
+                else:
+                        return
         else:
                 encode = murl
                 surl='http://www.movie25.com/search.php?key='+encode+'&submit='
@@ -206,21 +208,21 @@ def SEARCH(murl):
         dialogWait.close()
         del dialogWait
         main.addDir('[COLOR blue]Page 2[/COLOR]','http://www.movie25.com/search.php?page=2&key='+encode,9,"%s/art/next2.png"%selfAddon.getAddonInfo("path"))
-        main.GA("None","Search")
+        main.GA("None","Movie25-Search")
 
 
 def ENTYEAR():
-        keyb = xbmc.Keyboard('', 'Search Movies')
-        keyb.doModal()
-        if (keyb.isConfirmed()):
-                search = keyb.getText()
-                encode=urllib.quote(search)
+        dialog = xbmcgui.Dialog()
+        d = dialog.numeric(0, 'Enter Year')
+        if d:
+                encode=urllib.quote(d)
                 if encode < '2014' and encode > '1900':
                      surl='http://www.movie25.com/search.php?year='+encode+'/'
                      YEARB(surl)
                 else:
                     dialog = xbmcgui.Dialog()
                     ret = dialog.ok('Wrong Entry', 'Must enter year in four digit format like 1999','Enrty must be between 1900 and 2014')
+        
 
 
 def YEARB(murl):
@@ -260,7 +262,6 @@ def YEARB(murl):
         main.addDir('[COLOR blue]Page 2[/COLOR]','http://www.movie25.com/search.php?page=2&year='+str(ye),9,"%s/art/next2.png"%selfAddon.getAddonInfo("path"))
         xbmcplugin.setContent(int(sys.argv[1]), 'Movies')
         main.VIEWS()
-        main.GA("Year","Year-list")
         
 def NEXTPAGE(murl):
     match=re.compile('documentaryheaven').findall(murl)
@@ -340,9 +341,17 @@ def VIDEOLINKS(name,url):
         putlocker=re.compile('<li class=link_name>putlocker</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         if len(putlocker) > 0:
                 main.addDirb(name+" [COLOR red]"+quality+"[/COLOR]"+"[COLOR blue] : Putlocker[/COLOR]",url,11,"%s/art/put.png"%selfAddon.getAddonInfo("path"),"%s/art/put.png"%selfAddon.getAddonInfo("path"))
+        if len(putlocker) == 0:
+                putlocker=re.compile("javascript:window.open.+?'http://movie25.com/redirect.php.?url=http://www.putlocker.com/file/.+?',").findall(link)
+                if len(putlocker) > 0:
+                        main.addDirb(name+" [COLOR red]"+quality+"[/COLOR]"+"[COLOR blue] : Putlocker[/COLOR]",url,11,"%s/art/put.png"%selfAddon.getAddonInfo("path"),"%s/art/put.png"%selfAddon.getAddonInfo("path"))
         sockshare=re.compile('<li class=link_name>sockshare</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         if len(sockshare) > 0:
                 main.addDirb(name+" [COLOR red]"+quality+"[/COLOR]"+"[COLOR blue] : Sockshare[/COLOR]",url,22,"%s/art/Sockshare.png"%selfAddon.getAddonInfo("path"),"%s/art/Sockshare.png"%selfAddon.getAddonInfo("path"))
+        if len(sockshare) == 0:
+                sockshare=re.compile("javascript:window.open.+?'http://movie25.com/redirect.php.?url=http://www.sockshare.com/file/.+?',").findall(link)
+                if len(sockshare) > 0:
+                        main.addDirb(name+" [COLOR red]"+quality+"[/COLOR]"+"[COLOR blue] : Sockshare[/COLOR]",url,22,"%s/art/Sockshare.png"%selfAddon.getAddonInfo("path"),"%s/art/Sockshare.png"%selfAddon.getAddonInfo("path"))
         nowvideo=re.compile('<li class=link_name>nowvideo</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         if len(nowvideo) > 0:
                 main.addDirb(name+" [COLOR red]"+quality+"[/COLOR]"+"[COLOR blue] : Nowvideo[/COLOR]",url,24,"%s/art/nowvideo.png"%selfAddon.getAddonInfo("path"),"%s/art/nowvideo.png"%selfAddon.getAddonInfo("path"))
@@ -415,12 +424,23 @@ def PUTLINKS(name,url):
         putlocker=re.compile('<li class=link_name>putlocker</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         for url in putlocker:
                 main.addPlayb(name,url,5,"%s/art/put.png"%selfAddon.getAddonInfo("path"),"%s/art/put.png"%selfAddon.getAddonInfo("path"))
-
+        if len(putlocker) == 0:
+                putlocker=re.compile("""javascript:window.open.+?'http://movie25.com/redirect.php.?url=(.+?)','.+?',.+?>(.+?)</a></span>""").findall(link)
+                for url,part in putlocker:
+                        match=re.compile("putlocker").findall(url)
+                        if len(match) > 0:
+                                main.addPlayb(name+"  [COLOR red]Part:"+part+"[/COLOR]",url,171,"%s/art/put.png"%selfAddon.getAddonInfo("path"),"%s/art/put.png"%selfAddon.getAddonInfo("path"))
 def SOCKLINKS(name,url):
         link=main.OPENURL(url)
         sockshare=re.compile('<li class=link_name>sockshare</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         for url in sockshare:
                 main.addPlayb(name,url,5,"%s/art/Sockshare.png"%selfAddon.getAddonInfo("path"),"%s/art/Sockshare.png"%selfAddon.getAddonInfo("path"))
+        if len(sockshare) == 0:
+                sockshare=re.compile("""javascript:window.open.+?'http://movie25.com/redirect.php.?url=(.+?)','.+?',.+?>(.+?)</a></span>""").findall(link)
+                for url,part in sockshare:
+                        match=re.compile("sockshare").findall(url)
+                        if len(match) > 0:
+                                main.addPlayb(name+"  [COLOR red]Part:"+part+"[/COLOR]",url,171,"%s/art/Sockshare.png"%selfAddon.getAddonInfo("path"),"%s/art/Sockshare.png"%selfAddon.getAddonInfo("path"))
 def NOWLINKS(name,url):
         link=main.OPENURL(url)
         nowvideo=re.compile('<li class=link_name>nowvideo</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
@@ -539,12 +559,13 @@ def BUPLOADSLINKS(name,url):
 
 
 def PLAY(name,murl):
-        main.GA("Movie25-Oneclickwatch","Watched")
+        main.GA("Movie25-Movie","Watched")
         ok=True
         name=name.replace('[DVD]','').replace('[TS]','').replace('[TC]','').replace('[CAM]','').replace('[SCREENER]','').replace('[COLOR blue]','').replace('[COLOR red]','').replace('[/COLOR]','')
         name=name.replace(' : Gorillavid','').replace(' : Divxstage','').replace(' : Movshare','').replace(' : Sharesix','').replace(' : Movpod','').replace(' : Daclips','').replace(' : Videoweed','')
         name=name.replace(' : Played','').replace(' : MovDivx','').replace(' : Movreel','').replace(' : BillionUploads','').replace(' : Putlocker','').replace(' : Sockshare','').replace(' : Nowvideo','').replace(' : 180upload','').replace(' : Filenuke','').replace(' : Flashx','').replace(' : Novamov','').replace(' : Uploadc','').replace(' : Xvidstage','').replace(' : Zooupload','').replace(' : Zalaa','').replace(' : Vidxden','').replace(' : Vidbux','')
         name=name.replace(' 720p BRRip','').replace(' 720p HDRip','').replace(' 720p WEBRip','').replace(' 720p BluRay','')
+        name=name.replace('  Part:1','')
         namelen=len(name)
         if name[-2:namelen-1] == ')':
                 nam= namelen- 6
@@ -566,6 +587,42 @@ def PLAY(name,murl):
         listitem.setProperty('mimetype', 'video/x-msvideo')
         listitem.setProperty('IsPlayable', 'true')
         media = urlresolver.HostedMediaFile(url)
+        source = media
+        if source:
+                xbmc.executebuiltin("XBMC.Notification(Please Wait!,Resolving Link,3000)")
+                stream_url = source.resolve()
+        else:
+              stream_url = False  
+        playlist.add(stream_url,listitem)
+        xbmcPlayer = xbmc.Player()
+        xbmcPlayer.play(playlist)
+        return ok
+
+def PLAYB(name,murl):
+        main.GA("Movie25-Movie","Watched")
+        ok=True
+        name=name.replace('[DVD]','').replace('[TS]','').replace('[TC]','').replace('[CAM]','').replace('[SCREENER]','').replace('[COLOR blue]','').replace('[COLOR red]','').replace('[/COLOR]','')
+        name=name.replace(' : Gorillavid','').replace(' : Divxstage','').replace(' : Movshare','').replace(' : Sharesix','').replace(' : Movpod','').replace(' : Daclips','').replace(' : Videoweed','')
+        name=name.replace(' : Played','').replace(' : MovDivx','').replace(' : Movreel','').replace(' : BillionUploads','').replace(' : Putlocker','').replace(' : Sockshare','').replace(' : Nowvideo','').replace(' : 180upload','').replace(' : Filenuke','').replace(' : Flashx','').replace(' : Novamov','').replace(' : Uploadc','').replace(' : Xvidstage','').replace(' : Zooupload','').replace(' : Zalaa','').replace(' : Vidxden','').replace(' : Vidbux','')
+        name=name.replace(' 720p BRRip','').replace(' 720p HDRip','').replace(' 720p WEBRip','').replace(' 720p BluRay','')
+        name=name.replace('  Part:1','').replace('  Part:2','').replace('  Part:3','').replace('  Part:4','')
+        namelen=len(name)
+        if name[-2:namelen-1] == ')':
+                nam= namelen- 6
+                year = name[nam:namelen-2]
+                name= name[0:namelen-7]
+        else:
+                nam= namelen- 5
+                year = name[nam:namelen-1]
+                name= name[0:namelen-6]
+        infoLabels = main.GETMETAB(name,'',year,'')
+        playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+        playlist.clear()
+        listitem = xbmcgui.ListItem(name, iconImage="DefaultVideo.png",thumbnailImage=infoLabels['cover_url'])
+        listitem.setInfo("Video", infoLabels = infoLabels)
+        listitem.setProperty('mimetype', 'video/x-msvideo')
+        listitem.setProperty('IsPlayable', 'true')
+        media = urlresolver.HostedMediaFile(murl)
         source = media
         if source:
                 xbmc.executebuiltin("XBMC.Notification(Please Wait!,Resolving Link,3000)")

@@ -8,11 +8,12 @@ addon_id = 'plugin.video.movie25'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 
 def LivestationList(murl):
-        main.GA("LiveStreams","Livestation")
+        main.GA("Live","Livestation")
         link=main.OPENURL(murl)
         main.addLink('BBC News','http://akamedia2.lsops.net/live/bbcworld1_en.smil/playlist.m3u8','http://beta.cdn.livestation.com/uploads/channel/ident/10/medium_bbcworld_en.jpg')
         main.addLink('CNN News','http://akamedia2.lsops.net/live/cnn_en.smil/playlist.m3u8','http://beta.cdn.livestation.com/uploads/channel/ident/84/medium_cnn.jpeg')
-        main.addLink('Euronews','http://akamedia10.lsops.net/live/smil:euronews_ar.smil/playlist.m3u8','http://beta.cdn.livestation.com/uploads/channel/ident/1/medium_euronews.jpg')
+        main.addLink('Euronews English','http://akamedia10.lsops.net/live/smil:euronews_en.smil/playlist.m3u8','http://beta.cdn.livestation.com/uploads/channel/ident/1/medium_euronews.jpg')
+        main.addLink('Euronews Arabic','http://akamedia10.lsops.net/live/smil:euronews_ar.smil/playlist.m3u8','http://beta.cdn.livestation.com/uploads/channel/ident/1/medium_euronews.jpg')
         match=re.compile('<a href="(.+?)"><img alt=".+?" src="(.+?)" /></a>\n</div>\n<h3>\n<a href=".+?">(.+?)</a>').findall(link)
         for url,thumb,name in match:
             main.addPlay(name,'http://mobile.livestation.com'+url,117,thumb)
@@ -28,7 +29,7 @@ def LivestationLink(mname,murl):
             LivestationLink2(mname,murl)
             
 def LivestationLink2(mname,murl):
-        main.GA("Livestation","Watched")
+        main.GA("Livestation-"+mname,"Watched")
         xbmc.executebuiltin("XBMC.Notification(Please Wait!,Playing Link,4000)")
         link=main.OPENURL(murl)
         ok=True

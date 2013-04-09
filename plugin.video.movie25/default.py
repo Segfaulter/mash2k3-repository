@@ -22,17 +22,17 @@ addon = Addon(addon_id)
 
 from resources.libs import youtube
 
-from resources.libs.documentaries import vice, documentary
+from resources.libs.documentaries import vice, documentary, watchdocumentary
 
-from resources.libs.sports import wildtv, tsn, espn, foxsoccer, outdoorch, mmafighting
+from resources.libs.sports import wildtv, skysports, tsn, espn, foxsoccer, outdoorch, mmafighting
 
 from resources.libs.kids import disneyjr, wbkids
 
 from resources.libs.adventure import discovery, airaces, nationalgeo
 
-from resources.libs.plugins import seriesgate, btvguide, watchseries, sceper, extramina, fma
+from resources.libs.plugins import seriesgate, globalbc, btvguide, watchseries, sceper, extramina, fma
 
-from resources.libs.live import livestation, naviplaylists, ilive, castalba, desistreams, musicstreams, countries
+from resources.libs.live import livestation, vipplaylist, naviplaylists, ilive, castalba, desistreams, musicstreams, countries
 
 from resources.libs.movies_tv import oneclickwatch, backuptv, rlsmix, newmyvideolinks, dailyflix, oneclickmoviez, starplay, iwatchonline, movie1k
 
@@ -45,7 +45,7 @@ def AtoZ():
         main.addDir('0-9','http://www.movie25.com/movies/0-9/',1,"%s/art/09.png"%selfAddon.getAddonInfo("path"))
         for i in string.ascii_uppercase:
                 main.addDir(i,'http://www.movie25.com/movies/'+i.lower()+'/',1,"%s/art/%s.png"%(selfAddon.getAddonInfo("path"),i.lower()))
-        main.GA("None","A-Z")   
+        main.GA("None","Movie25-A-Z")   
 def MAIN():
         mashup=126
         notified=os.path.join(main.datapath,str(mashup))
@@ -80,7 +80,8 @@ def MAIN():
         main.addDir('Documentaries','http://www.movie25.com/',85,"%s/art/docsec2.png"%selfAddon.getAddonInfo("path"))
         main.addDir('Resolver Settings','http://www.movie25.com/',99,"%s/art/resset.png"%selfAddon.getAddonInfo("path"))
         main.addDir('Need Help?','http://www.movie25.com/',100,"%s/art/xbmchub.png"%selfAddon.getAddonInfo("path"))
-        main.addSpecial('Contact Mash2k3','http://www.movie25.com/',156,"%s/art/mash2k3info.png"%selfAddon.getAddonInfo("path"))
+        main.addLink('@mashupxbmc','',"%s/art/twittermash.png"%selfAddon.getAddonInfo("path"))
+        main.addPlay('Install Hub Maintenance','http://www.movie25.com/',156,"%s/art/hubmain.png"%selfAddon.getAddonInfo("path"))
         main.VIEWSB()
         
 def GENRE(url):
@@ -106,7 +107,7 @@ def GENRE(url):
         main.addDir('Thriller','http://www.movie25.com/movies/thriller/',1,"%s/art/thr.png"%selfAddon.getAddonInfo("path"))
         main.addDir('War','http://www.movie25.com/movies/war/',1,"%s/art/war.png"%selfAddon.getAddonInfo("path"))
         main.addDir('Western','http://www.movie25.com/movies/western/',1,"%s/art/west.png"%selfAddon.getAddonInfo("path"))
-        main.GA("None","Genre")
+        main.GA("None","Movie25-Genre")
         main.VIEWSB()
         
 def YEAR():
@@ -121,8 +122,8 @@ def YEAR():
         main.addDir('2005','http://www.movie25.com/search.php?year=2005/',8,"%s/art/2005.png"%selfAddon.getAddonInfo("path"))
         main.addDir('2004','http://www.movie25.com/search.php?year=2004/',8,"%s/art/2004.png"%selfAddon.getAddonInfo("path"))
         main.addDir('2003','http://www.movie25.com/search.php?year=2003/',8,"%s/art/2003.png"%selfAddon.getAddonInfo("path"))
-        main.addDir('Enter Year','http://www.movie25.com',23,"%s/art/enteryear.png"%selfAddon.getAddonInfo("path"))
-        main.GA("None","Year")
+        main.addPlay('Enter Year','http://www.movie25.com',23,"%s/art/enteryear.png"%selfAddon.getAddonInfo("path"))
+        main.GA("None","Movie25-Year")
         main.VIEWSB()
 
 
@@ -148,6 +149,7 @@ def TVAll():
         main.addDir('Extramina','TV',530,"%s/art/wfs/extramina.png"%selfAddon.getAddonInfo("path"))
         main.addDir('Sceper [COLOR red](Debrid Only)[/COLOR]','TV',539,"%s/art/wfs/sceper.png"%selfAddon.getAddonInfo("path"))
         main.addDir('FMA','TV',567,"%s/art/wfs/fma.png"%selfAddon.getAddonInfo("path"))
+        main.addDir('Global BC','gbc',165,"%s/art/globalbc.png"%selfAddon.getAddonInfo("path"))
         main.GA("None","Plugin")
 
 def HD():
@@ -171,6 +173,7 @@ def INT():
 def SPORTS():
         main.addDir('ESPN','http:/espn.com',44,"%s/art/espn.png"%selfAddon.getAddonInfo("path"))
         main.addDir('TSN','http:/tsn.com',95,"%s/art/tsn.png"%selfAddon.getAddonInfo("path"))
+        main.addDir('SkySports.com','www1.skysports.com',172,"%s/art/skysports.png"%selfAddon.getAddonInfo("path"))
         main.addDir('Fox Soccer  [COLOR red](US ONLY)[/COLOR]','http:/tsn.com',124,"%s/art/foxsoc.png"%selfAddon.getAddonInfo("path"))
         main.addDir('All MMA','mma',537,"%s/art/mma.png"%selfAddon.getAddonInfo("path"))
         main.addDir('Outdoor Channel','http://outdoorchannel.com/',50,"%s/art/OC.png"%selfAddon.getAddonInfo("path"))
@@ -223,7 +226,21 @@ def LiveStreams():
         main.addDir('Misc. Music Streams','music',127,"%s/art/miscmusic.png"%selfAddon.getAddonInfo("path"))
         main.addDir('Playlists','navi',138,"%s/art/random.png"%selfAddon.getAddonInfo("path"))
         main.addDir('By Country','navi',143,"%s/art/country.png"%selfAddon.getAddonInfo("path"))
+        link=main.OPENURL('http://github.com/mash2k3/mash2k3-repository/raw/master/Misc%20items/LiveDirectory(mash2k3Only).xml')
+        link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','').replace('type=playlistname=Sorted by user-assigned order','').replace('name=Sorted [COLOR=FF00FF00]by user-assigned order[/COLOR]','').replace('name=Live Tv Channels Twothumb','')
+        match=re.compile('<name>(.+?)</name><link>(.+?)</link><thumbnail>(.+?)</thumbnail>').findall(link)
+        for name,url,thumb in match:
+            main.addDir(name,url,181,thumb)
         main.GA("None","Live")
+
+def DOCS():
+        main.addDir('Vice','http://www.vice.com/shows',104,"%s/art/vice.png"%selfAddon.getAddonInfo("path"))
+        main.addDir('Documentary Heaven','doc1',86,"%s/art/dh.png"%selfAddon.getAddonInfo("path"))
+        main.addDir('Watch Documentary','doc1',159,"%s/art/watchdoc.png"%selfAddon.getAddonInfo("path"))
+        main.addDir('Top Documentary Films','doc2',86,"%s/art/topdoc.png"%selfAddon.getAddonInfo("path"))
+        main.addDir('Documentary Log','doc3',86,"%s/art/doclog.png"%selfAddon.getAddonInfo("path"))
+        main.addDir('Documentaries (Movie25)','http://www.movie25.com/movies/documentary/',1,"%s/art/doc.png"%selfAddon.getAddonInfo("path"))
+        main.GA("None","Documentary")
 
 ################################################################################ XBMCHUB Repo & Hub Maintenance Installer ##########################################################################################################
 
@@ -251,17 +268,26 @@ def _pbhook(numblocks, blocksize, filesize, url=None,dp=None):
             return False
         dp.close()
         del dp
-
-if os.path.exists(maintenance)==False: 
-        dialog = xbmcgui.Dialog()
-        dialog.ok("XBMCHUB TEAM", "This will Install Hub Maintenance Tool.","It is a requirement for Mash Up", "Will take effect after restart.")
-        url = 'http://xbmc-hub-repo.googlecode.com/svn/addons/plugin.video.hubmaintenance/plugin.video.hubmaintenance-4.7b.zip'
-        path = xbmc.translatePath(os.path.join('special://home/addons','packages'))
-        lib=os.path.join(path, 'plugin.video.hubmaintenance-4.7b.zip')
-        DownloaderClass(url,lib)
-        addonfolder = xbmc.translatePath(os.path.join('special://home/addons',''))
-        time.sleep(2)
-        xbmc.executebuiltin("XBMC.Extract(%s,%s)"%(lib,addonfolder))
+def HubMain():
+        if os.path.exists(maintenance)==False:
+                ok=True
+                dialog = xbmcgui.Dialog()
+                ret=dialog.yesno("XBMCHUB TEAM", "This will Install Hub Maintenance Tool.","Will take effect after restart.","Would you like to install?",)
+                if ret==1:
+                        url = 'http://xbmc-hub-repo.googlecode.com/svn/addons/plugin.video.hubmaintenance/plugin.video.hubmaintenance-4.7b.zip'
+                        path = xbmc.translatePath(os.path.join('special://home/addons','packages'))
+                        lib=os.path.join(path, 'plugin.video.hubmaintenance-4.7b.zip')
+                        DownloaderClass(url,lib)
+                        addonfolder = xbmc.translatePath(os.path.join('special://home/addons',''))
+                        time.sleep(2)
+                        xbmc.executebuiltin("XBMC.Extract(%s,%s)"%(lib,addonfolder))
+                else:
+                        return ok
+        else:
+                ok=True
+                dialog = xbmcgui.Dialog()
+                dialog.ok("XBMCHUB TEAM", "Hub Maintenance Tool is already installed.")
+                return ok
 
 
 
@@ -402,6 +428,9 @@ elif mode==5:
         print ""+url
         movie25.PLAY(name,url)
 
+elif mode==171:
+        print ""+url
+        movie25.PLAYB(name,url)
 elif mode==6:
         AtoZ()
 
@@ -712,7 +741,7 @@ elif mode==84:
 
 elif mode==85:
         print ""+url
-        documentary.DOCS()        
+        DOCS()        
 
 elif mode==86:
         print ""+url
@@ -874,26 +903,31 @@ elif mode==138:
        naviplaylists.playlists()
 
 elif mode==139:
-        naviplaylists.playlistList(url)
+        naviplaylists.playlistList(name,url)
 
 elif mode==140:
-        naviplaylists.playlistList2(url)
+        naviplaylists.playlistList2(name,url)
 
 elif mode==141:
-        naviplaylists.playlistList3(url)
+        naviplaylists.playlistList3(name,url)
 
 elif mode==142:
-        naviplaylists.playlistList4(url)
+        naviplaylists.playlistList4(name,url)
 
 elif mode==149:
-        naviplaylists.playlistList5(url)
+        naviplaylists.playlistList5(name,url)
+        
+elif mode==158:
+        naviplaylists.playlistList6(name,url)
 
+elif mode==168:
+        naviplaylists.playlistList7(name,url)
 
 elif mode==143:
         countries.COUNTRIES()
 
 elif mode==144:
-        countries.COUNTRIESList(url)
+        countries.COUNTRIESList(name,url)
 
 
 elif mode==145:
@@ -938,11 +972,113 @@ elif mode==155:
 
 elif mode==156:
         print ""+url
-        Message()
+        HubMain()
 
 elif mode==157:
         print ""+url
         movie25.PLAYEDLINKS(name,url)
+
+elif mode==159:
+        print ""+url
+        watchdocumentary.WATCHDOC()
+
+elif mode==160:
+        print ""+url
+        watchdocumentary.WATCHDOCList(url)
+
+elif mode==161:
+        print ""+url
+        watchdocumentary.WATCHDOCLink(name,url)
+
+elif mode==162:
+        print ""+url
+        watchdocumentary.CATEGORIES()
+
+elif mode==163:
+        print ""+url
+        watchdocumentary.WATCHDOCList2(url)
+
+elif mode==164:
+        print ""+url
+        watchdocumentary.WATCHDOCSearch()
+
+elif mode==165:
+        print ""+url
+        globalbc.GLOBALBC()
+
+elif mode==166:
+        print ""+url
+        globalbc.GLOBALBCList(url)
+
+elif mode==167:
+        print ""+url
+        globalbc.GLOBALBCLink(name,url)
+
+elif mode==169:
+        print ""+url
+        globalbc.GLOBALBCList2(url)
+
+elif mode==170:
+        print ""+url
+        globalbc.GLOBALBCSearch()
+
+#171 taken
+
+
+
+elif mode==172:
+        print ""+url
+        skysports.SKYSPORTS()
+
+elif mode==173:
+        print ""+url
+        skysports.SKYSPORTSList(url)
+
+elif mode==174:
+        print ""+url
+        skysports.SKYSPORTSLink(name,url)
+
+elif mode==175:
+        print ""+url
+        skysports.SKYSPORTSTV(url)
+
+elif mode==176:
+        print ""+url
+        skysports.SKYSPORTSList2(url)
+        
+elif mode==177:
+        dialog = xbmcgui.Dialog()
+        dialog.ok("Mash Up", "Sorry this video requires a SkySports Suscription.","Will add this feature in later Version.","Enjoy the rest of the videos ;).")
+
+elif mode==178:
+        print ""+url
+        skysports.SKYSPORTSCAT()
+
+elif mode==179:
+        print ""+url
+        skysports.SKYSPORTSCAT2(url)
+
+elif mode==180:
+        print ""+url
+        skysports.SKYSPORTSTEAMS(url)
+
+elif mode==181:
+        print ""+url
+        vipplaylist.VIPplaylists(url)
+
+elif mode==182:
+        print ""+url
+        vipplaylist.VIPList(name,url)
+
+elif mode==183:
+        print ""+url
+        vipplaylist.VIPLink(name,url)
+
+
+elif mode==184:
+        print ""+url
+        musicstreams.MUSICSTREAMSLink(name,url)
+
 
 
         
@@ -1006,7 +1142,7 @@ elif mode==530:
 
 elif mode==531:
         print ""+url
-        extramina.LISTEXAZ(name,url)
+        extramina.LISTEXgenre(url)
 
 elif mode==532:
         print ""+url

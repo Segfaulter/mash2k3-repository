@@ -8,6 +8,7 @@ addon_id = 'plugin.video.movie25'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 
 def DISJR():
+        main.GA("KidZone","DisneyJR")
         main.addDir('By Character','charac',108,"%s/art/disjr.png"%selfAddon.getAddonInfo("path"))
         main.addDir('Full Episodes','full',108,"%s/art/disjr.png"%selfAddon.getAddonInfo("path"))
         main.addDir('Short Videos','short',108,"%s/art/disjr.png"%selfAddon.getAddonInfo("path"))
@@ -21,7 +22,7 @@ def DISJRList(murl):
             match = re.compile('<a href="(.+?)" ping=".+?"/>\n\t\t<img src="(.+?)" />\n\t\t<text class="title"><(.+?)>').findall(link)
             for url,thumb, name in match:
                 name=name.replace('![CDATA[',' ').replace(']]',' ')
-                main.addDir(name,url,110,thumb)
+                main.addPlay(name,url,110,thumb)
 
         elif murl=='full':
             url ='http://disney.go.com/disneyjunior/data/tilePack?id=1815106&maxAmount=240'
@@ -33,7 +34,7 @@ def DISJRList(murl):
                 sname=sname.replace('-',' ')
                 name=name.replace('![CDATA[',' ').replace(']]',' ')
                 sname=sname.upper()
-                main.addDir(sname+'  [COLOR red]"'+name+'"[/COLOR]',url,110,thumb)
+                main.addPlay(sname+'  [COLOR red]"'+name+'"[/COLOR]',url,110,thumb)
 
         elif murl=='short':
             url ='http://disney.go.com/disneyjunior/data/tilePack?id=1815107&maxAmount=240'
@@ -45,7 +46,7 @@ def DISJRList(murl):
                 sname=sname.replace('-',' ')
                 name=name.replace('![CDATA[',' ').replace(']]',' ')
                 sname=sname.upper()
-                main.addDir(sname+'  [COLOR red]"'+name+'"[/COLOR]',url,110,thumb)
+                main.addPlay(sname+'  [COLOR red]"'+name+'"[/COLOR]',url,110,thumb)
 
         elif murl=='charac':
             url ='http://disney.go.com/disneyjunior/data/tilePack?id=1815104&maxAmount=240'

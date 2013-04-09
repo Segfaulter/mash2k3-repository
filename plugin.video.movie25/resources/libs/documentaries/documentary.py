@@ -7,13 +7,6 @@ from resources.libs import main
 addon_id = 'plugin.video.movie25'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 
-def DOCS():
-        main.addDir('Vice','http://www.vice.com/shows',104,"%s/art/vice.png"%selfAddon.getAddonInfo("path"))
-        main.addDir('Documentary Heaven','doc1',86,"%s/art/dh.png"%selfAddon.getAddonInfo("path"))
-        main.addDir('Top Documentary Films','doc2',86,"%s/art/topdoc.png"%selfAddon.getAddonInfo("path"))
-        main.addDir('Documentary Log','doc3',86,"%s/art/doclog.png"%selfAddon.getAddonInfo("path"))
-        main.addDir('Documentaries (Movie25)','http://www.movie25.com/movies/documentary/',1,"%s/art/doc.png"%selfAddon.getAddonInfo("path"))
-        main.GA("None","Documentary")
 
 def LISTDOC(murl):
     if murl=='doc1':
@@ -136,6 +129,7 @@ def LINKDOC(mname,murl):
     match=re.compile('documentaryheaven').findall(murl)
     if (len(match)>0):
         main.GA("DocumentaryHeaven","Watched")
+        ok=True
         playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
         playlist.clear()
         link=main.OPENURL(murl)
@@ -170,7 +164,7 @@ def LINKDOC(mname,murl):
         playlist.add(stream_url,listitem)
         xbmcPlayer = xbmc.Player()
         xbmcPlayer.play(playlist)
-        main.addDir('','','','')
+        return ok
 
     match2=re.compile('topdocumentaryfilms').findall(murl)
     if (len(match2)>0):

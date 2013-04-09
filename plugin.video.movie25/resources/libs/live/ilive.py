@@ -59,7 +59,7 @@ def iLiveList(murl):
                 link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
                 match=re.compile('<img width=".+?" height=".+?" src="([^<]+)" alt=""/></noscript></a><a href="(.+?)"><strong>(.+?)</strong></a>').findall(link)
                 for thumb,url,name in match:
-                    if name != 'Playboy TV':
+                    if name != 'Playboy TV'or name != 'Hongkong Cat III channel 2':
                         main.addPlay(name,url,121,thumb)
                 
                 loadedLinks = loadedLinks + 1

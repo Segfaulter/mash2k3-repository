@@ -41,6 +41,7 @@ def getlink(url):
 def LINKSP4(mname,murl):
         sources = []
         main.GA("Oneclickmovies","Watched")
+        xbmc.executebuiltin("XBMC.Notification(Please Wait!,Collecting Hosts,3000)")
         link=main.OPENURL(murl)
         ok=True
         link= link.replace('href="http://oneclickmoviez.com/dws/MEGA','')
