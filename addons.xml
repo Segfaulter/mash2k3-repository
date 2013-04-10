@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addons>
+<addon id="plugin.video.181fm"
+       name="181FM"
+       version="1.0"
+       provider-name="Mash2k3">
+    <requires>
+        <import addon="xbmc.python" version="1.0"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource"
+               library="default.py">
+        <provides>audio</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+    <summary lang="en">Browse 181.fm</summary>
+    <description lang="en">Browse and play a wide selection of stations from 181.fm.</description>
+    <platform>all</platform>
+  </extension>
+</addon>
+
 <addon id="plugin.video.discovery"
        name="Discovery Channel"
        version="1.0.0"
