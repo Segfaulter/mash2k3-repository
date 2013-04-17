@@ -1,4 +1,4 @@
 <name>k1m05's Streams</name>
 <link>https://mash2k3-repository.googlecode.com/svn/trunk/k1m05_mashupDirectory.xml</link>
-<thumbnail>"%s/art/act.png"%selfAddon.getAddonInfo("path")</thumbnail>
+<thumbnail>k1m05</thumbnail>
 
