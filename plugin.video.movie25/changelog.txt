@@ -1,3 +1,12 @@
+[B]Version 1.2.9[/B]
+
+-Fixed iLive script error.
+-Fixed Movie25 Trailers.
+-Fixed Dailyfix listing.
+-Fixed Cinevip.
+-Fixed 3D script error.
+-Fixed Movie25 enter year function.
+
 [B]Version 1.2.8[/B]
 
 -Changed Mash2k3 info to a icon with twitter info.

@@ -19,13 +19,10 @@ def LISTINT3(url):
         dialogWait.update(0,'[B]Loading....[/B]',remaining_display)
         for murl in urllist:
                 link=main.OPENURL(murl)
-                match=re.compile('<a class="entry-thumbnails-link" href="(.+?)"><img width=".+?" height=".+?" src="(.+?)" class=".+?" alt=".+? Genero:(.+?) Titulo:.+? Info:(.+?) Sinopsis:(.+?)" title="(.+?)" />').findall(link)
-                for url,thumb,genre,lang,desc,name in match:
-                        lang ='[COLOR red]'+lang+'[/COLOR]'
-                        lang = lang.replace('Audio','').replace('Español','').replace('Subtitulos','[COLOR blue]Sub(ESP)[/COLOR]').replace('DVDRip','')
-                        name=name.replace(') Online','').replace('Ver ','')
-                        name=name+')'
-                        main.addSport(name+' '+lang,url,67,thumb,desc,'',genre)
+                link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
+                match=re.compile('href="(.+?)"><imgalt=".+?" title="Ver (.+?) Online" src="(.+?)"').findall(link)
+                for url,name,thumb in match:
+                        main.addPlay(name,url,67,thumb)
                 loadedLinks = loadedLinks + 1
                 percent = (loadedLinks * 100)/totalLinks
                 remaining_display = 'Pages loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
@@ -41,13 +38,14 @@ def LINKINT3(name,murl):
         sources = []
         main.GA("Cinevip","Watched")
         link=main.OPENURL(murl)
+        link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
         ok=True
-        match=re.compile('<span class=".+?">(.+?)</span></td>\n<td>(.+?)</td>\n<td>.+?</td>\n<td>.+?href=http://adf.ly/.+?/(.+?)>').findall(link)
-        if len(match) == 0:
-                match=re.compile('<span class=".+?">(.+?)</span></td>\n<td>(.+?)</td>\n<td>.+?</td>\n<td>.+?href="http://adf.ly/.+?/(.+?)"').findall(link)
-        for host, lang, url in match:
+        match=re.compile('class=".+?">([^<]+)</span></td><td>([^<]+)</td><td>([^<]+)</td>.+?adf.ly/.+?/(.+?)"').findall(link)
+        #if len(match) == 0:
+                #match=re.compile('<span class=".+?">(.+?)</span></td>\n<td>(.+?)</td>\n<td>.+?</td>\n<td>.+?href="http://adf.ly/.+?/(.+?)"').findall(link)
+        for host, lang, qua, url in match:
                 print url
-                hosted_media = urlresolver.HostedMediaFile(url=url, title=host+' [COLOR red]'+lang+'[/COLOR]')
+                hosted_media = urlresolver.HostedMediaFile(url=url, title=host+' [COLOR red]'+lang+'[/COLOR] '+qua)
                 sources.append(hosted_media)
         if (len(sources)==0):
                 xbmc.executebuiltin("XBMC.Notification(Sorry!,Show doesn't have playable links,5000)")

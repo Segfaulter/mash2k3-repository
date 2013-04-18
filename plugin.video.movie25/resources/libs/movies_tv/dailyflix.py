@@ -11,7 +11,8 @@ def LISTSP3(murl):
         if murl == 'HD':
                 url='http://www.dailyflix.net/index.php?/forum/196-hd-movies-2012-2013/page__sort_key__last_post__sort_by__Z-A'
         link=main.OPENURL(url)
-        match=re.compile('href="(.+?)" title=.+? class=.+?>(.+?)</a>').findall(link)
+        link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
+        match=re.compile('href="([^<]+)" title=.+? class=.+?><span itemprop="name">(.+?)</span>').findall(link)
         for url, name in match:
                 main.addPlay(name,url,54,'')
         main.GA("HD-TV","Dailyfix")
@@ -21,6 +22,7 @@ def LINKSP3(mname,url):
         main.GA("Dailyfix","Watched")
         sources = []
         ok=True
+        xbmc.executebuiltin("XBMC.Notification(Please Wait!,Collecting Hosts,3000)")
         link=main.OPENURL(url)
         match=re.compile("<a href='(.+?)' class='.+?' title='.+?' rel='.+?'>.+?</a").findall(link)
         for murl in match:

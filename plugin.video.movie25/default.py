@@ -47,13 +47,13 @@ def AtoZ():
                 main.addDir(i,'http://www.movie25.com/movies/'+i.lower()+'/',1,"%s/art/%s.png"%(selfAddon.getAddonInfo("path"),i.lower()))
         main.GA("None","Movie25-A-Z")   
 def MAIN():
-        mashup=126
+        mashup=127
         notified=os.path.join(main.datapath,str(mashup))
         if not os.path.exists(notified):
             open(notified,'w').write('version="%s",'%mashup)
             dialog = xbmcgui.Dialog()
-            ok=dialog.ok('[B]Attention!!![/B]', 'I have been finding problems in the plugin', 'and no one reports it. Please report issues','at xbmchub.com or tweet @mashupxbmc')
-            ok=dialog.ok('[B]VERSION 1.2.6[/B]', 'Please checkout the changes in the following sections','Live, Youtube Kids and BuiltIn Plugins.', 'Thanks and Enjoy the plugin')
+            ok=dialog.ok('[B]Attention!!![/B]', "Check out k1m05's live streams" ,'can be found under Live section','includes entertainment, sports & news streams.')
+            ok=dialog.ok('[B]VERSION 1.2.9[/B]', 'Minor Fixes in the following sections','iLive, Movie25 trailers & year, 3D, Cinevip & more.', 'Check change log, Thanks and Enjoy')
             mashup=mashup-1
             notified=os.path.join(main.datapath,str(mashup))
             if  os.path.exists(notified):
@@ -122,7 +122,7 @@ def YEAR():
         main.addDir('2005','http://www.movie25.com/search.php?year=2005/',8,"%s/art/2005.png"%selfAddon.getAddonInfo("path"))
         main.addDir('2004','http://www.movie25.com/search.php?year=2004/',8,"%s/art/2004.png"%selfAddon.getAddonInfo("path"))
         main.addDir('2003','http://www.movie25.com/search.php?year=2003/',8,"%s/art/2003.png"%selfAddon.getAddonInfo("path"))
-        main.addPlay('Enter Year','http://www.movie25.com',23,"%s/art/enteryear.png"%selfAddon.getAddonInfo("path"))
+        main.addDir('Enter Year','http://www.movie25.com',23,"%s/art/enteryear.png"%selfAddon.getAddonInfo("path"))
         main.GA("None","Movie25-Year")
         main.VIEWSB()
 
@@ -230,7 +230,9 @@ def LiveStreams():
         link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','').replace('type=playlistname=Sorted by user-assigned order','').replace('name=Sorted [COLOR=FF00FF00]by user-assigned order[/COLOR]','').replace('name=Live Tv Channels Twothumb','')
         match=re.compile('<name>(.+?)</name><link>(.+?)</link><thumbnail>(.+?)</thumbnail>').findall(link)
         for name,url,thumb in match:
-            main.addDir(name,url,181,thumb)
+                thumbs="%s/art/%s.png"%(selfAddon.getAddonInfo("path"),thumb)
+                print thumbs
+                main.addDir(name,url,181,thumbs)
         main.GA("None","Live")
 
 def DOCS():

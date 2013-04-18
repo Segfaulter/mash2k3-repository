@@ -59,8 +59,10 @@ def iLiveList(murl):
                 link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
                 match=re.compile('<img width=".+?" height=".+?" src="([^<]+)" alt=""/></noscript></a><a href="(.+?)"><strong>(.+?)</strong></a>').findall(link)
                 for thumb,url,name in match:
-                    if name != 'Playboy TV'or name != 'Hongkong Cat III channel 2':
-                        main.addPlay(name,url,121,thumb)
+                        match=re.compile('Hongkong').findall(name)
+                        if len(match)==0:
+                                if name != 'Playboy TV':
+                                        main.addPlay(name,url,121,thumb)
                 
                 loadedLinks = loadedLinks + 1
                 percent = (loadedLinks * 100)/totalLinks
@@ -74,6 +76,7 @@ def iLiveList(murl):
 
 def iLiveLink(mname,murl):
         main.GA("iLive","Watched")
+        xbmc.executebuiltin("XBMC.Notification(Please Wait!,Opening Stream,3000)")
         link=main.OPENURL(murl)
         ok=True
         playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
@@ -83,7 +86,7 @@ def iLiveLink(mname,murl):
         for fid,wid,hei in match:
             pageUrl='http://www.ilive.to/embedplayer.php?width='+wid+'&height='+hei+'&channel='+fid+'&autoplay=true'
         link=main.OPENURL(pageUrl)
-        playpath=re.compile("file\': \'(.+?).flv").findall(link)
+        playpath=re.compile('file: "(.+?).flv"').findall(link)
         for playPath in playpath:
             stream_url = 'rtmp://142.4.216.176/edge playpath=' + playPath + " swfUrl=http://static.ilive.to/jwplayer/player_embed.swf pageUrl="+pageUrl+"live=1"
         listitem = xbmcgui.ListItem(mname)

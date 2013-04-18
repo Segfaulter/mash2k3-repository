@@ -11,9 +11,11 @@ selfAddon = xbmcaddon.Addon(id=addon_id)
 def LISTSP2(murl):
         if murl=='3D':
                 main.addDir('Search Newmyvideolinks','movieNEW',102,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
-                try:
+                check=main.OPENURL('http://newmyvideolinks.com/category/movies/3-d-movies/')
+                match=re.compile('<p><a href=".+?" >Next Page &raquo;</a></p>').findall(check)
+                if len(match)>0:
                         urllist=['http://newmyvideolinks.com/category/movies/3-d-movies/','http://newmyvideolinks.com/category/movies/3-d-movies/page/2/']
-                except:
+                else:
                         urllist=['http://newmyvideolinks.com/category/movies/3-d-movies/']
         elif murl=='TV':
                 main.addDir('Search Newmyvideolinks','tvNEW',102,"%s/art/search.png"%selfAddon.getAddonInfo("path"))
