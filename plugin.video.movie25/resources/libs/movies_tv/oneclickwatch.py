@@ -9,7 +9,7 @@ selfAddon = xbmcaddon.Addon(id=addon_id)
 
 
 def LISTSP(murl): 
-        urllist=['http://oneclickwatch.org/category/movies/','http://oneclickwatch.org/category/movies/page/2/','http://oneclickwatch.org/category/movies/page/3/','http://oneclickwatch.org/category/movies/page/4/','http://oneclickwatch.org/category/movies/page/5/','http://oneclickwatch.org/category/movies/page/6/','http://oneclickwatch.org/category/movies/page/7/','http://oneclickwatch.org/category/movies/page/8/','http://oneclickwatch.org/category/movies/page/9/','http://oneclickwatch.org/category/movies/page/10/','http://oneclickwatch.org/category/movies/page/11/','http://oneclickwatch.org/category/movies/page/12/']
+        urllist=['http://oneclickwatch.org/category/movies/']
         dialogWait = xbmcgui.DialogProgress()
         ret = dialogWait.create('Please wait until Movie list is cached.')
         totalLinks = 12
@@ -18,43 +18,12 @@ def LISTSP(murl):
         dialogWait.update(0,'[B]Loading....[/B]',remaining_display)
         for murl in urllist:
                 link=main.OPENURL(murl)
-                match=re.compile('<h2 class="pagetitle"><a href="(.+?)" rel="bookmark" title=".+?">(.+?)</a></h2>\r\n\t\t\t\t<small>Posted: .+?<strong>.+?</strong> in <a href=".+?" title="View all posts in Movies" rel="category tag">Movies</a><br />\r\n\t\t\t\t</small>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class="postcomments"><a href=".+?" title=".+?">0</a></div>\r\n\r\n\t\t\t\t<div class="entry">\r\n\t\t\t\t\t<p>(.+?) Plot:').findall(link)
-                for url,sitename,mname in match:
-                        match=re.compile('(.+?) / .+?').findall(mname)
-                        for nname in match:
-                                mname = nname
-                        match=re.compile('(.+?) aka .+?').findall(mname)
-                        for nname in match:
-                                mname = nname
-                        mname=mname.replace("&#8217;","'").replace("amp;","and").replace("#8211;","-")
-                        namelen=len(mname)
-                        if mname[-2:namelen-1] == ')':
-                                nam= namelen- 6
-                                year = mname[nam:namelen-2]
-                                name= mname[0:namelen-7]
-                        else:
-                                nam= namelen- 5
-                                year = mname[nam:namelen-1]
-                                year2='('+year+')'
-                                name= mname[0:namelen-6]
-                        year=year.replace('(2 )','').replace(') ak','')
-                        match=re.compile('720p BRRip').findall(sitename)
-                        if (len(match) > 0):
-                                year2 = '('+year+')'+'[COLOR red] 720p BRRip[/COLOR]'
-                                main.addInfo(name+year2,url,26,'','',year)
-                        match=re.compile('720p HDRip').findall(sitename)
-                        if (len(match) > 0):
-                                year2 = '('+year+')'+'[COLOR red] 720p HDRip[/COLOR]'
-                                main.addInfo(name+year2,url,26,'','',year)
-                        match=re.compile('720p WEBRip').findall(sitename)
-                        if (len(match) > 0):
-                                year2 = '('+year+')'+'[COLOR red] 720p WEBRip[/COLOR]'
-                                main.addInfo(name+year2,url,26,'','',year)
-                        match=re.compile('720p BluRay').findall(sitename)
-                        if (len(match) > 0):
-                                year2 = '('+year+')'+'[COLOR red] 720p BluRay[/COLOR]'
-                                main.addInfo(name+year2,url,26,'','',year)
-                        name=name.replace('-','').replace('&','').replace('acute;','')
+                link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','').replace('\xc3\xaa','e').replace('\xc3\xa0','a')
+                match=re.compile('<a href="([^<]+)" title="(.+?)".+? src="(.+?)" .+?/><br />(.+?)<br />Plot:(.+?)<.+?Genre</strong>: (.+?)<br />').findall(link)
+                for url,sitename,thumb,name,desc,gen in match:
+                        print name
+                        main.addSport(name+year2,url,26,thumb,desc,'',gen)
+                        
                 
                 loadedLinks = loadedLinks + 1
                 percent = (loadedLinks * 100)/totalLinks
