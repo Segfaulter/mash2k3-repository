@@ -1,8 +1,8 @@
-on   off
+live live2
 <item>
-<new> </new>
-<message1>Hey</message1>
-<message2>new</message2>
-<message3>message</message3>
-<old> </old>
+<new>live2</new>
+<message1>Unfortunatly the new arabic stream</message1>
+<message2>is down due to the source site, lets</message2>
+<message3>keep our finger crossed and hope it comes back</message3>
+<old>live</old>
 </item>
