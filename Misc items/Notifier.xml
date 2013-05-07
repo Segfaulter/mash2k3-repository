@@ -1,8 +1,8 @@
 on   off
 <item>
-<new>on</new>
+<new> </new>
 <message1>Hey</message1>
 <message2>new</message2>
 <message3>message</message3>
-<old> </old>
+<old>on</old>
 </item>
