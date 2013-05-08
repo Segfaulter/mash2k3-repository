@@ -101,7 +101,7 @@ def LISTWATCHSEASON(mname, murl):
 def LISTWATCHEPISODE(mname, murl):
         link=main.OPENURL(murl)
         link=link.replace('\r','').replace('\n','').replace('\t','').replace("&nbsp;&nbsp;&nbsp;"," ")
-        match=re.compile('<a href="(.+?)"><span class="" >([^<]+)</span>').findall(link)
+        match=re.compile('<a href="([^<]+)"><span class="" >([^<]+)</span>').findall(link)
         for url, name in reversed(match):
             main.addDir(mname+' [COLOR red]'+name+'[/COLOR]','http://watchseries.lt'+url,575,'')
 

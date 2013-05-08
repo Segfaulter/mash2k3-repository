@@ -158,10 +158,11 @@ def VIDEOLINKSSCEPER(mname,murl):
         xbmc.executebuiltin("XBMC.Notification(Please Wait!,Collecting hosts,3000)")
         match=re.compile('<a href="([^<]+)">htt').findall(link)
         for url in match:
+            print url
             vlink=re.compile('rar').findall(url)
             if len(vlink)==0:
                 match2=re.compile('http://(.+?)/.+?').findall(url)
-                for host in match2:
+                for host in sorted(match2):   
                     host = host.replace('www.','')
                     match3=re.compile('720p').findall(url)
                     match4=re.compile('mp4').findall(url)
@@ -172,8 +173,8 @@ def VIDEOLINKSSCEPER(mname,murl):
                     else:
                         host =host+' [COLOR blue]SD[/COLOR]'
                         
-                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
-                sources.append(hosted_media)
+                    hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
+                    sources.append(hosted_media)
         if (len(sources)==0):
                 xbmc.executebuiltin("XBMC.Notification(Sorry!,Show doesn't have playable links,5000)")
       

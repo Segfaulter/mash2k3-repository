@@ -60,7 +60,8 @@ def iLiveList(murl):
                 match=re.compile('<img width=".+?" height=".+?" src="([^<]+)" alt=""/></noscript></a><a href="(.+?)"><strong>(.+?)</strong></a>').findall(link)
                 for thumb,url,name in match:
                         match=re.compile('Hongkong').findall(name)
-                        if len(match)==0:
+                        match2=re.compile('sex').findall(name)
+                        if len(match)==0 and len(match2)==0:
                                 if name != 'Playboy TV':
                                         main.addPlay(name,url,121,thumb)
                 

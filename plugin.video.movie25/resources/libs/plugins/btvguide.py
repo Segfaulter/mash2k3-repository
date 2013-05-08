@@ -184,11 +184,11 @@ def LISTEpilistBTV(mname,murl):
         seas=season[0]
         seas=seas.replace('+','-')
         link=link.replace('\r','').replace('\n','').replace('\t','')
-        match=re.compile('<img class="thumb lazy" data-original="([^<]+)" src=".+?".+?<a class="title" href="([^<]+)">([^<]+)</a><br/><div class="ep_info">([^<]+)</div></div><div class=".+?"><div class="date">([^<]+)</div></div></div><div class="description">([^<]+)</div>').findall(link)
+        match=re.compile('<img class="thumb.+?="([^<]+).jpg".+?=".+?".+?<a class="title" href="([^<]+)">([^<]+)</a><br/><div class="ep_info">([^<]+)</div></div><div class=".+?"><div class="date">([^<]+)</div></div></div><div class="description">([^<]+)</div>').findall(link)
         for thumb,url,epiname,epinum,date,desc in match:
             match2=re.compile(seas).findall(url)
             if len(match2)>0:
-                main.addDir2('[COLOR red]'+epinum+'[/COLOR] "'+epiname+'"',url,559,thumb,desc)
+                main.addDir2('[COLOR red]'+epinum+'[/COLOR] "'+epiname+'"',url,559,thumb+'.jpg',desc)
                 
 def GETLINKBTV(murl):
     print "oob2 "+murl
@@ -302,7 +302,7 @@ def VIDEOLINKSBTV(mname,murl):
         murl=murl+'/watch-online'
         link=main.OPENURL(murl)
         link=link.replace('\r','').replace('\n','').replace('\t','')
-        match=re.compile('<a class="clickfreehoney" rel="nofollow" href="(.+?)" style=".+?">.+?</span> on&nbsp;(.+?)<br/>').findall(link)
+        match=re.compile('<a class="clickfreehoney" rel="nofollow" href="(.+?)"style=".+?">.+?</span>on&nbsp;(.+?)<br/>').findall(link)
         for url,host in match:
                 gorillavid=re.compile('gorillavid').findall(host)
                 if len(gorillavid) > 0:

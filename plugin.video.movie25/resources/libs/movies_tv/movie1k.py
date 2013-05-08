@@ -108,38 +108,38 @@ def VIDEOLINKST2(mname,murl):
         main.GA("Movie1k","Watched")
         xbmc.executebuiltin("XBMC.Notification(Please Wait!,Collecting Hosts,5000)")
         link=main.OPENURL(murl)
+        link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
         ok=True
-        match=re.compile('<a href="(.+?)">(.+?)</a><br />').findall(link)
-        for url, host in match:
+        match=re.compile('<tr><td >.+?</td><td >(.+?)</td><td ><.+? href="(.+?)" .+?</a></td></tr>').findall(link)
+        for  host,url in match:
+                match2=re.compile('http://.+?/watch.php.?idl=([^<]+)').findall(url)
+                if len(match2)>0:
+                        for url in match2:
+                                matchx=re.compile('linkembed').findall(url)
+                                if len(matchx)==0:
+                                        hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
+                                        sources.append(hosted_media)
+                                match3=re.compile('linkembed').findall(url)
+                                if len(match3)>0:
+                                        link2=main.OPENURL(url)
+                                        link2=link2.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
+                                        match4=re.compile('<iframe.+?src="(.+?)"').findall(link2)
+                                        if len(match4)==0:
+                                                match4=re.compile('<IFRAME SRC="(.+?)"').findall(link2)
+                                                if len(match4)==0:
+                                                        match4=re.compile("src='(.+?)'").findall(link2)
+                                        for url in match4:
+                                                matchx=re.compile('linkembed').findall(url)
+                                                if len(matchx)==0:
+                                                        hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
+                                                        sources.append(hosted_media)
+                else:
+                        matchx=re.compile('linkembed').findall(url)
+                        if len(matchx)==0:
+                                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
+                                sources.append(hosted_media)
                 
-                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
-                sources.append(hosted_media)
-                
-        match2=re.compile(': (.+?)</strong></p>\n<p><a href=".+?watch.php.?idl=(.+?)"').findall(link)
-        for host, url in match2:
-                matchx=re.compile('sockshare.com').findall(url)
-                if (len(matchx)>0):
-                    url=url.replace('embed','file')
-                matchy=re.compile('putlocker.com').findall(url)
-                if (len(matchy)>0):
-                    url=url.replace('embed','file')
-                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
-                sources.append(hosted_media)
-                match4=re.compile('linkembed').findall(url)
-                if len(match4)>0:
-                    link2=main.OPENURL(url)
-                    match3=re.compile('<iframe.+?src="(.+?)"').findall(link2)
-                    if len(match3)==0:
-                        match3=re.compile('<IFRAME SRC="(.+?)"').findall(link2)
-                    for url2 in match3:
-                        matchx=re.compile('sockshare.com').findall(url2)
-                        if (len(matchx)>0):
-                            url2=url2.replace('embed','file')
-                        matchy=re.compile('putlocker.com').findall(url2)
-                        if (len(matchy)>0):
-                            url2=url2.replace('embed','file')
-                        hosted_media = urlresolver.HostedMediaFile(url=url2, title=host)
-                        sources.append(hosted_media)
+
         if (len(sources)==0):
                 xbmc.executebuiltin("XBMC.Notification(Sorry!,Show doesn't have playable links,5000)")
       

@@ -21,4 +21,10 @@
 		<setting id="wild-qua"	type="enum" label="[B]Wild Tv Bitrate[/B]" values="High|Low" default="0"/>
 		<setting id="disj-qua"	type="enum" label="[B]Disney Jr. Bitrate[/B]" values="High|Medium|Low" default="0"/>
    </category>
+   <category label="Downloads">
+    <setting id="download-folder" type="folder" label="[B]Download Folder[/B]" default=""/>
+	<setting id="delete-incomplete-downloads" type="bool" label="[B]Delete Incomplete Downloads[/B]" default="true"/>
+	<setting id="download-in-background" type="bool" label="[B]Download in Background[/B]" default="true" />
+    <setting id="notify-percent" enable="eq(-1,true)" label="[B]Notify Per[/B]" type="enum" values="2[B] %[/B]|5[B] %[/B]|10[B] %[/B]|20[B] %[/B]|25[B] %[/B]|50[B] %[/B]|100[B] %[/B]" default="2" />
+   </category>
 </settings>

@@ -93,7 +93,7 @@ def LISTSeasonSG(mname,murl):
                 print thumb
         else:
             thumb=''
-        durl = 'http://seriesgate.tv'+url
+        durl = murl+url
         main.addDir(seaname,durl,605,str(thumb))
         xbmcplugin.setContent(int(sys.argv[1]), 'tvshows')
         main.GA("SeriesGate","Sea-list")
@@ -192,95 +192,11 @@ def VIDEOLINKSSG(mname,murl):
         ok=True
         link=main.OPENURL(murl)
         xbmc.executebuiltin("XBMC.Notification(Please Wait!,Collecting hosts,5000)")
-        match=re.compile('TARGET=".+?" href="(.+?)">XVidStage</a>').findall(link)
-        for url in match[0:3]:
-                url=GETLINKSG(url)
-                host='XVidStage'
+        link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
+        match=re.compile('href="([^<]+)" TARGET=".+?" >([^<]+)</a>').findall(link)
+        for url, host in sorted(match):
                 hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
-                sources.append(hosted_media)
-        match2=re.compile('TARGET=".+?" href="(.+?)">Sockshare</a>').findall(link)
-        if len(match2)==0:
-            match2=re.compile('TARGET=".+?" href="(.+?)">SockShare</a>').findall(link)
-        for url in match2[0:3]:
-                url=GETLINKSG(url)
-                host='Sockshare'
-                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
-                sources.append(hosted_media)
-        match=re.compile('TARGET=".+?" href="(.+?)">nowvideo</a>').findall(link)
-        for url in match[0:3]:
-                url=GETLINKSG(url)
-                host='Nowvideo'
-                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
-                sources.append(hosted_media)
-        match3=re.compile('TARGET=".+?" href="(.+?)">Putlocker</a>').findall(link)
-        if len(match3)==0:
-            match3=re.compile('TARGET=".+?" href="(.+?)">PutLocker</a>').findall(link)
-        for url in match3[0:3]:
-                url=GETLINKSG(url)
-                host='Putlocker'
-                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
-                sources.append(hosted_media)
-        match=re.compile('TARGET=".+?" href="(.+?)">Flashx TV</a>').findall(link)
-        for url in match[0:3]:
-                url=GETLINKSG(url)
-                host='Flashx'
-                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
-                sources.append(hosted_media)
-        match=re.compile('TARGET=".+?" href="(.+?)">HostingBulk</a>').findall(link)
-        for url in match[0:3]:
-                url=GETLINKSG(url)
-                host='HostingBulk'
-                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
-                sources.append(hosted_media)
-        match=re.compile('TARGET=".+?" href="(.+?)">MovReel</a>').findall(link)
-        for url in match[0:3]:
-                url=GETLINKSG(url)
-                host='MovReel'
-                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
-                sources.append(hosted_media)
-        match=re.compile('TARGET=".+?" href="(.+?)">Share Six</a>').findall(link)
-        for url in match[0:3]:
-                url=GETLINKSG(url)
-                host='Share Six'
-                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
-                sources.append(hosted_media)
-        match=re.compile('TARGET=".+?" href="(.+?)">2GB Hosting</a>').findall(link)
-        for url in match[0:3]:
-                url=GETLINKSG(url)
-                host='2GB Hosting'
-                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
-                sources.append(hosted_media)
-        match=re.compile('TARGET=".+?" href="(.+?)">Filenuke</a>').findall(link)
-        for url in match[0:3]:
-                url=GETLINKSG(url)
-                host='Filenuke'
-                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
-                sources.append(hosted_media)
-        match=re.compile('TARGET=".+?" href="(.+?)">VideoWeed</a>').findall(link)
-        for url in match[0:3]:
-                url=GETLINKSG(url)
-                host='Videoweed'
-                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
-                sources.append(hosted_media)
-        match=re.compile('TARGET=".+?" href="(.+?)">NovaMov</a>').findall(link)
-        for url in match[0:3]:
-                url=GETLINKSG(url)
-                host='Novamov'
-                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
-                sources.append(hosted_media)
-        match=re.compile('TARGET=".+?" href="(.+?)">vidbux</a>').findall(link)
-        for url in match[0:3]:
-                url=GETLINKSG(url)
-                host='Vidbux'
-                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
-                sources.append(hosted_media)
-        match=re.compile('TARGET=".+?" href="(.+?)">Vidxden</a>').findall(link)
-        for url in match[0:3]:
-                url=GETLINKSG(url)
-                host= 'Vidxden'
-                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
-                sources.append(hosted_media)
-                
+                sources.append(hosted_media)                
         if (len(sources)==0):
                 xbmc.executebuiltin("XBMC.Notification(Sorry!,Show doesn't have playable links,5000)")
       

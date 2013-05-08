@@ -62,10 +62,8 @@ def ViceLink(mname,murl):
                 except:
                     stream_url = 'http://'+match[2]+'.m3u8'
             else:
-                try:
-                    stream_url = 'http://'+match[2]+'.m3u8'
-                except:
-                    stream_url = 'http://'+match[0]+'.m3u8'
+                    stream_url = durl
+                
             listitem = xbmcgui.ListItem(mname, thumbnailImage= thumb)
             listitem.setInfo("Video", infoLabels={ "Title": mname, "Plot": desc})
             playlist.add(stream_url,listitem)

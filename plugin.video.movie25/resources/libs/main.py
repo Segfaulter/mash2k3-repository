@@ -12,20 +12,26 @@ import datetime,time
 Mainurl ='http://www.movie25.com/movies/'
 addon_id = 'plugin.video.movie25'
 selfAddon = xbmcaddon.Addon(id=addon_id)
+mashpath = selfAddon.getAddonInfo('path')
 addon = Addon(addon_id)
 grab = metahandlers.MetaData(preparezip = False)
-
-################################################################################ Common Calls ##########################################################################################################
-
 
 datapath = addon.get_profile()
 if selfAddon.getSetting('visitor_ga')=='':
     from random import randint
     selfAddon.setSetting('visitor_ga',str(randint(0, 0x7fffffff)))
 
-VERSION = "1.2.9"
+VERSION = "1.3.0"
 PATH = "MashUp-"            
 UATRACK="UA-38312513-1" 
+
+
+
+
+################################################################################ Common Calls ##########################################################################################################
+
+
+
 
 
 def OPENURL(url):
@@ -49,6 +55,26 @@ def REDIRECT(url):
 def Clearhistory(url):
         os.remove(url)
 
+
+################################################################################ Notifications #########################################################################################################
+
+def CheckVersion():
+    try:
+        link=OPENURL('https://github.com/mash2k3/mash2k3-repository/raw/master/plugin.video.movie25/resources/libs/main.py')
+    except:
+        link='nill'
+
+    link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
+    match=re.compile('VERSION = "(.+?)"').findall(link)
+    if len(match)>0:
+        if VERSION != str(match[0]):
+                dialog = xbmcgui.Dialog()
+                ok=dialog.ok('[B]New Update Available![/B]', "Your version of Mash Up is outdated." ,'The current available version is '+str(match[0]),'To update goto addons under system settings')
+        else:
+            print 'Mash Up is Up to Date'
+    
+    else:
+        print 'Github Link Down'
 ################################################################################ AutoView ##########################################################################################################
 
 
@@ -197,6 +223,129 @@ def GETMETAEpi(mname,data):
         
         return infoLabels
 
+############################################################################### Download Code ################################################################
+downloadPath = selfAddon.getSetting('download-folder')
+
+class StopDownloading(Exception): 
+        def __init__(self, value): 
+            self.value = value 
+        def __str__(self): 
+            return repr(self.value)
+
+def Download_Source(name,url):
+    name=name.split(' [')[0]
+    print name+'  '+url
+    media = urlresolver.HostedMediaFile(url)
+    source = media
+    if source:
+            xbmc.executebuiltin("XBMC.Notification(Please Wait!,Resolving Link,2000)")
+            stream_url = source.resolve()
+            if os.path.exists(downloadPath):
+                match1=re.compile("flv").findall(stream_url)
+                if len(match1)>0:
+                    name=name+'.flv'
+                match2=re.compile("mkv").findall(stream_url)
+                if len(match2)>0:
+                    name=name+'.mkv'
+                match3=re.compile("mp4").findall(stream_url)
+                if len(match3)>0:
+                    name=name+'.mp4'
+                match4=re.compile("avi").findall(stream_url)
+                if len(match4)>0:
+                    name=name+'.avi'
+                mypath=os.path.join(downloadPath,name)
+                if os.path.isfile(mypath) is True:
+                    xbmc.executebuiltin("XBMC.Notification(Download Alert!,The video you are trying to download already exists!,8000)")
+                else:
+                    DownloadInBack=selfAddon.getSetting('download-in-background')
+                    if DownloadInBack == 'true':
+                        QuietDownload(stream_url,mypath,name)
+                    else:
+                        Download(stream_url,mypath,name)
+            
+            else:
+                xbmc.executebuiltin("XBMC.Notification(Download Alert!,You have not set the download folder,8000)")
+                return False
+                
+    else:
+            xbmc.executebuiltin("XBMC.Notification(Sorry!,Link Not Found,6000)")
+            stream_url = False
+
+def Download(url, dest, displayname=False):
+         
+        if displayname == False:
+            displayname=url
+        delete_incomplete = selfAddon.getSetting('delete-incomplete-downloads')
+        dp = xbmcgui.DialogProgress()
+        dp.create('Downloading:    '+displayname)
+        start_time = time.time() 
+        try: 
+            urllib.urlretrieve(url, dest, lambda nb, bs, fs: _pbhook(nb, bs, fs, dp, start_time)) 
+        except:
+            if delete_incomplete == 'true':
+                #delete partially downloaded file if setting says to.
+                while os.path.exists(dest): 
+                    try: 
+                        os.remove(dest) 
+                        break 
+                    except: 
+                        pass 
+            #only handle StopDownloading (from cancel), ContentTooShort (from urlretrieve), and OS (from the race condition); let other exceptions bubble 
+            if sys.exc_info()[0] in (urllib.ContentTooShortError, StopDownloading, OSError): 
+                return False 
+            else: 
+                raise 
+            return False
+        return True
+
+def QuietDownload(url, dest, videoname):
+    #quote parameters passed to download script     
+    q_url = urllib.quote_plus(url)
+    q_dest = urllib.quote_plus(dest)
+    q_vidname = urllib.quote_plus(videoname)
+    
+    #Create possible values for notification
+    notifyValues = [2, 5, 10, 20, 25, 50, 100]
+
+    # get notify value from settings
+    NotifyPercent=int(selfAddon.getSetting('notify-percent'))
+    
+    script = os.path.join( mashpath, 'resources', 'libs', "DownloadInBackground.py" )
+    xbmc.executebuiltin( "RunScript(%s, %s, %s, %s, %s)" % ( script, q_url, q_dest, q_vidname, str(notifyValues[NotifyPercent]) ) )
+    return True
+
+ 
+def _pbhook(numblocks, blocksize, filesize, dp, start_time):
+        try: 
+            percent = min(numblocks * blocksize * 100 / filesize, 100) 
+            currently_downloaded = float(numblocks) * blocksize / (1024 * 1024) 
+            kbps_speed = numblocks * blocksize / (time.time() - start_time) 
+            if kbps_speed > 0: 
+                eta = (filesize - numblocks * blocksize) / kbps_speed 
+            else: 
+                eta = 0 
+            kbps_speed = kbps_speed / 1024 
+            total = float(filesize) / (1024 * 1024) 
+            # print ( 
+                # percent, 
+                # numblocks, 
+                # blocksize, 
+                # filesize, 
+                # currently_downloaded, 
+                # kbps_speed, 
+                # eta, 
+                # ) 
+            mbs = '%.02f MB of %.02f MB' % (currently_downloaded, total) 
+            e = 'Speed: %.02f Kb/s ' % kbps_speed 
+            e += 'ETA: %02d:%02d' % divmod(eta, 60) 
+            dp.update(percent, mbs, e)
+            #print percent, mbs, e 
+        except: 
+            percent = 100 
+            dp.update(percent) 
+        if dp.iscanceled(): 
+            dp.close() 
+            raise StopDownloading('Stopped Downloading')
 
 ################################################################################ Google Analytics ##########################################################################################################
 
@@ -430,6 +579,24 @@ def addPlayb(name,url,mode,iconimage,fan):
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz)
         return ok
 
+def addDown(name,url,mode,iconimage,fan):
+        contextMenuItems = []
+        u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
+        ok=True
+        link=OPENURL(url)
+        match=re.compile("Javascript:location.?href=.+?'(.+?)\'").findall(link)
+        for url in match:
+            sysurl = urllib.quote_plus(url)
+        sysname= urllib.quote_plus(name)
+        contextMenuItems.append(('Direct Download', 'XBMC.RunPlugin(%s?mode=190&name=%s&url=%s)' % (sys.argv[0], sysname, sysurl)))
+        contextMenuItems.append(('Download with jDownloader', 'XBMC.RunPlugin(plugin://plugin.program.jdownloader/?action=addlink&url=%s)' % (sysurl)))
+        liz=xbmcgui.ListItem(name, iconImage="%s/art/vidicon.png"%selfAddon.getAddonInfo("path"), thumbnailImage=iconimage)
+        liz.setInfo( type="Video", infoLabels={ "Title": name } )
+        liz.setProperty('fanart_image', fan)
+        liz.addContextMenuItems(contextMenuItems, replaceItems=True)
+        ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz)
+        return ok
+
 def addInfo(name,url,mode,iconimage,gen,year):
         ok=True
         u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
@@ -477,3 +644,9 @@ def addSpecial(name,url,mode,iconimage):
     u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
     xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=False)
 
+def addSearchDir(name,url, mode,iconimage):
+    #thumbnail = 'DefaultPlaylist.png'
+    u         = sys.argv[0]+"?url="+urllib.quote_plus(url) + "?mode=" + str(mode)        
+    liz       = xbmcgui.ListItem(name, iconImage=iconimage, thumbnailImage=iconimage)
+    liz.setProperty('fanart_image', "%s/fanart.jpg"%selfAddon.getAddonInfo("path"))
+    xbmcplugin.addDirectoryItem(handle = int(sys.argv[1]), url = u, listitem = liz, isFolder = False)

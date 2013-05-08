@@ -421,139 +421,163 @@ def VIDEOLINKS(name,url):
 
 def PUTLINKS(name,url):
         link=main.OPENURL(url)
+        main.addLink("[COLOR red]For Download Options, Bring up Context Menu Over Selected Link.[/COLOR]",'','')
         putlocker=re.compile('<li class=link_name>putlocker</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         for url in putlocker:
-                main.addPlayb(name,url,5,"%s/art/put.png"%selfAddon.getAddonInfo("path"),"%s/art/put.png"%selfAddon.getAddonInfo("path"))
+                main.addDown(name,url,5,"%s/art/put.png"%selfAddon.getAddonInfo("path"),"%s/art/put.png"%selfAddon.getAddonInfo("path"))
         if len(putlocker) == 0:
                 putlocker=re.compile("""javascript:window.open.+?'http://movie25.com/redirect.php.?url=(.+?)','.+?',.+?>(.+?)</a></span>""").findall(link)
                 for url,part in putlocker:
                         match=re.compile("putlocker").findall(url)
                         if len(match) > 0:
-                                main.addPlayb(name+"  [COLOR red]Part:"+part+"[/COLOR]",url,171,"%s/art/put.png"%selfAddon.getAddonInfo("path"),"%s/art/put.png"%selfAddon.getAddonInfo("path"))
+                                main.addDown(name+"  [COLOR red]Part:"+part+"[/COLOR]",url,171,"%s/art/put.png"%selfAddon.getAddonInfo("path"),"%s/art/put.png"%selfAddon.getAddonInfo("path"))
 def SOCKLINKS(name,url):
         link=main.OPENURL(url)
+        main.addLink("[COLOR red]For Download Options, Bring up Context Menu Over Selected Link.[/COLOR]",'','')
         sockshare=re.compile('<li class=link_name>sockshare</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         for url in sockshare:
-                main.addPlayb(name,url,5,"%s/art/Sockshare.png"%selfAddon.getAddonInfo("path"),"%s/art/Sockshare.png"%selfAddon.getAddonInfo("path"))
+                main.addDown(name,url,5,"%s/art/Sockshare.png"%selfAddon.getAddonInfo("path"),"%s/art/Sockshare.png"%selfAddon.getAddonInfo("path"))
         if len(sockshare) == 0:
                 sockshare=re.compile("""javascript:window.open.+?'http://movie25.com/redirect.php.?url=(.+?)','.+?',.+?>(.+?)</a></span>""").findall(link)
                 for url,part in sockshare:
                         match=re.compile("sockshare").findall(url)
                         if len(match) > 0:
-                                main.addPlayb(name+"  [COLOR red]Part:"+part+"[/COLOR]",url,171,"%s/art/Sockshare.png"%selfAddon.getAddonInfo("path"),"%s/art/Sockshare.png"%selfAddon.getAddonInfo("path"))
+                                main.addDown(name+"  [COLOR red]Part:"+part+"[/COLOR]",url,171,"%s/art/Sockshare.png"%selfAddon.getAddonInfo("path"),"%s/art/Sockshare.png"%selfAddon.getAddonInfo("path"))
 def NOWLINKS(name,url):
         link=main.OPENURL(url)
+        main.addLink("[COLOR red]For Download Options, Bring up Context Menu Over Selected Link.[/COLOR]",'','')
         nowvideo=re.compile('<li class=link_name>nowvideo</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         for url in nowvideo:
-                main.addPlayb(name,url,5,"%s/art/nowvideo.png"%selfAddon.getAddonInfo("path"),"%s/art/nowvideo.png"%selfAddon.getAddonInfo("path"))
+                main.addDown(name,url,5,"%s/art/nowvideo.png"%selfAddon.getAddonInfo("path"),"%s/art/nowvideo.png"%selfAddon.getAddonInfo("path"))
 
 def OELINKS(name,url):
         link=main.OPENURL(url)
+        main.addLink("[COLOR red]For Download Options, Bring up Context Menu Over Selected Link.[/COLOR]",'','')
         oeupload=re.compile('<li class=link_name>180upload</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         for url in oeupload:
-                main.addPlayb(name,url,5,"%s/art/180u.png"%selfAddon.getAddonInfo("path"),"%s/art/180u.png"%selfAddon.getAddonInfo("path"))
+                main.addDown(name,url,5,"%s/art/180u.png"%selfAddon.getAddonInfo("path"),"%s/art/180u.png"%selfAddon.getAddonInfo("path"))
 def FNLINKS(name,url):
         link=main.OPENURL(url)
+        main.addLink("[COLOR red]For Download Options, Bring up Context Menu Over Selected Link.[/COLOR]",'','')
         filenuke=re.compile('<li class=link_name>filenuke</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         for url in filenuke:
-                main.addPlayb(name,url,5,"%s/art/fn.png"%selfAddon.getAddonInfo("path"),"%s/art/fn.png"%selfAddon.getAddonInfo("path"))
+                main.addDown(name,url,5,"%s/art/fn.png"%selfAddon.getAddonInfo("path"),"%s/art/fn.png"%selfAddon.getAddonInfo("path"))
 def FLALINKS(name,url):
         link=main.OPENURL(url)
+        main.addLink("[COLOR red]For Download Options, Bring up Context Menu Over Selected Link.[/COLOR]",'','')
         flashx=re.compile('<li class=link_name>flashx</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         for url in flashx:
-                main.addPlayb(name,url,5,"%s/art/flash.png"%selfAddon.getAddonInfo("path"),"%s/art/flash.png"%selfAddon.getAddonInfo("path"))
+                main.addDown(name,url,5,"%s/art/flash.png"%selfAddon.getAddonInfo("path"),"%s/art/flash.png"%selfAddon.getAddonInfo("path"))
 def VIDLINKS(name,url):
         link=main.OPENURL(url)
+        main.addLink("[COLOR red]For Download Options, Bring up Context Menu Over Selected Link.[/COLOR]",'','')
         vidbux=re.compile('<li class=link_name>vidbux</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         for url in vidbux:
-                main.addPlayb(name,url,5,"%s/art/vidb.png"%selfAddon.getAddonInfo("path"),"%s/art/vidb.png"%selfAddon.getAddonInfo("path"))
+                main.addDown(name,url,5,"%s/art/vidb.png"%selfAddon.getAddonInfo("path"),"%s/art/vidb.png"%selfAddon.getAddonInfo("path"))
 def NOVLINKS(name,url):
         link=main.OPENURL(url)
+        main.addLink("[COLOR red]For Download Options, Bring up Context Menu Over Selected Link.[/COLOR]",'','')
         novamov=re.compile('<li class=link_name>novamov</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         for url in novamov:
-                main.addPlayb(name,url,5,"%s/art/nov.png"%selfAddon.getAddonInfo("path"),"%s/art/nov.png"%selfAddon.getAddonInfo("path"))
+                main.addDown(name,url,5,"%s/art/nov.png"%selfAddon.getAddonInfo("path"),"%s/art/nov.png"%selfAddon.getAddonInfo("path"))
 def UPLINKS(name,url):
         link=main.OPENURL(url)
+        main.addLink("[COLOR red]For Download Options, Bring up Context Menu Over Selected Link.[/COLOR]",'','')
         uploadc=re.compile('<li class=link_name>uploadc</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         for url in uploadc:
-                main.addPlayb(name,url,5,"%s/art/uc.png"%selfAddon.getAddonInfo("path"),"%s/art/uc.png"%selfAddon.getAddonInfo("path"))
+                main.addDown(name,url,5,"%s/art/uc.png"%selfAddon.getAddonInfo("path"),"%s/art/uc.png"%selfAddon.getAddonInfo("path"))
 def XVLINKS(name,url):
         link=main.OPENURL(url)
+        main.addLink("[COLOR red]For Download Options, Bring up Context Menu Over Selected Link.[/COLOR]",'','')
         xvidstage=re.compile('<li class=link_name>xvidstage</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         for url in xvidstage:
-                main.addPlayb(name,url,5,"%s/art/xvid.png"%selfAddon.getAddonInfo("path"),"%s/art/xvid.png"%selfAddon.getAddonInfo("path"))
+                main.addDown(name,url,5,"%s/art/xvid.png"%selfAddon.getAddonInfo("path"),"%s/art/xvid.png"%selfAddon.getAddonInfo("path"))
 def ZOOLINKS(name,url):
         link=main.OPENURL(url)
+        main.addLink("[COLOR red]For Download Options, Bring up Context Menu Over Selected Link.[/COLOR]",'','')
         zooupload=re.compile('<li class=link_name>zooupload</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         for url in zooupload:
-                main.addPlayb(name,url,5,"%s/art/zooup.png"%selfAddon.getAddonInfo("path"),"%s/art/zooup.png"%selfAddon.getAddonInfo("path"))
+                main.addDown(name,url,5,"%s/art/zooup.png"%selfAddon.getAddonInfo("path"),"%s/art/zooup.png"%selfAddon.getAddonInfo("path"))
 def ZALINKS(name,url):
         link=main.OPENURL(url)
+        main.addLink("[COLOR red]For Download Options, Bring up Context Menu Over Selected Link.[/COLOR]",'','')
         zalaa=re.compile('<li class=link_name>zalaa</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         for url in zalaa:
-                main.addPlayb(name,url,5,"%s/art/zalaa.png"%selfAddon.getAddonInfo("path"),"%s/art/zalaa.png"%selfAddon.getAddonInfo("path"))
+                main.addDown(name,url,5,"%s/art/zalaa.png"%selfAddon.getAddonInfo("path"),"%s/art/zalaa.png"%selfAddon.getAddonInfo("path"))
 def VIDXLINKS(name,url):
         link=main.OPENURL(url)
+        main.addLink("[COLOR red]For Download Options, Bring up Context Menu Over Selected Link.[/COLOR]",'','')
         vidxden=re.compile('<li class=link_name>vidxden</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         for url in vidxden:
-                main.addPlayb(name,url,5,"%s/art/vidx.png"%selfAddon.getAddonInfo("path"),"%s/art/vidx.png"%selfAddon.getAddonInfo("path"))
+                main.addDown(name,url,5,"%s/art/vidx.png"%selfAddon.getAddonInfo("path"),"%s/art/vidx.png"%selfAddon.getAddonInfo("path"))
 
 def PLAYEDLINKS(name,url):
         link=main.OPENURL(url)
+        main.addLink("[COLOR red]For Download Options, Bring up Context Menu Over Selected Link.[/COLOR]",'','')
         played=re.compile('<li class=link_name>played</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         for url in played:
-                main.addPlayb(name,url,5,"%s/art/played.png"%selfAddon.getAddonInfo("path"),"%s/art/played.png"%selfAddon.getAddonInfo("path"))
+                main.addDown(name,url,5,"%s/art/played.png"%selfAddon.getAddonInfo("path"),"%s/art/played.png"%selfAddon.getAddonInfo("path"))
 
 def MOVSHLINKS(name,url):
         link=main.OPENURL(url)
+        main.addLink("[COLOR red]For Download Options, Bring up Context Menu Over Selected Link.[/COLOR]",'','')
         moveshare=re.compile('<li class=link_name>moveshare</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         for url in moveshare:
-                main.addPlayb(name,url,5,"%s/art/moveshare.png"%selfAddon.getAddonInfo("path"),"%s/art/moveshare.png"%selfAddon.getAddonInfo("path"))
+                main.addDown(name,url,5,"%s/art/moveshare.png"%selfAddon.getAddonInfo("path"),"%s/art/moveshare.png"%selfAddon.getAddonInfo("path"))
 def DIVXSLINKS(name,url):
         link=main.OPENURL(url)
+        main.addLink("[COLOR red]For Download Options, Bring up Context Menu Over Selected Link.[/COLOR]",'','')
         divxstage=re.compile('<li class=link_name>divxstage</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         for url in divxstage:
-                main.addPlayb(name,url,5,"%s/art/divxstage.png"%selfAddon.getAddonInfo("path"),"%s/art/divxstage.png"%selfAddon.getAddonInfo("path"))
+                main.addDown(name,url,5,"%s/art/divxstage.png"%selfAddon.getAddonInfo("path"),"%s/art/divxstage.png"%selfAddon.getAddonInfo("path"))
 def SSIXLINKS(name,url):
         link=main.OPENURL(url)
+        main.addLink("[COLOR red]For Download Options, Bring up Context Menu Over Selected Link.[/COLOR]",'','')
         sharesix=re.compile('<li class=link_name>sharesix</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         for url in sharesix:
-                main.addPlayb(name,url,5,"%s/art/sharesix.png"%selfAddon.getAddonInfo("path"),"%s/art/sharesix.png"%selfAddon.getAddonInfo("path"))
+                main.addDown(name,url,5,"%s/art/sharesix.png"%selfAddon.getAddonInfo("path"),"%s/art/sharesix.png"%selfAddon.getAddonInfo("path"))
 def GORLINKS(name,url):
         link=main.OPENURL(url)
+        main.addLink("[COLOR red]For Download Options, Bring up Context Menu Over Selected Link.[/COLOR]",'','')
         gorillavid=re.compile('<li class=link_name>gorillavid</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         for url in gorillavid:
-                main.addPlayb(name,url,5,"%s/art/gorillavid.png"%selfAddon.getAddonInfo("path"),"%s/art/gorillavid.png"%selfAddon.getAddonInfo("path"))
+                main.addDown(name,url,5,"%s/art/gorillavid.png"%selfAddon.getAddonInfo("path"),"%s/art/gorillavid.png"%selfAddon.getAddonInfo("path"))
 def MOVPLINKS(name,url):
         link=main.OPENURL(url)
+        main.addLink("[COLOR red]For Download Options, Bring up Context Menu Over Selected Link.[/COLOR]",'','')
         movpod=re.compile('<li class=link_name>movpod</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         for url in movpod:
-                main.addPlayb(name,url,5,"%s/art/movpod.png"%selfAddon.getAddonInfo("path"),"%s/art/movpod.png"%selfAddon.getAddonInfo("path"))
+                main.addDown(name,url,5,"%s/art/movpod.png"%selfAddon.getAddonInfo("path"),"%s/art/movpod.png"%selfAddon.getAddonInfo("path"))
 def DACLINKS(name,url):
         link=main.OPENURL(url)
+        main.addLink("[COLOR red]For Download Options, Bring up Context Menu Over Selected Link.[/COLOR]",'','')
         daclips=re.compile('<li class=link_name>daclips</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         for url in daclips:
-                main.addPlayb(name,url,5,"%s/art/daclips.png"%selfAddon.getAddonInfo("path"),"%s/art/daclips.png"%selfAddon.getAddonInfo("path"))
+                main.addDown(name,url,5,"%s/art/daclips.png"%selfAddon.getAddonInfo("path"),"%s/art/daclips.png"%selfAddon.getAddonInfo("path"))
 def VWEEDLINKS(name,url):
         link=main.OPENURL(url)
+        main.addLink("[COLOR red]For Download Options, Bring up Context Menu Over Selected Link.[/COLOR]",'','')
         videoweed=re.compile('<li class=link_name>videoweed</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         for url in videoweed:
-                main.addPlayb(name,url,5,"%s/art/Videoweed.png"%selfAddon.getAddonInfo("path"),"%s/art/Videoweed.png"%selfAddon.getAddonInfo("path"))
+                main.addDown(name,url,5,"%s/art/Videoweed.png"%selfAddon.getAddonInfo("path"),"%s/art/Videoweed.png"%selfAddon.getAddonInfo("path"))
 def MOVDLINKS(name,url):
         link=main.OPENURL(url)
+        main.addLink("[COLOR red]For Download Options, Bring up Context Menu Over Selected Link.[/COLOR]",'','')
         movdivx=re.compile('<li class=link_name>movdivx</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         for url in movdivx:
-                main.addPlayb(name,url,5,"%s/art/movdivx.png"%selfAddon.getAddonInfo("path"),"%s/art/movdivx.png"%selfAddon.getAddonInfo("path"))
+                main.addDown(name,url,5,"%s/art/movdivx.png"%selfAddon.getAddonInfo("path"),"%s/art/movdivx.png"%selfAddon.getAddonInfo("path"))
 def MOVRLINKS(name,url):
         link=main.OPENURL(url)
+        main.addLink("[COLOR red]For Download Options, Bring up Context Menu Over Selected Link.[/COLOR]",'','')
         movreel=re.compile('<li class=link_name>movreel</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         for url in movreel:
-                main.addPlayb(name,url,5,"%s/art/movreel.png"%selfAddon.getAddonInfo("path"),"%s/art/movreel.png"%selfAddon.getAddonInfo("path"))
+                main.addDown(name,url,5,"%s/art/movreel.png"%selfAddon.getAddonInfo("path"),"%s/art/movreel.png"%selfAddon.getAddonInfo("path"))
 def BUPLOADSLINKS(name,url):
         link=main.OPENURL(url)
+        main.addLink("[COLOR red]For Download Options, Bring up Context Menu Over Selected Link.[/COLOR]",'','')
         billionuploads=re.compile('<li class=link_name>billionuploads</li><li class=".+?"><span><a href=(.+?) target=".+?">').findall(link)
         for url in billionuploads:
-                main.addPlayb(name,url,5,"%s/art/billionuploads.png"%selfAddon.getAddonInfo("path"),"%s/art/billionuploads.png"%selfAddon.getAddonInfo("path"))
+                main.addDown(name,url,5,"%s/art/billionuploads.png"%selfAddon.getAddonInfo("path"),"%s/art/billionuploads.png"%selfAddon.getAddonInfo("path"))
 
 
 
@@ -578,21 +602,22 @@ def PLAY(name,murl):
         infoLabels = main.GETMETAB(name,'',year,'')
         link=main.OPENURL(murl)
         match=re.compile("Javascript:location.?href=.+?'(.+?)\'").findall(link)
-        for url in match:
-            print url
+        for murl in match:
+            print murl
         playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
         playlist.clear()
         listitem = xbmcgui.ListItem(name, iconImage="DefaultVideo.png",thumbnailImage=infoLabels['cover_url'])
         listitem.setInfo("Video", infoLabels = infoLabels)
         listitem.setProperty('mimetype', 'video/x-msvideo')
         listitem.setProperty('IsPlayable', 'true')
-        media = urlresolver.HostedMediaFile(url)
+        media = urlresolver.HostedMediaFile(murl)
         source = media
         if source:
                 xbmc.executebuiltin("XBMC.Notification(Please Wait!,Resolving Link,3000)")
                 stream_url = source.resolve()
         else:
-              stream_url = False  
+              stream_url = False
+        print "hello "+ stream_url
         playlist.add(stream_url,listitem)
         xbmcPlayer = xbmc.Player()
         xbmcPlayer.play(playlist)

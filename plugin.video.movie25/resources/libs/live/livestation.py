@@ -16,12 +16,19 @@ def LivestationList(murl):
         main.addLink('Euronews Arabic','http://akamedia10.lsops.net/live/smil:euronews_ar.smil/playlist.m3u8','http://beta.cdn.livestation.com/uploads/channel/ident/1/medium_euronews.jpg')
         match=re.compile('<a href="(.+?)"><img alt=".+?" src="(.+?)" /></a>\n</div>\n<h3>\n<a href=".+?">(.+?)</a>').findall(link)
         for url,thumb,name in match:
-            main.addPlay(name,'http://mobile.livestation.com'+url,117,thumb)
+                if name=='FRANCE 24' or name=='RT':
+                         main.addDir(name,'http://mobile.livestation.com'+url,117,thumb)
+                        
+                else:
+                        main.addPlay(name,'http://mobile.livestation.com'+url,117,thumb)
+                       
+
 
 def LivestationLink(mname,murl):
         link=main.OPENURL(murl)
-        link=link.replace('href="/en/sessions/new','')
-        match= re.compile('\n<li>\n<a href="(.+?)">(.+?)</a>\n</li>').findall(link)
+        link=link.replace('href="/en/sessions/new','').replace('href="/en/contacts/new">','').replace('href="/redirect?locale=en">','')
+        link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
+        match= re.compile('<li><a href="(.+?)">(.+?)</a></li>').findall(link)
         if len(match)>1:
             for url, name in match:
                 main.addPlay(name,'http://mobile.livestation.com'+url,118,'')
@@ -36,7 +43,7 @@ def LivestationLink2(mname,murl):
         playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
         playlist.clear()
         rtmp= re.compile('"streamer":"(.+?)"').findall(link)
-        match= re.compile('"file":"(.+?)high.sdp"').findall(link)
+        match= re.compile('"file":".+?".+?"file":"([^<]+)high.sdp"').findall(link)
         if len(match)>0 and len(rtmp)>0:
             for fid in match[0:1]:
                 stream_url = rtmp[0]+' playpath='+fid+'high.sdp swfUrl=http://beta.cdn.livestation.com/player/5.10/livestation-player.swf pageUrl='+murl
