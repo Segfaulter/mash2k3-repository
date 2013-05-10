@@ -67,7 +67,7 @@ def EPILIST(murl):
                     main.addSport(name,url,617,thumb,desc,'','')
 
 def LINK(mname,murl):
-        main.GA("dubzonline-"+manme,"Watched")
+        main.GA("dubzonline-"+mname,"Watched")
         sources = []
         ok=True
         link=main.OPENURL(murl)

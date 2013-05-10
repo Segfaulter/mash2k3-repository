@@ -53,7 +53,7 @@ def MAIN():
             open(notified,'w').write('version="%s",'%mashup)
             dialog = xbmcgui.Dialog()
             ok=dialog.ok('[B]Attention!!![/B]', "Check out the New download function" ,'for now only works with Movie25 content','will add to other sections soon.')
-            ok=dialog.ok('[B]VERSION 1.3.0[/B]', 'New changes in the following sections','Live, Plugin and several fixes', 'Check change log, Thanks and Enjoy')
+            ok=dialog.ok('[B]VERSION 1.3.1[/B]', 'New changes in the following sections','Live, Plugin and several fixes', 'Check change log, Thanks and Enjoy')
             mashup=mashup-1
             notified=os.path.join(main.datapath,str(mashup))
             if  os.path.exists(notified):
@@ -83,8 +83,7 @@ def MAIN():
         main.addPlay('Need Help?','http://www.movie25.com/',100,"%s/art/xbmchub.png"%selfAddon.getAddonInfo("path"))
         main.addLink('@mashupxbmc','',"%s/art/twittermash.png"%selfAddon.getAddonInfo("path"))
         main.addPlay('Install Hub Maintenance','http://www.movie25.com/',156,"%s/art/hubmain.png"%selfAddon.getAddonInfo("path"))
-        main.VIEWSB()
-
+        
         main.CheckVersion()#Checks If Plugin Version is up to date
 
         #Announcement Notifier from xml file
@@ -113,7 +112,7 @@ def MAIN():
     
         else:
             print 'Github Link Down'
-
+        main.VIEWSB()
         
 def GENRE(url):
         main.addDir('Action','http://www.movie25.com/movies/action/',1,"%s/art/act.png"%selfAddon.getAddonInfo("path"))
@@ -274,12 +273,13 @@ def LiveStreams():
             print 'Github Link Down'
         main.addDir('Livestation News','http://mobile.livestation.com/',116,"%s/art/livestation.png"%selfAddon.getAddonInfo("path"))
         main.addDir('iLive Streams','ilive',119,"%s/art/ilive.png"%selfAddon.getAddonInfo("path"))
-        main.addDir('Desi Streams','desi',129,"%s/art/desistream.png"%selfAddon.getAddonInfo("path"))
+        #main.addDir('Desi Streams','desi',129,"%s/art/desistream.png"%selfAddon.getAddonInfo("path"))
         main.addDir('Castalba Streams','castalgba',122,"%s/art/castalba.png"%selfAddon.getAddonInfo("path"))
         main.addDir('Misc. Music Streams','music',127,"%s/art/miscmusic.png"%selfAddon.getAddonInfo("path"))
         main.addDir('Playlists','navi',138,"%s/art/random.png"%selfAddon.getAddonInfo("path"))
         main.addDir('By Country','navi',143,"%s/art/countrysec.png"%selfAddon.getAddonInfo("path"))
-        main.addDir('Arabic Streams','http://dl.dropboxusercontent.com/u/24189578/ArabicTVOfAmerica/xml/channelsList.html',187,"%s/art/arabicstream.png"%selfAddon.getAddonInfo("path"))
+        main.addDir("Crus & SLR's Arabic Streams",'https://nkjtvt.googlecode.com/svn/trunk/playlists/crus&slr.xml',158,"%s/art/crusslr.png"%selfAddon.getAddonInfo("path"))
+        #main.addDir('Arabic Streams','http://dl.dropboxusercontent.com/u/24189578/ArabicTVOfAmerica/xml/channelsList.html',187,"%s/art/arabicstream.png"%selfAddon.getAddonInfo("path"))
         try:
                 link=main.OPENURL('http://github.com/mash2k3/mash2k3-repository/raw/master/Misc%20items/LiveDirectory(mash2k3Only).xml')
         except:

@@ -21,7 +21,7 @@ if selfAddon.getSetting('visitor_ga')=='':
     from random import randint
     selfAddon.setSetting('visitor_ga',str(randint(0, 0x7fffffff)))
 
-VERSION = "1.3.0"
+VERSION = "1.3.1"
 PATH = "MashUp-"            
 UATRACK="UA-38312513-1" 
 
@@ -223,7 +223,7 @@ def GETMETAEpi(mname,data):
         
         return infoLabels
 
-############################################################################### Download Code ################################################################
+############################################################################### Download Code ###########################################################################################
 downloadPath = selfAddon.getSetting('download-folder')
 
 class StopDownloading(Exception): 
@@ -585,8 +585,27 @@ def addDown(name,url,mode,iconimage,fan):
         ok=True
         link=OPENURL(url)
         match=re.compile("Javascript:location.?href=.+?'(.+?)\'").findall(link)
-        for url in match:
+        if len(match)>0:
+            for url in match:
+                sysurl = urllib.quote_plus(url)
+        else:
             sysurl = urllib.quote_plus(url)
+        sysname= urllib.quote_plus(name)
+        contextMenuItems.append(('Direct Download', 'XBMC.RunPlugin(%s?mode=190&name=%s&url=%s)' % (sys.argv[0], sysname, sysurl)))
+        contextMenuItems.append(('Download with jDownloader', 'XBMC.RunPlugin(plugin://plugin.program.jdownloader/?action=addlink&url=%s)' % (sysurl)))
+        liz=xbmcgui.ListItem(name, iconImage="%s/art/vidicon.png"%selfAddon.getAddonInfo("path"), thumbnailImage=iconimage)
+        liz.setInfo( type="Video", infoLabels={ "Title": name } )
+        liz.setProperty('fanart_image', fan)
+        liz.addContextMenuItems(contextMenuItems, replaceItems=True)
+        ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz)
+        return ok
+
+
+def addDown2(name,url,mode,iconimage,fan):
+        contextMenuItems = []
+        u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
+        ok=True
+        sysurl = urllib.quote_plus(url)
         sysname= urllib.quote_plus(name)
         contextMenuItems.append(('Direct Download', 'XBMC.RunPlugin(%s?mode=190&name=%s&url=%s)' % (sys.argv[0], sysname, sysurl)))
         contextMenuItems.append(('Download with jDownloader', 'XBMC.RunPlugin(plugin://plugin.program.jdownloader/?action=addlink&url=%s)' % (sysurl)))
