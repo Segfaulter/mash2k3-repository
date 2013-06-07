@@ -1,12 +1,31 @@
 mess1 mess2
 
-ANNOUNCEMENTWINDOW ="OFF"
+ANNOUNCEMENTWINDOW ="ON"
 
 <item>
 <new>mess1</new>
 <message1>If you installed Mashup using super repo, unintall it.</message1>
 <message2>Get Mashup using Fusion from XBMCHUB.COM.</message2>
 <message3>For instructions on how to install fusion visit xbmchub.</message3>
-<ANNOUNCEMENT>Hello Mash2k3</ANNOUNCEMENT>
+<ANNOUNCEMENT>[B]Version 1.3.0[/B]
+
+-Added Direct Download and Jdownloader Functions
+(thanks eldorado, mikey1234 and spoyser)
+-Fixed Btv guide empty list.
+-Fixed Seriesgate empty list.
+-Fixed iwatchonline empty list.
+-Added Arabic streams
+-Added iWatchonline plugin
+-Added dubzonline plugin
+-Fixed Watchseries first episode error.
+-Fixed oneclickwatch.
+-Changed icons to point out movie25 content.
+-Added TubTub to live section
+-Fixed Movie1k.
+-Added DVD releases for movie25
+-Fixed Movie1k.
+-Added 181fm radio streams
+-Fixed vice, sceper and livestation.
+-Added announcement notifier thru xml file.</ANNOUNCEMENT>
 <old>mess2</old>
 </item>
