@@ -1,6 +1,6 @@
 mess1 mess2
 
-ANNOUNCEMENTWINDOW ="ON"
+ANNOUNCEMENTWINDOW ="OFF"
 
 <item>
 <new>mess1</new>
