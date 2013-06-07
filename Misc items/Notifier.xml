@@ -1,8 +1,12 @@
 mess1 mess2
+
+ANNOUNCEMENTWINDOW ="ON"
+
 <item>
 <new>mess1</new>
 <message1>If you installed Mashup using super repo, unintall it.</message1>
 <message2>Get Mashup using Fusion from XBMCHUB.COM.</message2>
 <message3>For instructions on how to install fusion visit xbmchub.</message3>
+<ANNOUNCEMENT>Hello Mash2k3</ANNOUNCEMENT>
 <old>mess2</old>
 </item>
