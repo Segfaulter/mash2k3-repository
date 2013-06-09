@@ -6,7 +6,7 @@ from resources.libs import main
 
 addon_id = 'plugin.video.movie25'
 selfAddon = xbmcaddon.Addon(id=addon_id)
-
+art = xbmc.translatePath(os.path.join('special://home/addons/plugin.video.movie25/art/hosts', ''))
 
 def LISTSP2(murl):
         if murl=='3D':
@@ -37,10 +37,10 @@ def LISTSP2(murl):
                                 if murl=='TV':
                                         match=re.compile('720p').findall(name)
                                         if (len(match)>0):
-                                                main.addPlay(name,url,35,thumb)
+                                                main.addDir(name,url,35,thumb)
                                      
                                 else:
-                                        main.addPlay(name,url,35,thumb)
+                                        main.addDir(name,url,35,thumb)
                         loadedLinks = loadedLinks + 1
                         percent = (loadedLinks * 100)/totalLinks
                         remaining_display = 'Pages loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
@@ -54,10 +54,10 @@ def LISTSP2(murl):
                                 if murl=='TV':
                                         match=re.compile('720p').findall(name)
                                         if (len(match)>0):
-                                                main.addPlay(name,url,35,thumb)
+                                                main.addDir(name,url,35,thumb)
                                                 
                                 else:
-                                        main.addPlay(name,url,35,thumb)
+                                        main.addDir(name,url,35,thumb)
                         loadedLinks = loadedLinks + 1
                         percent = (loadedLinks * 100)/totalLinks
                         remaining_display = 'Pages loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
@@ -169,12 +169,12 @@ def SEARCHNEW(murl):
         match=re.compile('<a href="(.+?)" rel=".+?" title=".+?"> <img src="(.+?)" width=".+?" height=".+?" title="(.+?)" class=".+?"></a>').findall(link)
         if len(match)>0:
                 for url,thumb,name in match:
-                            main.addPlay(name,url,35,thumb)
+                            main.addDir(name,url,35,thumb)
 
         else:
                 match=re.compile('href="(.+?)" title="(.+?)"><img src="(.+?)" alt=".+?" width=".+?" height=".+?" class=".+?" />').findall(link)
                 for url,name,thumb in match:
-                            main.addPlay(name,url,35,thumb)
+                            main.addDir(name,url,35,thumb)
         main.GA("Newmyvideolinks","Search")
         
 def LISTEtowns(murl):
@@ -204,10 +204,10 @@ def LISTEtowns(murl):
                                 if murl=='TV':
                                         match=re.compile('720p').findall(name)
                                         if (len(match)>0):
-                                                main.addPlay(name,url,35,thumb)
+                                                main.addDir(name,url,35,thumb)
                                      
                                 else:
-                                        main.addPlay(name,url,35,thumb)
+                                        main.addDir(name,url,35,thumb)
                         loadedLinks = loadedLinks + 1
                         percent = (loadedLinks * 100)/totalLinks
                         remaining_display = 'Pages loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
@@ -221,10 +221,10 @@ def LISTEtowns(murl):
                                 if murl=='TV':
                                         match=re.compile('720p').findall(name)
                                         if (len(match)>0):
-                                                main.addPlay(name,url,35,thumb)
+                                                main.addDir(name,url,35,thumb)
                                                 
                                 else:
-                                        main.addPlay(name,url,35,thumb)
+                                        main.addDir(name,url,35,thumb)
                         loadedLinks = loadedLinks + 1
                         percent = (loadedLinks * 100)/totalLinks
                         remaining_display = 'Pages loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
@@ -336,42 +336,48 @@ def SEARCHEtowns(murl):
         match=re.compile('<a href="(.+?)" rel=".+?" title=".+?"> <img src="(.+?)" width=".+?" height=".+?" title="(.+?)" class=".+?"></a>').findall(link)
         if len(match)>0:
                 for url,thumb,name in match:
-                            main.addPlay(name,url,35,thumb)
+                            main.addDir(name,url,35,thumb)
 
         else:
                 match=re.compile('href="(.+?)" title="(.+?)"><img src="(.+?)" alt=".+?" width=".+?" height=".+?" class=".+?" />').findall(link)
                 for url,name,thumb in match:
-                            main.addPlay(name,url,35,thumb)
+                            main.addDir(name,url,35,thumb)
         main.GA("Etowns","Search")
 
 
 def LINKSP2(mname,url):
-        main.GA("Newmyvideolinks","Watched") 
-        sources = []
-        ok=True
         link=main.OPENURL(url)
         link=link.replace('http://go.etowns.net','')
+        main.addLink("[COLOR red]For Download Options, Bring up Context Menu Over Selected Link.[/COLOR]",'','')
         match=re.compile('<li><a href="h(.+?)">(.+?)</a></li>').findall(link)
         for murl, name in match:
+                thumb=name.lower()
                 murl='h'+murl
                 hosted_media = urlresolver.HostedMediaFile(url=murl, title=name)
-                sources.append(hosted_media)
-        if (len(sources)==0):
-                xbmc.executebuiltin("XBMC.Notification(Sorry!,Movie doesn't have playable links,5000)")
-      
+                match2=re.compile("{'url': '(.+?)', 'host': '(.+?)', 'media_id': '.+?'}").findall(str(hosted_media))
+                for murl,host in match2:
+                        main.addDown2(mname+' [COLOR blue]'+name+'[/COLOR]',murl,209,art+thumb+".png",art+thumb+".png")
+        
+
+def LINKSP2B(mname,murl):
+        main.GA("Newmyvideolinks","Watched") 
+        ok=True
+        playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+        playlist.clear()
+        listitem = xbmcgui.ListItem(mname, iconImage="DefaultVideo.png")
+        listitem.setInfo('video', {'Title': mname, 'Year': ''} )
+        hosted_media = urlresolver.HostedMediaFile(murl)
+        source = hosted_media
+        if source:
+                xbmc.executebuiltin("XBMC.Notification(Please Wait!,Resolving Link,3000)")
+                stream_url = source.resolve()
         else:
-                source = urlresolver.choose_source(reversed(sources))
-                if source:
-                        xbmc.executebuiltin("XBMC.Notification(Please Wait!,Actual HD Movie Requires Buffer Time,7000)")
-                        stream_url = source.resolve()
-                else:
-                        stream_url = False
-                        return
-                listitem = xbmcgui.ListItem(mname, iconImage="DefaultVideo.png")
-                listitem.setInfo('video', {'Title': mname, 'Year': ''} )
-                
-                xbmc.Player().play(stream_url, listitem)
-                return ok
+              stream_url = False
+        playlist.add(stream_url,listitem)
+        xbmcPlayer = xbmc.Player()
+        xbmcPlayer.play(playlist)
+        return ok
+
 
 def UFCNEW():
         try: 
@@ -385,12 +391,12 @@ def UFCNEW():
                         for url,thumb,name in match:
                                 match=re.compile('UFC').findall(name)
                                 if len(match)>0:
-                                        main.addPlay(name,url,35,thumb)
+                                        main.addDir(name,url,35,thumb)
 
                 else:
                         match=re.compile('href="(.+?)" title="(.+?)"><img src="(.+?)" alt=".+?" width=".+?" height=".+?" class=".+?" />').findall(link)
                         for url,name,thumb in match:
                                 match=re.compile('UFC').findall(name)
                                 if len(match)>0:
-                                       main.addPlay(name,url,35,thumb)
+                                       main.addDir(name,url,35,thumb)
         main.GA("Newmyvideolinks","UFC")

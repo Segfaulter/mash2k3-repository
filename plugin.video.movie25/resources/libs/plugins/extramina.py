@@ -41,8 +41,10 @@ def LISTEXrecent(murl):
 def LISTEXgenre(murl):     
         link=main.OPENURL(murl)
         link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','').replace('\xc2\xa0','')
-        match = re.compile('title="Permanent Link to (.+?)">.+?</a></h1><a href="(.+?)" rel=".+?" title=".+?"><img alt=".+?" class=".+?" src="(.+?)"></a><a title=".+?" href=".+?" target=".+?" href=".+?" target=".+?" rel=".+?".+?</a><br/>(.+?)<div class="post-info">').findall(link)
-        for  name,url, thumb,desc in match:
+        match=re.compile('<a itemprop="url" href="(.+?)" rel=".+?" title="Permanent Link to (.+?)"><img itemprop="thumbnailUrl" alt=".+?" class="smallposter" src="(.+?)"></a>.+?<span itemprop="description">(.+?)</span>').findall(link)
+        if len(match)==0:
+                match = re.compile('<h1 class="post-title"><a href="([^<]+)" rel=".+?" title=".+?">([^<]+)</a></h1><img style=.+? src="(.+?)">(.+?)<div').findall(link)
+        for url, name, thumb,desc in match:
                 main.addSport(name,url,536,thumb,desc,'','')
         paginate = re.compile("<a href='([^<]+)' class='nextpostslink'>»</a>").findall(link)
         if len(paginate)>0:
@@ -205,15 +207,9 @@ def VIDEOLINKSEXTRA(mname,murl):
         link=main.OPENURL(murl)
         ok=True
         xbmc.executebuiltin("XBMC.Notification(Please Wait!,Collecting hosts,5000)")
-        match=re.compile('class="autohyperlink" title="(.+?)" target="_blank"').findall(link)
-        for url in match:
-                match2=re.compile('http://(.+?)/.+?').findall(url)
-                for host in match2:
-                    host = host.replace('www.','')
-                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
-                sources.append(hosted_media)
+        match=re.compile('<div class="streamlink"><a target=".+?" href="http://adf.ly/.+?/(.+?)">(.+?)</a></div>').findall(link)
+        for url, host in match:
                 match3=re.compile('extraminamovies').findall(url)
-                print len(match3)
                 if len(match3)>0:
                     link2=main.OPENURL(url)
                     match = re.compile('<iframe src="(.+?)"').findall(link2)
@@ -223,8 +219,8 @@ def VIDEOLINKSEXTRA(mname,murl):
                             host = host.replace('www.','')
                             if host =='putlocker.com':
                                 url=url.replace('embed','file')
-                        hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
-                        sources.append(hosted_media)        
+                hosted_media = urlresolver.HostedMediaFile(url=url, title=host)
+                sources.append(hosted_media)        
         if (len(sources)==0):
                 xbmc.executebuiltin("XBMC.Notification(Sorry!,Show doesn't have playable links,5000)")
       

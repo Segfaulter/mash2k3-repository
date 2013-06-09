@@ -174,93 +174,93 @@ def LISTHOST(name,murl):
         putlocker=re.compile('<span>putlocker.com</span></td><td> <a target=".+?" href="(.+?)"').findall(link)
         if len(putlocker) > 0:
             for url in putlocker:
-                main.addPlayb(name+"[COLOR blue] : Putlocker[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/put.png"%selfAddon.getAddonInfo("path"),"%s/art/put.png"%selfAddon.getAddonInfo("path"))
+                main.addDown2(name+"[COLOR blue] : Putlocker[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/hosts/putlocker.png"%selfAddon.getAddonInfo("path"),"%s/art/hosts/putlocker.png"%selfAddon.getAddonInfo("path"))
         sockshare=re.compile('<span>sockshare.com</span></td><td> <a target=".+?" href="(.+?)"').findall(link)
         if len(sockshare) > 0:
             for url in sockshare:
-                main.addPlayb(name+"[COLOR blue] : Sockshare[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/Sockshare.png"%selfAddon.getAddonInfo("path"),"%s/art/Sockshare.png"%selfAddon.getAddonInfo("path"))
+                main.addDown2(name+"[COLOR blue] : Sockshare[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/hosts/sockshare.png"%selfAddon.getAddonInfo("path"),"%s/art/hosts/sockshare.png"%selfAddon.getAddonInfo("path"))
         nowvideo=re.compile('<span>nowvideo.co</span></td><td> <a target=".+?" href="(.+?)"').findall(link)
         if len(nowvideo) > 0:
             for url in nowvideo:
-                main.addPlayb(name+"[COLOR blue] : Nowvideo[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/nowvideo.png"%selfAddon.getAddonInfo("path"),"%s/art/nowvideo.png"%selfAddon.getAddonInfo("path"))
+                main.addDown2(name+"[COLOR blue] : Nowvideo[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/hosts/nowvideo.png"%selfAddon.getAddonInfo("path"),"%s/art/hosts/nowvideo.png"%selfAddon.getAddonInfo("path"))
         oeupload=re.compile('<span>180upload.com/span></td><td> <a target=".+?" href="(.+?)"').findall(link)
         if len(oeupload) > 0:
             for url in oeupload:
-                main.addPlayb(name+"[COLOR blue] : 180upload[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/180u.png"%selfAddon.getAddonInfo("path"),"%s/art/180u.png"%selfAddon.getAddonInfo("path"))
+                main.addDown2(name+"[COLOR blue] : 180upload[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/hosts/180upload.png"%selfAddon.getAddonInfo("path"),"%s/art/hosts/180upload.png"%selfAddon.getAddonInfo("path"))
         filenuke=re.compile('<span>filenuke.com</span></td><td> <a target=".+?" href="(.+?)"').findall(link)
         if len(filenuke) > 0:
             for url in filenuke:
-                main.addPlayb(name+"[COLOR blue] : Filenuke[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/fn.png"%selfAddon.getAddonInfo("path"),"%s/art/fn.png"%selfAddon.getAddonInfo("path"))
+                main.addDown2(name+"[COLOR blue] : Filenuke[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/hosts/filenuke.png"%selfAddon.getAddonInfo("path"),"%s/art/hosts/filenuke.png"%selfAddon.getAddonInfo("path"))
         flashx=re.compile('<span>flashx.tv</span></td><td> <a target=".+?" href="(.+?)"').findall(link)
         if len(flashx) > 0:
             for url in flashx:
-                main.addPlayb(name+"[COLOR blue] : Flashx[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/flash.png"%selfAddon.getAddonInfo("path"),"%s/art/flash.png"%selfAddon.getAddonInfo("path"))
+                main.addDown2(name+"[COLOR blue] : Flashx[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/hosts/flashx.png"%selfAddon.getAddonInfo("path"),"%s/art/hosts/flashx.png"%selfAddon.getAddonInfo("path"))
         novamov=re.compile('<span>novamov.com</span></td><td> <a target=".+?" href="(.+?)"').findall(link)
         if len(novamov) > 0:
             for url in novamov:
-                main.addPlayb(name+"[COLOR blue] : Novamov[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/nov.png"%selfAddon.getAddonInfo("path"),"%s/art/nov.png"%selfAddon.getAddonInfo("path"))
+                main.addDown2(name+"[COLOR blue] : Novamov[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/hosts/novamov.png"%selfAddon.getAddonInfo("path"),"%s/art/hosts/novamov.png"%selfAddon.getAddonInfo("path"))
         uploadc=re.compile('<span>uploadc.com</span></td><td> <a target=".+?" href="(.+?)"').findall(link)
         if len(uploadc) > 0:
             for url in uploadc:
-                main.addPlayb(name+"[COLOR blue] : Uploadc[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/uc.png"%selfAddon.getAddonInfo("path"),"%s/art/uc.png"%selfAddon.getAddonInfo("path"))
+                main.addDown2(name+"[COLOR blue] : Uploadc[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/hosts/uploadc.png"%selfAddon.getAddonInfo("path"),"%s/art/hosts/uploadc.png"%selfAddon.getAddonInfo("path"))
         xvidstage=re.compile('<span>xvidstage.com</span></td><td> <a target=".+?" href="(.+?)"').findall(link)
         if len(xvidstage) > 0:
             for url in xvidstage:
-                main.addPlayb(name+"[COLOR blue] : Xvidstage[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/xvid.png"%selfAddon.getAddonInfo("path"),"%s/art/xvid.png"%selfAddon.getAddonInfo("path"))
+                main.addDown2(name+"[COLOR blue] : Xvidstage[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/hosts/xvidstage.png"%selfAddon.getAddonInfo("path"),"%s/art/hosts/xvidstage.png"%selfAddon.getAddonInfo("path"))
         stagevu=re.compile('<span>stagevu.com</span></td><td> <a target=".+?" href="(.+?)"').findall(link)
         if len(stagevu) > 0:
             for url in stagevu:
-                main.addPlayb(name+"[COLOR blue] : StageVu[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/stagevu.png"%selfAddon.getAddonInfo("path"),"%s/art/stagevu.png"%selfAddon.getAddonInfo("path"))        
+                main.addDown2(name+"[COLOR blue] : StageVu[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/hosts/stagevu.png"%selfAddon.getAddonInfo("path"),"%s/art/hosts/stagevu.png"%selfAddon.getAddonInfo("path"))        
         gorillavid=re.compile('<span>gorillavid.in</span></td><td> <a target=".+?" href="(.+?)"').findall(link)
         if len(gorillavid)==0:
                 gorillavid=re.compile('<span>gorillavid.com</span></td><td> <a target=".+?" href="(.+?)"').findall(link)
         if len(gorillavid) > 0:
             for url in gorillavid:
-                main.addPlayb(name+"[COLOR blue] : Gorillavid[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/gorillavid.png"%selfAddon.getAddonInfo("path"),"%s/art/gorillavid.png"%selfAddon.getAddonInfo("path"))
+                main.addDown2(name+"[COLOR blue] : Gorillavid[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/hosts/gorillavid.png"%selfAddon.getAddonInfo("path"),"%s/art/hosts/gorillavid.png"%selfAddon.getAddonInfo("path"))
         divxstage=re.compile('<span>divxstage.eu</span></td><td> <a target=".+?" href="(.+?)"').findall(link)
         if len(divxstage) > 0:
             for url in divxstage:
-                main.addPlayb(name+"[COLOR blue] : Divxstage[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/divxstage.png"%selfAddon.getAddonInfo("path"),"%s/art/divxstage.png"%selfAddon.getAddonInfo("path"))
+                main.addDown2(name+"[COLOR blue] : Divxstage[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/hosts/divxstage.png"%selfAddon.getAddonInfo("path"),"%s/art/hosts/divxstage.png"%selfAddon.getAddonInfo("path"))
         moveshare=re.compile('<span>moveshare.net</span></td><td> <a target=".+?" href="(.+?)"').findall(link)
         if len(moveshare) > 0:
             for url in moveshare:
-                main.addPlayb(name+"[COLOR blue] : Moveshare[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/moveshare.png"%selfAddon.getAddonInfo("path"),"%s/art/moveshare.png"%selfAddon.getAddonInfo("path"))
+                main.addDown2(name+"[COLOR blue] : Moveshare[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/hosts/moveshare.png"%selfAddon.getAddonInfo("path"),"%s/art/hosts/moveshare.png"%selfAddon.getAddonInfo("path"))
         sharesix=re.compile('<span>sharesix.com</span></td><td> <a target=".+?" href="(.+?)"').findall(link)
         if len(sharesix) > 0:
             for url in sharesix:
-                main.addPlayb(name+"[COLOR blue] : Sharesix[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/sharesix.png"%selfAddon.getAddonInfo("path"),"%s/art/sharesix.png"%selfAddon.getAddonInfo("path"))
+                main.addDown2(name+"[COLOR blue] : Sharesix[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/hosts/sharesix.png"%selfAddon.getAddonInfo("path"),"%s/art/hosts/sharesix.png"%selfAddon.getAddonInfo("path"))
         movpod=re.compile('<span>movpod.in</span></td><td> <a target=".+?" href="(.+?)"').findall(link)
         if len(movpod)==0:
                 movpod=re.compile('<span>movpod.net</span></td><td> <a target=".+?" href="(.+?)"').findall(link)
         if len(movpod) > 0:
             for url in movpod:
-                main.addPlayb(name+"[COLOR blue] : Movpod[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/movpod.png"%selfAddon.getAddonInfo("path"),"%s/art/movpod.png"%selfAddon.getAddonInfo("path"))
+                main.addDown2(name+"[COLOR blue] : Movpod[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/hosts/movpod.png"%selfAddon.getAddonInfo("path"),"%s/art/hosts/movpod.png"%selfAddon.getAddonInfo("path"))
         daclips=re.compile('<span>daclips.in</span></td><td> <a target=".+?" href="(.+?)"').findall(link)
         if len(daclips)==0:
                 daclips=re.compile('<span>daclips.com</span></td><td> <a target=".+?" href="(.+?)"').findall(link)
         if len(daclips) > 0:
             for url in daclips:
-                main.addPlayb(name+"[COLOR blue] : Daclips[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/daclips.png"%selfAddon.getAddonInfo("path"),"%s/art/daclips.png"%selfAddon.getAddonInfo("path"))
+                main.addDown2(name+"[COLOR blue] : Daclips[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/hosts/daclips.png"%selfAddon.getAddonInfo("path"),"%s/art/hosts/daclips.png"%selfAddon.getAddonInfo("path"))
         videoweed=re.compile('<span>videoweed.es</span></td><td> <a target=".+?" href="(.+?)"').findall(link)
         if len(videoweed) > 0:
             for url in videoweed:
-                main.addPlayb(name+"[COLOR blue] : Videoweed[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/Videoweed.png"%selfAddon.getAddonInfo("path"),"%s/art/Videoweed.png"%selfAddon.getAddonInfo("path"))        
+                main.addDown2(name+"[COLOR blue] : Videoweed[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/hosts/videoweed.png"%selfAddon.getAddonInfo("path"),"%s/art/hosts/videoweed.png"%selfAddon.getAddonInfo("path"))        
         zooupload=re.compile('<span>zooupload.com</span></td><td> <a target=".+?" href="(.+?)"').findall(link)
         if len(zooupload) > 0:
             for url in zooupload:
-                main.addPlayb(name+"[COLOR blue] : Zooupload[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/zooup.png"%selfAddon.getAddonInfo("path"),"%s/art/zooup.png"%selfAddon.getAddonInfo("path"))
+                main.addDown2(name+"[COLOR blue] : Zooupload[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/hosts/zooupload.png"%selfAddon.getAddonInfo("path"),"%s/art/hosts/zooupload.png"%selfAddon.getAddonInfo("path"))
         zalaa=re.compile('<span>zalaa.com</span></td><td> <a target=".+?" href="(.+?)"').findall(link)
         if len(zalaa) > 0:
             for url in zalaa:
-                main.addPlayb(name+"[COLOR blue] : Zalaa[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/zalaa.png"%selfAddon.getAddonInfo("path"),"%s/art/zalaa.png"%selfAddon.getAddonInfo("path"))
+                main.addDown2(name+"[COLOR blue] : Zalaa[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/hosts/zalaa.png"%selfAddon.getAddonInfo("path"),"%s/art/hosts/zalaa.png"%selfAddon.getAddonInfo("path"))
         vidxden=re.compile('<span>vidxden.com</span></td><td> <a target=".+?" href="(.+?)"').findall(link)
         if len(vidxden) > 0:
             for url in vidxden:
-                main.addPlayb(name+"[COLOR blue] : Vidxden[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/vidx.png"%selfAddon.getAddonInfo("path"),"%s/art/vidx.png"%selfAddon.getAddonInfo("path"))
+                main.addDown2(name+"[COLOR blue] : Vidxden[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/hosts/vidxden.png"%selfAddon.getAddonInfo("path"),"%s/art/hosts/vidxden.png"%selfAddon.getAddonInfo("path"))
         vidbux=re.compile('<span>vidbux.com</span></td><td> <a target=".+?" href="(.+?)"').findall(link)
         if len(vidbux) > 0:
             for url in vidbux:
-                main.addPlayb(name+"[COLOR blue] : Vidbux[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/vidb.png"%selfAddon.getAddonInfo("path"),"%s/art/vidb.png"%selfAddon.getAddonInfo("path"))
+                main.addDown2(name+"[COLOR blue] : Vidbux[/COLOR]",url+'xocx'+murl+'xocx',574,"%s/art/hosts/vidbux.png"%selfAddon.getAddonInfo("path"),"%s/art/hosts/vidbux.png"%selfAddon.getAddonInfo("path"))
 
 def geturl(murl):
         link=main.OPENURL(murl)

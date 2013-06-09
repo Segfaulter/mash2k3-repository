@@ -9,7 +9,7 @@ selfAddon = xbmcaddon.Addon(id=addon_id)
 
 def MAINSG():
         main.addDir('Search','sg',612,"%s/art/wfs/search.png"%selfAddon.getAddonInfo("path"))
-        main.addDir('A-Z','http://seriesgate.tv/',610,"%s/art/wfs/az.png"%selfAddon.getAddonInfo("path"))
+        #main.addDir('A-Z','http://seriesgate.tv/',610,"%s/art/wfs/az.png"%selfAddon.getAddonInfo("path"))
         main.addDir('Latest Episodes','http://seriesgate.tv/latestepisodes/',602,"%s/art/wfs/latest.png"%selfAddon.getAddonInfo("path"))
         HOMESG()
         main.GA("Plugin","SeriesGate")
@@ -52,7 +52,7 @@ def AtoZSG():
         main.VIEWSB()
         
 def AllShows(murl):
-        gurl='http://seriesgate.tv/'
+        gurl='http://seriesgate.tv/tvshows/'
         link=main.OPENURL(gurl)
         match=re.compile('{"n":"(.+?)","u":"(.+?)","i":"(.+?)"}').findall(link)
         for name,surl,imdb, in match:
@@ -74,7 +74,7 @@ def LISTEpiSG(murl):
     link=main.OPENURL(murl)
     match=re.compile('<a href="(.+?)"><div  class=".+?"><img  class=".+?" src=""  data-original ="(.+?)" width=".+?" height=".+?"  alt=".+?" title = "(.+?)" /><div class=".+?"><span style=".+?">(.+?)</span><div class=".+?"></div><span>(.+?)</span><div class=".+?">').findall(link)
     for url,thumb,epiname, showname, seep in match:
-        durl = url+'more_sources/'
+        durl = url+'searchresult/'
         main.addPlay(showname+' [COLOR red]'+seep+'[/COLOR]'+" "+'"'+epiname+'"',durl,609,thumb)
     main.GA("SeriesGate","Latest-list")
 def LISTSeasonSG(mname,murl):
@@ -103,7 +103,7 @@ def LISTEpilistSG(mname,murl):
     #if len(match) == 0:
     match=re.compile('<div class=".+?" style=".+?" >(.+?)- <span><a href = ".+?">.+?</a></span></div><div class=".+?" >(.+?)</div><div class = ".+?"></div><div style=".+?"><a href="(.+?)"><img src="(.+?)" width=".+?" height=".+?"  alt=".+?" title = "(.+?)" ></a>').findall(link)
     for seep, airdate, url, thumb, epiname in match:
-        durl = 'http://seriesgate.tv'+url+'more_sources/'
+        durl = url+'searchresult/'
         main.addPlay(seep+" "+'"'+epiname+'"',durl,609,thumb,)
     main.GA("SeriesGate","Epi-list")
 
@@ -169,7 +169,7 @@ def SEARCHSG(murl):
         main.addLink('[COLOR red]Shows[/COLOR]','','')
         match=re.compile('src = "([^<]+)" height=".+?" width=".+?" alt=""  /></a><div class = ".+?" style=".+?"><div class = ".+?"><a href = "([^<]+)">([^<]+)</a></div><a href = ".+?">').findall(link)
         for thumb,url,name in match:
-                main.addDir(name,url,604,thumb)
+                main.addDir(name,url+'/',604,thumb)
         main.addLink('[COLOR red]Episodes[/COLOR]','','')
         match=re.compile('src="([^<]+)" width=".+?" height=".+?"  /></a></div><div style=".+?"><a style=".+?" href = "([^<]+)"><span style=".+?">([^<]+)</span></a><span style=".+?">EPISODE</span><div class=".+?"></div><span style=".+?">([^<]+)</span>').findall(link)
         for thumb,url,epiname, name in match:
@@ -203,6 +203,7 @@ def VIDEOLINKSSG(mname,murl):
         else:
                 source = urlresolver.choose_source(sources)
                 if source:
+                        xbmc.executebuiltin("XBMC.Notification(Please Wait!,Resolving Link,5000)")
                         stream_url = source.resolve()
                 else:
                       stream_url = False

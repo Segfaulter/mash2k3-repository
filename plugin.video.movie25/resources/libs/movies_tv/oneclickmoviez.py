@@ -6,6 +6,7 @@ from resources.libs import main
 
 addon_id = 'plugin.video.movie25'
 selfAddon = xbmcaddon.Addon(id=addon_id)
+art = xbmc.translatePath(os.path.join('special://home/addons/plugin.video.movie25/art/hosts', ''))
 
 
 def LISTSP4(murl):
@@ -20,7 +21,7 @@ def LISTSP4(murl):
                 link=main.OPENURL(xurl)
                 match=re.compile('href="(.+?)" rel="bookmark" title=".+?">(.+?)</a></h2>\n</div>\n<div class="cover">\n<div class="entry">\n\t\t\t\t\t<p style="text-align: center;"><img class="alignnone" title="poster" src="(.+?)" ').findall(link)
                 for url,name, thumb in match:
-                        main.addPlay(name,url,56,thumb)   
+                        main.addDir(name,url,56,thumb)   
                 loadedLinks = loadedLinks + 1
                 percent = (loadedLinks * 100)/totalLinks
                 remaining_display = 'Pages loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
@@ -39,31 +40,39 @@ def getlink(url):
         return vid
 
 def LINKSP4(mname,murl):
-        sources = []
-        main.GA("Oneclickmovies","Watched")
         xbmc.executebuiltin("XBMC.Notification(Please Wait!,Collecting Hosts,3000)")
         link=main.OPENURL(murl)
         ok=True
         link= link.replace('href="http://oneclickmoviez.com/dws/MEGA','')
+        main.addLink("[COLOR red]For Download Options, Bring up Context Menu Over Selected Link.[/COLOR]",'','')
         match=re.compile('<a href="(.+?)" target="_blank">(.+?)</a>.+?</p>').findall(link)
         for url, host in match:
+                thumb=host.lower()
+                thumb = thumb.replace('www.','').replace('.in','').replace('.net','').replace('.com','').replace('.to','').replace('.org','').replace('.ch','')
                 vlink = getlink(url)
                 match2=re.compile('rar').findall(vlink)
                 if len(match2)==0:
                         hosted_media = urlresolver.HostedMediaFile(url=vlink, title=host)
-                        sources.append(hosted_media)
-        if (len(sources)==0):
-                xbmc.executebuiltin("XBMC.Notification(Sorry!,Show doesn't have playable links,5000)")
-      
+                        match2=re.compile("{'url': '(.+?)', 'host': '(.+?)', 'media_id': '.+?'}").findall(str(hosted_media))
+                        for murl,name in match2:
+                                main.addDown2(mname+' [COLOR blue]'+host+'[/COLOR]',murl,211,art+thumb+".png",art+thumb+".png")
+
+        
+def LINKSP4B(mname,murl):
+        main.GA("Oneclickmovies","Watched")
+        ok=True
+        playlist = xbmc.PlayList(xbmc.PLAYLIST_VIDEO)
+        playlist.clear()
+        listitem = xbmcgui.ListItem(mname, iconImage="DefaultVideo.png")
+        listitem.setInfo('video', {'Title': mname, 'Year': ''} )
+        hosted_media = urlresolver.HostedMediaFile(murl)
+        source = hosted_media
+        if source:
+                xbmc.executebuiltin("XBMC.Notification(Please Wait!,Resolving Link,3000)")
+                stream_url = source.resolve()
         else:
-                source = urlresolver.choose_source(sources)
-                if source:
-                        xbmc.executebuiltin("XBMC.Notification(Please Wait!,Resolving Link,3000)")
-                        stream_url = source.resolve()
-                else:
-                        stream_url = False
-                        return
-                listitem = xbmcgui.ListItem(mname, iconImage="DefaultVideo.png")
-                listitem.setInfo('video', {'Title': mname, 'Year': ''} )         
-                xbmc.Player().play(stream_url, listitem)
-                return ok
+              stream_url = False
+        playlist.add(stream_url,listitem)
+        xbmcPlayer = xbmc.Player()
+        xbmcPlayer.play(playlist)
+        return ok

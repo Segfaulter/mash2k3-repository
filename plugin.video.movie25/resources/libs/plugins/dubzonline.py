@@ -12,14 +12,13 @@ selfAddon = xbmcaddon.Addon(id=addon_id)
 def MAINdz():
         main.GA("Plugin","dubzonline")
         main.addDir('A-Z','http://www.dubzonline.net/anime-list/',614,"%s/art/wfs/az.png"%selfAddon.getAddonInfo("path"))
-        main.addDir('Latest Dubbed Series','lseries',618,"%s/art/wfs/latest2.png"%selfAddon.getAddonInfo("path"))
-        main.addDir('Latest Dubbed Episodes','lepi',618,"%s/art/wfs/latest2.png"%selfAddon.getAddonInfo("path"))
-        main.addLink('Featured Anime Series','year','')
+        main.addLink('[COLOR red]Recently Added Episodes[/COLOR]','year','')
         link=main.OPENURL('http://www.dubzonline.net/')
         link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','').replace('<li><a href="/anime-list/" ><span>Anime List</span></a></li>','').replace('<li><a href="/contact-us/" ><span>Contact Us</span></a></li>','').replace('<li><a href="/" class="active"><span>Home</span></a></li>','')
-        match = re.compile('href=".+?">([^<]+)</a></h2></div><div class=".+?">Date Posted:.+?<br /><p><img src="(.+?)" width=".+?" height=".+?" alt=".+?" align=".+?" style=".+?"/>(.+?)<strong>.+?<strong>.+?href="http://www.dubzonline.net/watch(.+?)"').findall(link)
-        for name, thumb, desc, url in match:
-                main.addDir2(name,'http://www.dubzonline.net/watch'+url,616,thumb,desc)
+        bits = re.compile('<h3 class="sidetitle">Recently Added Episodes</h3>(.+?)</div>').findall(link)
+        match = re.compile('<li><a href="(.+?)" title="(.+?)">.+?</a></li>').findall(bits[0])
+        for url,name in match:
+                main.addPlay(name,url,617,'')
 
 def latestLIST(murl):
         link=main.OPENURL('http://www.dubzonline.net/')
@@ -62,7 +61,7 @@ def EPILIST(murl):
                 thumb=thumbs[0]
         else:
                 thumb=''
-        match = re.compile('<td style=".+?"><a style=".+?" href="([^<]+)" title=".+?">(.+?)</a></td>').findall(link)
+        match = re.compile('<li><a href="(.+?)" rel="bookmark" title=".+?">(.+?)</a></li>').findall(link)
         for url, name in match:
                     main.addSport(name,url,617,thumb,desc,'','')
 

@@ -47,7 +47,6 @@ def YOUList(mname,durl):
         main.GA(mname,"Youtube-List")
 
 def YOULink(mname,url):
-        print url
         ok=True
         main.GA("Youtube-List","Watched")
         url = "plugin://plugin.video.youtube/?path=/root/video&action=play_video&videoid="+url+"&hd=1"

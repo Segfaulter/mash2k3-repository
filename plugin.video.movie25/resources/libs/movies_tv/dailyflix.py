@@ -12,7 +12,7 @@ def LISTSP3(murl):
                 url='http://www.dailyflix.net/index.php?/forum/196-hd-movies-2012-2013/page__sort_key__last_post__sort_by__Z-A'
         link=main.OPENURL(url)
         link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
-        match=re.compile('href="([^<]+)" title=.+? class=.+?><span itemprop="name">(.+?)</span>').findall(link)
+        match=re.compile('<a itemprop=".+?" id=".+?" href="([^<]+)" title=.+? class=.+?><span itemprop="name">(.+?)</span>').findall(link)
         for url, name in match:
                 main.addPlay(name,url,54,'')
         main.GA("HD-TV","Dailyfix")

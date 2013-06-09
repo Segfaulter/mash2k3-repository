@@ -164,7 +164,7 @@ def iWatchLINK(mname,url):
                 thumb=thumbs[0]
         else:
                 thumb=''
-        match=re.compile('<td class="sideleft"><a href="([^<]+)" target=".+?" rel=".+?"><i class="icon-play-circle"></i>(.+?)</a>').findall(link)
+        match=re.compile('<td class="sideleft"><a href="([^<]+)" target=".+?" rel=".+?"><img src=".+?" alt="" />(.+?)</a>').findall(link)
         for url, name in match[0:30]:
                 hosted_media = urlresolver.HostedMediaFile(url=GetUrl(url), title=name)
                 sources.append(hosted_media)

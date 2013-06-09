@@ -20,7 +20,7 @@ def LISTINT3(url):
         for murl in urllist:
                 link=main.OPENURL(murl)
                 link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
-                match=re.compile('href="(.+?)"><imgalt=".+?" title="Ver (.+?) Online" src="(.+?)"').findall(link)
+                match=re.compile('<a href="(.+?)"><img alt="(.+?)" title=".+?" height=".+?" width=".+?" src="(.+?)"></a>').findall(link)
                 for url,name,thumb in match:
                         main.addPlay(name,url,67,thumb)
                 loadedLinks = loadedLinks + 1

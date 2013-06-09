@@ -57,8 +57,8 @@ def iLiveList(murl):
         for durl in urllist:
                 link=main.OPENURL(durl)
                 link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
-                match=re.compile('<img width=".+?" height=".+?" src="([^<]+)" alt=""/></noscript></a><a href="(.+?)"><strong>(.+?)</strong></a>').findall(link)
-                for thumb,url,name in match:
+                match=re.compile('<img width=".+?" height=".+?" data-lazy-src="(.+?)" style=".+?" data-cfsrc=".+?" alt="(.+?)" title=".+?" />.+?<a href="(.+?)">').findall(link)
+                for thumb,name,url in match:
                         match=re.compile('Hongkong').findall(name)
                         match2=re.compile('sex').findall(name)
                         if len(match)==0 and len(match2)==0:
@@ -89,7 +89,7 @@ def iLiveLink(mname,murl):
         link=main.OPENURL(pageUrl)
         playpath=re.compile('file: "(.+?).flv"').findall(link)
         for playPath in playpath:
-            stream_url = 'rtmp://142.4.216.176/edge playpath=' + playPath + " swfUrl=http://static.ilive.to/jwplayer/player_embed.swf pageUrl="+pageUrl+"live=1"
+            stream_url = 'rtmp://edge.isearch.to/edge playpath=' + playPath + " swfUrl=http://player.ilive.to/player_ilive_2.swf pageUrl="+pageUrl+"live=1"
         listitem = xbmcgui.ListItem(mname)
         playlist.add(stream_url,listitem)
         xbmcPlayer = xbmc.Player()

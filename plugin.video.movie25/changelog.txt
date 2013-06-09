@@ -1,3 +1,24 @@
+[B]Version 1.3.2[/B]
+
+-Added Download Function to Newmyvideolinks(3D/HD/TV), Rlsmx, Starplay, OneclickMoviez & Watchseries.it.
+-Added Workout section under Sports.
+-Added Quick page navigation for movie25
+-Added views/votes/rating info for movie25
+-Added xcTechs bollywood playlist.
+-Live Youtube streams now playable.
+-Fixed Btv guide plugin.
+-Fixed Seriesgate plugin.
+-Fixed iwatchonline regex.
+-Fixed Extramina regex.
+-Added Pencurimovie HD Source(MediaPi)
+-Added SominalTv plugin
+-Fixed dubzonline plugin
+-Fixed iLive Streams.
+-Fixed Cinevip in international.
+-Fixed Documantary log and heaven.
+-Added more 5 pages to rlsmx.
+-Added function for Changelog to open in 1st run of each version.
+
 [B]Version 1.3.1[/B]
 
 -Added crus & Slr arabic streams

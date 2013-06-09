@@ -21,7 +21,7 @@ if selfAddon.getSetting('visitor_ga')=='':
     from random import randint
     selfAddon.setSetting('visitor_ga',str(randint(0, 0x7fffffff)))
 
-VERSION = "1.3.1"
+VERSION = "1.3.2"
 PATH = "MashUp-"            
 UATRACK="UA-38312513-1" 
 
@@ -35,7 +35,7 @@ UATRACK="UA-38312513-1"
 
 
 def OPENURL(url):
-        print "openurl = " + url
+        print "MU-Openurl = " + url
         req = urllib2.Request(url)
         req.add_header('User-Agent', 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.0.3) Gecko/2008092417 Firefox/3.0.3')
         response = urllib2.urlopen(req)
@@ -133,6 +133,7 @@ def GETMETA(mname,genre,year,thumb):
         if selfAddon.getSetting("meta-view") == "true":
                 mname=mname.replace(' 720p BRRip','').replace(' 720p HDRip','').replace(' 720p WEBRip','').replace(' 720p BluRay','').replace('()','')
                 mname=mname.replace('[DVD]','').replace('[TS]','').replace('[TC]','').replace('[CAM]','').replace('[SCREENER]','').replace('[COLOR blue]','').replace('[COLOR red]','').replace('[/COLOR]','')
+                mname  = mname.split(' Views:')[0]
                 namelen=len(mname)
                 print mname[-1:namelen]
                 if mname[-1:namelen]==')':
@@ -232,14 +233,78 @@ class StopDownloading(Exception):
         def __str__(self): 
             return repr(self.value)
 
+def geturl(murl):
+        link=OPENURL(murl)
+        link=link.replace('\r','').replace('\n','').replace('\t','')
+        match=re.compile('<a class="myButton" href="(.+?)">Click Here to Play</a>').findall(link)
+        if len(match)==0:
+                match=re.compile('<a class="myButton" href="(.+?)">Click Here to Play Part1</a><a class="myButton" href="(.+?)">Click Here to Play Part2</a>').findall(link)
+                return match[0]
+        else:
+                return match[0]
+
 def Download_Source(name,url):
-    name=name.split(' [')[0]
-    print name+'  '+url
+    
+    match=re.compile('watchseries.lt').findall(url)
+    if match:
+        name=name.replace('/','').replace('.','')
+        name=name.replace('[DVD]','').replace('[TS]','').replace('[TC]','').replace('[CAM]','').replace('[SCREENER]','').replace('[COLOR blue]','').replace('[COLOR red]','').replace('[/COLOR]','').replace('[COLOR]','')
+        name=name.replace(' : Gorillavid','').replace(' : Divxstage','').replace(' : Movshare','').replace(' : Sharesix','').replace(' : Movpod','').replace(' : Daclips','').replace(' : Videoweed','')
+        name=name.replace(' : Played','').replace(' : MovDivx','').replace(' : Movreel','').replace(' : BillionUploads','').replace(' : Putlocker','').replace(' : Sockshare','').replace(' : Nowvideo','').replace(' : 180upload','').replace(' : Filenuke','').replace(' : Flashx','').replace(' : Novamov','').replace(' : Uploadc','').replace(' : Xvidstage','').replace(' : Zooupload','').replace(' : Zalaa','').replace(' : Vidxden','').replace(' : Vidbux','')
+        name=name.replace(' 720p BRRip','').replace(' 720p HDRip','').replace(' 720p WEBRip','').replace(' 720p BluRay','')
+        name=name.replace('  Part:1','').replace('  Part:2','').replace('  Part:3','').replace('  Part:4','')
+        match=re.compile('(.+?)xocx(.+?)xocx').findall(url)
+        for hurl, durl in match:
+            url=geturl('http://watchseries.lt'+hurl)
+    else:
+        name=name.split(' [')[0]
     media = urlresolver.HostedMediaFile(url)
     source = media
     if source:
             xbmc.executebuiltin("XBMC.Notification(Please Wait!,Resolving Link,2000)")
             stream_url = source.resolve()
+            if os.path.exists(downloadPath):
+                match1=re.compile("flv").findall(stream_url)
+                if len(match1)>0:
+                    name=name+'.flv'
+                match2=re.compile("mkv").findall(stream_url)
+                if len(match2)>0:
+                    name=name+'.mkv'
+                match3=re.compile("mp4").findall(stream_url)
+                if len(match3)>0:
+                    name=name+'.mp4'
+                match4=re.compile("avi").findall(stream_url)
+                if len(match4)>0:
+                    name=name+'.avi'
+                mypath=os.path.join(downloadPath,name)
+                if os.path.isfile(mypath) is True:
+                    xbmc.executebuiltin("XBMC.Notification(Download Alert!,The video you are trying to download already exists!,8000)")
+                else:
+                    DownloadInBack=selfAddon.getSetting('download-in-background')
+                    if DownloadInBack == 'true':
+                        QuietDownload(stream_url,mypath,name)
+                    else:
+                        Download(stream_url,mypath,name)
+            
+            else:
+                xbmc.executebuiltin("XBMC.Notification(Download Alert!,You have not set the download folder,8000)")
+                return False
+                
+    else:
+            xbmc.executebuiltin("XBMC.Notification(Sorry!,Link Not Found,6000)")
+            stream_url = False
+
+def Download_SourceB(name,url):#starplay
+    MainUrlb = "http://87.98.161.165"
+    link=OPENURL(url)
+    match=re.compile("\nfile: \'(.+?)\',\n \nimage: \'/(.+?)\',\n").findall(link)
+    for stream_url, thumb in match:
+                stream_url=MainUrlb+stream_url
+    name=name.split(' [')[0]
+    name=name.replace('/','').replace('.','')
+
+    if stream_url:
+            xbmc.executebuiltin("XBMC.Notification(Please Wait!,Resolving Link,2000)")
             if os.path.exists(downloadPath):
                 match1=re.compile("flv").findall(stream_url)
                 if len(match1)>0:
@@ -569,7 +634,15 @@ def addDirb(name,url,mode,iconimage,fan):
         liz.setProperty('fanart_image', fan)
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
         return ok
-    
+
+def addDirc(name,url,mode,iconimage,desc,fan):
+        u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
+        ok=True
+        liz=xbmcgui.ListItem(name, iconImage="%s/art/vidicon.png"%selfAddon.getAddonInfo("path"), thumbnailImage=iconimage)
+        liz.setInfo( type="Video", infoLabels={ "Title": name, "Plot": desc } )
+        liz.setProperty('fanart_image', fan)
+        ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
+        return ok    
 def addPlayb(name,url,mode,iconimage,fan):
         u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
         ok=True
@@ -608,6 +681,21 @@ def addDown2(name,url,mode,iconimage,fan):
         sysurl = urllib.quote_plus(url)
         sysname= urllib.quote_plus(name)
         contextMenuItems.append(('Direct Download', 'XBMC.RunPlugin(%s?mode=190&name=%s&url=%s)' % (sys.argv[0], sysname, sysurl)))
+        contextMenuItems.append(('Download with jDownloader', 'XBMC.RunPlugin(plugin://plugin.program.jdownloader/?action=addlink&url=%s)' % (sysurl)))
+        liz=xbmcgui.ListItem(name, iconImage="%s/art/vidicon.png"%selfAddon.getAddonInfo("path"), thumbnailImage=iconimage)
+        liz.setInfo( type="Video", infoLabels={ "Title": name } )
+        liz.setProperty('fanart_image', fan)
+        liz.addContextMenuItems(contextMenuItems, replaceItems=True)
+        ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz)
+        return ok
+
+def addDown3(name,url,mode,iconimage,fan):#starplay
+        contextMenuItems = []
+        u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
+        ok=True
+        sysurl = urllib.quote_plus(url)
+        sysname= urllib.quote_plus(name)
+        contextMenuItems.append(('Direct Download', 'XBMC.RunPlugin(%s?mode=212&name=%s&url=%s)' % (sys.argv[0], sysname, sysurl)))
         contextMenuItems.append(('Download with jDownloader', 'XBMC.RunPlugin(plugin://plugin.program.jdownloader/?action=addlink&url=%s)' % (sysurl)))
         liz=xbmcgui.ListItem(name, iconImage="%s/art/vidicon.png"%selfAddon.getAddonInfo("path"), thumbnailImage=iconimage)
         liz.setInfo( type="Video", infoLabels={ "Title": name } )

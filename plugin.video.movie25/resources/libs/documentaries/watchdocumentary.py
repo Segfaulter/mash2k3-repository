@@ -200,8 +200,6 @@ def WATCHDOCLink(mname,murl):
                 urllist.append(url)
             dialog = xbmcgui.Dialog()
             answer =dialog.select("Playlist", namelist)
-            print "gg "+str(answer)
-            print url[int(answer)]
             stream_url = "plugin://plugin.video.youtube/?path=/root/video&action=play_video&videoid="+urllist[int(answer)]+"&hd=1"
             playlist.add(stream_url,listitem)
             xbmcPlayer = xbmc.Player()

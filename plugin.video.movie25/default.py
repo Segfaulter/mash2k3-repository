@@ -18,23 +18,24 @@ grab = metahandlers.MetaData(preparezip = False)
 addon = Addon(addon_id)
 
 
+
 ################################################################################ Source Imports ##########################################################################################################
 
-from resources.libs import youtube
+from resources.libs import youtube, youplaylist
 
 from resources.libs.documentaries import vice, documentary, watchdocumentary
 
-from resources.libs.sports import wildtv, skysports, tsn, espn, foxsoccer, outdoorch, mmafighting
+from resources.libs.sports import wildtv, fitnessblender, skysports, tsn, espn, foxsoccer, outdoorch, mmafighting, bodybuilding
 
 from resources.libs.kids import disneyjr, wbkids
 
 from resources.libs.adventure import discovery, airaces, nationalgeo
 
-from resources.libs.plugins import seriesgate,dubzonline, globalbc, btvguide, watchseries, sceper, extramina, fma, iwatchonline
+from resources.libs.plugins import seriesgate, sominaltvfilms, dubzonline, globalbc, btvguide, watchseries, sceper, extramina, fma, iwatchonline
 
 from resources.libs.live import livestation, oneeightone, arabic, vipplaylist, naviplaylists, ilive, castalba, desistreams, musicstreams, countries,tubtub
 
-from resources.libs.movies_tv import oneclickwatch, backuptv, rlsmix, newmyvideolinks, dailyflix, oneclickmoviez, starplay, movie1k
+from resources.libs.movies_tv import oneclickwatch, pencurimovie, backuptv, rlsmix, newmyvideolinks, dailyflix, oneclickmoviez, starplay, movie1k
 
 from resources.libs.international import dramacrazy, einthusan, cinevip
 
@@ -47,13 +48,13 @@ def AtoZ():
                 main.addDir(i,'http://www.movie25.com/movies/'+i.lower()+'/',1,"%s/art/%s.png"%(selfAddon.getAddonInfo("path"),i.lower()))
         main.GA("None","Movie25-A-Z")   
 def MAIN():
-        mashup=128
+        mashup=129
         notified=os.path.join(main.datapath,str(mashup))
         if not os.path.exists(notified):
             open(notified,'w').write('version="%s",'%mashup)
-            dialog = xbmcgui.Dialog()
-            ok=dialog.ok('[B]Attention!!![/B]', "Check out the New download function" ,'for now only works with Movie25 content','will add to other sections soon.')
-            ok=dialog.ok('[B]VERSION 1.3.1[/B]', 'New changes in the following sections','Live, Plugin and several fixes', 'Check change log, Thanks and Enjoy')
+            dir = addon.get_path()
+            art = os.path.join(dir, 'changelog.txt')
+            TextBoxes("[B][COLOR red]MashUp Changelog[/B][/COLOR]",art)
             mashup=mashup-1
             notified=os.path.join(main.datapath,str(mashup))
             if  os.path.exists(notified):
@@ -82,36 +83,61 @@ def MAIN():
         main.addDir('Resolver Settings','http://www.movie25.com/',99,"%s/art/resset.png"%selfAddon.getAddonInfo("path"))
         main.addPlay('Need Help?','http://www.movie25.com/',100,"%s/art/xbmchub.png"%selfAddon.getAddonInfo("path"))
         main.addLink('@mashupxbmc','',"%s/art/twittermash.png"%selfAddon.getAddonInfo("path"))
-        main.addPlay('Install Hub Maintenance','http://www.movie25.com/',156,"%s/art/hubmain.png"%selfAddon.getAddonInfo("path"))
+        main.addPlay('Hub Maintenance','http://www.movie25.com/',156,"%s/art/hubmain.png"%selfAddon.getAddonInfo("path"))
         
         main.CheckVersion()#Checks If Plugin Version is up to date
 
         #Announcement Notifier from xml file
+        
         try:
                 link=main.OPENURL('https://github.com/mash2k3/mash2k3-repository/raw/master/Misc%20items/Notifier.xml')
         except:
                 link='nill'
 
-        link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
-        match=re.compile('<item><new>(.+?)</new><message1>(.+?)</message1><message2>(.+?)</message2><message3>(.+?)</message3><old>(.+?)</old></item>').findall(link)
-        if len(match)>0:
-                for new,mes1,mes2,mes3,old in match:
-                        continue
-                if new != ' ':
-                        notified=os.path.join(main.datapath,str(new))
-                        if not os.path.exists(notified):
-                                open(notified,'w').write('version="%s",'%new)
-                                dialog = xbmcgui.Dialog()
-                                ok=dialog.ok('[B]Important Announcement![/B]', str(mes1) ,str(mes2),str(mes3))
-                        if old != ' ':
-                                notified=os.path.join(main.datapath,str(old))
-                                if  os.path.exists(notified):
-                                        os.remove(notified)
-                else:
-                        print 'No Messages'
+        r = re.findall(r'ANNOUNCEMENTWINDOW ="ON"',link)
+        if r:
+                link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
+                match=re.compile('<item><new>(.+?)</new><message1>.+?</message1><message2>.+?</message2><message3>.+?</message3><ANNOUNCEMENT>(.+?)</ANNOUNCEMENT><old>(.+?)</old></item>').findall(link)
+                if len(match)>0:
+                        for new,anounce,old in match:
+                                continue
+                        if new != ' ':
+                                notified=os.path.join(main.datapath,str(new))
+                                if not os.path.exists(notified):
+                                        open(notified,'w').write('version="%s",'%new)
+                                        TextBoxes("[B][COLOR red]MashUp Announcements[/B][/COLOR]",anounce)
+                                if old != ' ':
+                                        notified=os.path.join(main.datapath,str(old))
+                                        if  os.path.exists(notified):
+                                                os.remove(notified)
+                        else:
+                                print 'No Messages'
     
+                else:
+                    print 'Github Link Down'
+                
+        
         else:
-            print 'Github Link Down'
+                link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
+                match=re.compile('<item><new>(.+?)</new><message1>(.+?)</message1><message2>(.+?)</message2><message3>(.+?)</message3><ANNOUNCEMENT>.+?</ANNOUNCEMENT><old>(.+?)</old></item>').findall(link)
+                if len(match)>0:
+                        for new,mes1,mes2,mes3,old in match:
+                                continue
+                        if new != ' ':
+                                notified=os.path.join(main.datapath,str(new))
+                                if not os.path.exists(notified):
+                                        open(notified,'w').write('version="%s",'%new)
+                                        dialog = xbmcgui.Dialog()
+                                        ok=dialog.ok('[B]Important Announcement![/B]', str(mes1) ,str(mes2),str(mes3))
+                                if old != ' ':
+                                        notified=os.path.join(main.datapath,str(old))
+                                        if  os.path.exists(notified):
+                                                os.remove(notified)
+                        else:
+                                print 'No Messages'
+    
+                else:
+                    print 'Github Link Down'
         main.VIEWSB()
         
 def GENRE(url):
@@ -159,8 +185,8 @@ def YEAR():
 
     
 def TV():
-        main.addDir('Latest Episodes (Newmyvideolinks) True HD','TV',34,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
-        main.addDir('Latest Episodes (Rlsmix)[COLOR red](Debrid Only)[/COLOR] True HD','TV',61,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
+        main.addDir('Latest Episodes (Newmyvideolinks) True HD[COLOR red] DC[/COLOR]','TV',34,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
+        main.addDir('Latest Episodes (Rlsmix)[COLOR red](Debrid Only)[/COLOR] True HD[COLOR red] DC[/COLOR]','TV',61,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
         main.addDir('Latest Episodes (Sceper)[COLOR red](Debrid Only)[/COLOR] True HD','http://sceper.ws/home/category/tv-shows',545,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
         main.addDir('Latest Episodes (iWatchonline)','http://www.iwatchonline.to/tv-schedule',592,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
         main.addDir('Latest Episodes (Movie1k)','movintv',30,"%s/art/tvb.png"%selfAddon.getAddonInfo("path"))
@@ -173,33 +199,37 @@ def TV():
         
 def TVAll():
         #main.addDir('Watch-Free Series','TV',501,"%s/art/wfs/wsf.png"%selfAddon.getAddonInfo("path"))
-        main.addDir('Watchseries.it','TV',572,"%s/art/wfs/watchseries.png"%selfAddon.getAddonInfo("path"))
+        main.addDir('Watchseries.it[COLOR red] DC[/COLOR]','TV',572,"%s/art/wfs/watchseries.png"%selfAddon.getAddonInfo("path"))
         main.addDir('BTV Guide','TV',551,"%s/art/wfs/btvguide.png"%selfAddon.getAddonInfo("path"))
         main.addDir('Series Gate','TV',601,"%s/art/wfs/sg.png"%selfAddon.getAddonInfo("path"))
         main.addDir('iWatchOnline','TV',584,"%s/art/iwatchonline.png"%selfAddon.getAddonInfo("path"))
-        main.addDir('Extramina','TV',530,"%s/art/wfs/extramina.png"%selfAddon.getAddonInfo("path"))
         main.addDir('Sceper [COLOR red](Debrid Only)[/COLOR]','TV',539,"%s/art/wfs/sceper.png"%selfAddon.getAddonInfo("path"))
+        main.addDir('SominalTvFilms','TV',619,"%s/art/wfs/sominal.png"%selfAddon.getAddonInfo("path"))
+        main.addDir('Extramina','TV',530,"%s/art/wfs/extramina.png"%selfAddon.getAddonInfo("path"))
         main.addDir('FMA','TV',567,"%s/art/wfs/fma.png"%selfAddon.getAddonInfo("path"))
         main.addDir('dubzonline','TV',613,"%s/art/wfs/dubzonline.png"%selfAddon.getAddonInfo("path"))
         main.addDir('Global BC','gbc',165,"%s/art/globalbc.png"%selfAddon.getAddonInfo("path"))
         main.GA("None","Plugin")
 
 def HD():
-        main.addDir('Latest HD Movies (Newmyvideolinks) True HD','http://newmyvideolinks.com',34,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
+        main.addDir('Latest HD Movies (Newmyvideolinks) True HD[COLOR red] DC[/COLOR]','http://newmyvideolinks.com',34,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
         main.addDir('Latest HD Movies (Dailyfix) True HD','HD',53,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
-        main.addDir('Latest HD Movies (Starplay) Direct MP4 True HD','http://87.98.161.165/latest.php',57,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
-        main.addDir('Latest HD Movies (Oneclickmovies)[COLOR red](Debrid Only)[/COLOR] True HD','www.scnsrc.me',55,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
-        main.addDir('Latest HD Movies (Sceper)[COLOR red](Debrid Only)[/COLOR] True HD','http://sceper.ws/home/category/movies/movies-hdtv-720p',541,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
+        main.addDir('Latest HD Movies (Starplay) Direct MP4 True HD[COLOR red] DC[/COLOR]','http://87.98.161.165/latest.php',57,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
+        main.addDir('Latest HD Movies (Pencurimovie) Direct MP4 True HD','http://www.pencurimovie.com/feeds/posts/default?max-results=1000',215,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
+        main.addDir('Latest HD Movies (Oneclickmovies)[COLOR red](Debrid Only)[/COLOR] True HD[COLOR red] DC[/COLOR]','www.scnsrc.me',55,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
+        main.addDir('Latest HD Movies (Sceper)[COLOR red](Debrid Only)[/COLOR] True HD','http://sceper.ws/category/movies/movies-bluray-rip',541,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
         main.addDir('Latest HD Movies (Oneclickwatch)','http://oneclickwatch.org/category/movies/',25,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
         main.addLink('[COLOR red]Back Up Sources[/COLOR]','','')
         main.addDir('Latest HD Movies (Etowns) True HD  [COLOR red]Clone Backup of Newmyvideolinks[/COLOR]','http://go.etowns.net/category/movies/bluray/',548,"%s/art/hd2.png"%selfAddon.getAddonInfo("path"))
         main.GA("None","HD")
 def INT():
         main.addDir('Latest Indian Subtitled Movies (einthusan)','http://www.einthusan.com',37,"%s/art/intl.png"%selfAddon.getAddonInfo("path"))
+        main.addDir('Latest Hindi/Tamil/Telugu & more (sominaltv)','TV',619,"%s/art/intl.png"%selfAddon.getAddonInfo("path"))
         main.addDir('Latest Indian Movies (Movie1k)','movin',30,"%s/art/intl.png"%selfAddon.getAddonInfo("path"))
         main.addDir('Latest Indian Dubbed Movies (Movie1k)','movindub',30,"%s/art/intl.png"%selfAddon.getAddonInfo("path"))
         main.addDir('Latest Asian Subtitled Movies (dramacrazy)','http://www.dramacrazy.net',39,"%s/art/intl.png"%selfAddon.getAddonInfo("path"))
         main.addDir('Latest Spanish Dubbed & Subtitled(ESP) Movies (cinevip)','http://www.cinevip.org/',66,"%s/art/intl.png"%selfAddon.getAddonInfo("path"))
+        main.addDir("XcTech's Bollywood Playlist",'PL6VikFWYkZntstpV9ojN0Xp0o1quobDmG',205,"%s/art/intl.png"%selfAddon.getAddonInfo("path"))
         main.GA("None","INT")
 
 def SPORTS():
@@ -210,6 +240,7 @@ def SPORTS():
         main.addDir('All MMA','mma',537,"%s/art/mma.png"%selfAddon.getAddonInfo("path"))
         main.addDir('Outdoor Channel','http://outdoorchannel.com/',50,"%s/art/OC.png"%selfAddon.getAddonInfo("path"))
         main.addDir('Wild TV','https://www.wildtv.ca/shows',92,"%s/art/wildtv.png"%selfAddon.getAddonInfo("path"))
+        main.addDir('Workouts','https://www.wildtv.ca/shows',194,"%s/art/workout.png"%selfAddon.getAddonInfo("path"))
         main.GA("None","Sports")
 
 def MMA():
@@ -217,7 +248,12 @@ def MMA():
         main.addDir('Bellator','BellatorMMA',47,"%s/art/bellator.png"%selfAddon.getAddonInfo("path"))
         main.addDir('MMA Fighting.com','http://www.mmafighting.com/videos',113,"%s/art/mmafig.png"%selfAddon.getAddonInfo("path"))
 
-
+def WorkoutMenu():
+        main.addDir('Fitness Blender[COLOR red](Full Workouts)[/COLOR]','fb',198,"%s/art/fitnessblender.png"%selfAddon.getAddonInfo("path"))
+        main.addDir('Insanity','http://watchseries.lt/serie/INSANITY_-_The_Asylum',578,"%s/art/insanity.png"%selfAddon.getAddonInfo("path"))
+        main.addDir('P90X','http://watchseries.lt/serie/p90x',578,"%s/art/p90x.png"%selfAddon.getAddonInfo("path"))
+        main.addDir('Body Building[COLOR red](Instructional Only)[/COLOR]','bb',195,"%s/art/bodybuilding.png"%selfAddon.getAddonInfo("path"))
+        
 
 def UFC():
         main.addDir('UFC.com','ufc',47,"%s/art/ufc.png"%selfAddon.getAddonInfo("path"))
@@ -335,9 +371,9 @@ def HubMain():
                 dialog = xbmcgui.Dialog()
                 ret=dialog.yesno("XBMCHUB TEAM", "This will Install Hub Maintenance Tool.","Will take effect after restart.","Would you like to install?",)
                 if ret==1:
-                        url = 'http://xbmc-hub-repo.googlecode.com/svn/addons/plugin.video.hubmaintenance/plugin.video.hubmaintenance-4.7b.zip'
+                        url = 'http://xbmc-hub-repo.googlecode.com/svn/addons/plugin.video.hubmaintenance/plugin.video.hubmaintenance-5.4a.zip'
                         path = xbmc.translatePath(os.path.join('special://home/addons','packages'))
-                        lib=os.path.join(path, 'plugin.video.hubmaintenance-4.7b.zip')
+                        lib=os.path.join(path, 'plugin.video.hubmaintenance-5.4a.zip')
                         DownloaderClass(url,lib)
                         addonfolder = xbmc.translatePath(os.path.join('special://home/addons',''))
                         time.sleep(2)
@@ -346,8 +382,8 @@ def HubMain():
                         return ok
         else:
                 ok=True
-                dialog = xbmcgui.Dialog()
-                dialog.ok("XBMCHUB TEAM", "Hub Maintenance Tool is already installed.")
+                cmd = 'plugin://plugin.video.hubmaintenance/'
+                xbmc.executebuiltin('XBMC.Container.Update(%s)' % cmd)
                 return ok
 
 
@@ -418,6 +454,35 @@ class SHOWMessage(xbmcgui.Window):
             xbmc.Player().stop()
             self.close()
 
+def TextBoxes(heading,anounce):
+        class TextBox():
+            """Thanks to BSTRDMKR for this code:)"""
+                # constants
+            WINDOW = 10147
+            CONTROL_LABEL = 1
+            CONTROL_TEXTBOX = 5
+
+            def __init__( self, *args, **kwargs):
+                # activate the text viewer window
+                xbmc.executebuiltin( "ActivateWindow(%d)" % ( self.WINDOW, ) )
+                # get window
+                self.win = xbmcgui.Window( self.WINDOW )
+                # give window time to initialize
+                xbmc.sleep( 500 )
+                self.setControls()
+
+
+            def setControls( self ):
+                # set heading
+                self.win.getControl( self.CONTROL_LABEL ).setLabel(heading)
+                try:
+                        f = open(anounce)
+                        text = f.read()
+                except:
+                        text=anounce
+                self.win.getControl( self.CONTROL_TEXTBOX ).setText(text)
+                return
+        TextBox()
 ################################################################################ Modes ##########################################################################################################
 
 
@@ -990,6 +1055,9 @@ elif mode==143:
 elif mode==144:
         countries.COUNTRIESList(name,url)
 
+elif mode==204:
+        countries.COUNTRIESLink(name,url)
+
 
 elif mode==145:
         print ""+url
@@ -1178,7 +1246,78 @@ elif mode==193:
         print ""+url
         oneeightone.LINKFM(name,url)
 
+elif mode==194:
+        print ""+url
+        WorkoutMenu()
 
+elif mode==195:
+        print ""+url
+        bodybuilding.MAINBB()
+
+elif mode==196:
+        print ""+url
+        bodybuilding.LISTBB(url)
+
+elif mode==197:
+        print ""+url
+        bodybuilding.LINKBB(name,url)
+
+elif mode==198:
+        print ""+url
+        fitnessblender.MAINFB()
+
+elif mode==199:
+        print ""+url
+        fitnessblender.BODYFB()
+
+elif mode==200:
+        print ""+url
+        fitnessblender.DIFFFB()
+
+elif mode==201:
+        print ""+url
+        fitnessblender.TRAINFB()
+
+elif mode==202:
+        print ""+url
+        fitnessblender.LISTBF(url)
+
+elif mode==203:
+        print ""+url
+        fitnessblender.LINKBB(name,url)
+
+elif mode==205:
+        print ""+url
+        youplaylist.YOUList(name,url)
+
+elif mode==206:
+        print ""+url
+        youplaylist.YOULink(name,url)
+
+elif mode==207:
+        print ""+url
+        movie25.GotoPage(url)
+
+elif mode==208:
+        print ""+url
+        movie25.GotoPageB(url)
+
+elif mode==209:
+        print ""+url
+        newmyvideolinks.LINKSP2B(name,url)
+        
+elif mode==210:
+        print ""+url
+        rlsmix.LINKTV4B(name,url)
+
+elif mode==211:
+        print ""+url
+        oneclickmoviez.LINKSP4B(name,url)
+
+elif mode==212:
+        print ""+url
+        main.Download_SourceB(name,url)
+        
 elif mode == 213 or mode == 214:
         if xbmc.Player().isPlayingAudio():
                 info   = xbmc.Player().getMusicInfoTag()
@@ -1192,10 +1331,14 @@ elif mode == 213 or mode == 214:
 
 
 
+elif mode==215:
+        print ""+url
+        pencurimovie.LIST(url)
 
 
-
-
+elif mode==216:
+        print ""+url
+        pencurimovie.LINK(name,url)
 
 
         
@@ -1587,5 +1730,27 @@ elif mode==618:
         print ""+url
         dubzonline.latestLIST(url)
 
+
+elif mode==619:
+        sominaltvfilms.MAIN()
+        
+elif mode==620:
+        print ""+url
+        sominaltvfilms.LIST(name,url)
+
+elif mode==621:
+        print ""+url
+        sominaltvfilms.LINK(name,url)
+
+elif mode==622:
+        print ""+url
+        sominaltvfilms.LINK2(name,url)
+
+elif mode==623:
+        print ""+url
+        sominaltvfilms.AtoZ(url)
+elif mode==624:
+        print ""+url
+        sominaltvfilms.SEARCH()
 
 xbmcplugin.endOfDirectory(int(sys.argv[1]))

@@ -10,6 +10,7 @@ selfAddon = xbmcaddon.Addon(id=addon_id)
 
 def LISTSP5(murl):
         link=main.OPENURL(murl)
+        main.addLink("[COLOR red]For Download Options, Bring up Context Menu Over Selected Link.[/COLOR]",'','')
         match=re.compile("<a href=\'(.+?)'.+?<font face='Calibri' color='.+?'>&nbsp;&nbsp;(.+?)</font>.+?Calibri'>([^<]+)</font></a><br>").findall(link)
         dialogWait = xbmcgui.DialogProgress()
         ret = dialogWait.create('Please wait until Movie list is cached.')
@@ -18,7 +19,7 @@ def LISTSP5(murl):
         remaining_display = 'Movies loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
         dialogWait.update(0,'[B]Loading....[/B]',remaining_display)
         for url,year,name in match:
-                main.addPlay(name+' [COLOR red]('+year+')[/COLOR]',url,58,'')
+                main.addDown3(name+' [COLOR red]('+year+')[/COLOR]',"http://87.98.161.165/"+url,58,'','')
         loadedLinks = loadedLinks + 1
         percent = (loadedLinks * 100)/totalLinks
         remaining_display = 'Movies loaded :: [B]'+str(loadedLinks)+' / '+str(totalLinks)+'[/B].'
@@ -32,8 +33,7 @@ def LISTSP5(murl):
 
 def LINKSP5(mname,url):
         main.GA("Starplay","Watched")
-        MainUrl = "http://87.98.161.165/"
-        url=MainUrl+url
+        MainUrlb = "http://87.98.161.165"
         ok=True
         link=main.OPENURL(url)
         match=re.compile("\nfile: \'(.+?)\',\n \nimage: \'/(.+?)\',\n").findall(link)
@@ -41,7 +41,7 @@ def LINKSP5(mname,url):
         playlist.clear()
         desc=' '
         for stream_url, thumb in match:
-                stream_url=MainUrl+stream_url
+                stream_url=MainUrlb+stream_url
                 listitem = xbmcgui.ListItem(mname,thumbnailImage= MainUrl+thumb)
                 playlist.add(stream_url,listitem)
         xbmcPlayer = xbmc.Player()

@@ -102,7 +102,7 @@ def SEARCHBTV(murl):
                 surl='http://www.btvguide.com/searchresults/?q='+encode
         link=main.OPENURL(surl)
         link=link.replace('\r','').replace('\n','').replace('\t','').replace('&nbsp;','')
-        match=re.compile('<div class="mask"><a class="_image_container" href="(.+?)"><img class="lazy" data-original="(.+?)"src=".+?" alt="(.+?)" /></a>').findall(link)
+        match=re.compile('<a class="_image_container" href="(.+?)"><img class="lazy" data-original="(.+?)"src=".+?"alt="(.+?)".+?/></a>').findall(link)
         for url,thumb,name in match:
                 main.addDir(name,url,553,thumb)
         main.GA("BTV-Guide","Search")
@@ -171,24 +171,20 @@ def LISTNEWShowsBTV(murl):
             main.addDir('Next','http://www.btvguide.com'+paginate[0],564,"%s/art/next2.png"%selfAddon.getAddonInfo("path"))
 
 def LISTSeasonBTV(mname,murl):
-        murl=murl+'/watch-online'
-        link=main.OPENURL(murl)
+        durl=murl+'/episodes'
+        link=main.OPENURL(durl)
         link=link.replace('\r','').replace('\n','').replace('\t','')
-        match=re.compile('<a rel="nofollow" href="([^<]+)"><strong>([^<]+)</strong>([^<]+)</a>').findall(link)
-        for url,seaname, epilen in match:
-            main.addDir(seaname+epilen,url,554,'')
+        match=re.compile('<a rel="nofollow" href=".+?"><strong>([^<]+)</strong>([^<]+)</a>').findall(link)
+        for seaname, epilen in match:
+                furl=seaname.replace(' ','+')
+                main.addDir(seaname+epilen,murl+'/season-contents/'+furl,554,'')
 
 def LISTEpilistBTV(mname,murl):
         link=main.OPENURL(murl)
-        season=re.compile('http://www.btvguide.com/.+?/watch-online/(.+?)/.?#.+?').findall(murl)
-        seas=season[0]
-        seas=seas.replace('+','-')
-        link=link.replace('\r','').replace('\n','').replace('\t','')
-        match=re.compile('<img class="thumb.+?="([^<]+).jpg".+?=".+?".+?<a class="title" href="([^<]+)">([^<]+)</a><br/><div class="ep_info">([^<]+)</div></div><div class=".+?"><div class="date">([^<]+)</div></div></div><div class="description">([^<]+)</div>').findall(link)
-        for thumb,url,epiname,epinum,date,desc in match:
-            match2=re.compile(seas).findall(url)
-            if len(match2)>0:
-                main.addDir2('[COLOR red]'+epinum+'[/COLOR] "'+epiname+'"',url,559,thumb+'.jpg',desc)
+        link=link.replace('\r','').replace('\n','').replace('\t','').replace('"src="http://static0.btvguide.com/images/nocoverbig.png','').replace('|','')
+        match=re.compile('<img class=.+?="(.+?)".+?="(.+?) BTVGuide".+?<a class="title" href="(.+?)"').findall(link)
+        for thumb, name, url in match:
+                main.addDir2(name,url,559,thumb,'')
                 
 def GETLINKBTV(murl):
     print "oob2 "+murl
@@ -306,34 +302,34 @@ def VIDEOLINKSBTV(mname,murl):
         for url,host in match:
                 gorillavid=re.compile('gorillavid').findall(host)
                 if len(gorillavid) > 0:
-                    main.addPlayb(mname+' '+host,url,563,"%s/art/gorillavid.png"%selfAddon.getAddonInfo("path"),"%s/art/gorillavid.png"%selfAddon.getAddonInfo("path"))
+                    main.addPlayb(mname+' '+host,url,563,"%s/art/hosts/gorillavid.png"%selfAddon.getAddonInfo("path"),"%s/art/hosts/gorillavid.png"%selfAddon.getAddonInfo("path"))
                 daclips=re.compile('daclips').findall(host)
                 if len(daclips) > 0: 
-                    main.addPlayb(mname+' '+host,url,563,"%s/art/daclips.png"%selfAddon.getAddonInfo("path"),"%s/art/daclips.png"%selfAddon.getAddonInfo("path"))
+                    main.addPlayb(mname+' '+host,url,563,"%s/art/hosts/daclips.png"%selfAddon.getAddonInfo("path"),"%s/art/hosts/daclips.png"%selfAddon.getAddonInfo("path"))
                 movpod=re.compile('movpod').findall(host)
                 if len(movpod) > 0:
-                    main.addPlayb(mname+' '+host,url,563,"%s/art/movpod.png"%selfAddon.getAddonInfo("path"),"%s/art/movpod.png"%selfAddon.getAddonInfo("path"))
+                    main.addPlayb(mname+' '+host,url,563,"%s/art/hosts/movpod.png"%selfAddon.getAddonInfo("path"),"%s/art/hosts/movpod.png"%selfAddon.getAddonInfo("path"))
                 divxstage=re.compile('divxstage').findall(host)
                 if len(divxstage) > 0: 
-                    main.addPlayb(mname+' '+host,url,563,"%s/art/divxstage.png"%selfAddon.getAddonInfo("path"),"%s/art/divxstage.png"%selfAddon.getAddonInfo("path"))
+                    main.addPlayb(mname+' '+host,url,563,"%s/art/hosts/divxstage.png"%selfAddon.getAddonInfo("path"),"%s/art/hosts/divxstage.png"%selfAddon.getAddonInfo("path"))
                 nowvideo=re.compile('nowvideo').findall(host)
                 if len(nowvideo) > 0:
-                    main.addPlayb(mname+' '+host,url,563,"%s/art/nowvideo.png"%selfAddon.getAddonInfo("path"),"%s/art/nowvideo.png"%selfAddon.getAddonInfo("path"))
+                    main.addPlayb(mname+' '+host,url,563,"%s/art/hosts/nowvideo.png"%selfAddon.getAddonInfo("path"),"%s/art/hosts/nowvideo.png"%selfAddon.getAddonInfo("path"))
                 movshare=re.compile('movshare').findall(host)
                 if len(movshare) > 0: 
-                    main.addPlayb(mname+' '+host,url,563,"%s/art/movshare.png"%selfAddon.getAddonInfo("path"),"%s/art/movshare.png"%selfAddon.getAddonInfo("path"))
+                    main.addPlayb(mname+' '+host,url,563,"%s/art/hosts/movshare.png"%selfAddon.getAddonInfo("path"),"%s/art/hosts/movshare.png"%selfAddon.getAddonInfo("path"))
                 flashx=re.compile('flashx').findall(host)
                 if len(flashx) > 0:
-                    main.addPlayb(mname+' '+host,url,563,"%s/art/flash.png"%selfAddon.getAddonInfo("path"),"%s/art/flash.png"%selfAddon.getAddonInfo("path"))
+                    main.addPlayb(mname+' '+host,url,563,"%s/art/hosts/flashx.png"%selfAddon.getAddonInfo("path"),"%s/art/hosts/flashx.png"%selfAddon.getAddonInfo("path"))
                 filenuke=re.compile('filenuke').findall(host)
                 if len(filenuke) > 0:
-                    main.addPlayb(mname+' '+host,url,563,"%s/art/fn.png"%selfAddon.getAddonInfo("path"),"%s/art/fn.png"%selfAddon.getAddonInfo("path"))               
+                    main.addPlayb(mname+' '+host,url,563,"%s/art/hosts/filenuke.png"%selfAddon.getAddonInfo("path"),"%s/art/hosts/filenuke.png"%selfAddon.getAddonInfo("path"))               
                 vidxden=re.compile('vidxden').findall(host)
                 if len(vidxden) > 0:
-                    main.addPlayb(mname+' '+host,url,563,"%s/art/vidx.png"%selfAddon.getAddonInfo("path"),"%s/art/vidx.png"%selfAddon.getAddonInfo("path"))
+                    main.addPlayb(mname+' '+host,url,563,"%s/art/hosts/vidxden.png"%selfAddon.getAddonInfo("path"),"%s/art/hosts/vidxden.png"%selfAddon.getAddonInfo("path"))
                 vidbux=re.compile('vidbux').findall(host)
                 if len(vidbux) > 0: 
-                    main.addPlayb(mname+' '+host,url,563,"%s/art/vidb.png"%selfAddon.getAddonInfo("path"),"%s/art/vidb.png"%selfAddon.getAddonInfo("path"))
+                    main.addPlayb(mname+' '+host,url,563,"%s/art/hosts/vidbux.png"%selfAddon.getAddonInfo("path"),"%s/art/hosts/vidbux.png"%selfAddon.getAddonInfo("path"))
 
 def PLAYBTV(mname,murl):
         furl=GETLINKBTV(murl)
