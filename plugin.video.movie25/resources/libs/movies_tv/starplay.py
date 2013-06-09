@@ -42,7 +42,7 @@ def LINKSP5(mname,url):
         desc=' '
         for stream_url, thumb in match:
                 stream_url=MainUrlb+stream_url
-                listitem = xbmcgui.ListItem(mname,thumbnailImage= MainUrl+thumb)
+                listitem = xbmcgui.ListItem(mname,thumbnailImage= "http://87.98.161.165"+thumb)
                 playlist.add(stream_url,listitem)
         xbmcPlayer = xbmc.Player()
         xbmcPlayer.play(playlist)
