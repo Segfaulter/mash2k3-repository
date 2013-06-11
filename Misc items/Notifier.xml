@@ -3,12 +3,13 @@ mess1 mess2
 ANNOUNCEMENTWINDOW ="OFF"
 
 <item>
-<new>mess2</new>
-<message1>Real Debrid Is broken in urlresolver.</message1>
-<message2>hang tight until it is fixed by dev's</message2>
-<message3>will have a temp fix for download on the hub</message3>
-<old>mess1</old>
+<new>mess1</new>
+<message1>There seems to be urlresolver issues so you might</message1>
+<message2>experience some resolving errors, so when you post your</message2>
+<message3>errors on the hub be detailed and include your log</message3>
+<ANNOUNCEMENT>[B]Version 1.3.0[/B]</ANNOUNCEMENT>
+<old>mess2</old>
 </item>
 
 
-<ANNOUNCEMENT>[B]Version 1.3.0[/B]</ANNOUNCEMENT>
+
