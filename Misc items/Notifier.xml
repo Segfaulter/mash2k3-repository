@@ -3,12 +3,12 @@ mess1 mess2
 ANNOUNCEMENTWINDOW ="OFF"
 
 <item>
-<new>mess1</new>
-<message1>There seems to be urlresolver issues so you might</message1>
-<message2>experience some resolving errors, so when you post your</message2>
-<message3>errors on the hub be detailed and include your log</message3>
-<ANNOUNCEMENT>[B]Version 1.3.0[/B]</ANNOUNCEMENT>
-<old>mess2</old>
+<new>mess2</new>
+<message1>Just want to report starplay is working again.</message1>
+<message2>You can find a working 180upload and hugefiles</message2>
+<message3>resolvers posted on xbmchub.com mashup thread.</message3>
+<ANNOUNCEMENT>[B]Version 1.3.2[/B]</ANNOUNCEMENT>
+<old>mess1</old>
 </item>
 
 
